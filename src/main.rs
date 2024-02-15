@@ -39,6 +39,13 @@ fn spawn_chunk(commands: &mut Commands, asset_server: &AssetServer, chunk_pos: I
                     ..Default::default()
                 })
                 .id();
+            if x % 2 == 0 && index == 0 {
+                commands.entity(tile_entity).insert(AnimatedTile {
+                    start: 0,
+                    end: 4,
+                    speed: 0.5,
+                });
+            }
             commands.entity(tilemap_entity).add_child(tile_entity);
             tile_storage.set(&tile_pos, tile_entity);
         }
