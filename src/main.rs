@@ -1,29 +1,41 @@
 use bevy::{math::Vec3Swizzles, prelude::*, utils::HashSet};
 use bevy_ecs_tilemap::prelude::*;
-
-/// Press WASD to move the camera around, and watch as chunks spawn/despawn in response.
+use noisy_bevy::simplex_noise_2d_seeded;
 
 const TILE_SIZE: TilemapTileSize = TilemapTileSize { x: 16.0, y: 16.0 };
 // For this example, don't choose too large a chunk size.
-const CHUNK_SIZE: UVec2 = UVec2 { x: 4, y: 4 };
+const CHUNK_SIZE: UVec2 = UVec2 { x: 16, y: 16 };
 // Render chunk sizes are set to 4 render chunks per user specified chunk.
 const RENDER_CHUNK_SIZE: UVec2 = UVec2 {
     x: CHUNK_SIZE.x * 2,
     y: CHUNK_SIZE.y * 2,
 };
+const SEED: f32 = 69.0;
+const DISTANCE: f32 = 9876543.0;
+const NOISE_ZOOM: f32 = 0.1;
 
 fn spawn_chunk(commands: &mut Commands, asset_server: &AssetServer, chunk_pos: IVec2) {
+    info!("spawn chunk, {}", chunk_pos);
     let tilemap_entity = commands.spawn_empty().id();
     let mut tile_storage = TileStorage::empty(CHUNK_SIZE.into());
+
     // Spawn the elements of the tilemap.
     for x in 0..CHUNK_SIZE.x {
         for y in 0..CHUNK_SIZE.y {
+            let v = Vec2::new(
+                (x as i32 + chunk_pos.x * CHUNK_SIZE.x as i32) as f32,
+                (y as i32 + chunk_pos.y * CHUNK_SIZE.y as i32) as f32,
+            );
+            let noise = simplex_noise_2d_seeded(v * NOISE_ZOOM, SEED);
+            let secondary_noise = simplex_noise_2d_seeded(v * NOISE_ZOOM, SEED + 1.0) * 1.0;
+            let index = if noise + secondary_noise < 0.0 { 1 } else { 0 };
+
             let tile_pos = TilePos { x, y };
             let tile_entity = commands
                 .spawn(TileBundle {
                     position: tile_pos,
                     tilemap_id: TilemapId(tilemap_entity),
-                    texture_index: TileTextureIndex(chunk_pos.x.abs() as u32),
+                    texture_index: TileTextureIndex(index),
                     ..Default::default()
                 })
                 .id();
@@ -54,7 +66,9 @@ fn spawn_chunk(commands: &mut Commands, asset_server: &AssetServer, chunk_pos: I
 }
 
 fn startup(mut commands: Commands) {
-    commands.spawn(Camera2dBundle::default());
+    commands
+        .spawn(Camera2dBundle::default())
+        .insert(Transform::from_translation(Vec3::new(1.0, 1.0, 0.0)));
 }
 
 fn camera_pos_to_chunk_pos(camera_pos: &Vec2) -> IVec2 {
@@ -93,9 +107,10 @@ fn despawn_outofrange_chunks(
         for (entity, chunk_transform) in chunks_query.iter() {
             let chunk_pos = chunk_transform.translation.xy();
             let distance = camera_transform.translation.xy().distance(chunk_pos);
-            if distance > 320.0 {
+            if distance > DISTANCE {
                 let x = (chunk_pos.x / (CHUNK_SIZE.x as f32 * TILE_SIZE.x)).floor() as i32;
                 let y = (chunk_pos.y / (CHUNK_SIZE.y as f32 * TILE_SIZE.y)).floor() as i32;
+                warn!("despawning chunk, {}", Vec2::new(x as f32, y as f32));
                 chunk_manager.spawned_chunks.remove(&IVec2::new(x, y));
                 commands.entity(entity).despawn_recursive();
             }
