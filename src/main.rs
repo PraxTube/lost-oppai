@@ -1,6 +1,8 @@
+mod map;
+
 use bevy::{math::Vec3Swizzles, prelude::*, utils::HashSet};
 use bevy_ecs_tilemap::prelude::*;
-use noisy_bevy::simplex_noise_2d_seeded;
+use map::BitMap;
 
 const TILE_SIZE: TilemapTileSize = TilemapTileSize { x: 16.0, y: 16.0 };
 // For this example, don't choose too large a chunk size.
@@ -10,11 +12,14 @@ const RENDER_CHUNK_SIZE: UVec2 = UVec2 {
     x: CHUNK_SIZE.x * 2,
     y: CHUNK_SIZE.y * 2,
 };
-const SEED: f32 = 69.0;
 const DISTANCE: f32 = 9876543.0;
-const NOISE_ZOOM: f32 = 0.1;
 
-fn spawn_chunk(commands: &mut Commands, asset_server: &AssetServer, chunk_pos: IVec2) {
+fn spawn_chunk(
+    commands: &mut Commands,
+    asset_server: &AssetServer,
+    map: &Res<BitMap>,
+    chunk_pos: IVec2,
+) {
     info!("spawn chunk, {}", chunk_pos);
     let tilemap_entity = commands.spawn_empty().id();
     let mut tile_storage = TileStorage::empty(CHUNK_SIZE.into());
@@ -22,13 +27,11 @@ fn spawn_chunk(commands: &mut Commands, asset_server: &AssetServer, chunk_pos: I
     // Spawn the elements of the tilemap.
     for x in 0..CHUNK_SIZE.x {
         for y in 0..CHUNK_SIZE.y {
-            let v = Vec2::new(
-                (x as i32 + chunk_pos.x * CHUNK_SIZE.x as i32) as f32,
-                (y as i32 + chunk_pos.y * CHUNK_SIZE.y as i32) as f32,
+            let v = IVec2::new(
+                x as i32 + chunk_pos.x * CHUNK_SIZE.x as i32,
+                y as i32 + chunk_pos.y * CHUNK_SIZE.y as i32,
             );
-            let noise = simplex_noise_2d_seeded(v * NOISE_ZOOM, SEED);
-            let secondary_noise = simplex_noise_2d_seeded(v * NOISE_ZOOM, SEED + 1.0) * 1.0;
-            let index = if noise + secondary_noise < 0.0 { 1 } else { 0 };
+            let index = map.get(v) as u32;
 
             let tile_pos = TilePos { x, y };
             let tile_entity = commands
@@ -39,13 +42,6 @@ fn spawn_chunk(commands: &mut Commands, asset_server: &AssetServer, chunk_pos: I
                     ..Default::default()
                 })
                 .id();
-            if x % 2 == 0 && index == 0 {
-                commands.entity(tile_entity).insert(AnimatedTile {
-                    start: 0,
-                    end: 4,
-                    speed: 0.5,
-                });
-            }
             commands.entity(tilemap_entity).add_child(tile_entity);
             tile_storage.set(&tile_pos, tile_entity);
         }
@@ -90,6 +86,7 @@ fn spawn_chunks_around_camera(
     asset_server: Res<AssetServer>,
     camera_query: Query<&Transform, With<Camera>>,
     mut chunk_manager: ResMut<ChunkManager>,
+    map: Res<BitMap>,
 ) {
     for transform in camera_query.iter() {
         let camera_chunk_pos = camera_pos_to_chunk_pos(&transform.translation.xy());
@@ -97,7 +94,7 @@ fn spawn_chunks_around_camera(
             for x in (camera_chunk_pos.x - 2)..(camera_chunk_pos.x + 2) {
                 if !chunk_manager.spawned_chunks.contains(&IVec2::new(x, y)) {
                     chunk_manager.spawned_chunks.insert(IVec2::new(x, y));
-                    spawn_chunk(&mut commands, &asset_server, IVec2::new(x, y));
+                    spawn_chunk(&mut commands, &asset_server, &map, IVec2::new(x, y));
                 }
             }
         }
@@ -143,9 +140,13 @@ fn main() {
                 .set(ImagePlugin::default_nearest()),
         )
         .add_plugins(TilemapPlugin)
+        .add_plugins(map::MapPlugin)
         .insert_resource(ChunkManager::default())
         .add_systems(Startup, startup)
-        .add_systems(Update, spawn_chunks_around_camera)
+        .add_systems(
+            Update,
+            spawn_chunks_around_camera.run_if(resource_exists::<BitMap>()),
+        )
         .add_systems(Update, despawn_outofrange_chunks)
         .run();
 }
