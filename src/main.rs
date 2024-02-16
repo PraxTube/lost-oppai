@@ -12,7 +12,8 @@ const RENDER_CHUNK_SIZE: UVec2 = UVec2 {
     x: CHUNK_SIZE.x * 2,
     y: CHUNK_SIZE.y * 2,
 };
-const DISTANCE: f32 = 9876543.0;
+const RENDERED_CHUNKS: f32 = 5.0;
+const MAX_DISTANCE: f32 = RENDERED_CHUNKS * CHUNK_SIZE.x as f32 * TILE_SIZE.x;
 
 fn spawn_chunk(
     commands: &mut Commands,
@@ -20,7 +21,6 @@ fn spawn_chunk(
     map: &Res<BitMap>,
     chunk_pos: IVec2,
 ) {
-    info!("spawn chunk, {}", chunk_pos);
     let tilemap_entity = commands.spawn_empty().id();
     let mut tile_storage = TileStorage::empty(CHUNK_SIZE.into());
 
@@ -110,15 +110,61 @@ fn despawn_outofrange_chunks(
     for camera_transform in camera_query.iter() {
         for (entity, chunk_transform) in chunks_query.iter() {
             let chunk_pos = chunk_transform.translation.xy();
-            let distance = camera_transform.translation.xy().distance(chunk_pos);
-            if distance > DISTANCE {
+            let distance = camera_transform
+                .translation
+                .xy()
+                .distance_squared(chunk_pos);
+            if distance > MAX_DISTANCE.powi(2) {
                 let x = (chunk_pos.x / (CHUNK_SIZE.x as f32 * TILE_SIZE.x)).floor() as i32;
                 let y = (chunk_pos.y / (CHUNK_SIZE.y as f32 * TILE_SIZE.y)).floor() as i32;
-                warn!("despawning chunk, {}", Vec2::new(x as f32, y as f32));
                 chunk_manager.spawned_chunks.remove(&IVec2::new(x, y));
                 commands.entity(entity).despawn_recursive();
             }
         }
+    }
+}
+
+fn camera_movement(
+    time: Res<Time>,
+    keyboard_input: Res<Input<KeyCode>>,
+    mut query: Query<(&mut Transform, &mut OrthographicProjection), With<Camera>>,
+) {
+    for (mut transform, mut ortho) in query.iter_mut() {
+        let mut direction = Vec3::ZERO;
+
+        if keyboard_input.pressed(KeyCode::A) {
+            direction -= Vec3::new(1.0, 0.0, 0.0);
+        }
+
+        if keyboard_input.pressed(KeyCode::F) {
+            direction += Vec3::new(1.0, 0.0, 0.0);
+        }
+
+        if keyboard_input.pressed(KeyCode::K) {
+            direction += Vec3::new(0.0, 1.0, 0.0);
+        }
+
+        if keyboard_input.pressed(KeyCode::J) {
+            direction -= Vec3::new(0.0, 1.0, 0.0);
+        }
+
+        if keyboard_input.pressed(KeyCode::Minus) {
+            ortho.scale += 0.1;
+        }
+
+        if keyboard_input.pressed(KeyCode::Plus) {
+            ortho.scale -= 0.1;
+        }
+
+        if ortho.scale < 0.5 {
+            ortho.scale = 0.5;
+        }
+
+        let z = transform.translation.z;
+        transform.translation += time.delta_seconds() * direction.normalize_or_zero() * 500.;
+        // Important! We need to restore the Z values when moving the camera around.
+        // Bevy has a specific camera setup and this can mess with how our layers are shown.
+        transform.translation.z = z;
     }
 }
 
@@ -145,8 +191,11 @@ fn main() {
         .add_systems(Startup, startup)
         .add_systems(
             Update,
-            spawn_chunks_around_camera.run_if(resource_exists::<BitMap>()),
+            (
+                spawn_chunks_around_camera.run_if(resource_exists::<BitMap>()),
+                despawn_outofrange_chunks,
+                camera_movement,
+            ),
         )
-        .add_systems(Update, despawn_outofrange_chunks)
         .run();
 }

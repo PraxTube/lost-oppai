@@ -1,11 +1,12 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, reflect::Array};
 use noisy_bevy::simplex_noise_2d_seeded;
 
 use crate::CHUNK_SIZE;
 
 const SEED: f32 = 69.0;
-const NOISE_ZOOM: f32 = 0.1;
+const NOISE_ZOOM: f32 = 0.04;
 const MAP_SIZE: UVec2 = UVec2::new(10, 10);
+const EMPTY_INDEX: u8 = 0;
 
 #[derive(Debug, Resource)]
 pub struct BitMap {
@@ -31,6 +32,9 @@ impl BitMap {
             (CHUNK_SIZE.x * MAP_SIZE.x / 2) as i32,
             (CHUNK_SIZE.y * MAP_SIZE.y / 2) as i32,
         );
+        if u.x as usize >= self.array.len() || u.y as usize >= self.array[0].len() {
+            return EMPTY_INDEX;
+        }
         self.array[u.x as usize][u.y as usize]
     }
 }
