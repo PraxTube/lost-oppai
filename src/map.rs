@@ -6,8 +6,69 @@ use crate::CHUNK_SIZE;
 const SEED: f32 = 69.0;
 const NOISE_ZOOM: f32 = 0.04;
 const MAP_SIZE: UVec2 = UVec2::new(10, 10);
-const WATER: u8 = 1;
+const WATER: u8 = 0;
 const EMPTY_INDEX: u8 = WATER;
+
+const BITMASK_TOP: u8 = 1 << 0;
+const BITMASK_TOP_RIGHT: u8 = 1 << 1;
+const BITMASK_RIGHT: u8 = 1 << 2;
+const BITMASK_BOT_RIGHT: u8 = 1 << 3;
+const BITMASK_BOT: u8 = 1 << 4;
+const BITMASK_BOT_LEFT: u8 = 1 << 5;
+const BITMASK_LEFT: u8 = 1 << 6;
+const BITMASK_TOP_LEFT: u8 = 1 << 7;
+
+struct GrassBitMask {
+    masks: Vec<(u8, u8, Vec<u8>)>,
+}
+
+impl Default for GrassBitMask {
+    fn default() -> Self {
+        fn grid_to_index(x: u8, y: u8) -> u8 {
+            x + y * 16
+        }
+
+        Self {
+            masks: vec![
+                (
+                    BITMASK_RIGHT | BITMASK_BOT_RIGHT | BITMASK_BOT,
+                    BITMASK_TOP | BITMASK_LEFT,
+                    vec![grid_to_index(6, 0)],
+                ),
+                (
+                    BITMASK_LEFT
+                        | BITMASK_BOT_LEFT
+                        | BITMASK_BOT
+                        | BITMASK_BOT_RIGHT
+                        | BITMASK_RIGHT,
+                    BITMASK_TOP,
+                    vec![grid_to_index(7, 0), grid_to_index(8, 0)],
+                ),
+                (
+                    BITMASK_LEFT | BITMASK_BOT_LEFT | BITMASK_BOT,
+                    BITMASK_TOP | BITMASK_RIGHT,
+                    vec![grid_to_index(9, 0)],
+                ),
+            ],
+        }
+    }
+}
+
+impl GrassBitMask {
+    fn get_index(&self, mask: u8) -> u8 {
+        for (tile_mask, not_tile_mask, indices) in &self.masks {
+            if mask & tile_mask != *tile_mask {
+                continue;
+            }
+            if !mask & not_tile_mask != *not_tile_mask {
+                continue;
+            }
+
+            return indices[0];
+        }
+        16
+    }
+}
 
 #[derive(Debug, Resource)]
 pub struct BitMap {
@@ -32,7 +93,31 @@ impl BitMap {
         let max_x = self.water.len() as u32 - 1;
         let max_y = self.water[0].len() as u32 - 1;
 
-        u.x < max_x && u.y < max_y
+        u.x > 0 && u.y > 0 && u.x < max_x && u.y < max_y
+    }
+
+    fn neigbhor_bitmask(&self, u: UVec2) -> u8 {
+        if !self.in_bounds(u) {
+            return 0;
+        }
+
+        let mut mask = 0u8;
+
+        mask |= BITMASK_TOP * !self.get_water(u + UVec2::new(0, 1)) as u8;
+        mask |= BITMASK_TOP_RIGHT * !self.get_water(u + UVec2::new(1, 1)) as u8;
+        mask |= BITMASK_RIGHT * !self.get_water(u + UVec2::new(1, 0)) as u8;
+        mask |= BITMASK_BOT_RIGHT * !self.get_water(u + UVec2::new(1, 0) - UVec2::new(0, 1)) as u8;
+        mask |= BITMASK_BOT * !self.get_water(u - UVec2::new(0, 1)) as u8;
+        mask |= BITMASK_BOT_LEFT * !self.get_water(u - UVec2::new(1, 1)) as u8;
+        mask |= BITMASK_LEFT * !self.get_water(u - UVec2::new(1, 0)) as u8;
+        mask |= BITMASK_TOP_LEFT * !self.get_water(u + UVec2::new(0, 1) - UVec2::new(1, 0)) as u8;
+        mask
+    }
+
+    fn determine_grass_tile(&self, u: UVec2) -> u8 {
+        let mask = self.neigbhor_bitmask(u);
+        let bitmask = GrassBitMask::default();
+        bitmask.get_index(mask)
     }
 
     fn get_water(&self, u: UVec2) -> bool {
@@ -64,10 +149,7 @@ impl BitMap {
 
 fn generate_water(map: &mut BitMap) {
     fn g_water(u: UVec2, map: &mut BitMap) {
-        if u.x == 0 || u.y == 0 {
-            return;
-        }
-        if u.x == map.water.len() as u32 - 1 || u.y == map.water[0].len() as u32 - 1 {
+        if !map.in_bounds(u) {
             return;
         }
 
@@ -96,9 +178,6 @@ fn generate_water(map: &mut BitMap) {
 fn filter_water(map: &mut BitMap) {
     fn single_tile(u: UVec2, map: &BitMap) -> bool {
         if !map.in_bounds(u) {
-            return false;
-        }
-        if u.x == 0 || u.y == 0 {
             return false;
         }
 
@@ -143,7 +222,7 @@ fn generate_grass(c: UVec2, map: &mut BitMap) {
                 continue;
             }
 
-            map.set_grass(u, 0);
+            map.set_grass(u, map.determine_grass_tile(u));
         }
     }
 }
