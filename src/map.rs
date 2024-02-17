@@ -36,6 +36,30 @@ impl Default for GrassBitMask {
                     vec![grid_to_index(6, 0)],
                 ),
                 (
+                    BITMASK_LEFT | BITMASK_BOT_LEFT | BITMASK_BOT,
+                    BITMASK_TOP | BITMASK_RIGHT,
+                    vec![grid_to_index(9, 0)],
+                ),
+                (
+                    BITMASK_TOP | BITMASK_TOP_RIGHT | BITMASK_RIGHT,
+                    BITMASK_BOT | BITMASK_LEFT,
+                    vec![grid_to_index(6, 14)],
+                ),
+                (
+                    BITMASK_TOP | BITMASK_TOP_LEFT | BITMASK_LEFT,
+                    BITMASK_BOT | BITMASK_RIGHT,
+                    vec![grid_to_index(9, 14)],
+                ),
+                (
+                    BITMASK_TOP
+                        | BITMASK_TOP_RIGHT
+                        | BITMASK_RIGHT
+                        | BITMASK_BOT_RIGHT
+                        | BITMASK_BOT,
+                    BITMASK_LEFT,
+                    vec![grid_to_index(5, 2), grid_to_index(6, 2)],
+                ),
+                (
                     BITMASK_LEFT
                         | BITMASK_BOT_LEFT
                         | BITMASK_BOT
@@ -45,9 +69,38 @@ impl Default for GrassBitMask {
                     vec![grid_to_index(7, 0), grid_to_index(8, 0)],
                 ),
                 (
-                    BITMASK_LEFT | BITMASK_BOT_LEFT | BITMASK_BOT,
-                    BITMASK_TOP | BITMASK_RIGHT,
-                    vec![grid_to_index(9, 0)],
+                    BITMASK_LEFT
+                        | BITMASK_TOP_LEFT
+                        | BITMASK_TOP
+                        | BITMASK_TOP_RIGHT
+                        | BITMASK_RIGHT,
+                    BITMASK_BOT,
+                    vec![grid_to_index(7, 14), grid_to_index(8, 14)],
+                ),
+                (
+                    BITMASK_TOP | BITMASK_TOP_LEFT | BITMASK_LEFT | BITMASK_BOT_LEFT | BITMASK_BOT,
+                    BITMASK_RIGHT,
+                    vec![grid_to_index(9, 2), grid_to_index(10, 2)],
+                ),
+                (
+                    !BITMASK_TOP_LEFT,
+                    BITMASK_TOP_LEFT,
+                    vec![grid_to_index(6, 1)],
+                ),
+                (
+                    !BITMASK_TOP_RIGHT,
+                    BITMASK_TOP_RIGHT,
+                    vec![grid_to_index(9, 1)],
+                ),
+                (
+                    !BITMASK_BOT_RIGHT,
+                    BITMASK_BOT_RIGHT,
+                    vec![grid_to_index(9, 3)],
+                ),
+                (
+                    !BITMASK_BOT_LEFT,
+                    BITMASK_BOT_LEFT,
+                    vec![grid_to_index(6, 3)],
                 ),
             ],
         }

@@ -156,9 +156,7 @@ fn camera_movement(
             ortho.scale -= 0.1;
         }
 
-        if ortho.scale < 0.5 {
-            ortho.scale = 0.5;
-        }
+        ortho.scale = ortho.scale.max(0.3);
 
         let z = transform.translation.z;
         transform.translation += time.delta_seconds() * direction.normalize_or_zero() * 500.;
