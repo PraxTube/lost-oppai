@@ -1,3 +1,5 @@
+use rand::{thread_rng, Rng};
+
 use bevy::{prelude::*, reflect::Array};
 use noisy_bevy::simplex_noise_2d_seeded;
 
@@ -102,6 +104,17 @@ impl Default for GrassBitMask {
                     BITMASK_BOT_LEFT,
                     vec![grid_to_index(6, 3)],
                 ),
+                (
+                    u8::MAX,
+                    0,
+                    vec![
+                        grid_to_index(0, 1),
+                        grid_to_index(0, 2),
+                        grid_to_index(0, 3),
+                        grid_to_index(0, 4),
+                        grid_to_index(0, 5),
+                    ],
+                ),
             ],
         }
     }
@@ -117,9 +130,13 @@ impl GrassBitMask {
                 continue;
             }
 
-            return indices[0];
+            let mut rng = thread_rng();
+            let index = rng.gen_range(0..indices.len());
+            return indices[index];
         }
-        16
+
+        warn!("Tile that doesn't map to any grass tile, mask: {}", mask);
+        15 * 16
     }
 }
 
@@ -141,7 +158,8 @@ impl Default for BitMap {
 }
 
 impl BitMap {
-    /// All the mask matrices should always have the same size
+    /// All the mask matrices should always have the same size,
+    /// so use water as a represent of all of them
     fn in_bounds(&self, u: UVec2) -> bool {
         let max_x = self.water.len() as u32 - 1;
         let max_y = self.water[0].len() as u32 - 1;
