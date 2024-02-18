@@ -1,9 +1,9 @@
 use rand::{thread_rng, Rng};
 
-use bevy::{prelude::*, reflect::Array};
+use bevy::prelude::*;
 use noisy_bevy::simplex_noise_2d_seeded;
 
-use crate::CHUNK_SIZE;
+use super::CHUNK_SIZE;
 
 const SEED: f32 = 69.0;
 const NOISE_ZOOM: f32 = 0.04;
@@ -314,9 +314,9 @@ fn generate_world(mut commands: Commands) {
     commands.insert_resource(map);
 }
 
-pub struct MapPlugin;
+pub struct MapGenerationPlugin;
 
-impl Plugin for MapPlugin {
+impl Plugin for MapGenerationPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, generate_world);
     }

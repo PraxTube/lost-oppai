@@ -1,0 +1,12 @@
+[
+    (
+        name: "idle-down",
+        keyframes: KeyframesRange((start: 0, end: 8)),
+        duration: 0.6,
+    ),
+    (
+        name: "idle-left",
+        keyframes: KeyframesRange((start: 10, end: 18)),
+        duration: 0.6,
+    ),
+]
