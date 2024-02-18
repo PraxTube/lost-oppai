@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
+use bevy_trickfilm::prelude::*;
 
 use crate::world::camera::YSort;
 use crate::{GameAssets, GameState};
@@ -7,21 +8,6 @@ use crate::{GameAssets, GameState};
 use super::{Player, PLAYER_SCALE, PLAYER_SPAWN_POS};
 
 fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
-    let entity = commands
-        .spawn((
-            RigidBody::Dynamic,
-            LockedAxes::ROTATION_LOCKED,
-            Velocity::zero(),
-            Ccd::enabled(),
-            YSort(0.0),
-            SpriteSheetBundle {
-                transform: Transform::from_translation(PLAYER_SPAWN_POS).with_scale(PLAYER_SCALE),
-                texture_atlas: assets.player.clone(),
-                ..default()
-            },
-        ))
-        .id();
-
     let collider = commands
         .spawn((
             Collider::ball(4.0),
@@ -31,9 +17,24 @@ fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
         ))
         .id();
 
+    let mut animator = AnimationPlayer2D::default();
+    animator.play(assets.player_animations[0].clone());
+
     commands
-        .entity(entity)
-        .insert(Player::new(collider))
+        .spawn((
+            Player::new(collider),
+            RigidBody::Dynamic,
+            LockedAxes::ROTATION_LOCKED,
+            Velocity::zero(),
+            Ccd::enabled(),
+            YSort(0.0),
+            animator,
+            SpriteSheetBundle {
+                transform: Transform::from_translation(PLAYER_SPAWN_POS).with_scale(PLAYER_SCALE),
+                texture_atlas: assets.player.clone(),
+                ..default()
+            },
+        ))
         .push_children(&[collider]);
 }
 

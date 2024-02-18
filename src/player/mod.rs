@@ -12,7 +12,8 @@ use bevy::prelude::*;
 
 pub const PLAYER_SPAWN_POS: Vec3 = Vec3::ZERO;
 const PLAYER_SCALE: Vec3 = Vec3::splat(0.5);
-const MOVE_SPEED: f32 = 150.0;
+const WALK_SPEED: f32 = 75.0;
+const RUN_SPEED: f32 = 130.0;
 
 pub struct PlayerPlugin;
 

@@ -230,7 +230,7 @@ fn generate_water(map: &mut BitMap) {
         let secondary_noise = simplex_noise_2d_seeded(v * NOISE_ZOOM, SEED + 1.0) * 1.0;
         let h = noise + secondary_noise;
 
-        let b = if h < 0.0 { true } else { false };
+        let b = h < 0.0;
         map.set_water(u, b);
     }
 

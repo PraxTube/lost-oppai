@@ -1,5 +1,10 @@
+use std::f32::consts::PI;
+
 use bevy::prelude::*;
 use bevy_rapier2d::dynamics::Velocity;
+use bevy_trickfilm::prelude::*;
+
+use crate::{GameAssets, GameState};
 
 use super::{input::PlayerInput, Player};
 
@@ -36,7 +41,7 @@ fn player_changed_state(
     }
 }
 
-fn switch_player_mode(
+fn switch_player_state(
     player_input: Res<PlayerInput>,
     mut q_player: Query<(&Velocity, &mut Player)>,
 ) {
@@ -47,14 +52,59 @@ fn switch_player_mode(
 
     let state = if velocity.linvel == Vec2::ZERO {
         PlayerState::Idling
+    } else if player_input.running {
+        PlayerState::Running
     } else {
-        if player_input.running {
-            PlayerState::Running
-        } else {
-            PlayerState::Walking
-        }
+        PlayerState::Walking
     };
     player.state = state;
+}
+
+fn update_animation(
+    assets: Res<GameAssets>,
+    mut q_player: Query<(&Velocity, &mut AnimationPlayer2D, &Player)>,
+) {
+    let (velocity, mut animator, player) = match q_player.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    let dir = if velocity.linvel == Vec2::ZERO {
+        if player.current_direction == Vec2::ZERO {
+            Vec2::NEG_X
+        } else {
+            player.current_direction
+        }
+    } else {
+        velocity.linvel
+    };
+
+    let angle = Vec2::X.angle_between(dir);
+    let direction_index = if (-3.0 / 4.0 * PI..=-1.0 / 4.0 * PI).contains(&angle) {
+        // Down
+        0
+    } else if (1.0 / 4.0 * PI..=3.0 / 4.0 * PI).contains(&angle) {
+        // Up
+        3
+    } else if !(-3.0 / 4.0 * PI..=3.0 / 4.0 * PI).contains(&angle) {
+        // Left
+        1
+    } else {
+        // Right
+        2
+    };
+
+    let (clip, repeat) = match player.state {
+        PlayerState::Idling => (assets.player_animations[direction_index].clone(), true),
+        PlayerState::Walking => (assets.player_animations[4 + direction_index].clone(), true),
+        PlayerState::Running => (assets.player_animations[8 + direction_index].clone(), true),
+    };
+
+    if repeat {
+        animator.play(clip).repeat();
+    } else {
+        animator.play(clip);
+    }
 }
 
 pub struct PlayerStatePlugin;
@@ -64,10 +114,14 @@ impl Plugin for PlayerStatePlugin {
         app.add_systems(
             PostUpdate,
             (
-                switch_player_mode,
-                player_changed_state.after(switch_player_mode),
+                switch_player_state,
+                player_changed_state.after(switch_player_state),
             ),
         )
-        .add_event::<PlayerChangedState>();
+        .add_event::<PlayerChangedState>()
+        .add_systems(
+            Update,
+            (update_animation,).run_if(in_state(GameState::Gaming)),
+        );
     }
 }

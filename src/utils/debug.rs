@@ -37,7 +37,9 @@ fn toggle_diags(screen_diags: &mut ResMut<ScreenDiagnostics>) {
 }
 
 fn toggle_diagnostics_off(mut screen_diags: ResMut<ScreenDiagnostics>) {
-    toggle_diags(&mut screen_diags);
+    if false {
+        toggle_diags(&mut screen_diags);
+    }
 }
 
 fn toggle_diagnostics(

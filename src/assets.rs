@@ -5,13 +5,23 @@ use bevy_trickfilm::prelude::*;
 
 #[derive(AssetCollection, Resource)]
 pub struct GameAssets {
-    #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 128.0, columns = 9, rows = 11))]
+    #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 128.0, columns = 10, rows = 12))]
     #[asset(path = "player/player.png")]
     pub player: Handle<TextureAtlas>,
     #[asset(
         paths(
             "player/player.trickfilm#idle-down",
             "player/player.trickfilm#idle-left",
+            "player/player.trickfilm#idle-right",
+            "player/player.trickfilm#idle-top",
+            "player/player.trickfilm#walking-down",
+            "player/player.trickfilm#walking-left",
+            "player/player.trickfilm#walking-right",
+            "player/player.trickfilm#walking-top",
+            "player/player.trickfilm#running-down",
+            "player/player.trickfilm#running-left",
+            "player/player.trickfilm#running-right",
+            "player/player.trickfilm#running-top",
         ),
         collection(typed)
     )]

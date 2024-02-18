@@ -104,8 +104,7 @@ fn player_movement(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInp
 }
 
 fn input_running(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
-    player_input.running =
-        keys.just_pressed(KeyCode::ShiftLeft) || keys.just_pressed(KeyCode::Space);
+    player_input.running = keys.pressed(KeyCode::ShiftLeft) || keys.pressed(KeyCode::Space);
 }
 
 fn input_escape(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>) {

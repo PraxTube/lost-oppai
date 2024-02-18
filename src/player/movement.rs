@@ -4,7 +4,7 @@ use bevy_rapier2d::prelude::*;
 use crate::GameState;
 
 use super::input::PlayerInput;
-use super::{Player, MOVE_SPEED};
+use super::{Player, PlayerState, RUN_SPEED, WALK_SPEED};
 
 fn player_movement(
     mut q_player: Query<(&mut Velocity, &mut Player)>,
@@ -21,8 +21,14 @@ fn player_movement(
         return;
     }
 
+    let speed = if player.state == PlayerState::Running {
+        RUN_SPEED
+    } else {
+        WALK_SPEED
+    };
+
     player.current_direction = direction;
-    velocity.linvel = direction * MOVE_SPEED;
+    velocity.linvel = direction * speed;
 }
 
 pub struct PlayerMovementPlugin;
