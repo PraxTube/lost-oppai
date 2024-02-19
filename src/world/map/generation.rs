@@ -5,7 +5,7 @@ use noisy_bevy::simplex_noise_2d_seeded;
 
 use super::CHUNK_SIZE;
 
-const SEED: f32 = 69.0;
+const SEED: f32 = 60.0;
 const NOISE_ZOOM: f32 = 0.04;
 const MAP_SIZE: UVec2 = UVec2::new(10, 10);
 const WATER: u8 = 0;
@@ -206,15 +206,28 @@ impl BitMap {
         self.grass[u.x as usize][u.y as usize] = i;
     }
 
-    pub fn get(&self, v: IVec2) -> u8 {
+    pub fn v_to_u(&self, v: IVec2) -> UVec2 {
         let u = v + IVec2::new(
             (CHUNK_SIZE.x * MAP_SIZE.x / 2) as i32,
             (CHUNK_SIZE.y * MAP_SIZE.y / 2) as i32,
         );
+        UVec2::new(u.x as u32, u.y as u32)
+    }
+
+    pub fn get(&self, v: IVec2) -> u8 {
+        let u = self.v_to_u(v);
         if u.x as usize >= self.grass.len() || u.y as usize >= self.grass[0].len() {
             return EMPTY_INDEX;
         }
         self.grass[u.x as usize][u.y as usize]
+    }
+
+    pub fn is_collision(&self, v: IVec2) -> bool {
+        let u = self.v_to_u(v);
+        if !self.get_water(u) {
+            return false;
+        }
+        self.neigbhor_bitmask(u) != 0
     }
 }
 

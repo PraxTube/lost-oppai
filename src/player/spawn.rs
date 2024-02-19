@@ -10,10 +10,12 @@ use super::{Player, PLAYER_SCALE, PLAYER_SPAWN_POS};
 fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
     let collider = commands
         .spawn((
-            Collider::ball(4.0),
+            Collider::ball(16.0),
             ActiveEvents::COLLISION_EVENTS,
             CollisionGroups::default(),
-            TransformBundle::from_transform(Transform::from_translation(Vec3::new(0.0, -5.0, 0.0))),
+            TransformBundle::from_transform(Transform::from_translation(Vec3::new(
+                0.0, -32.0, 0.0,
+            ))),
         ))
         .id();
 

@@ -115,13 +115,11 @@ impl Plugin for PlayerStatePlugin {
             PostUpdate,
             (
                 switch_player_state,
+                update_animation.after(switch_player_state),
                 player_changed_state.after(switch_player_state),
-            ),
+            )
+                .run_if(in_state(GameState::Gaming)),
         )
-        .add_event::<PlayerChangedState>()
-        .add_systems(
-            Update,
-            (update_animation,).run_if(in_state(GameState::Gaming)),
-        );
+        .add_event::<PlayerChangedState>();
     }
 }
