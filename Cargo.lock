@@ -1290,15 +1290,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bevy_screen_diagnostics"
-version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8bbf77cc9e14ad65affe1ac0cf49956a1c42de4c167cd2d5a95dc0699009c3b4"
-dependencies = [
- "bevy 0.12.1",
-]
-
-[[package]]
 name = "bevy_sprite"
 version = "0.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3008,7 +2999,6 @@ dependencies = [
  "bevy_ecs_tilemap",
  "bevy_kira_audio",
  "bevy_rapier2d",
- "bevy_screen_diagnostics",
  "bevy_trickfilm",
  "chrono",
  "noisy_bevy",
@@ -4643,9 +4633,9 @@ dependencies = [
 
 [[package]]
 name = "web-sys"
-version = "0.3.68"
+version = "0.3.67"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "96565907687f7aceb35bc5fc03770a8a0471d82e479f25832f54a0e3f4b28446"
+checksum = "58cd2333b6e0be7a39605f0e255892fd7418a682d8da8fe042fe25128794d2ed"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
