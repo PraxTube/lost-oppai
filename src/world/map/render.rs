@@ -79,7 +79,13 @@ fn camera_pos_to_chunk_pos(camera_pos: &Vec2) -> IVec2 {
     let camera_pos = camera_pos.as_ivec2();
     let chunk_size = CHUNK_SIZE.as_ivec2();
     let tile_size = TILE_SIZE.as_ivec2();
-    camera_pos / (chunk_size * tile_size)
+
+    let offset = IVec2::new(
+        if camera_pos.x < 0 { -1 } else { 0 },
+        if camera_pos.y < 0 { -1 } else { 0 },
+    );
+
+    camera_pos / (chunk_size * tile_size) + offset
 }
 
 pub fn spawn_chunks(
@@ -91,11 +97,6 @@ pub fn spawn_chunks(
 ) {
     for transform in camera_query.iter() {
         let camera_chunk_pos = camera_pos_to_chunk_pos(&transform.translation.xy());
-        info!(
-            "pos: {}, chunk: {}",
-            transform.translation.xy(),
-            camera_chunk_pos
-        );
         let chunks_radius =
             IVec2::new(RENDERED_CHUNKS_RADIUS as i32, RENDERED_CHUNKS_RADIUS as i32);
 
