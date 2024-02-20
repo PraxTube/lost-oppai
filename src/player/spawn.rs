@@ -5,14 +5,14 @@ use bevy_trickfilm::prelude::*;
 use crate::world::camera::YSort;
 use crate::{GameAssets, GameState};
 
-use super::{Player, PLAYER_SCALE, PLAYER_SPAWN_POS};
+use super::{Player, PLAYER_COLLISION_GROUPS, PLAYER_SCALE, PLAYER_SPAWN_POS};
 
 fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
     let collider = commands
         .spawn((
             Collider::ball(16.0),
             ActiveEvents::COLLISION_EVENTS,
-            CollisionGroups::default(),
+            PLAYER_COLLISION_GROUPS,
             TransformBundle::from_transform(Transform::from_translation(Vec3::new(
                 0.0, -32.0, 0.0,
             ))),

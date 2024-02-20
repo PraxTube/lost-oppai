@@ -2,6 +2,7 @@ pub mod input;
 pub mod state;
 
 // mod audio;
+mod collision;
 mod movement;
 mod spawn;
 
@@ -9,11 +10,13 @@ mod spawn;
 pub use state::PlayerState;
 
 use bevy::prelude::*;
+use bevy_rapier2d::prelude::*;
 
 pub const PLAYER_SPAWN_POS: Vec3 = Vec3::ZERO;
 const PLAYER_SCALE: Vec3 = Vec3::splat(0.5);
 const WALK_SPEED: f32 = 75.0;
 const RUN_SPEED: f32 = 130.0;
+const PLAYER_COLLISION_GROUPS: CollisionGroups = CollisionGroups::new(Group::ALL, Group::ALL);
 
 pub struct PlayerPlugin;
 
@@ -23,8 +26,9 @@ impl Plugin for PlayerPlugin {
             input::InputPlugin,
             state::PlayerStatePlugin,
             // audio::PlayerAudioPlugin,
-            movement::PlayerMovementPlugin,
             spawn::PlayerSpawnPlugin,
+            collision::PlayerCollisionPlugin,
+            movement::PlayerMovementPlugin,
         ));
     }
 }
