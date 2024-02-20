@@ -115,6 +115,108 @@ impl Default for GrassBitMask {
                         grid_to_index(0, 5),
                     ],
                 ),
+                (
+                    BITMASK_BOT,
+                    BITMASK_LEFT
+                        | BITMASK_TOP_LEFT
+                        | BITMASK_TOP
+                        | BITMASK_TOP_RIGHT
+                        | BITMASK_RIGHT,
+                    vec![grid_to_index(6, 5)],
+                ),
+                (
+                    BITMASK_LEFT,
+                    BITMASK_TOP
+                        | BITMASK_TOP_RIGHT
+                        | BITMASK_RIGHT
+                        | BITMASK_BOT_RIGHT
+                        | BITMASK_BOT,
+                    vec![grid_to_index(7, 5)],
+                ),
+                (
+                    BITMASK_RIGHT,
+                    BITMASK_TOP | BITMASK_TOP_LEFT | BITMASK_LEFT | BITMASK_BOT_LEFT | BITMASK_BOT,
+                    vec![grid_to_index(8, 5)],
+                ),
+                (
+                    BITMASK_TOP,
+                    BITMASK_LEFT
+                        | BITMASK_BOT_LEFT
+                        | BITMASK_RIGHT
+                        | BITMASK_BOT_RIGHT
+                        | BITMASK_BOT,
+                    vec![grid_to_index(9, 5)],
+                ),
+                (
+                    !BITMASK_TOP_LEFT & !BITMASK_TOP_RIGHT,
+                    BITMASK_TOP_LEFT | BITMASK_TOP_RIGHT,
+                    vec![grid_to_index(7, 1)],
+                ),
+                (
+                    !BITMASK_BOT_LEFT & !BITMASK_BOT_RIGHT,
+                    BITMASK_BOT_LEFT | BITMASK_BOT_RIGHT,
+                    vec![grid_to_index(8, 1)],
+                ),
+                (
+                    !BITMASK_BOT_LEFT & !BITMASK_TOP_LEFT,
+                    BITMASK_BOT_LEFT | BITMASK_TOP_LEFT,
+                    vec![grid_to_index(7, 2)],
+                ),
+                (
+                    !BITMASK_BOT_RIGHT & !BITMASK_TOP_RIGHT,
+                    BITMASK_BOT_RIGHT | BITMASK_TOP_RIGHT,
+                    vec![grid_to_index(8, 2)],
+                ),
+                (
+                    BITMASK_TOP | BITMASK_LEFT | BITMASK_BOT_LEFT | BITMASK_BOT,
+                    BITMASK_TOP_LEFT | BITMASK_TOP_RIGHT | BITMASK_RIGHT | BITMASK_BOT_RIGHT,
+                    vec![grid_to_index(6, 6)],
+                ),
+                (
+                    BITMASK_TOP | BITMASK_RIGHT | BITMASK_BOT_RIGHT | BITMASK_BOT,
+                    BITMASK_TOP_LEFT | BITMASK_TOP_RIGHT | BITMASK_LEFT | BITMASK_BOT_LEFT,
+                    vec![grid_to_index(6, 7)],
+                ),
+                (
+                    BITMASK_TOP | BITMASK_LEFT | BITMASK_TOP_LEFT | BITMASK_RIGHT,
+                    BITMASK_TOP_RIGHT | BITMASK_BOT_RIGHT | BITMASK_BOT | BITMASK_BOT_LEFT,
+                    vec![grid_to_index(7, 6)],
+                ),
+                (
+                    BITMASK_RIGHT | BITMASK_LEFT | BITMASK_BOT_LEFT | BITMASK_LEFT,
+                    BITMASK_BOT_RIGHT | BITMASK_TOP_LEFT | BITMASK_TOP | BITMASK_TOP_RIGHT,
+                    vec![grid_to_index(7, 7)],
+                ),
+                (
+                    BITMASK_TOP | BITMASK_LEFT | BITMASK_RIGHT | BITMASK_TOP_RIGHT,
+                    BITMASK_TOP_LEFT | BITMASK_BOT_RIGHT | BITMASK_BOT | BITMASK_BOT_LEFT,
+                    vec![grid_to_index(8, 6)],
+                ),
+                (
+                    BITMASK_LEFT | BITMASK_BOT | BITMASK_BOT_RIGHT | BITMASK_RIGHT,
+                    BITMASK_BOT_LEFT | BITMASK_TOP_RIGHT | BITMASK_TOP | BITMASK_TOP_RIGHT,
+                    vec![grid_to_index(8, 7)],
+                ),
+                (
+                    BITMASK_TOP | BITMASK_LEFT | BITMASK_BOT | BITMASK_TOP_LEFT,
+                    BITMASK_BOT_LEFT | BITMASK_TOP_RIGHT | BITMASK_RIGHT | BITMASK_BOT_RIGHT,
+                    vec![grid_to_index(9, 6)],
+                ),
+                (
+                    BITMASK_BOT | BITMASK_TOP | BITMASK_TOP_RIGHT | BITMASK_RIGHT,
+                    BITMASK_BOT_RIGHT | BITMASK_BOT_LEFT | BITMASK_LEFT | BITMASK_TOP_LEFT,
+                    vec![grid_to_index(9, 7)],
+                ),
+                (
+                    BITMASK_TOP | BITMASK_BOT,
+                    BITMASK_LEFT | BITMASK_RIGHT,
+                    vec![grid_to_index(6, 9)],
+                ),
+                (
+                    BITMASK_LEFT | BITMASK_RIGHT,
+                    BITMASK_TOP | BITMASK_BOT,
+                    vec![grid_to_index(7, 9)],
+                ),
             ],
         }
     }
@@ -315,7 +417,7 @@ fn generate_world(mut commands: Commands) {
     let mut map: BitMap = BitMap::default();
 
     generate_water(&mut map);
-    filter_water(&mut map);
+    // filter_water(&mut map);
 
     for chunk_pos_x in 0..MAP_SIZE.x {
         for chunk_pos_y in 0..MAP_SIZE.y {
