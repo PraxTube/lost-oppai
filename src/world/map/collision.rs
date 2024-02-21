@@ -9,22 +9,22 @@ use super::{
 
 pub fn spawn_water_collisions(
     mut commands: Commands,
-    map: Res<BitMap>,
+    mut map: ResMut<BitMap>,
     q_chunks: Query<(Entity, &ChunkIndex), Added<ChunkIndex>>,
 ) {
     for (entity, chunk) in &q_chunks {
-        for x in 0..CHUNK_SIZE.x {
-            for y in 0..CHUNK_SIZE.y {
+        for x in 0..CHUNK_SIZE {
+            for y in 0..CHUNK_SIZE {
                 let v = IVec2::new(
-                    x as i32 + chunk.x * CHUNK_SIZE.x as i32,
-                    y as i32 + chunk.y * CHUNK_SIZE.y as i32,
+                    x as i32 + chunk.x * CHUNK_SIZE as i32,
+                    y as i32 + chunk.y * CHUNK_SIZE as i32,
                 );
                 if map.is_collision(v) {
                     let collision = commands
                         .spawn((
-                            Collider::cuboid(TILE_SIZE.x / 2.0, TILE_SIZE.y / 2.0),
+                            Collider::cuboid(TILE_SIZE / 2.0, TILE_SIZE / 2.0),
                             TransformBundle::from_transform(Transform::from_translation(
-                                Vec3::new(x as f32 * TILE_SIZE.x, y as f32 * TILE_SIZE.y, 0.0),
+                                Vec3::new(x as f32 * TILE_SIZE, y as f32 * TILE_SIZE, 0.0),
                             )),
                         ))
                         .id();

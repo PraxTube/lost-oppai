@@ -7,12 +7,12 @@ use bevy::{math::Vec3Swizzles, prelude::*, utils::HashSet};
 use bevy_ecs_tilemap::prelude::*;
 
 const RENDER_TILE_SIZE: TilemapTileSize = TilemapTileSize {
-    x: TILE_SIZE.x,
-    y: TILE_SIZE.y,
+    x: TILE_SIZE,
+    y: TILE_SIZE,
 };
 const RENDER_CHUNK_SIZE: UVec2 = UVec2 {
-    x: CHUNK_SIZE.x * 2,
-    y: CHUNK_SIZE.y * 2,
+    x: CHUNK_SIZE as u32 * 2,
+    y: CHUNK_SIZE as u32 * 2,
 };
 
 #[derive(Default, Debug, Resource)]
@@ -26,17 +26,17 @@ pub struct ChunkIndex(pub IVec2);
 fn spawn_chunk(
     commands: &mut Commands,
     assets: &Res<GameAssets>,
-    map: &Res<BitMap>,
+    map: &mut ResMut<BitMap>,
     chunk_pos: IVec2,
 ) {
     let tilemap_entity = commands.spawn(ChunkIndex(chunk_pos)).id();
-    let mut tile_storage = TileStorage::empty(CHUNK_SIZE.into());
+    let mut tile_storage = TileStorage::empty(TilemapSize::new(CHUNK_SIZE, CHUNK_SIZE));
 
-    for x in 0..CHUNK_SIZE.x {
-        for y in 0..CHUNK_SIZE.y {
+    for x in 0..CHUNK_SIZE {
+        for y in 0..CHUNK_SIZE {
             let v = IVec2::new(
-                x as i32 + chunk_pos.x * CHUNK_SIZE.x as i32,
-                y as i32 + chunk_pos.y * CHUNK_SIZE.y as i32,
+                x as i32 + chunk_pos.x * CHUNK_SIZE as i32,
+                y as i32 + chunk_pos.y * CHUNK_SIZE as i32,
             );
             let index = map.get(v) as u32;
 
@@ -55,14 +55,14 @@ fn spawn_chunk(
     }
 
     let transform = Transform::from_translation(Vec3::new(
-        chunk_pos.x as f32 * CHUNK_SIZE.x as f32 * RENDER_TILE_SIZE.x,
-        chunk_pos.y as f32 * CHUNK_SIZE.y as f32 * RENDER_TILE_SIZE.y,
+        chunk_pos.x as f32 * CHUNK_SIZE as f32 * RENDER_TILE_SIZE.x,
+        chunk_pos.y as f32 * CHUNK_SIZE as f32 * RENDER_TILE_SIZE.y,
         -BACKGROUND_ZINDEX_ABS,
     ));
 
     commands.entity(tilemap_entity).insert(TilemapBundle {
         grid_size: RENDER_TILE_SIZE.into(),
-        size: CHUNK_SIZE.into(),
+        size: TilemapSize::new(CHUNK_SIZE, CHUNK_SIZE),
         storage: tile_storage,
         texture: TilemapTexture::Single(assets.tileset.clone()),
         tile_size: RENDER_TILE_SIZE,
@@ -77,8 +77,8 @@ fn spawn_chunk(
 
 fn camera_pos_to_chunk_pos(camera_pos: &Vec2) -> IVec2 {
     let camera_pos = camera_pos.as_ivec2();
-    let chunk_size = CHUNK_SIZE.as_ivec2();
-    let tile_size = TILE_SIZE.as_ivec2();
+    let chunk_size = IVec2::ONE * CHUNK_SIZE as i32;
+    let tile_size = IVec2::ONE * TILE_SIZE as i32;
 
     let offset = IVec2::new(
         if camera_pos.x < 0 { -1 } else { 0 },
@@ -93,7 +93,7 @@ pub fn spawn_chunks(
     assets: Res<GameAssets>,
     camera_query: Query<&Transform, With<Camera>>,
     mut chunk_manager: ResMut<ChunkManager>,
-    map: Res<BitMap>,
+    mut map: ResMut<BitMap>,
 ) {
     for transform in camera_query.iter() {
         let camera_chunk_pos = camera_pos_to_chunk_pos(&transform.translation.xy());
@@ -105,7 +105,7 @@ pub fn spawn_chunks(
             {
                 if !chunk_manager.spawned_chunks.contains(&IVec2::new(x, y)) {
                     chunk_manager.spawned_chunks.insert(IVec2::new(x, y));
-                    spawn_chunk(&mut commands, &assets, &map, IVec2::new(x, y));
+                    spawn_chunk(&mut commands, &assets, &mut map, IVec2::new(x, y));
                 }
             }
         }
