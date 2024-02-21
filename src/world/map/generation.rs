@@ -8,7 +8,7 @@ use crate::GameState;
 use super::{CHUNK_SIZE, RENDERED_CHUNKS_RADIUS};
 
 const SEED: f32 = 60.0;
-const NOISE_ZOOM: f32 = 0.04;
+const NOISE_ZOOM: f32 = 0.02;
 const WATER: u8 = 0;
 const PRIMITIVE_GRASS: u8 = 1;
 const INVALID_TILE: u8 = 15 * 16;
@@ -458,23 +458,30 @@ fn generate_bezier_curve_points(distance: f32, sample_size: usize) -> Vec<IVec2>
 fn generate_path(mut bitmap: ResMut<BitMap>) {
     let distance = 100.0;
     let sample_size = 100;
-    let width = 1;
-
-    info!("Generating path...");
+    let max_radius: i32 = 10;
+    let min_radius: i32 = 2;
 
     let points = generate_bezier_curve_points(distance, sample_size);
 
-    info!("Filling up path...");
-
     for v in points {
-        for i in -width..=width {
-            for j in -width..=width {
-                bitmap.set_tileset(v + IVec2::new(i, j), PRIMITIVE_GRASS);
+        let w = Vec2::new(v.x as f32, v.y as f32);
+
+        let noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, SEED);
+        let secondary_noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, SEED + 1.0) * 1.0;
+        let radius = (min_radius as f32
+            + 0.25 * (noise + secondary_noise + 2.0) * (max_radius - min_radius) as f32)
+            as i32;
+        let sqrt_radius = radius.pow(2);
+
+        for x in -radius..=radius {
+            for y in -radius..=radius {
+                let offset = IVec2::new(x, y);
+                if offset.length_squared() < sqrt_radius {
+                    bitmap.set_tileset(v + offset, PRIMITIVE_GRASS);
+                }
             }
         }
     }
-
-    info!("Done generating path.");
 }
 
 pub struct MapGenerationPlugin;
