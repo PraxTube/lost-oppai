@@ -264,7 +264,55 @@ impl Default for BitMap {
 }
 
 impl BitMap {
-    fn increase_tileset(&mut self, v: IVec2) {
+    fn tileset_quadrant(&self, v: IVec2) -> u8 {
+        if v.x >= 0 && v.y >= 0 {
+            1
+        } else if v.x < 0 && v.y >= 0 {
+            2
+        } else if v.x < 0 && v.y < 0 {
+            3
+        } else if v.x >= 0 && v.y < 0 {
+            4
+        } else {
+            0
+        }
+    }
+
+    fn get_tileset(&mut self, v: IVec2) -> u8 {
+        self.fit_tileset_size(v);
+
+        let x_index = v.x.abs() as usize;
+        let y_index = v.y.abs() as usize;
+
+        let tileset = match self.tileset_quadrant(v) {
+            1 => &mut self.tile_q1,
+            2 => &mut self.tile_q2,
+            3 => &mut self.tile_q3,
+            4 => &mut self.tile_q4,
+            _ => return INVALID_TILE,
+        };
+
+        tileset[x_index][y_index]
+    }
+
+    fn set_tileset(&mut self, v: IVec2, tile: u8) {
+        self.fit_tileset_size(v);
+
+        let x_index = v.x.abs() as usize;
+        let y_index = v.y.abs() as usize;
+
+        let tileset = match self.tileset_quadrant(v) {
+            1 => &mut self.tile_q1,
+            2 => &mut self.tile_q2,
+            3 => &mut self.tile_q3,
+            4 => &mut self.tile_q4,
+            _ => return,
+        };
+
+        tileset[x_index][y_index] = tile;
+    }
+
+    fn fit_tileset_size(&mut self, v: IVec2) {
         let tileset = match self.tileset_quadrant(v) {
             1 => &mut self.tile_q1,
             2 => &mut self.tile_q2,
@@ -274,7 +322,6 @@ impl BitMap {
         };
 
         let mut fitting_size = false;
-
         while !fitting_size {
             fitting_size = true;
             if tileset.len() <= v.x.abs() as usize {
@@ -292,22 +339,12 @@ impl BitMap {
         }
     }
 
-    fn tileset_quadrant(&self, v: IVec2) -> u8 {
-        if v.x >= 0 && v.y >= 0 {
-            1
-        } else if v.x < 0 && v.y >= 0 {
-            2
-        } else if v.x < 0 && v.y < 0 {
-            3
-        } else if v.x >= 0 && v.y < 0 {
-            4
-        } else {
-            0
-        }
-    }
-
     fn collapse_water(&mut self, v: IVec2) -> bool {
-        self.increase_tileset(v);
+        let tile = self.get_tileset(v);
+        if tile != INVALID_TILE {
+            return tile == WATER;
+        }
+
         let w = Vec2::new(v.x as f32, v.y as f32);
 
         let noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, SEED);
@@ -316,61 +353,29 @@ impl BitMap {
 
         let tile = if h < 0.0 { WATER } else { PRIMITIVE_GRASS };
 
-        let tileset = match self.tileset_quadrant(v) {
-            1 => &mut self.tile_q1,
-            2 => &mut self.tile_q2,
-            3 => &mut self.tile_q3,
-            4 => &mut self.tile_q4,
-            _ => return false,
-        };
-
-        let x_index = v.x.abs() as usize;
-        let y_index = v.y.abs() as usize;
-        tileset[x_index][y_index] = tile;
+        self.set_tileset(v, tile);
         tile == WATER
     }
 
     fn collapse_grass(&mut self, v: IVec2) {
-        self.increase_tileset(v);
-        let x_index = v.x.abs() as usize;
-        let y_index = v.y.abs() as usize;
-
-        let determine_grass_tile = if let Some(tileset) = match self.tileset_quadrant(v) {
-            1 => Some(&mut self.tile_q1),
-            2 => Some(&mut self.tile_q2),
-            3 => Some(&mut self.tile_q3),
-            4 => Some(&mut self.tile_q4),
-            _ => None,
-        } {
-            tileset[x_index][y_index] == PRIMITIVE_GRASS
-        } else {
-            false
-        };
-
-        if determine_grass_tile {
+        if self.get_tileset(v) == PRIMITIVE_GRASS {
             self.determine_grass_tile(v);
         }
     }
 
+    fn is_water(&mut self, v: IVec2) -> bool {
+        self.collapse_water(v)
+    }
+
     fn get_tile_index(&mut self, v: IVec2) -> u8 {
-        self.increase_tileset(v);
         self.collapse_water(v);
         self.collapse_grass(v);
 
-        let x_index = v.x.abs() as usize;
-        let y_index = v.y.abs() as usize;
-
-        let tileset = match self.tileset_quadrant(v) {
-            1 => &mut self.tile_q1,
-            2 => &mut self.tile_q2,
-            3 => &mut self.tile_q3,
-            4 => &mut self.tile_q4,
-            _ => return INVALID_TILE,
-        };
-
-        tileset[x_index][y_index]
+        self.get_tileset(v)
     }
 
+    /// Return the bitmask indicating which of the neigbhors are grass
+    /// as 1 and which are water as 0.
     fn neigbhor_bitmask(&mut self, v: IVec2) -> u8 {
         let mut mask = 0u8;
 
@@ -389,33 +394,25 @@ impl BitMap {
         let mask = self.neigbhor_bitmask(v);
         let bitmask = GrassBitMask::default();
         let tile = bitmask.get_index(mask);
-
-        let tileset = match self.tileset_quadrant(v) {
-            1 => &mut self.tile_q1,
-            2 => &mut self.tile_q2,
-            3 => &mut self.tile_q3,
-            4 => &mut self.tile_q4,
-            _ => return,
-        };
-
-        let x_index = v.x.abs() as usize;
-        let y_index = v.y.abs() as usize;
-        tileset[x_index][y_index] = tile;
+        self.set_tileset(v, tile);
     }
 
-    fn is_water(&mut self, v: IVec2) -> bool {
-        self.collapse_water(v)
-    }
-
-    pub fn get(&mut self, v: IVec2) -> u8 {
-        self.get_tile_index(v)
-    }
-
+    /// Determine if a given tile should have a collision box.
+    /// If the tile is a water tile that has at least one neigbhoring
+    /// grass tile, then it needs to have a collision.
     pub fn is_collision(&mut self, v: IVec2) -> bool {
         if !self.is_water(v) {
             return false;
         }
         self.neigbhor_bitmask(v) != 0
+    }
+
+    /// Get the tile index for the given tile position.
+    /// The tile index corresponds to the index in the tile atlas.
+    /// It is not garuanteed to be a valid tile, i.e. it can be
+    /// an invalid tile.
+    pub fn get(&mut self, v: IVec2) -> u8 {
+        self.get_tile_index(v)
     }
 }
 
