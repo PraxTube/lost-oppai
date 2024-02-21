@@ -1,11 +1,11 @@
 use std::collections::HashMap;
 
-use rand::{thread_rng, Rng};
+use rand::{thread_rng, Rng, SeedableRng};
 
 use bevy::prelude::*;
 use noisy_bevy::simplex_noise_2d_seeded;
 
-use crate::GameState;
+use crate::{GameRng, GameState};
 
 use super::{CHUNK_SIZE, RENDERED_CHUNKS_RADIUS};
 
@@ -13,7 +13,6 @@ const SEED: f32 = 60.0;
 const NOISE_ZOOM: f32 = 0.02;
 const PRIMITIVE_GRASS: u16 = 1;
 const INVALID_TILE: u16 = 15 * 16;
-const EMPTY: u16 = 15 * 16 + 1;
 
 const BITMASK_TOP_RIGHT: u16 = 1 << 0;
 const BITMASK_BOT_RIGHT: u16 = 1 << 1;
@@ -89,7 +88,7 @@ impl Default for GrassBitMask {
 
 impl GrassBitMask {
     fn get_index(&self, mask: u16) -> u16 {
-        let binding = vec![EMPTY];
+        let binding = vec![INVALID_TILE];
         let indices = self.masks.get(&mask).unwrap_or(&binding);
         let mut rng = thread_rng();
         let index = rng.gen_range(0..indices.len());
@@ -212,6 +211,9 @@ impl BitMap {
         }
     }
 
+    /// Determine if a given tile is water or grass.
+    /// This will only set the water bit flag,
+    /// not the actual tile index.
     fn collapse_water(&mut self, v: IVec2) -> bool {
         let tile = self.get_tileset(v);
         if tile != INVALID_TILE {
@@ -229,20 +231,19 @@ impl BitMap {
         is_water
     }
 
-    fn collapse_grass(&mut self, v: IVec2) {
-        self.determine_grass_tile(v);
-        if self.get_tileset(v) == PRIMITIVE_GRASS {}
-    }
+    /// Determine which tile to place. This will collapse
+    /// the neigbhoring four tiles to see if they are grass or water.
+    /// This is used for all tiles, both grass and water.
+    fn collapse_tile(&mut self, v: IVec2) {
+        let tile = self.get_tileset(v);
+        if tile != INVALID_TILE && tile != PRIMITIVE_GRASS {
+            return;
+        }
 
-    fn is_water(&mut self, v: IVec2) -> bool {
-        self.collapse_water(v)
-    }
-
-    fn get_tile_index(&mut self, v: IVec2) -> u16 {
-        self.collapse_water(v);
-        self.collapse_grass(v);
-
-        self.get_tileset(v)
+        let mask = self.neigbhor_bitmask(v);
+        let bitmask = GrassBitMask::default();
+        let tile = bitmask.get_index(mask);
+        self.set_tileset(v, tile);
     }
 
     /// Return the bitmask indicating which of the neigbhors are grass
@@ -250,28 +251,21 @@ impl BitMap {
     fn neigbhor_bitmask(&mut self, v: IVec2) -> u16 {
         let mut mask = 0u16;
 
-        mask |= BITMASK_BOT_LEFT * !self.is_water(v) as u16;
-        mask |= BITMASK_TOP_LEFT * !self.is_water(v + IVec2::new(0, 1)) as u16;
-        mask |= BITMASK_TOP_RIGHT * !self.is_water(v + IVec2::new(1, 1)) as u16;
-        mask |= BITMASK_BOT_RIGHT * !self.is_water(v + IVec2::new(1, 0)) as u16;
+        mask |= BITMASK_BOT_LEFT * !self.collapse_water(v) as u16;
+        mask |= BITMASK_TOP_LEFT * !self.collapse_water(v + IVec2::new(0, 1)) as u16;
+        mask |= BITMASK_TOP_RIGHT * !self.collapse_water(v + IVec2::new(1, 1)) as u16;
+        mask |= BITMASK_BOT_RIGHT * !self.collapse_water(v + IVec2::new(1, 0)) as u16;
         mask
-    }
-
-    fn determine_grass_tile(&mut self, v: IVec2) {
-        let mask = self.neigbhor_bitmask(v);
-        let bitmask = GrassBitMask::default();
-        let tile = bitmask.get_index(mask);
-        self.set_tileset(v, tile);
     }
 
     /// Determine if a given tile should have a collision box.
     /// If the tile is a water tile that has at least one neigbhoring
     /// grass tile, then it needs to have a collision.
     pub fn is_collision(&mut self, v: IVec2) -> bool {
-        if !self.is_water(v) {
+        if !self.collapse_water(v) {
             return false;
         }
-        self.neigbhor_bitmask(v) != 0
+        self.neigbhor_bitmask(v) == 0
     }
 
     /// Get the tile index for the given tile position.
@@ -279,12 +273,14 @@ impl BitMap {
     /// It is not garuanteed to be a valid tile, i.e. it can be
     /// an invalid tile.
     pub fn get(&mut self, v: IVec2) -> u16 {
-        self.get_tile_index(v)
+        self.collapse_water(v);
+        self.collapse_tile(v);
+        self.get_tileset(v)
     }
 }
 
 fn generate_bezier_curve_points(distance: f32, sample_size: usize) -> Vec<IVec2> {
-    let mut rng = thread_rng();
+    let mut rng = GameRng::seed_from_u64(SEED as u64);
     let x = rng.gen_range(-distance..distance);
     let y_sign = if rng.gen_bool(0.5) { 1.0 } else { -1.0 };
     let y = y_sign * (distance.powi(2) - x.powi(2)).sqrt();

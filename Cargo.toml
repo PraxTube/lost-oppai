@@ -21,6 +21,7 @@ codegen-units = 1
 
 [dependencies]
 rand = "0.8.5"
+rand_xoshiro = "0.6.0"
 chrono = "0.4.34"
 
 bevy = "0.12.1"

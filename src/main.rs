@@ -6,6 +6,7 @@ mod utils;
 mod world;
 
 pub use assets::GameAssets;
+pub type GameRng = rand_xoshiro::Xoshiro256PlusPlus;
 
 use bevy::asset::AssetMetaCheck;
 use bevy::prelude::*;
