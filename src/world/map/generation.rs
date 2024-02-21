@@ -11,23 +11,23 @@ use super::{CHUNK_SIZE, RENDERED_CHUNKS_RADIUS};
 
 const SEED: f32 = 60.0;
 const NOISE_ZOOM: f32 = 0.02;
-const WATER: u8 = 0;
-const PRIMITIVE_GRASS: u8 = 1;
-const INVALID_TILE: u8 = 15 * 16;
-const EMPTY: u8 = 15 * 16 + 1;
+const PRIMITIVE_GRASS: u16 = 1;
+const INVALID_TILE: u16 = 15 * 16;
+const EMPTY: u16 = 15 * 16 + 1;
 
-const BITMASK_TOP_RIGHT: u8 = 1 << 1;
-const BITMASK_BOT_RIGHT: u8 = 1 << 3;
-const BITMASK_BOT_LEFT: u8 = 1 << 5;
-const BITMASK_TOP_LEFT: u8 = 1 << 7;
+const BITMASK_TOP_RIGHT: u16 = 1 << 0;
+const BITMASK_BOT_RIGHT: u16 = 1 << 1;
+const BITMASK_BOT_LEFT: u16 = 1 << 2;
+const BITMASK_TOP_LEFT: u16 = 1 << 3;
+const BITMASK_WATER: u16 = 1 << 15;
 
 struct GrassBitMask {
-    masks: HashMap<u8, Vec<u8>>,
+    masks: HashMap<u16, Vec<u16>>,
 }
 
 impl Default for GrassBitMask {
     fn default() -> Self {
-        fn grid_to_index(x: u8, y: u8) -> u8 {
+        fn grid_to_index(x: u16, y: u16) -> u16 {
             x + y * 16
         }
 
@@ -88,7 +88,7 @@ impl Default for GrassBitMask {
 }
 
 impl GrassBitMask {
-    fn get_index(&self, mask: u8) -> u8 {
+    fn get_index(&self, mask: u16) -> u16 {
         let binding = vec![EMPTY];
         let indices = self.masks.get(&mask).unwrap_or(&binding);
         let mut rng = thread_rng();
@@ -99,10 +99,10 @@ impl GrassBitMask {
 
 #[derive(Resource)]
 pub struct BitMap {
-    tile_q1: Vec<Vec<u8>>,
-    tile_q2: Vec<Vec<u8>>,
-    tile_q3: Vec<Vec<u8>>,
-    tile_q4: Vec<Vec<u8>>,
+    tile_q1: Vec<Vec<u16>>,
+    tile_q2: Vec<Vec<u16>>,
+    tile_q3: Vec<Vec<u16>>,
+    tile_q4: Vec<Vec<u16>>,
 }
 
 impl Default for BitMap {
@@ -118,7 +118,7 @@ impl Default for BitMap {
 }
 
 impl BitMap {
-    fn tileset_quadrant(&self, v: IVec2) -> u8 {
+    fn tileset_quadrant(&self, v: IVec2) -> u16 {
         if v.x >= 0 && v.y >= 0 {
             1
         } else if v.x < 0 && v.y >= 0 {
@@ -132,11 +132,8 @@ impl BitMap {
         }
     }
 
-    fn get_tileset(&mut self, v: IVec2) -> u8 {
+    fn get_tileset_raw(&mut self, v: IVec2) -> u16 {
         self.fit_tileset_size(v);
-
-        let x_index = v.x.abs() as usize;
-        let y_index = v.y.abs() as usize;
 
         let tileset = match self.tileset_quadrant(v) {
             1 => &mut self.tile_q1,
@@ -146,14 +143,20 @@ impl BitMap {
             _ => return INVALID_TILE,
         };
 
+        let x_index = v.x.abs() as usize;
+        let y_index = v.y.abs() as usize;
         tileset[x_index][y_index]
     }
 
-    fn set_tileset(&mut self, v: IVec2, tile: u8) {
+    fn get_tileset(&mut self, v: IVec2) -> u16 {
+        self.get_tileset_raw(v) & !BITMASK_WATER
+    }
+
+    fn set_tileset(&mut self, v: IVec2, tile: u16) {
         self.fit_tileset_size(v);
 
-        let x_index = v.x.abs() as usize;
-        let y_index = v.y.abs() as usize;
+        let is_water = self.get_water_flag(v);
+        let tile = tile | BITMASK_WATER * is_water as u16;
 
         let tileset = match self.tileset_quadrant(v) {
             1 => &mut self.tile_q1,
@@ -163,7 +166,23 @@ impl BitMap {
             _ => return,
         };
 
+        let x_index = v.x.abs() as usize;
+        let y_index = v.y.abs() as usize;
         tileset[x_index][y_index] = tile;
+    }
+
+    fn get_water_flag(&mut self, v: IVec2) -> bool {
+        self.get_tileset_raw(v) & BITMASK_WATER != 0
+    }
+
+    fn set_water_flag(&mut self, v: IVec2, is_water: bool) {
+        let tile = self.get_tileset(v);
+        let tile = if is_water {
+            tile | BITMASK_WATER
+        } else {
+            tile & !BITMASK_WATER
+        };
+        self.set_tileset(v, tile);
     }
 
     fn fit_tileset_size(&mut self, v: IVec2) {
@@ -196,7 +215,7 @@ impl BitMap {
     fn collapse_water(&mut self, v: IVec2) -> bool {
         let tile = self.get_tileset(v);
         if tile != INVALID_TILE {
-            return tile == WATER;
+            return self.get_water_flag(v);
         }
 
         let w = Vec2::new(v.x as f32, v.y as f32);
@@ -205,11 +224,9 @@ impl BitMap {
         let secondary_noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, SEED + 1.0) * 1.0;
         let h = noise + secondary_noise;
 
-        // let tile = if h < 0.0 { WATER } else { PRIMITIVE_GRASS };
-        let tile = if h < 10.0 { WATER } else { PRIMITIVE_GRASS };
-
-        self.set_tileset(v, tile);
-        tile == WATER
+        let is_water = h < 10.0;
+        self.set_water_flag(v, is_water);
+        is_water
     }
 
     fn collapse_grass(&mut self, v: IVec2) {
@@ -221,7 +238,7 @@ impl BitMap {
         self.collapse_water(v)
     }
 
-    fn get_tile_index(&mut self, v: IVec2) -> u8 {
+    fn get_tile_index(&mut self, v: IVec2) -> u16 {
         self.collapse_water(v);
         self.collapse_grass(v);
 
@@ -230,13 +247,13 @@ impl BitMap {
 
     /// Return the bitmask indicating which of the neigbhors are grass
     /// as 1 and which are water as 0.
-    fn neigbhor_bitmask(&mut self, v: IVec2) -> u8 {
-        let mut mask = 0u8;
+    fn neigbhor_bitmask(&mut self, v: IVec2) -> u16 {
+        let mut mask = 0u16;
 
-        mask |= BITMASK_BOT_LEFT * !self.is_water(v) as u8;
-        mask |= BITMASK_TOP_LEFT * !self.is_water(v + IVec2::new(0, 1)) as u8;
-        mask |= BITMASK_TOP_RIGHT * !self.is_water(v + IVec2::new(1, 1)) as u8;
-        mask |= BITMASK_BOT_RIGHT * !self.is_water(v + IVec2::new(1, 0)) as u8;
+        mask |= BITMASK_BOT_LEFT * !self.is_water(v) as u16;
+        mask |= BITMASK_TOP_LEFT * !self.is_water(v + IVec2::new(0, 1)) as u16;
+        mask |= BITMASK_TOP_RIGHT * !self.is_water(v + IVec2::new(1, 1)) as u16;
+        mask |= BITMASK_BOT_RIGHT * !self.is_water(v + IVec2::new(1, 0)) as u16;
         mask
     }
 
@@ -261,7 +278,7 @@ impl BitMap {
     /// The tile index corresponds to the index in the tile atlas.
     /// It is not garuanteed to be a valid tile, i.e. it can be
     /// an invalid tile.
-    pub fn get(&mut self, v: IVec2) -> u8 {
+    pub fn get(&mut self, v: IVec2) -> u16 {
         self.get_tile_index(v)
     }
 }
@@ -303,9 +320,9 @@ fn generate_bezier_curve_points(distance: f32, sample_size: usize) -> Vec<IVec2>
 }
 
 fn generate_path(mut bitmap: ResMut<BitMap>) {
-    let distance = 100.0;
-    let sample_size = 100;
-    let max_radius: i32 = 10;
+    let distance = 10.0;
+    let sample_size = 10;
+    let max_radius: i32 = 8;
     let min_radius: i32 = 2;
 
     let points = generate_bezier_curve_points(distance, sample_size);
