@@ -38,7 +38,7 @@ fn spawn_chunk(
                 x as i32 + chunk_pos.x * CHUNK_SIZE as i32,
                 y as i32 + chunk_pos.y * CHUNK_SIZE as i32,
             );
-            let index = map.get(v) as u32;
+            let index = map.get_tile_index(v) as u32;
 
             let tile_pos = TilePos { x, y };
             let tile_entity = commands

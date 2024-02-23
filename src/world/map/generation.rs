@@ -20,6 +20,18 @@ const BITMASK_BOT_LEFT: u16 = 1 << 2;
 const BITMASK_TOP_LEFT: u16 = 1 << 3;
 const BITMASK_WATER: u16 = 1 << 15;
 
+pub enum TileCollision {
+    None,
+    BotRect,
+    LeftRect,
+    TopRect,
+    RightRect,
+    BotLeftTri,
+    TopLeftTri,
+    TopRightTri,
+    BotRightTri,
+}
+
 struct GrassBitMask {
     masks: HashMap<u16, Vec<u16>>,
 }
@@ -32,7 +44,16 @@ impl Default for GrassBitMask {
 
         Self {
             masks: HashMap::from([
-                (0, vec![grid_to_index(0, 0)]),
+                (
+                    0,
+                    vec![
+                        grid_to_index(11, 13),
+                        grid_to_index(12, 13),
+                        grid_to_index(13, 13),
+                        grid_to_index(12, 14),
+                        grid_to_index(13, 14),
+                    ],
+                ),
                 (
                     BITMASK_BOT_LEFT | BITMASK_TOP_LEFT | BITMASK_TOP_RIGHT | BITMASK_BOT_RIGHT,
                     vec![grid_to_index(0, 1)],
@@ -258,24 +279,52 @@ impl BitMap {
         mask
     }
 
-    /// Determine if a given tile should have a collision box.
-    /// If the tile is a water tile that has at least one neigbhoring
-    /// grass tile, then it needs to have a collision.
-    pub fn is_collision(&mut self, v: IVec2) -> bool {
-        if !self.collapse_water(v) {
-            return false;
-        }
-        self.neigbhor_bitmask(v) == 0
-    }
-
     /// Get the tile index for the given tile position.
     /// The tile index corresponds to the index in the tile atlas.
     /// It is not garuanteed to be a valid tile, i.e. it can be
     /// an invalid tile.
-    pub fn get(&mut self, v: IVec2) -> u16 {
+    pub fn get_tile_index(&mut self, v: IVec2) -> u16 {
         self.collapse_water(v);
         self.collapse_tile(v);
         self.get_tileset(v)
+    }
+
+    /// Determine if a given tile should have a collision and what type.
+    pub fn get_tile_collision(&mut self, v: IVec2) -> TileCollision {
+        let mask = self.neigbhor_bitmask(v);
+        if mask == !BITMASK_BOT_LEFT & BITMASK_TOP_LEFT | BITMASK_TOP_RIGHT & !BITMASK_BOT_RIGHT {
+            TileCollision::BotRect
+        } else if mask
+            == !BITMASK_BOT_LEFT & !BITMASK_TOP_LEFT & BITMASK_TOP_RIGHT | BITMASK_BOT_RIGHT
+        {
+            TileCollision::LeftRect
+        } else if mask
+            == BITMASK_BOT_LEFT & !BITMASK_TOP_LEFT & !BITMASK_TOP_RIGHT | BITMASK_BOT_RIGHT
+        {
+            TileCollision::TopRect
+        } else if mask
+            == BITMASK_BOT_LEFT | BITMASK_TOP_LEFT & !BITMASK_TOP_RIGHT & !BITMASK_BOT_RIGHT
+        {
+            TileCollision::RightRect
+        } else if mask
+            == !BITMASK_BOT_LEFT & !BITMASK_TOP_LEFT & BITMASK_TOP_RIGHT & !BITMASK_BOT_RIGHT
+        {
+            TileCollision::BotLeftTri
+        } else if mask
+            == !BITMASK_BOT_LEFT & !BITMASK_TOP_LEFT & !BITMASK_TOP_RIGHT & BITMASK_BOT_RIGHT
+        {
+            TileCollision::TopLeftTri
+        } else if mask
+            == BITMASK_BOT_LEFT & !BITMASK_TOP_LEFT & !BITMASK_TOP_RIGHT & !BITMASK_BOT_RIGHT
+        {
+            TileCollision::TopRightTri
+        } else if mask
+            == !BITMASK_BOT_LEFT & BITMASK_TOP_LEFT & !BITMASK_TOP_RIGHT & !BITMASK_BOT_RIGHT
+        {
+            TileCollision::BotRightTri
+        } else {
+            TileCollision::None
+        }
     }
 }
 
@@ -316,10 +365,10 @@ fn generate_bezier_curve_points(distance: f32, sample_size: usize) -> Vec<IVec2>
 }
 
 fn generate_path(mut bitmap: ResMut<BitMap>) {
-    let distance = 10.0;
-    let sample_size = 10;
-    let max_radius: i32 = 8;
-    let min_radius: i32 = 2;
+    let distance = 200.0;
+    let sample_size = 200;
+    let max_radius: i32 = 3;
+    let min_radius: i32 = 1;
 
     let points = generate_bezier_curve_points(distance, sample_size);
 
