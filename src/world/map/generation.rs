@@ -11,14 +11,17 @@ use super::{CHUNK_SIZE, RENDERED_CHUNKS_RADIUS};
 
 const SEED: f32 = 60.0;
 const NOISE_ZOOM: f32 = 0.02;
-const PRIMITIVE_GRASS: u16 = 1;
 const INVALID_TILE: u16 = 15 * 16;
+
+const EMPTY_TYPE_INDEX: u8 = 0;
+const WATER_TYPE_INDEX: u8 = 1;
+const GRASS_TYPE_INDEX: u8 = 2;
+const PATH_TYPE_INDEX: u8 = 3;
 
 const BITMASK_TOP_RIGHT: u16 = 1 << 0;
 const BITMASK_BOT_RIGHT: u16 = 1 << 1;
 const BITMASK_BOT_LEFT: u16 = 1 << 2;
 const BITMASK_TOP_LEFT: u16 = 1 << 3;
-const BITMASK_WATER: u16 = 1 << 15;
 
 pub enum TileCollision {
     None,
@@ -32,16 +35,21 @@ pub enum TileCollision {
     BotRightTri,
 }
 
-struct GrassBitMask {
+enum TileType {
+    Grass,
+    Path,
+}
+
+fn grid_to_index(x: u16, y: u16) -> u16 {
+    x + y * 16
+}
+
+struct BitMasks {
     masks: HashMap<u16, Vec<u16>>,
 }
 
-impl Default for GrassBitMask {
-    fn default() -> Self {
-        fn grid_to_index(x: u16, y: u16) -> u16 {
-            x + y * 16
-        }
-
+impl BitMasks {
+    fn grass() -> Self {
         Self {
             masks: HashMap::from([
                 (
@@ -105,9 +113,65 @@ impl Default for GrassBitMask {
             ]),
         }
     }
+
+    fn path() -> Self {
+        Self {
+            masks: HashMap::from([
+                (0, vec![grid_to_index(0, 1)]),
+                (
+                    BITMASK_BOT_LEFT | BITMASK_TOP_LEFT | BITMASK_TOP_RIGHT | BITMASK_BOT_RIGHT,
+                    vec![grid_to_index(2, 1)],
+                ),
+                (
+                    BITMASK_BOT_LEFT | BITMASK_TOP_LEFT | BITMASK_TOP_RIGHT,
+                    vec![grid_to_index(1, 3)],
+                ),
+                (
+                    BITMASK_TOP_LEFT | BITMASK_TOP_RIGHT | BITMASK_BOT_RIGHT,
+                    vec![grid_to_index(2, 3)],
+                ),
+                (
+                    BITMASK_BOT_LEFT | BITMASK_TOP_RIGHT | BITMASK_BOT_RIGHT,
+                    vec![grid_to_index(2, 4)],
+                ),
+                (
+                    BITMASK_BOT_LEFT | BITMASK_TOP_LEFT | BITMASK_BOT_RIGHT,
+                    vec![grid_to_index(1, 4)],
+                ),
+                (
+                    BITMASK_TOP_LEFT | BITMASK_TOP_RIGHT,
+                    vec![grid_to_index(2, 2), grid_to_index(4, 5)],
+                ),
+                (
+                    BITMASK_BOT_LEFT | BITMASK_BOT_RIGHT,
+                    vec![grid_to_index(2, 0), grid_to_index(3, 5)],
+                ),
+                (
+                    BITMASK_TOP_RIGHT | BITMASK_BOT_RIGHT,
+                    vec![grid_to_index(1, 1), grid_to_index(2, 5)],
+                ),
+                (
+                    BITMASK_BOT_LEFT | BITMASK_TOP_LEFT,
+                    vec![grid_to_index(3, 1), grid_to_index(1, 5)],
+                ),
+                (BITMASK_BOT_RIGHT, vec![grid_to_index(1, 0)]),
+                (BITMASK_BOT_LEFT, vec![grid_to_index(3, 0)]),
+                (BITMASK_TOP_LEFT, vec![grid_to_index(3, 2)]),
+                (BITMASK_TOP_RIGHT, vec![grid_to_index(1, 2)]),
+                (
+                    BITMASK_TOP_LEFT | BITMASK_BOT_RIGHT,
+                    vec![grid_to_index(3, 4)],
+                ),
+                (
+                    BITMASK_BOT_LEFT | BITMASK_TOP_RIGHT,
+                    vec![grid_to_index(3, 3)],
+                ),
+            ]),
+        }
+    }
 }
 
-impl GrassBitMask {
+impl BitMasks {
     fn get_index(&self, mask: u16) -> u16 {
         let binding = vec![INVALID_TILE];
         let indices = self.masks.get(&mask).unwrap_or(&binding);
@@ -119,20 +183,20 @@ impl GrassBitMask {
 
 #[derive(Resource)]
 pub struct BitMap {
-    tile_q1: Vec<Vec<u16>>,
-    tile_q2: Vec<Vec<u16>>,
-    tile_q3: Vec<Vec<u16>>,
-    tile_q4: Vec<Vec<u16>>,
+    tile_q1: Vec<Vec<(u8, u16)>>,
+    tile_q2: Vec<Vec<(u8, u16)>>,
+    tile_q3: Vec<Vec<(u8, u16)>>,
+    tile_q4: Vec<Vec<(u8, u16)>>,
 }
 
 impl Default for BitMap {
     fn default() -> Self {
         let length = CHUNK_SIZE as usize * RENDERED_CHUNKS_RADIUS as usize;
         Self {
-            tile_q1: vec![vec![INVALID_TILE; length]; length],
-            tile_q2: vec![vec![INVALID_TILE; length]; length],
-            tile_q3: vec![vec![INVALID_TILE; length]; length],
-            tile_q4: vec![vec![INVALID_TILE; length]; length],
+            tile_q1: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
+            tile_q2: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
+            tile_q3: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
+            tile_q4: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
         }
     }
 }
@@ -152,7 +216,19 @@ impl BitMap {
         }
     }
 
-    fn get_tileset_raw(&mut self, v: IVec2) -> u16 {
+    fn tile_type(&mut self, v: IVec2) -> TileType {
+        let has_water = self.collapse_water(v)
+            | self.collapse_water(v + IVec2::new(0, 1))
+            | self.collapse_water(v + IVec2::new(1, 1))
+            | self.collapse_water(v + IVec2::new(1, 0));
+        if has_water {
+            TileType::Grass
+        } else {
+            TileType::Path
+        }
+    }
+
+    fn get_tileset_raw(&mut self, v: IVec2) -> (u8, u16) {
         self.fit_tileset_size(v);
 
         let tileset = match self.tileset_quadrant(v) {
@@ -160,7 +236,7 @@ impl BitMap {
             2 => &mut self.tile_q2,
             3 => &mut self.tile_q3,
             4 => &mut self.tile_q4,
-            _ => return INVALID_TILE,
+            _ => return (0, INVALID_TILE),
         };
 
         let x_index = v.x.abs() as usize;
@@ -169,14 +245,33 @@ impl BitMap {
     }
 
     fn get_tileset(&mut self, v: IVec2) -> u16 {
-        self.get_tileset_raw(v) & !BITMASK_WATER
+        self.get_tileset_raw(v).1
+    }
+
+    fn set_type_index(&mut self, v: IVec2, tile_type: u8) {
+        self.fit_tileset_size(v);
+
+        let tile = self.get_tileset_raw(v).1;
+        let tile = (tile_type, tile);
+
+        let tileset = match self.tileset_quadrant(v) {
+            1 => &mut self.tile_q1,
+            2 => &mut self.tile_q2,
+            3 => &mut self.tile_q3,
+            4 => &mut self.tile_q4,
+            _ => return,
+        };
+
+        let x_index = v.x.abs() as usize;
+        let y_index = v.y.abs() as usize;
+        tileset[x_index][y_index] = tile;
     }
 
     fn set_tileset(&mut self, v: IVec2, tile: u16) {
         self.fit_tileset_size(v);
 
-        let is_water = self.get_water_flag(v);
-        let tile = tile | BITMASK_WATER * is_water as u16;
+        let tile_type = self.get_tileset_raw(v).0;
+        let tile = (tile_type, tile);
 
         let tileset = match self.tileset_quadrant(v) {
             1 => &mut self.tile_q1,
@@ -192,17 +287,17 @@ impl BitMap {
     }
 
     fn get_water_flag(&mut self, v: IVec2) -> bool {
-        self.get_tileset_raw(v) & BITMASK_WATER != 0
+        self.get_tileset_raw(v).0 == WATER_TYPE_INDEX
     }
 
-    fn set_water_flag(&mut self, v: IVec2, is_water: bool) {
-        let tile = self.get_tileset(v);
-        let tile = if is_water {
-            tile | BITMASK_WATER
-        } else {
-            tile & !BITMASK_WATER
-        };
-        self.set_tileset(v, tile);
+    fn set_water_flag(&mut self, v: IVec2) {
+        if self.get_tileset_raw(v).0 == EMPTY_TYPE_INDEX {
+            self.set_type_index(v, WATER_TYPE_INDEX);
+        }
+    }
+
+    fn get_path_flag(&mut self, v: IVec2) -> bool {
+        self.get_tileset_raw(v).0 == PATH_TYPE_INDEX
     }
 
     fn fit_tileset_size(&mut self, v: IVec2) {
@@ -219,13 +314,16 @@ impl BitMap {
             fitting_size = true;
             if tileset.len() <= v.x.abs() as usize {
                 fitting_size = false;
-                let mut addition = vec![vec![INVALID_TILE; tileset[0].len()]; CHUNK_SIZE as usize];
+                let mut addition = vec![
+                    vec![(EMPTY_TYPE_INDEX, INVALID_TILE); tileset[0].len()];
+                    CHUNK_SIZE as usize
+                ];
                 tileset.append(&mut addition);
             }
             if tileset[0].len() <= v.y.abs() as usize {
                 fitting_size = false;
                 for i in 0..tileset.len() {
-                    let mut addition = vec![INVALID_TILE; tileset[0].len()];
+                    let mut addition = vec![(EMPTY_TYPE_INDEX, INVALID_TILE); tileset[0].len()];
                     tileset[i].append(&mut addition);
                 }
             }
@@ -236,8 +334,8 @@ impl BitMap {
     /// This will only set the water bit flag,
     /// not the actual tile index.
     fn collapse_water(&mut self, v: IVec2) -> bool {
-        let tile = self.get_tileset(v);
-        if tile != INVALID_TILE {
+        let tile_type = self.get_tileset_raw(v).0;
+        if tile_type != EMPTY_TYPE_INDEX {
             return self.get_water_flag(v);
         }
 
@@ -248,7 +346,9 @@ impl BitMap {
         let h = noise + secondary_noise;
 
         let is_water = h < 10.0;
-        self.set_water_flag(v, is_water);
+        if is_water {
+            self.set_water_flag(v);
+        }
         is_water
     }
 
@@ -256,26 +356,34 @@ impl BitMap {
     /// the neigbhoring four tiles to see if they are grass or water.
     /// This is used for all tiles, both grass and water.
     fn collapse_tile(&mut self, v: IVec2) {
-        let tile = self.get_tileset(v);
-        if tile != INVALID_TILE && tile != PRIMITIVE_GRASS {
-            return;
-        }
+        let (mask, bitmask) = match self.tile_type(v) {
+            TileType::Grass => (self.neigbhor_bitmask_grass(v), BitMasks::grass()),
+            TileType::Path => (self.neigbhor_bitmask_path(v), BitMasks::path()),
+        };
 
-        let mask = self.neigbhor_bitmask(v);
-        let bitmask = GrassBitMask::default();
         let tile = bitmask.get_index(mask);
         self.set_tileset(v, tile);
     }
 
     /// Return the bitmask indicating which of the neigbhors are grass
     /// as 1 and which are water as 0.
-    fn neigbhor_bitmask(&mut self, v: IVec2) -> u16 {
+    fn neigbhor_bitmask_grass(&mut self, v: IVec2) -> u16 {
         let mut mask = 0u16;
 
         mask |= BITMASK_BOT_LEFT * !self.collapse_water(v) as u16;
         mask |= BITMASK_TOP_LEFT * !self.collapse_water(v + IVec2::new(0, 1)) as u16;
         mask |= BITMASK_TOP_RIGHT * !self.collapse_water(v + IVec2::new(1, 1)) as u16;
         mask |= BITMASK_BOT_RIGHT * !self.collapse_water(v + IVec2::new(1, 0)) as u16;
+        mask
+    }
+
+    fn neigbhor_bitmask_path(&mut self, v: IVec2) -> u16 {
+        let mut mask = 0u16;
+
+        mask |= BITMASK_BOT_LEFT * self.get_path_flag(v) as u16;
+        mask |= BITMASK_TOP_LEFT * self.get_path_flag(v + IVec2::new(0, 1)) as u16;
+        mask |= BITMASK_TOP_RIGHT * self.get_path_flag(v + IVec2::new(1, 1)) as u16;
+        mask |= BITMASK_BOT_RIGHT * self.get_path_flag(v + IVec2::new(1, 0)) as u16;
         mask
     }
 
@@ -291,7 +399,7 @@ impl BitMap {
 
     /// Determine if a given tile should have a collision and what type.
     pub fn get_tile_collision(&mut self, v: IVec2) -> TileCollision {
-        let mask = self.neigbhor_bitmask(v);
+        let mask = self.neigbhor_bitmask_grass(v);
         if mask == !BITMASK_BOT_LEFT & BITMASK_TOP_LEFT | BITMASK_TOP_RIGHT & !BITMASK_BOT_RIGHT {
             TileCollision::BotRect
         } else if mask
@@ -367,8 +475,10 @@ fn generate_bezier_curve_points(distance: f32, sample_size: usize) -> Vec<IVec2>
 fn generate_path(mut bitmap: ResMut<BitMap>) {
     let distance = 200.0;
     let sample_size = 200;
-    let max_radius: i32 = 3;
     let min_radius: i32 = 1;
+    let max_radius: i32 = min_radius + 3;
+    let min_radius_grass: i32 = max_radius + 1;
+    let max_radius_grass: i32 = min_radius_grass + 3;
 
     let points = generate_bezier_curve_points(distance, sample_size);
 
@@ -381,12 +491,21 @@ fn generate_path(mut bitmap: ResMut<BitMap>) {
             + 0.25 * (noise + secondary_noise + 2.0) * (max_radius - min_radius) as f32)
             as i32;
         let sqrt_radius = radius.pow(2);
+        let radius_grass = (min_radius_grass as f32
+            + 0.25 * (noise + secondary_noise + 2.0) * (max_radius_grass - min_radius_grass) as f32)
+            as i32;
+        let sqrt_radius_grass = radius_grass.pow(2);
 
-        for x in -radius..=radius {
-            for y in -radius..=radius {
+        for x in -radius_grass..=radius_grass {
+            for y in -radius_grass..=radius_grass {
                 let offset = IVec2::new(x, y);
-                if offset.length_squared() < sqrt_radius {
-                    bitmap.set_tileset(v + offset, PRIMITIVE_GRASS);
+                let dis = offset.length_squared();
+                if dis < sqrt_radius {
+                    bitmap.set_type_index(v + offset, PATH_TYPE_INDEX);
+                } else if dis < sqrt_radius_grass
+                    && bitmap.get_tileset_raw(v + offset).0 != PATH_TYPE_INDEX
+                {
+                    bitmap.set_type_index(v + offset, GRASS_TYPE_INDEX);
                 }
             }
         }
