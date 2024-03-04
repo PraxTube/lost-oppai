@@ -3,7 +3,7 @@ use rand::{Rng, SeedableRng};
 use bevy::prelude::*;
 use noisy_bevy::simplex_noise_2d_seeded;
 
-use crate::{GameRng, GameState};
+use crate::{world::map::TILE_SIZE, GameRng, GameState};
 
 use super::{BitMap, GRASS_TYPE_INDEX, PATH_TYPE_INDEX};
 
@@ -84,15 +84,16 @@ fn fill_path_points(bitmap: &mut ResMut<BitMap>, points: Vec<IVec2>) {
 
 fn generate_path(mut bitmap: ResMut<BitMap>) {
     let mut rng = GameRng::seed_from_u64(bitmap.seed() as u64);
-    let distance = 125.0;
+    let distance = 7.0;
     let sample_size = (distance * SAMPLE_RATE) as usize;
 
     let (p1, p2, c1, c2) = generate_bezier_points(&mut rng, Vec2::ZERO, distance);
+    bitmap.set_center_point(p2 * TILE_SIZE);
     let center_point = p2;
     let points = compute_path_points(p1, p2, c1, c2, sample_size);
     fill_path_points(&mut bitmap, points);
 
-    let distance = 80.0;
+    let distance = 20.0;
     let sample_size = (distance * SAMPLE_RATE) as usize;
     for _ in 0..3 {
         let (p1, p2, c1, c2) = generate_bezier_points(&mut rng, center_point, distance);
@@ -105,6 +106,6 @@ pub struct PathGenerationPlugin;
 
 impl Plugin for PathGenerationPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnExit(GameState::AssetLoading), (generate_path,));
+        app.add_systems(OnEnter(GameState::AssetLoading), (generate_path,));
     }
 }

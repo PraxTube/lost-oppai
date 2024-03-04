@@ -1,5 +1,6 @@
+pub mod generation;
+
 mod collision;
-mod generation;
 mod render;
 
 use bevy::prelude::*;

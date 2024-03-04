@@ -11,6 +11,7 @@ use super::{
 #[derive(Resource)]
 pub struct BitMap {
     seed: f32,
+    center_point: Vec2,
     tile_q1: Vec<Vec<(u8, u16)>>,
     tile_q2: Vec<Vec<(u8, u16)>>,
     tile_q3: Vec<Vec<(u8, u16)>>,
@@ -22,6 +23,7 @@ impl Default for BitMap {
         let length = CHUNK_SIZE as usize * RENDERED_CHUNKS_RADIUS as usize;
         Self {
             seed: 60.0,
+            center_point: Vec2::ZERO,
             tile_q1: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
             tile_q2: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
             tile_q3: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
@@ -266,5 +268,13 @@ impl BitMap {
 
     pub fn seed(&self) -> f32 {
         self.seed
+    }
+
+    pub fn center_point(&self) -> Vec2 {
+        self.center_point
+    }
+
+    pub fn set_center_point(&mut self, p: Vec2) {
+        self.center_point = p;
     }
 }

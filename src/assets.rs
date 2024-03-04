@@ -27,6 +27,16 @@ pub struct GameAssets {
     )]
     pub player_animations: Vec<Handle<AnimationClip2D>>,
 
+    // --- NPC ---
+    #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 64.0, columns = 9, rows = 1))]
+    #[asset(path = "npc/npc.png")]
+    pub npc: Handle<TextureAtlas>,
+    #[asset(paths("npc/npc.trickfilm#idle",), collection(typed))]
+    pub npc_animations: Vec<Handle<AnimationClip2D>>,
+    #[asset(texture_atlas(tile_size_x = 32.0, tile_size_y = 32.0, columns = 9, rows = 1))]
+    #[asset(path = "npc/shadow.png")]
+    pub npc_shadow: Handle<TextureAtlas>,
+
     // --- MAP ---
     #[asset(path = "map/tileset.png")]
     pub tileset: Handle<Image>,

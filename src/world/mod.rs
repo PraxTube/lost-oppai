@@ -1,7 +1,6 @@
 pub mod camera;
 pub mod camera_shake;
-
-mod map;
+pub mod map;
 
 pub use camera::MainCamera;
 // pub use camera_shake::CameraShake;

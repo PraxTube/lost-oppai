@@ -1,6 +1,7 @@
 #![allow(clippy::too_many_arguments, clippy::type_complexity)]
 
 mod assets;
+mod npc;
 mod player;
 mod utils;
 mod world;
@@ -58,6 +59,11 @@ fn main() {
                 .load_collection::<GameAssets>(),
         )
         .insert_resource(ClearColor(BACKGROUND_COLOR))
-        .add_plugins((world::WorldPlugin, player::PlayerPlugin, utils::UtilsPlugin))
+        .add_plugins((
+            world::WorldPlugin,
+            player::PlayerPlugin,
+            npc::NpcPlugin,
+            utils::UtilsPlugin,
+        ))
         .run();
 }
