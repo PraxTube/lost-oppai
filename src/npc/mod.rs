@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_rapier2d::prelude::*;
 use bevy_trickfilm::prelude::*;
 
 use crate::{
@@ -41,6 +42,17 @@ fn spawn_npc(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets
         ))
         .id();
 
+    let collider = commands
+        .spawn((
+            Collider::ball(8.0),
+            ActiveEvents::COLLISION_EVENTS,
+            CollisionGroups::default(),
+            TransformBundle::from_transform(Transform::from_translation(Vec3::new(
+                0.0, -20.0, 0.0,
+            ))),
+        ))
+        .id();
+
     commands
         .spawn((
             Npc,
@@ -52,7 +64,7 @@ fn spawn_npc(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets
                 ..default()
             },
         ))
-        .push_children(&[shadow]);
+        .push_children(&[collider, shadow]);
 }
 
 fn face_player(
