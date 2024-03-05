@@ -31,3 +31,5 @@ bevy_rapier2d = "0.24.0"
 bevy_kira_audio = "0.19.0"
 bevy_trickfilm = { git = "https://github.com/PraxTube/bevy_trickfilm", branch = "main" }
 noisy_bevy = "0.5.0"
+bevy_yarnspinner = "0.1.0"
+bevy_yarnspinner_example_dialogue_view = "0.1.0"

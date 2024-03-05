@@ -3,6 +3,7 @@
 mod assets;
 mod npc;
 mod player;
+mod ui;
 mod utils;
 mod world;
 
@@ -16,6 +17,8 @@ use bevy::window::{PresentMode, Window, WindowMode};
 use bevy_asset_loader::prelude::*;
 use bevy_rapier2d::prelude::*;
 use bevy_trickfilm::Animation2DPlugin;
+use bevy_yarnspinner::prelude::*;
+use bevy_yarnspinner_example_dialogue_view::prelude::*;
 
 const BACKGROUND_COLOR: Color = Color::rgb(0.95, 0.90, 0.75);
 
@@ -50,6 +53,8 @@ fn main() {
                 ..default()
             },
             Animation2DPlugin,
+            YarnSpinnerPlugin::with_yarn_source(YarnFileSource::file("dialogue/hello_world.yarn")),
+            ExampleYarnSpinnerDialogueViewPlugin::new(),
         ))
         .insert_resource(Msaa::Off)
         .add_state::<GameState>()
@@ -61,6 +66,7 @@ fn main() {
         .insert_resource(ClearColor(BACKGROUND_COLOR))
         .add_plugins((
             world::WorldPlugin,
+            ui::UiPlugin,
             player::PlayerPlugin,
             npc::NpcPlugin,
             utils::UtilsPlugin,
