@@ -14,6 +14,7 @@ pub struct PlayerInput {
     pub zoom: f32,
     pub running: bool,
     pub escape: bool,
+    pub dialogue_fast_forward: bool,
     pub toggle_fullscreen: bool,
     pub toggle_debug: bool,
 }
@@ -111,6 +112,15 @@ fn input_escape(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>
     player_input.escape = keys.just_pressed(KeyCode::Escape);
 }
 
+fn input_dialogue_fast_forward(
+    keys: Res<Input<KeyCode>>,
+    mouse_buttons: Res<Input<MouseButton>>,
+    mut player_input: ResMut<PlayerInput>,
+) {
+    player_input.dialogue_fast_forward =
+        keys.just_pressed(KeyCode::Space) || mouse_buttons.just_pressed(MouseButton::Left);
+}
+
 fn toggle_fullscreen(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
     player_input.toggle_fullscreen = keys.just_pressed(KeyCode::B);
 }
@@ -132,6 +142,7 @@ impl Plugin for InputPlugin {
                 player_movement,
                 input_running,
                 input_escape,
+                input_dialogue_fast_forward,
                 toggle_fullscreen,
                 toggle_debug,
             )

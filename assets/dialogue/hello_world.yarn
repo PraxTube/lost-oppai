@@ -2,7 +2,7 @@ title: HelloWorld
 ---
 Hello World! To continue the dialogue, click with your mouse, press the space bar or the enter key.
 These are options. You can select one by clicking on it or pressing the corresponding number on your keyboard.
--> Some cool option
+-> Some cool option <<if false>>
 -> Some other cool option
 Now we'll jump to another node!
 <<jump AnotherNode>>

@@ -1,3 +1,5 @@
+mod dialogue;
+
 use bevy::prelude::*;
 use bevy_yarnspinner::prelude::*;
 
@@ -7,7 +9,8 @@ pub struct UiPlugin;
 
 impl Plugin for UiPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnExit(GameState::AssetLoading), (spawn_dialogue_runner,));
+        app.add_plugins((dialogue::DialoguePlugin,))
+            .add_systems(OnExit(GameState::AssetLoading), (spawn_dialogue_runner,));
     }
 }
 

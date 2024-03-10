@@ -45,6 +45,11 @@ pub struct GameAssets {
     #[asset(path = "ui/white_pixel.png")]
     pub white_pixel: Handle<Image>,
 
+    #[asset(path = "ui/dialogue_edge.png")]
+    pub dialogue_edge: Handle<Image>,
+    #[asset(path = "ui/dialogue_continue.png")]
+    pub dialogue_continue: Handle<Image>,
+
     // --- FONT ---
     #[asset(path = "fonts/PressStart2P.ttf")]
     pub font: Handle<Font>,

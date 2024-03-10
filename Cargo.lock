@@ -1667,18 +1667,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "bevy_yarnspinner_example_dialogue_view"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4f6d2aa6957df8157ce24cb44b1fe47c0e451b90f887fb13e013fbbd95fc309b"
-dependencies = [
- "bevy 0.12.1",
- "bevy_yarnspinner",
- "seldom_fn_plugin",
- "unicode-segmentation",
-]
-
-[[package]]
 name = "bindgen"
 version = "0.69.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3332,11 +3320,11 @@ dependencies = [
  "bevy_rapier2d",
  "bevy_trickfilm",
  "bevy_yarnspinner",
- "bevy_yarnspinner_example_dialogue_view",
  "chrono",
  "noisy_bevy",
  "rand",
  "rand_xoshiro",
+ "unicode-segmentation",
 ]
 
 [[package]]
