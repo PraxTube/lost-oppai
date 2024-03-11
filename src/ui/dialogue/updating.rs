@@ -4,7 +4,7 @@ use bevy_yarnspinner::{events::*, prelude::*};
 use crate::player::input::PlayerInput;
 
 use super::option_selection::OptionSelection;
-use super::setup::{DialogueContinueNode, DialogueNameNode, UiRootNode};
+use super::spawn::{DialogueContinueNode, DialogueNameNode, DialogueRoot};
 use super::typewriter::{self, Typewriter};
 use super::DialogueViewSystemSet;
 
@@ -21,12 +21,12 @@ pub struct SpeakerChangeEvent {
     pub speaking: bool,
 }
 
-fn show_dialog(mut visibility: Query<&mut Visibility, With<UiRootNode>>) {
+fn show_dialog(mut visibility: Query<&mut Visibility, With<DialogueRoot>>) {
     *visibility.single_mut() = Visibility::Inherited;
 }
 
 fn hide_dialog(
-    mut root_visibility: Query<&mut Visibility, With<UiRootNode>>,
+    mut root_visibility: Query<&mut Visibility, With<DialogueRoot>>,
     mut dialogue_complete_events: EventReader<DialogueCompleteEvent>,
 ) {
     if !dialogue_complete_events.is_empty() {
@@ -68,10 +68,10 @@ fn continue_dialogue(
     mut typewriter: ResMut<Typewriter>,
     option_selection: Option<Res<OptionSelection>>,
     mut q_dialogue_runners: Query<&mut DialogueRunner>,
-    mut q_root_visibility: Query<&mut Visibility, With<UiRootNode>>,
+    mut q_root_visibility: Query<&mut Visibility, With<DialogueRoot>>,
     mut q_continue_visibility: Query<
         &mut Visibility,
-        (With<DialogueContinueNode>, Without<UiRootNode>),
+        (With<DialogueContinueNode>, Without<DialogueRoot>),
     >,
 ) {
     if input.dialogue_fast_forward && !typewriter.is_finished() {

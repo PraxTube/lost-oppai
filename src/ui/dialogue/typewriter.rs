@@ -4,11 +4,11 @@ use bevy::prelude::*;
 use bevy::utils::Instant;
 use bevy_yarnspinner::{events::*, prelude::*};
 
-use crate::GameState;
+use crate::{GameAssets, GameState};
 
 use super::option_selection::OptionSelection;
-use super::setup::{
-    create_dialog_text, DialogueContinueNode, DialogueNode, UiRootNode,
+use super::spawn::{
+    create_dialogue_text, DialogueContent, DialogueContinueNode, DialogueRoot,
     INITIAL_DIALOGUE_CONTINUE_BOTTOM,
 };
 use super::updating::SpeakerChangeEvent;
@@ -89,11 +89,12 @@ impl Typewriter {
 }
 
 fn write_text(
-    mut text: Query<&mut Text, With<DialogueNode>>,
+    assets: Res<GameAssets>,
+    mut text: Query<&mut Text, With<DialogueContent>>,
     mut typewriter: ResMut<Typewriter>,
     option_selection: Option<Res<OptionSelection>>,
     mut speaker_change_events: EventWriter<SpeakerChangeEvent>,
-    mut root_visibility: Query<&mut Visibility, With<UiRootNode>>,
+    mut root_visibility: Query<&mut Visibility, With<DialogueRoot>>,
 ) {
     let mut text = text.single_mut();
     if typewriter.last_before_options && option_selection.is_none() {
@@ -120,7 +121,7 @@ fn write_text(
 
     let current_text = &typewriter.current_text;
     let rest = typewriter.graphemes_left.join("");
-    *text = create_dialog_text(current_text, rest);
+    *text = create_dialogue_text(current_text, rest, &assets);
 }
 
 fn show_continue(

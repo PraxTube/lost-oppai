@@ -44,7 +44,7 @@ fn spawn_npc(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets
 
     let collider = commands
         .spawn((
-            Collider::ball(8.0),
+            Collider::ball(16.0),
             ActiveEvents::COLLISION_EVENTS,
             CollisionGroups::default(),
             TransformBundle::from_transform(Transform::from_translation(Vec3::new(

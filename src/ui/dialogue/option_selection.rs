@@ -3,7 +3,9 @@ use bevy::utils::HashMap;
 use bevy::window::PrimaryWindow;
 use bevy_yarnspinner::{events::*, prelude::*};
 
-use super::setup::{spawn_options, DialogueNode, OptionButton, OptionsNode, UiRootNode};
+use crate::GameAssets;
+
+use super::spawn::{spawn_options, DialogueContent, DialogueRoot, OptionButton, OptionsNode};
 use super::typewriter::{self, Typewriter, TypewriterFinishedEvent};
 use super::DialogueViewSystemSet;
 
@@ -24,22 +26,30 @@ impl OptionSelection {
             .collect();
         Self { options }
     }
+
+    pub fn get_options(&self) -> Vec<DialogueOption> {
+        self.options.clone()
+    }
 }
 
 fn create_options(
     mut commands: Commands,
+    assets: Res<GameAssets>,
     option_selection: Res<OptionSelection>,
     q_children: Query<&Children>,
     mut q_options_node: Query<(Entity, &mut Style, &mut Visibility), With<OptionsNode>>,
-    mut q_root_visibility: Query<&mut Visibility, (With<UiRootNode>, Without<OptionsNode>)>,
+    mut q_root_visibility: Query<&mut Visibility, (With<DialogueRoot>, Without<OptionsNode>)>,
 ) {
-    let (entity, mut style, mut visibility) = q_options_node.single_mut();
+    let (entity, mut style, mut visibility) = match q_options_node.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
     style.display = Display::Flex;
     *visibility = Visibility::Hidden;
     if q_children.iter_descendants(entity).next().is_none() {
         *q_root_visibility.single_mut() = Visibility::Inherited;
-        let mut entity_commands = commands.entity(entity);
-        spawn_options(&mut entity_commands, &option_selection.options);
+        spawn_options(&mut commands, &option_selection, &assets, entity);
     }
 }
 
@@ -67,7 +77,7 @@ fn select_option(
         (With<Button>, Changed<Interaction>),
     >,
     mut dialogue_runners: Query<&mut DialogueRunner>,
-    mut text: Query<&mut Text, Without<DialogueNode>>,
+    mut text: Query<&mut Text, Without<DialogueContent>>,
     option_selection: Res<OptionSelection>,
     mut windows: Query<&mut Window, With<PrimaryWindow>>,
     mut selected_option_event: EventWriter<HasSelectedOptionEvent>,
@@ -121,8 +131,8 @@ fn despawn_options(
     mut dialogue_complete_event: EventReader<DialogueCompleteEvent>,
     mut commands: Commands,
     mut options_node: Query<(Entity, &mut Style, &mut Visibility), With<OptionsNode>>,
-    mut dialogue_node_text: Query<&mut Text, With<DialogueNode>>,
-    mut root_visibility: Query<&mut Visibility, (With<UiRootNode>, Without<OptionsNode>)>,
+    mut dialogue_node_text: Query<&mut Text, With<DialogueContent>>,
+    mut root_visibility: Query<&mut Visibility, (With<DialogueRoot>, Without<OptionsNode>)>,
 ) {
     let should_despawn =
         !has_selected_option_event.is_empty() || !dialogue_complete_event.is_empty();
