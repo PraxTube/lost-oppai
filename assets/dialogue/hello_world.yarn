@@ -1,9 +1,17 @@
 title: HelloWorld
 ---
 Hello World! To continue the dialogue, click with your mouse, press the space bar or the enter key.
-These are options. You can select one by clicking on it or pressing the corresponding number on your keyboard.
 -> Some cool option <<if false>>
 -> Some other cool option
+-> This is a really long option to text how wrapping works. I am not sure if I want to even support this in the game but oh well.
+-> Another option, just to make sure it looks good with multiple ones.
+-> Aaand another, for good meassure ;)
+-> Well, that didn't work...
+-> Maybe?
+-> Will see
+-> Some more
+-> MOOOORE
+-> AVeryLongAsFuckingDumbStupidShitAssWordThatShouldNotBeThisLongWhereTheFUCKIsTheSPACE??
 Now we'll jump to another node!
 <<jump AnotherNode>>
 

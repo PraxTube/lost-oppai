@@ -23,8 +23,9 @@ pub struct OptionButton(pub OptionId);
 
 pub const INITIAL_DIALOGUE_CONTINUE_BOTTOM: f32 = -5.0;
 const DIALOG_WIDTH: f32 = 800.0 * 0.8;
+const OPTIONS_WIDTH: f32 = 420.0;
 const TEXT_BORDER: f32 = 120.0;
-const INDENT_MODIFIER: f32 = 1.0;
+const OPTIONS_TEXT_BORDER: f32 = 10.0;
 
 fn style_standard(_assets: &Res<GameAssets>) -> Style {
     Style {
@@ -33,17 +34,9 @@ fn style_standard(_assets: &Res<GameAssets>) -> Style {
     }
 }
 
-fn style_options(_assets: &Res<GameAssets>) -> Style {
-    Style {
-        margin: UiRect::horizontal(Val::Px((INDENT_MODIFIER - 1.0) * TEXT_BORDER)),
-        max_width: Val::Px(DIALOG_WIDTH - 2.0 * INDENT_MODIFIER * TEXT_BORDER),
-        ..default()
-    }
-}
-
 fn text_style_standard(_assets: &Res<GameAssets>) -> TextStyle {
     TextStyle {
-        font_size: 20.0,
+        font_size: 24.0,
         color: Color::WHITE,
         ..default()
     }
@@ -51,24 +44,16 @@ fn text_style_standard(_assets: &Res<GameAssets>) -> TextStyle {
 
 fn text_style_name(_assets: &Res<GameAssets>) -> TextStyle {
     TextStyle {
-        font_size: 18.0,
+        font_size: 22.0,
         color: Color::WHITE,
-        ..default()
-    }
-}
-
-fn text_style_option_id(_assets: &Res<GameAssets>) -> TextStyle {
-    TextStyle {
-        font_size: 18.0,
-        color: Color::ALICE_BLUE,
         ..default()
     }
 }
 
 fn text_style_option_text(_assets: &Res<GameAssets>) -> TextStyle {
     TextStyle {
-        font_size: 18.0,
-        color: Color::TOMATO,
+        font_size: 24.0,
+        color: Color::WHITE,
         ..default()
     }
 }
@@ -207,9 +192,6 @@ fn spawn_dialogue_options(commands: &mut Commands, _assets: &Res<GameAssets>) {
                     flex_direction: FlexDirection::Column,
                     justify_content: JustifyContent::FlexEnd,
                     align_items: AlignItems::FlexStart,
-                    // top: Val::Percent(35.0),
-                    // right: Val::Percent(10.0),
-                    // position_type: PositionType::Absolute,
                     ..default()
                 },
                 ..default()
@@ -222,14 +204,15 @@ fn spawn_dialogue_options(commands: &mut Commands, _assets: &Res<GameAssets>) {
         .spawn((
             NodeBundle {
                 style: Style {
-                    width: Val::Px(DIALOG_WIDTH),
-                    min_height: Val::Px(50.0),
+                    width: Val::Px(OPTIONS_WIDTH),
+                    min_height: Val::Px(100.0),
+                    max_height: Val::Px(720.0),
                     flex_direction: FlexDirection::Column,
                     justify_content: JustifyContent::SpaceAround,
                     align_items: AlignItems::FlexStart,
-                    padding: UiRect::horizontal(Val::Px(TEXT_BORDER)),
-                    top: Val::Percent(35.0),
-                    right: Val::Percent(10.0),
+                    padding: UiRect::all(Val::Px(20.0)),
+                    top: Val::Percent(0.0),
+                    right: Val::Percent(0.0),
                     position_type: PositionType::Absolute,
                     ..default()
                 },
@@ -295,20 +278,17 @@ pub fn spawn_options(
     assets: &Res<GameAssets>,
     entity: Entity,
 ) {
-    for (i, option) in options.get_options().into_iter().enumerate() {
-        let sections = [
-            TextSection {
-                value: format!("{}: ", i + 1),
-                style: text_style_option_id(assets),
-            },
-            TextSection {
-                value: option.line.text.clone(),
-                style: text_style_option_text(assets),
-            },
-        ];
+    for option in options.get_options() {
+        let sections = [TextSection {
+            value: format!("- {}", option.line.text.clone()),
+            style: text_style_option_text(assets),
+        }];
         let text = commands
             .spawn((
-                TextBundle::from_sections(sections).with_style(style_options(assets)),
+                TextBundle::from_sections(sections).with_style(Style {
+                    width: Val::Px(OPTIONS_WIDTH - 2.0 * OPTIONS_TEXT_BORDER),
+                    ..default()
+                }),
                 Label,
             ))
             .id();

@@ -121,15 +121,15 @@ fn select_option(
         let (color, icon) = match *interaction {
             Interaction::Pressed if selection.is_none() => {
                 selection = Some(button.0);
-                (Color::TOMATO, CursorIcon::Default)
+                (Color::WHITE, CursorIcon::Default)
             }
-            Interaction::Hovered => (Color::WHITE, CursorIcon::Hand),
-            _ => (Color::TOMATO, CursorIcon::Default),
+            Interaction::Hovered => (Color::TOMATO, CursorIcon::Hand),
+            _ => (Color::WHITE, CursorIcon::Default),
         };
         window.cursor.icon = icon;
         let text_entity = children.iter().find(|&e| text.contains(*e)).unwrap();
         let mut text = text.get_mut(*text_entity).unwrap();
-        text.sections[1].style.color = color;
+        text.sections[0].style.color = color;
     }
 
     let has_selected_id = selection.is_some();
