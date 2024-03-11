@@ -5,18 +5,20 @@ use crate::{GameAssets, GameState};
 
 use super::option_selection::OptionSelection;
 
-#[derive(Debug, Default, Component)]
+#[derive(Default, Component)]
 pub struct DialogueRoot;
-#[derive(Debug, Default, Component)]
+#[derive(Default, Component)]
 pub struct DialogueContent;
-#[derive(Debug, Default, Component)]
+#[derive(Default, Component)]
 pub struct DialogueNameNode;
-#[derive(Debug, Default, Component)]
+#[derive(Default, Component)]
 pub struct DialogueContinueNode;
 
-#[derive(Debug, Default, Component)]
+#[derive(Component)]
 pub struct OptionsNode;
-#[derive(Debug, Component)]
+#[derive(Component)]
+pub struct OptionsBackground;
+#[derive(Component)]
 pub struct OptionButton(pub OptionId);
 
 pub const INITIAL_DIALOGUE_CONTINUE_BOTTOM: f32 = -5.0;
@@ -128,24 +130,6 @@ fn spawn_dialogue_content(commands: &mut Commands, _assets: &Res<GameAssets>) ->
         ))
         .id();
 
-    let options = commands
-        .spawn((
-            NodeBundle {
-                style: Style {
-                    display: Display::None,
-                    flex_direction: FlexDirection::Column,
-                    justify_content: JustifyContent::FlexEnd,
-                    align_items: AlignItems::FlexStart,
-                    margin: UiRect::top(Val::Px(20.0)),
-                    ..default()
-                },
-                visibility: Visibility::Hidden,
-                ..default()
-            },
-            OptionsNode,
-        ))
-        .id();
-
     commands
         .spawn((NodeBundle {
             style: Style {
@@ -160,7 +144,7 @@ fn spawn_dialogue_content(commands: &mut Commands, _assets: &Res<GameAssets>) ->
             background_color: Color::BLACK.with_a(0.8).into(),
             ..default()
         },))
-        .push_children(&[text, options])
+        .push_children(&[text])
         .id()
 }
 
@@ -214,7 +198,53 @@ fn spawn_dialogue_bottom(commands: &mut Commands, assets: &Res<GameAssets>) -> E
         .id()
 }
 
+fn spawn_dialogue_options(commands: &mut Commands, _assets: &Res<GameAssets>) {
+    let options = commands
+        .spawn((
+            NodeBundle {
+                style: Style {
+                    display: Display::None,
+                    flex_direction: FlexDirection::Column,
+                    justify_content: JustifyContent::FlexEnd,
+                    align_items: AlignItems::FlexStart,
+                    // top: Val::Percent(35.0),
+                    // right: Val::Percent(10.0),
+                    // position_type: PositionType::Absolute,
+                    ..default()
+                },
+                ..default()
+            },
+            OptionsNode,
+        ))
+        .id();
+
+    commands
+        .spawn((
+            NodeBundle {
+                style: Style {
+                    width: Val::Px(DIALOG_WIDTH),
+                    min_height: Val::Px(50.0),
+                    flex_direction: FlexDirection::Column,
+                    justify_content: JustifyContent::SpaceAround,
+                    align_items: AlignItems::FlexStart,
+                    padding: UiRect::horizontal(Val::Px(TEXT_BORDER)),
+                    top: Val::Percent(35.0),
+                    right: Val::Percent(10.0),
+                    position_type: PositionType::Absolute,
+                    ..default()
+                },
+                background_color: Color::BLACK.with_a(0.8).into(),
+                visibility: Visibility::Hidden,
+                ..default()
+            },
+            OptionsBackground,
+        ))
+        .push_children(&[options]);
+}
+
 fn spawn_dialogue(mut commands: Commands, assets: Res<GameAssets>) {
+    spawn_dialogue_options(&mut commands, &assets);
+
     let dialogue_top = spawn_dialogue_top(&mut commands, &assets);
     let dialogue_content = spawn_dialogue_content(&mut commands, &assets);
     let dialogue_bottom = spawn_dialogue_bottom(&mut commands, &assets);

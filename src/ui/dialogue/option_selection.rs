@@ -5,7 +5,9 @@ use bevy_yarnspinner::{events::*, prelude::*};
 
 use crate::GameAssets;
 
-use super::spawn::{spawn_options, DialogueContent, DialogueRoot, OptionButton, OptionsNode};
+use super::spawn::{
+    spawn_options, DialogueContent, DialogueRoot, OptionButton, OptionsBackground, OptionsNode,
+};
 use super::typewriter::{self, Typewriter, TypewriterFinishedEvent};
 use super::DialogueViewSystemSet;
 
@@ -37,10 +39,15 @@ fn create_options(
     assets: Res<GameAssets>,
     option_selection: Res<OptionSelection>,
     q_children: Query<&Children>,
-    mut q_options_node: Query<(Entity, &mut Style, &mut Visibility), With<OptionsNode>>,
-    mut q_root_visibility: Query<&mut Visibility, (With<DialogueRoot>, Without<OptionsNode>)>,
+    mut q_options_node: Query<(Entity, &mut Style), With<OptionsNode>>,
+    mut q_options_background: Query<&mut Visibility, With<OptionsBackground>>,
+    mut q_root_visibility: Query<&mut Visibility, (With<DialogueRoot>, Without<OptionsBackground>)>,
 ) {
-    let (entity, mut style, mut visibility) = match q_options_node.get_single_mut() {
+    let (entity, mut style) = match q_options_node.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+    let mut visibility = match q_options_background.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
@@ -54,7 +61,9 @@ fn create_options(
 }
 
 fn show_options(
-    mut q_options_node: Query<&mut Visibility, With<OptionsNode>>,
+    q_options_node: Query<Entity, With<OptionsNode>>,
+    mut q_options_background: Query<&mut Visibility, With<OptionsBackground>>,
+    q_children: Query<&Children>,
     mut typewriter_finished_event: EventReader<TypewriterFinishedEvent>,
 ) {
     if typewriter_finished_event.is_empty() {
@@ -62,7 +71,15 @@ fn show_options(
     }
     typewriter_finished_event.clear();
 
-    let mut visibility = match q_options_node.get_single_mut() {
+    let entity = match q_options_node.get_single() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+    if q_children.iter_descendants(entity).next().is_none() {
+        return;
+    };
+
+    let mut visibility = match q_options_background.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
@@ -130,20 +147,28 @@ fn despawn_options(
     mut has_selected_option_event: EventReader<HasSelectedOptionEvent>,
     mut dialogue_complete_event: EventReader<DialogueCompleteEvent>,
     mut commands: Commands,
-    mut options_node: Query<(Entity, &mut Style, &mut Visibility), With<OptionsNode>>,
+    mut q_options_node: Query<(Entity, &mut Style), With<OptionsNode>>,
+    mut q_options_background: Query<&mut Visibility, With<OptionsBackground>>,
     mut dialogue_node_text: Query<&mut Text, With<DialogueContent>>,
-    mut root_visibility: Query<&mut Visibility, (With<DialogueRoot>, Without<OptionsNode>)>,
+    mut root_visibility: Query<&mut Visibility, (With<DialogueRoot>, Without<OptionsBackground>)>,
 ) {
-    let should_despawn =
-        !has_selected_option_event.is_empty() || !dialogue_complete_event.is_empty();
-    if !should_despawn {
+    if has_selected_option_event.is_empty() && dialogue_complete_event.is_empty() {
         return;
     }
+
     has_selected_option_event.clear();
     dialogue_complete_event.clear();
     commands.remove_resource::<OptionSelection>();
 
-    let (entity, mut style, mut visibility) = options_node.single_mut();
+    let (entity, mut style) = match q_options_node.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+    let mut visibility = match q_options_background.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
     commands.entity(entity).despawn_descendants();
     style.display = Display::None;
     *visibility = Visibility::Hidden;
