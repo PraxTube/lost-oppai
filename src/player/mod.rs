@@ -1,3 +1,4 @@
+pub mod chat;
 pub mod input;
 pub mod state;
 
@@ -23,11 +24,12 @@ pub struct PlayerPlugin;
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins((
+            collision::PlayerCollisionPlugin,
             input::InputPlugin,
             state::PlayerStatePlugin,
             // audio::PlayerAudioPlugin,
+            chat::PlayerChatPlugin,
             spawn::PlayerSpawnPlugin,
-            collision::PlayerCollisionPlugin,
             movement::PlayerMovementPlugin,
         ));
     }

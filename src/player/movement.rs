@@ -7,12 +7,17 @@ use super::input::PlayerInput;
 use super::{Player, PlayerState, RUN_SPEED, WALK_SPEED};
 
 fn player_movement(
-    mut q_player: Query<(&mut Velocity, &mut Player)>,
     player_input: Res<PlayerInput>,
+    mut q_player: Query<(&mut Velocity, &mut Player)>,
 ) {
     let (mut velocity, mut player) = match q_player.get_single_mut() {
         Ok(p) => p,
         Err(_) => return,
+    };
+
+    if player.state == PlayerState::Talking {
+        velocity.linvel = Vec2::ZERO;
+        return;
     };
 
     let direction = player_input.move_direction;

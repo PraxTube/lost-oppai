@@ -144,13 +144,13 @@ fn select_option(
 }
 
 fn despawn_options(
-    mut has_selected_option_event: EventReader<HasSelectedOptionEvent>,
-    mut dialogue_complete_event: EventReader<DialogueCompleteEvent>,
     mut commands: Commands,
     mut q_options_node: Query<(Entity, &mut Style), With<OptionsNode>>,
     mut q_options_background: Query<&mut Visibility, With<OptionsBackground>>,
     mut dialogue_node_text: Query<&mut Text, With<DialogueContent>>,
     mut root_visibility: Query<&mut Visibility, (With<DialogueRoot>, Without<OptionsBackground>)>,
+    mut has_selected_option_event: EventReader<HasSelectedOptionEvent>,
+    mut dialogue_complete_event: EventReader<DialogueCompleteEvent>,
 ) {
     if has_selected_option_event.is_empty() && dialogue_complete_event.is_empty() {
         return;

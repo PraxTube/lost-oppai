@@ -18,7 +18,17 @@ impl Plugin for NpcPlugin {
 }
 
 #[derive(Component)]
-struct Npc;
+pub struct Npc {
+    pub dialogue: String,
+}
+
+impl Npc {
+    fn new(dialogue: &str) -> Self {
+        Self {
+            dialogue: dialogue.to_string(),
+        }
+    }
+}
 
 fn spawn_npc(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets>) {
     let transform = Transform::from_translation(bitmap.center_point().extend(0.0));
@@ -55,7 +65,7 @@ fn spawn_npc(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets
 
     commands
         .spawn((
-            Npc,
+            Npc::new("HelloWorld"),
             YSort(16.0),
             animator,
             SpriteSheetBundle {

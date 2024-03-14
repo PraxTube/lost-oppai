@@ -5,13 +5,15 @@ use crate::{GameAssets, GameState};
 
 use super::option_selection::OptionSelection;
 
-#[derive(Default, Component)]
+#[derive(Component)]
+pub struct Dialogue;
+#[derive(Component)]
 pub struct DialogueRoot;
-#[derive(Default, Component)]
+#[derive(Component)]
 pub struct DialogueContent;
-#[derive(Default, Component)]
+#[derive(Component)]
 pub struct DialogueNameNode;
-#[derive(Default, Component)]
+#[derive(Component)]
 pub struct DialogueContinueNode;
 
 #[derive(Component)]
@@ -183,7 +185,7 @@ fn spawn_dialogue_bottom(commands: &mut Commands, assets: &Res<GameAssets>) -> E
         .id()
 }
 
-fn spawn_dialogue_options(commands: &mut Commands, _assets: &Res<GameAssets>) {
+fn spawn_dialogue_options(commands: &mut Commands, _assets: &Res<GameAssets>) -> Entity {
     let options = commands
         .spawn((
             NodeBundle {
@@ -222,17 +224,18 @@ fn spawn_dialogue_options(commands: &mut Commands, _assets: &Res<GameAssets>) {
             },
             OptionsBackground,
         ))
-        .push_children(&[options]);
+        .push_children(&[options])
+        .id()
 }
 
 fn spawn_dialogue(mut commands: Commands, assets: Res<GameAssets>) {
-    spawn_dialogue_options(&mut commands, &assets);
+    let dialogue_options = spawn_dialogue_options(&mut commands, &assets);
 
     let dialogue_top = spawn_dialogue_top(&mut commands, &assets);
     let dialogue_content = spawn_dialogue_content(&mut commands, &assets);
     let dialogue_bottom = spawn_dialogue_bottom(&mut commands, &assets);
 
-    commands
+    let dialogue_root = commands
         .spawn((
             NodeBundle {
                 style: Style {
@@ -249,7 +252,23 @@ fn spawn_dialogue(mut commands: Commands, assets: Res<GameAssets>) {
             },
             DialogueRoot,
         ))
-        .push_children(&[dialogue_top, dialogue_content, dialogue_bottom]);
+        .push_children(&[dialogue_top, dialogue_content, dialogue_bottom])
+        .id();
+
+    commands
+        .spawn((
+            Dialogue,
+            NodeBundle {
+                style: Style {
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    position_type: PositionType::Absolute,
+                    ..default()
+                },
+                ..default()
+            },
+        ))
+        .push_children(&[dialogue_options, dialogue_root]);
 }
 
 pub fn create_dialogue_text(

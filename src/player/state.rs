@@ -3,10 +3,15 @@ use std::f32::consts::PI;
 use bevy::prelude::*;
 use bevy_rapier2d::dynamics::Velocity;
 use bevy_trickfilm::prelude::*;
+use bevy_yarnspinner::events::DialogueCompleteEvent;
 
 use crate::{GameAssets, GameState};
 
-use super::{input::PlayerInput, Player};
+use super::{
+    chat::{PlayerStartedChat, PlayerStoppedChat},
+    input::PlayerInput,
+    Player,
+};
 
 #[derive(Debug, Default, PartialEq, Clone, Copy)]
 pub enum PlayerState {
@@ -14,6 +19,7 @@ pub enum PlayerState {
     Idling,
     Walking,
     Running,
+    Talking,
 }
 
 #[derive(Event)]
@@ -41,7 +47,45 @@ fn player_changed_state(
     }
 }
 
-fn switch_player_state(
+fn switch_to_talking(
+    mut q_player: Query<&mut Player>,
+    mut ev_player_started_chat: EventReader<PlayerStartedChat>,
+) {
+    if ev_player_started_chat.is_empty() {
+        return;
+    }
+    ev_player_started_chat.clear();
+
+    let mut player = match q_player.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    player.state = PlayerState::Talking;
+}
+
+fn switch_away_talking(
+    mut q_player: Query<&mut Player>,
+    mut ev_dialogue_complete: EventReader<DialogueCompleteEvent>,
+    mut ev_player_stopped_chat: EventReader<PlayerStoppedChat>,
+) {
+    if ev_player_stopped_chat.is_empty() && ev_dialogue_complete.is_empty() {
+        return;
+    }
+    ev_player_stopped_chat.clear();
+    ev_dialogue_complete.clear();
+
+    let mut player = match q_player.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    if player.state == PlayerState::Talking {
+        player.state = PlayerState::Idling;
+    }
+}
+
+fn switch_player_move_state(
     player_input: Res<PlayerInput>,
     mut q_player: Query<(&Velocity, &mut Player)>,
 ) {
@@ -49,6 +93,10 @@ fn switch_player_state(
         Ok(p) => p,
         Err(_) => return,
     };
+
+    if player.state == PlayerState::Talking {
+        return;
+    }
 
     let state = if velocity.linvel == Vec2::ZERO {
         PlayerState::Idling
@@ -98,6 +146,7 @@ fn update_animation(
         PlayerState::Idling => (assets.player_animations[direction_index].clone(), true),
         PlayerState::Walking => (assets.player_animations[4 + direction_index].clone(), true),
         PlayerState::Running => (assets.player_animations[8 + direction_index].clone(), true),
+        PlayerState::Talking => (assets.player_animations[direction_index].clone(), true),
     };
 
     if repeat {
@@ -114,9 +163,11 @@ impl Plugin for PlayerStatePlugin {
         app.add_systems(
             PostUpdate,
             (
-                switch_player_state,
-                update_animation.after(switch_player_state),
-                player_changed_state.after(switch_player_state),
+                switch_to_talking.before(switch_player_move_state),
+                switch_away_talking,
+                switch_player_move_state,
+                update_animation.after(switch_player_move_state),
+                player_changed_state.after(switch_player_move_state),
             )
                 .run_if(in_state(GameState::Gaming)),
         )

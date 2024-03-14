@@ -29,10 +29,11 @@ fn hide_dialog(
     mut root_visibility: Query<&mut Visibility, With<DialogueRoot>>,
     mut dialogue_complete_events: EventReader<DialogueCompleteEvent>,
 ) {
-    if !dialogue_complete_events.is_empty() {
-        *root_visibility.single_mut() = Visibility::Hidden;
-        dialogue_complete_events.clear();
+    if dialogue_complete_events.is_empty() {
+        return;
     }
+    dialogue_complete_events.clear();
+    *root_visibility.single_mut() = Visibility::Hidden;
 }
 
 fn present_line(

@@ -1,4 +1,5 @@
 mod option_selection;
+mod runner;
 mod spawn;
 mod typewriter;
 mod updating;
@@ -15,6 +16,7 @@ impl Plugin for DialoguePlugin {
             updating::DialogueUpdatingPlugin,
             option_selection::DialogueSelectionPlugin,
             typewriter::DialogueTypewriterPlugin,
+            runner::DialogueRunnerPlugin,
         ));
     }
 }
