@@ -100,7 +100,9 @@ impl Plugin for DialogueUpdatingPlugin {
             Update,
             (
                 hide_dialog,
-                show_dialog.run_if(on_event::<DialogueStartEvent>()),
+                show_dialog.run_if(
+                    resource_exists::<Typewriter>().and_then(on_event::<PresentLineEvent>()),
+                ),
                 present_line.run_if(
                     resource_exists::<Typewriter>().and_then(on_event::<PresentLineEvent>()),
                 ),
