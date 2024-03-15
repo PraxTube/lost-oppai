@@ -1,7 +1,7 @@
 title: HelloWorld
 ---
 Hello World! To continue the dialogue, click with your mouse, press the space bar or the enter key.
--> Some cool option <<if false>>
+-> Some cool option
 -> Some other cool option
 -> This is a really long option to text how wrapping works. I am not sure if I want to even support this in the game but oh well.
 -> Another option, just to make sure it looks good with multiple ones.

@@ -1,8 +1,8 @@
+use bevy::input::mouse::MouseMotion;
 use bevy::prelude::*;
-use bevy::utils::HashMap;
-use bevy::window::PrimaryWindow;
 use bevy_yarnspinner::{events::*, prelude::*};
 
+use crate::player::input::PlayerInput;
 use crate::GameAssets;
 
 use super::spawn::{
@@ -16,6 +16,8 @@ struct HasSelectedOptionEvent;
 
 #[derive(Debug, Clone, PartialEq, Default, Resource)]
 pub struct OptionSelection {
+    mouse_input: bool,
+    current_selection: Option<usize>,
     options: Vec<DialogueOption>,
 }
 
@@ -26,7 +28,11 @@ impl OptionSelection {
             .filter(|o| o.is_available)
             .cloned()
             .collect();
-        Self { options }
+        Self {
+            mouse_input: true,
+            current_selection: None,
+            options,
+        }
     }
 
     pub fn get_options(&self) -> Vec<DialogueOption> {
@@ -87,59 +93,85 @@ fn show_options(
 }
 
 fn select_option(
-    keys: Res<Input<KeyCode>>,
+    player_input: Res<PlayerInput>,
     typewriter: Res<Typewriter>,
-    mut buttons: Query<
-        (&Interaction, &OptionButton, &Children),
-        (With<Button>, Changed<Interaction>),
-    >,
+    mut buttons: Query<(&Interaction, &OptionButton, &Children), With<Button>>,
     mut dialogue_runners: Query<&mut DialogueRunner>,
     mut text: Query<&mut Text, Without<DialogueContent>>,
-    option_selection: Res<OptionSelection>,
-    mut windows: Query<&mut Window, With<PrimaryWindow>>,
+    mut option_selection: ResMut<OptionSelection>,
     mut selected_option_event: EventWriter<HasSelectedOptionEvent>,
+    mut ev_mouse_motion: EventReader<MouseMotion>,
 ) {
     if !typewriter.is_finished() {
         return;
     }
 
-    let mut selection = None;
-    let key_to_option: HashMap<_, _> = NUMBER_KEYS
-        .into_iter()
-        .zip(option_selection.options.iter().map(|option| option.id))
-        .collect();
-
-    for (num_key, option) in key_to_option {
-        if keys.just_pressed(num_key) {
-            selection = Some(option);
-            break;
-        }
+    if !ev_mouse_motion.is_empty() {
+        ev_mouse_motion.clear();
+        option_selection.mouse_input = true;
     }
 
-    let mut window = windows.single_mut();
-    for (interaction, button, children) in buttons.iter_mut() {
-        let (color, icon) = match *interaction {
-            Interaction::Pressed if selection.is_none() => {
-                selection = Some(button.0);
-                (Color::WHITE, CursorIcon::Default)
+    let direction = player_input.dialogue_direction;
+    if direction != 0 {
+        option_selection.mouse_input = false;
+        match option_selection.current_selection {
+            Some(r) => {
+                let new_index = (r as i8 - direction)
+                    .clamp(0, option_selection.options.len() as i8 - 1)
+                    as usize;
+                option_selection.current_selection = Some(new_index);
             }
-            Interaction::Hovered => (Color::TOMATO, CursorIcon::Hand),
-            _ => (Color::WHITE, CursorIcon::Default),
-        };
-        window.cursor.icon = icon;
-        let text_entity = children.iter().find(|&e| text.contains(*e)).unwrap();
-        let mut text = text.get_mut(*text_entity).unwrap();
-        text.sections[0].style.color = color;
-    }
-
-    let has_selected_id = selection.is_some();
-    if let Some(id) = selection {
-        for mut dialogue_runner in dialogue_runners.iter_mut() {
-            dialogue_runner.select_option(id).unwrap();
+            None => {
+                if option_selection.options.len() > 0 {
+                    option_selection.current_selection = Some(0);
+                }
+            }
         }
     }
-    if has_selected_id {
+
+    if option_selection.mouse_input {
+        for (interaction, button, children) in &mut buttons {
+            let color = match *interaction {
+                Interaction::Pressed => {
+                    selected_option_event.send(HasSelectedOptionEvent);
+                    for mut dialogue_runner in &mut dialogue_runners {
+                        dialogue_runner.select_option(button.0).unwrap();
+                    }
+                    Color::WHITE
+                }
+                Interaction::Hovered => {
+                    option_selection.current_selection = None;
+                    Color::TOMATO
+                }
+                _ => Color::WHITE,
+            };
+            let text_entity = children.iter().find(|&e| text.contains(*e)).unwrap();
+            let mut text = text.get_mut(*text_entity).unwrap();
+            text.sections[0].style.color = color;
+        }
+    } else if let Some(r) = option_selection.current_selection {
+        for (_, button, children) in &mut buttons {
+            let color = if OptionId(r) == button.0 {
+                Color::TOMATO
+            } else {
+                Color::WHITE
+            };
+            let text_entity = children.iter().find(|&e| text.contains(*e)).unwrap();
+            let mut text = text.get_mut(*text_entity).unwrap();
+            text.sections[0].style.color = color;
+        }
+    }
+
+    if !player_input.dialogue_confirm {
+        return;
+    }
+
+    let selection = option_selection.current_selection;
+    if let Some(id) = selection {
         selected_option_event.send(HasSelectedOptionEvent);
+        for mut dialogue_runner in &mut dialogue_runners {
+            dialogue_runner.select_option(OptionId(id)).unwrap();
+        }
     }
 }
 
@@ -175,18 +207,6 @@ fn despawn_options(
     *dialogue_node_text.single_mut() = Text::default();
     *root_visibility.single_mut() = Visibility::Hidden;
 }
-
-const NUMBER_KEYS: [KeyCode; 9] = [
-    KeyCode::Key1,
-    KeyCode::Key2,
-    KeyCode::Key3,
-    KeyCode::Key4,
-    KeyCode::Key5,
-    KeyCode::Key6,
-    KeyCode::Key7,
-    KeyCode::Key8,
-    KeyCode::Key9,
-];
 
 pub struct DialogueSelectionPlugin;
 

@@ -15,7 +15,9 @@ pub struct PlayerInput {
     pub running: bool,
     pub escape: bool,
     pub start_dialogue: bool,
+    pub dialogue_confirm: bool,
     pub dialogue_fast_forward: bool,
+    pub dialogue_direction: i8,
     pub toggle_fullscreen: bool,
     pub toggle_debug: bool,
 }
@@ -113,15 +115,24 @@ fn input_escape(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>
     player_input.escape = keys.just_pressed(KeyCode::Escape);
 }
 
-fn input_start_dialogue(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
-    player_input.start_dialogue = keys.just_pressed(KeyCode::E);
-}
-
-fn input_dialogue_fast_forward(
+fn input_dialogue(
     keys: Res<Input<KeyCode>>,
     mouse_buttons: Res<Input<MouseButton>>,
     mut player_input: ResMut<PlayerInput>,
 ) {
+    let mut direction = 0;
+
+    if keys.just_pressed(KeyCode::J) || keys.just_pressed(KeyCode::S) {
+        direction -= 1;
+    }
+    if keys.just_pressed(KeyCode::K) || keys.just_pressed(KeyCode::W) {
+        direction += 1;
+    }
+    player_input.dialogue_direction = direction;
+
+    player_input.start_dialogue = keys.just_pressed(KeyCode::E);
+    player_input.dialogue_confirm = keys.just_pressed(KeyCode::Return);
+
     player_input.dialogue_fast_forward =
         keys.just_pressed(KeyCode::Space) || mouse_buttons.just_pressed(MouseButton::Left);
 }
@@ -147,8 +158,7 @@ impl Plugin for InputPlugin {
                 player_movement,
                 input_running,
                 input_escape,
-                input_start_dialogue,
-                input_dialogue_fast_forward,
+                input_dialogue,
                 toggle_fullscreen,
                 toggle_debug,
             )
