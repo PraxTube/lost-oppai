@@ -3,9 +3,7 @@ use bevy_yarnspinner::prelude::*;
 
 use crate::{npc::Npc, GameState};
 
-use super::{input::PlayerInput, Player, PlayerState};
-
-const NPC_PROXIMITY_DISTANCE: f32 = 50.0;
+use super::{input::PlayerInput, Player, PlayerState, NPC_PROXIMITY_DISTANCE};
 
 #[derive(Event)]
 pub struct PlayerStartedChat(pub String);

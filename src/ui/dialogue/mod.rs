@@ -1,6 +1,7 @@
 mod option_selection;
 mod runner;
 mod spawn;
+mod start_hint;
 mod typewriter;
 mod updating;
 
@@ -17,6 +18,7 @@ impl Plugin for DialoguePlugin {
             option_selection::DialogueSelectionPlugin,
             typewriter::DialogueTypewriterPlugin,
             runner::DialogueRunnerPlugin,
+            start_hint::DialogueStartHintPlugin,
         ));
     }
 }

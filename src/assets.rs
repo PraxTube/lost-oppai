@@ -49,6 +49,11 @@ pub struct GameAssets {
     pub dialogue_edge: Handle<Image>,
     #[asset(path = "ui/dialogue_continue.png")]
     pub dialogue_continue: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 32.0, tile_size_y = 32.0, columns = 2, rows = 1))]
+    #[asset(path = "ui/dialogue_start_hint.png")]
+    pub dialogue_start_hint: Handle<TextureAtlas>,
+    #[asset(paths("ui/dialogue_start_hint.trickfilm#main",), collection(typed))]
+    pub dialogue_start_hint_animations: Vec<Handle<AnimationClip2D>>,
 
     // --- FONT ---
     #[asset(path = "fonts/PressStart2P.ttf")]
