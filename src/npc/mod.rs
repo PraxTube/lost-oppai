@@ -65,7 +65,7 @@ fn spawn_npc(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets
 
     commands
         .spawn((
-            Npc::new("HelloWorld"),
+            Npc::new("Eleonore"),
             YSort(16.0),
             animator,
             SpriteSheetBundle {

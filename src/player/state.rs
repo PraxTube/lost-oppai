@@ -7,11 +7,7 @@ use bevy_yarnspinner::events::DialogueCompleteEvent;
 
 use crate::{GameAssets, GameState};
 
-use super::{
-    chat::{PlayerStartedChat, PlayerStoppedChat},
-    input::PlayerInput,
-    Player,
-};
+use super::{chat::PlayerStoppedChat, input::PlayerInput, Player};
 
 #[derive(Debug, Default, PartialEq, Clone, Copy)]
 pub enum PlayerState {
@@ -45,23 +41,6 @@ fn player_changed_state(
         });
         *old_state = player.state;
     }
-}
-
-fn switch_to_talking(
-    mut q_player: Query<&mut Player>,
-    mut ev_player_started_chat: EventReader<PlayerStartedChat>,
-) {
-    if ev_player_started_chat.is_empty() {
-        return;
-    }
-    ev_player_started_chat.clear();
-
-    let mut player = match q_player.get_single_mut() {
-        Ok(r) => r,
-        Err(_) => return,
-    };
-
-    player.state = PlayerState::Talking;
 }
 
 fn switch_away_talking(
@@ -163,7 +142,6 @@ impl Plugin for PlayerStatePlugin {
         app.add_systems(
             PostUpdate,
             (
-                switch_to_talking.before(switch_player_move_state),
                 switch_away_talking,
                 switch_player_move_state,
                 update_animation.after(switch_player_move_state),

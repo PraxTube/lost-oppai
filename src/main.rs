@@ -53,7 +53,7 @@ fn main() {
                 ..default()
             },
             Animation2DPlugin,
-            YarnSpinnerPlugin::with_yarn_source(YarnFileSource::file("dialogue/hello_world.yarn")),
+            YarnSpinnerPlugin::with_yarn_source(YarnFileSource::file("dialogue/eleonore.yarn")),
             TweeningPlugin,
         ))
         .insert_resource(Msaa::Off)

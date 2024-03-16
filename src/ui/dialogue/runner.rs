@@ -21,7 +21,7 @@ fn spawn_dialogue_runner(
 
     for ev in ev_player_started_chat.read() {
         let mut dialogue_runner = project.create_dialogue_runner();
-        dialogue_runner.start_node(&ev.0);
+        dialogue_runner.start_node(&ev.dialogue);
         *visibility = Visibility::Inherited;
         commands.spawn(dialogue_runner);
     }
