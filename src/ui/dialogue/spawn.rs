@@ -212,7 +212,12 @@ fn spawn_dialogue_options(commands: &mut Commands, _assets: &Res<GameAssets>) ->
                     flex_direction: FlexDirection::Column,
                     justify_content: JustifyContent::SpaceAround,
                     align_items: AlignItems::FlexStart,
-                    padding: UiRect::all(Val::Px(20.0)),
+                    padding: UiRect {
+                        top: Val::Px(20.0),
+                        bottom: Val::Px(20.0),
+                        left: Val::Px(20.0),
+                        right: Val::Px(OPTIONS_WIDTH + 10.0),
+                    },
                     top: Val::Percent(0.0),
                     right: Val::Percent(0.0),
                     position_type: PositionType::Absolute,
