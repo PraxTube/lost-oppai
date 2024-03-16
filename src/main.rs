@@ -17,6 +17,7 @@ use bevy::window::{PresentMode, Window, WindowMode};
 use bevy_asset_loader::prelude::*;
 use bevy_rapier2d::prelude::*;
 use bevy_trickfilm::Animation2DPlugin;
+use bevy_tweening::*;
 use bevy_yarnspinner::prelude::*;
 
 const BACKGROUND_COLOR: Color = Color::rgb(0.95, 0.90, 0.75);
@@ -53,6 +54,7 @@ fn main() {
             },
             Animation2DPlugin,
             YarnSpinnerPlugin::with_yarn_source(YarnFileSource::file("dialogue/hello_world.yarn")),
+            TweeningPlugin,
         ))
         .insert_resource(Msaa::Off)
         .add_state::<GameState>()

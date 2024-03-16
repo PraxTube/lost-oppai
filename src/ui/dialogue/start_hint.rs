@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy_trickfilm::prelude::*;
+use bevy_tweening::{lens::*, *};
 
 use crate::{
     npc::Npc,
@@ -7,6 +8,9 @@ use crate::{
     world::camera::YSort,
     GameAssets, GameState,
 };
+
+const SIZE: f32 = 0.65;
+const SCALE_DURATION: f32 = 0.5;
 
 #[derive(Component)]
 struct StartHint;
@@ -43,13 +47,23 @@ fn spawn_hint(
                 .play(assets.dialogue_start_hint_animations[0].clone())
                 .repeat();
 
+            let tween = Tween::new(
+                EaseFunction::QuarticInOut,
+                std::time::Duration::from_secs_f32(SCALE_DURATION),
+                TransformScaleLens {
+                    start: Vec3::ZERO,
+                    end: Vec3::ONE * SIZE,
+                },
+            );
+
             let sprite = commands
                 .spawn((
                     animator,
+                    Animator::new(tween),
                     SpriteSheetBundle {
                         texture_atlas: assets.dialogue_start_hint.clone(),
                         transform: Transform::from_translation(Vec3::new(0.0, 40.0, 0.0))
-                            .with_scale(Vec3::splat(0.65)),
+                            .with_scale(Vec3::ZERO),
                         ..default()
                     },
                 ))
