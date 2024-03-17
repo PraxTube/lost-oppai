@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy_yarnspinner::prelude::*;
+use bevy_yarnspinner::{events::DialogueCompleteEvent, prelude::*};
 
 use crate::{
     player::chat::{PlayerStartedChat, PlayerStoppedChat},
@@ -32,6 +32,7 @@ fn despawn_dialogue_runner(
     mut q_dialogue: Query<&mut Visibility, With<Dialogue>>,
     mut q_dialogue_runners: Query<(Entity, &mut DialogueRunner)>,
     mut ev_player_stopped_chat: EventReader<PlayerStoppedChat>,
+    mut ev_dialogue_completed: EventReader<DialogueCompleteEvent>,
 ) {
     let mut visibility = match q_dialogue.get_single_mut() {
         Ok(r) => r,
@@ -39,6 +40,11 @@ fn despawn_dialogue_runner(
     };
 
     if ev_player_stopped_chat.is_empty() {
+        for ev in ev_dialogue_completed.read() {
+            if let Some(r) = commands.get_entity(ev.source) {
+                r.despawn_recursive();
+            }
+        }
         return;
     }
     ev_player_stopped_chat.clear();
