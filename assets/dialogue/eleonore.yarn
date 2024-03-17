@@ -1,5 +1,22 @@
 title: Eleonore
 ---
 ???: Oh hey there.
+???: Are you alright? You seem kinda... lost.
+-> NOT available too <<if false>>
+-> Where am I?
+  ???: 
+-> Who are you?
+  ???: Asking me to introduce myself before you introduce yourself first huh?
+  Eleonore: I am Eleonore, as you might have noticed I am a magic user.
+  Eleonore: To be more precise, I am a witch.
+-> You are correct, I have no clue where we are.
+-> Woah, are you hovering?
+  ???: Oh? Is this your first time you see this kind of magic?
+  ???: It's a levitation spell, it's a fairly basic one too.
+  -> Magic spell? Where on earth are we?
+  ???: Earth? Wow you seem really lost girl.
+  ???: We are ...
+-> ...
+-> NOT available <<if false>>
 
 ===

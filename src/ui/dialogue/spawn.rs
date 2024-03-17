@@ -60,6 +60,14 @@ fn text_style_option_text(_assets: &Res<GameAssets>) -> TextStyle {
     }
 }
 
+fn text_style_unavailable_option_text(_assets: &Res<GameAssets>) -> TextStyle {
+    TextStyle {
+        font_size: 24.0,
+        color: Color::GRAY,
+        ..default()
+    }
+}
+
 fn spawn_dialogue_top(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity {
     let edge = commands
         .spawn((ImageBundle {
@@ -296,27 +304,32 @@ pub fn create_dialogue_text(
     ])
 }
 
-pub fn spawn_options(
+fn spawn_option(
     commands: &mut Commands,
-    options: &Res<OptionSelection>,
     assets: &Res<GameAssets>,
+    option: DialogueOption,
     entity: Entity,
+    available: bool,
 ) {
-    for option in options.get_options() {
-        let sections = [TextSection {
-            value: format!("- {}", option.line.text.clone()),
-            style: text_style_option_text(assets),
-        }];
-        let text = commands
-            .spawn((
-                TextBundle::from_sections(sections).with_style(Style {
-                    width: Val::Px(OPTIONS_WIDTH - 2.0 * OPTIONS_TEXT_BORDER),
-                    ..default()
-                }),
-                Label,
-            ))
-            .id();
+    let sections = [TextSection {
+        value: format!("- {}", option.line.text.clone()),
+        style: if available {
+            text_style_option_text(assets)
+        } else {
+            text_style_unavailable_option_text(assets)
+        },
+    }];
+    let text = commands
+        .spawn((
+            TextBundle::from_sections(sections).with_style(Style {
+                width: Val::Px(OPTIONS_WIDTH - 2.0 * OPTIONS_TEXT_BORDER),
+                ..default()
+            }),
+            Label,
+        ))
+        .id();
 
+    if available {
         let button = commands
             .spawn((
                 ButtonBundle {
@@ -333,6 +346,22 @@ pub fn spawn_options(
             .id();
 
         commands.entity(entity).push_children(&[button]);
+    } else {
+        commands.entity(entity).push_children(&[text]);
+    }
+}
+
+pub fn spawn_options(
+    commands: &mut Commands,
+    assets: &Res<GameAssets>,
+    options: &Res<OptionSelection>,
+    entity: Entity,
+) {
+    for option in options.get_options() {
+        spawn_option(commands, assets, option, entity, true);
+    }
+    for option in options.get_unavailable_options() {
+        spawn_option(commands, assets, option, entity, false);
     }
 }
 

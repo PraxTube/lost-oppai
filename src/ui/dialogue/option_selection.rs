@@ -19,24 +19,37 @@ pub struct OptionSelection {
     mouse_input: bool,
     current_selection: Option<usize>,
     options: Vec<DialogueOption>,
+    unavailable_options: Vec<DialogueOption>,
 }
 
 impl OptionSelection {
-    pub fn from_option_set<'a>(options: impl IntoIterator<Item = &'a DialogueOption>) -> Self {
-        let options = options
-            .into_iter()
-            .filter(|o| o.is_available)
-            .cloned()
-            .collect();
+    pub fn from_option_set<'a>(
+        dialogue_options: impl IntoIterator<Item = &'a DialogueOption>,
+    ) -> Self {
+        let mut options: Vec<DialogueOption> = Vec::new();
+        let mut unavailable_options: Vec<DialogueOption> = Vec::new();
+        for option in dialogue_options {
+            if option.is_available {
+                options.push(option.clone());
+            } else {
+                unavailable_options.push(option.clone());
+            }
+        }
+
         Self {
             mouse_input: true,
             current_selection: None,
             options,
+            unavailable_options,
         }
     }
 
     pub fn get_options(&self) -> Vec<DialogueOption> {
         self.options.clone()
+    }
+
+    pub fn get_unavailable_options(&self) -> Vec<DialogueOption> {
+        self.unavailable_options.clone()
     }
 }
 
@@ -62,7 +75,7 @@ fn create_options(
     *visibility = Visibility::Hidden;
     if q_children.iter_descendants(entity).next().is_none() {
         *q_root_visibility.single_mut() = Visibility::Inherited;
-        spawn_options(&mut commands, &option_selection, &assets, entity);
+        spawn_options(&mut commands, &assets, &option_selection, entity);
     }
 }
 
@@ -150,12 +163,8 @@ fn select_option(
             text.sections[0].style.color = color;
         }
     } else if let Some(r) = option_selection.current_selection {
-        for (_, button, children) in &mut buttons {
-            let color = if OptionId(r) == button.0 {
-                Color::TOMATO
-            } else {
-                Color::WHITE
-            };
+        for (i, (_, _, children)) in &mut buttons.iter().enumerate() {
+            let color = if r == i { Color::TOMATO } else { Color::WHITE };
             let text_entity = children.iter().find(|&e| text.contains(*e)).unwrap();
             let mut text = text.get_mut(*text_entity).unwrap();
             text.sections[0].style.color = color;
@@ -167,10 +176,11 @@ fn select_option(
     }
 
     let selection = option_selection.current_selection;
-    if let Some(id) = selection {
+    if let Some(index) = selection {
+        let id = option_selection.options[index].id;
         selected_option_event.send(HasSelectedOptionEvent);
         for mut dialogue_runner in &mut dialogue_runners {
-            dialogue_runner.select_option(OptionId(id)).unwrap();
+            dialogue_runner.select_option(id).unwrap();
         }
     }
 }
