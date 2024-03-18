@@ -122,10 +122,16 @@ fn input_dialogue(
 ) {
     let mut direction = 0;
 
-    if keys.just_pressed(KeyCode::J) || keys.just_pressed(KeyCode::S) {
+    if keys.just_pressed(KeyCode::J)
+        || keys.just_pressed(KeyCode::S)
+        || keys.just_pressed(KeyCode::Down)
+    {
         direction -= 1;
     }
-    if keys.just_pressed(KeyCode::K) || keys.just_pressed(KeyCode::W) {
+    if keys.just_pressed(KeyCode::K)
+        || keys.just_pressed(KeyCode::W)
+        || keys.just_pressed(KeyCode::Up)
+    {
         direction += 1;
     }
     player_input.dialogue_direction = direction;

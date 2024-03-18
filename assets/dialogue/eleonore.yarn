@@ -1,22 +1,124 @@
 title: Eleonore
 ---
-???: Oh hey there.
-???: Are you alright? You seem kinda... lost.
--> NOT available too <<if false>>
+<<set $name to "???">>
+<<set $self_introduction to false>>
+
+{$name}: Oh hey there.
+{$name}: Are you alright? You seem kinda... lost.
 -> Where am I?
-  ???: 
+    {$name}: So you are lost then. How did you even get here if you don't even know where you are? *sight*
+    <<jump Location>>
 -> Who are you?
-  ???: Asking me to introduce myself before you introduce yourself first huh?
-  Eleonore: I am Eleonore, as you might have noticed I am a magic user.
-  Eleonore: To be more precise, I am a witch.
--> You are correct, I have no clue where we are.
+    {$name}: Asking me to introduce myself before you introduce yourself first huh?
+    <<jump EleonoreIntroduction>>
 -> Woah, are you hovering?
-  ???: Oh? Is this your first time you see this kind of magic?
-  ???: It's a levitation spell, it's a fairly basic one too.
-  -> Magic spell? Where on earth are we?
-  ???: Earth? Wow you seem really lost girl.
-  ???: We are ...
--> ...
--> NOT available <<if false>>
+    {$name}: Oh? Is this your first time you see this kind of magic?
+    {$name}: It's a levitation spell, it's a fairly basic one too.
+    -> Magic spell? Where on earth are we?
+        {$name}: Earth? Wow you seem really lost girl.
+        <<jump Location>>
+
+===
+
+title: Location
+---
+{$name}: We are in a grassy field near the Kingdom of Aurelia. Not a lot of people are able to come here as it's pretty difficult to traverse through the neighboring terrain.
+-> Kingdom Aurelia? Never heard about it.
+    {$name}: Really? It's the second largest kingdom there is. You must come from a village in the goons if you haven't even heard about it.
+    -> I must be dreaming, I was just sleeping in my bed in Tokyo.
+    -> No, I was born and raised in a metropolis.
+-> The neighboring terrain?
+    {$name}: Yeah, it's mostly poisonous swamps. Only skilled adventures are able to make it through there.
+    -> Adventures?
+    -> What about you then? Are you strong?
+        {$name}: Most magic users are considered strong just for being able to use magic, though as I am a witch, I am very strong.
+        <<if $self_introduction is false>>
+            {$name}: Though don't you think it's about time you tell me a bit about yourself? I don't even know your name!
+            <<jump Oppai>>
+        <<endif>>
+
+===
+
+title: Oppai
+---
+...
+-> *Introduce yourself*
+    You: My name is Pai, 21 years old and currently in studying in university.
+    You: I live in Tokyo, but this doesn't look like Tokyo at all.
+    You: The last thing I remember was some loud noise when I was sleeping in my bed.
+    {$name}: What a strange name, but oh well, nice to meet you Pai
+    <<if $name is "???">>
+        <<set $name to "Eleonore">>
+        {$name}: I am Eleonore by the way.
+    <<endif>>
+    {$name}: Also I have never heard of Tokyo, must be a small village somewhere far away huh?
+    -> eh, are you kidding me? We are in Japan though, right?
+        {$name}: Japan? Is that a kingdom somewhere? Looks like you are quite lost.
+        <<jump Location>>
+    -> It's a metropolis with millsions of people living there.
+        {$name}: Haha yeah sure and I have never even heard anything abou-
+        {$name}: Hold on, you said you were sleeping in bed when you all of a sudden heard a loud noise?
+        You: Yeah?
+        {$name}: And none of this here seems familiar to you, like the names of the kingdoms or the magic I am using?
+        You: Yeah..?
+        <<jump TeleportationMagic>>
+-> How about you introduce yourself first? <<if $name is "???">>
+    {$name}: Wow, not a lot of people talk to me like that you know?
+    {$name}: Fine then.
+    <<jump EleonoreIntroduction>>
+
+===
+
+title: EleonoreIntroduction
+---
+<<set $name to "Eleonore">>
+{$name}: I am Eleonore, as you might have noticed I am a magic user.
+{$name}: To be more precise, I am a witch.
+-> A witch? Does that mean you are evil?
+    {$name}: Hm, that's a difficult question. Isn't every evil person only evil from the perspective of someone else?
+    {$name}: Most "evil" people don't see themselves as "evil", so asking me whether or not I am "evil" is a bit of an odd thing to do, don't you think?
+    -> You are dodging the question.
+        {$name}: I am saying that asking me such a question is pointless, as most people see themselves as a "good" person, even those who are considered "evil" by the majority.
+        {$name}: But no, I am not evil. Happy now?
+        -> What differentiates witches from normal people?
+        -> Fine, so anyways, where are we?
+            <<jump Location>>
+    -> That would imply that there is no good or bad and that it's instead a matter of perspective.
+    -> I don't understand what you are getting at.
+-> Last time I checked, there was no magic in our world.
+-> Magic user? What does that mean?
+
+===
+
+title: TeleportationMagic
+---
+{$name}: ...There are rumors of some ancient grimoires that contain magic that could describe what is going on here...
+{$name}: Teleportation magic.
+{$name}: Magic to summon people from different worlds into this one.
+{$name}: Though those are merely rumors, and in the past two thousand years there were never any records of this kind of magic.
+-> You mean... I was transported to a different world?
+    <<jump SummonMagic>>
+-> Maybe I am just dreaming?
+    {$name}: You aren't, though I guess that's not very convincing huh?
+    {$name}: Pinch your nose and try to breath in.
+    *You follow the instructions but can't breath.*
+    You: Ah, nope, I am suffocating.
+    {$name}: See? You aren't dreaming then.
+    -> Uh, so I was transported to a different world?
+        <<jump SummonMagic>>
+    -> I'm not sold.
+        {$name}: Hmph, I guess if you have never seen magic before that's a normal reaction.
+        {$name}: However I can't really do much more to convince you.
+        {$name}: You just did a reality check, so if you are still having doubts then that's all I can do.
+        {$name}: What you are asking is the equivalent to "How do I know I exist, how do I know the world truly exists?".
+        {$name}: A rather philosophical question, a question we by definition don't know the answer to.
+        You: Okay fine. So I was transported to a different world?
+        <<jump SummonMagic>>
+    
+===
+
+title: SummonMagic
+---
+{$name}: That's at least what I consider to be the most likely explanation.
 
 ===
