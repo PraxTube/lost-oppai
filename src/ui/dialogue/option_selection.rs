@@ -12,7 +12,9 @@ use super::typewriter::{self, Typewriter, TypewriterFinishedEvent};
 use super::DialogueViewSystemSet;
 
 #[derive(Event)]
-struct DespawnOption;
+struct DespawnOptions;
+#[derive(Event)]
+pub struct CreateOptions(pub OptionSelection);
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Reflect, Event)]
 struct HasSelectedOptionEvent;
@@ -56,54 +58,57 @@ impl OptionSelection {
     }
 }
 
-fn create_options(
-    mut commands: Commands,
-    assets: Res<GameAssets>,
-    option_selection: Res<OptionSelection>,
-    q_children: Query<&Children>,
-    mut q_options_node: Query<(Entity, &mut Style), With<OptionsNode>>,
-    mut q_options_background: Query<&mut Visibility, With<OptionsBackground>>,
-) {
-    let (entity, mut style) = match q_options_node.get_single_mut() {
-        Ok(r) => r,
-        Err(_) => return,
-    };
-    let mut visibility = match q_options_background.get_single_mut() {
-        Ok(r) => r,
-        Err(_) => return,
-    };
-
-    style.display = Display::Flex;
-    *visibility = Visibility::Hidden;
-    if q_children.iter_descendants(entity).next().is_none() {
-        spawn_options(&mut commands, &assets, &option_selection, entity);
-    }
-}
-
-fn show_options(
-    q_options_node: Query<Entity, With<OptionsNode>>,
-    mut q_options_background: Query<&mut Visibility, With<OptionsBackground>>,
-    q_children: Query<&Children>,
+fn create_options_typewriter_finished(
+    option_selection: Option<Res<OptionSelection>>,
     mut typewriter_finished_event: EventReader<TypewriterFinishedEvent>,
+    mut show_options: EventWriter<CreateOptions>,
 ) {
     if typewriter_finished_event.is_empty() {
         return;
     }
     typewriter_finished_event.clear();
 
+    if let Some(op_sel) = option_selection {
+        show_options.send(CreateOptions(op_sel.clone()));
+    }
+}
+
+fn create_options(
+    mut commands: Commands,
+    assets: Res<GameAssets>,
+    q_options_node: Query<Entity, With<OptionsNode>>,
+    mut ev_show_options: EventReader<CreateOptions>,
+) {
     let entity = match q_options_node.get_single() {
         Ok(r) => r,
         Err(_) => return,
     };
-    if q_children.iter_descendants(entity).next().is_none() {
-        return;
-    };
 
+    for ev in ev_show_options.read() {
+        spawn_options(&mut commands, &assets, &ev.0, entity);
+    }
+}
+
+fn show_options(
+    q_children: Query<&Children>,
+    q_options_node: Query<Entity, With<OptionsNode>>,
+    mut q_options_background: Query<&mut Visibility, With<OptionsBackground>>,
+) {
+    let entity = match q_options_node.get_single() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
     let mut visibility = match q_options_background.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
-    *visibility = Visibility::Inherited;
+
+    let vis = if q_children.iter_descendants(entity).next().is_some() {
+        Visibility::Inherited
+    } else {
+        Visibility::Hidden
+    };
+    *visibility = vis;
 }
 
 fn select_option(
@@ -189,9 +194,7 @@ fn select_option(
 fn despawn_options(
     mut commands: Commands,
     mut q_options_node: Query<Entity, With<OptionsNode>>,
-    mut q_options_background: Query<&mut Visibility, With<OptionsBackground>>,
-    mut q_dialogue_node_text: Query<&mut Text, With<DialogueContent>>,
-    mut ev_despawn_option: EventReader<DespawnOption>,
+    mut ev_despawn_option: EventReader<DespawnOptions>,
 ) {
     if ev_despawn_option.is_empty() {
         return;
@@ -199,26 +202,18 @@ fn despawn_options(
     ev_despawn_option.clear();
 
     commands.remove_resource::<OptionSelection>();
-
     let entity = match q_options_node.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
-    let mut visibility = match q_options_background.get_single_mut() {
-        Ok(r) => r,
-        Err(_) => return,
-    };
-
     commands.entity(entity).despawn_descendants();
-    *visibility = Visibility::Hidden;
-    *q_dialogue_node_text.single_mut() = Text::default();
 }
 
 fn relay_despawn_option(
     mut ev_has_selected_option: EventReader<HasSelectedOptionEvent>,
     mut ev_dialogue_complete: EventReader<DialogueCompleteEvent>,
     mut ev_player_stopped_chat: EventReader<PlayerStoppedChat>,
-    mut ev_despawn_option: EventWriter<DespawnOption>,
+    mut ev_despawn_option: EventWriter<DespawnOptions>,
 ) {
     if ev_has_selected_option.is_empty()
         && ev_dialogue_complete.is_empty()
@@ -230,7 +225,7 @@ fn relay_despawn_option(
     ev_dialogue_complete.clear();
     ev_player_stopped_chat.clear();
 
-    ev_despawn_option.send(DespawnOption);
+    ev_despawn_option.send(DespawnOptions);
 }
 
 fn reset_option_flag(
@@ -256,7 +251,8 @@ impl Plugin for DialogueSelectionPlugin {
         app.add_systems(
             Update,
             (
-                create_options.run_if(resource_added::<OptionSelection>()),
+                create_options_typewriter_finished,
+                create_options,
                 show_options,
                 select_option
                     .run_if(resource_exists::<OptionSelection>())
@@ -271,6 +267,7 @@ impl Plugin for DialogueSelectionPlugin {
                 .run_if(in_state(GameState::Gaming)),
         )
         .add_event::<HasSelectedOptionEvent>()
-        .add_event::<DespawnOption>();
+        .add_event::<CreateOptions>()
+        .add_event::<DespawnOptions>();
     }
 }

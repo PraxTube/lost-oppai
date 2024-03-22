@@ -121,10 +121,10 @@ fn spawn_dialogue_top(commands: &mut Commands, assets: &Res<GameAssets>) -> Enti
 fn spawn_dialogue_content(commands: &mut Commands, _assets: &Res<GameAssets>) -> Entity {
     let text = commands
         .spawn((
-            TextBundle::from_section(String::new(), text_style_standard(_assets))
-                .with_style(style_standard(_assets)),
             DialogueContent,
             Label,
+            TextBundle::from_section(String::new(), text_style_standard(_assets))
+                .with_style(style_standard(_assets)),
         ))
         .id();
 
@@ -220,9 +220,10 @@ fn spawn_dialogue_bottom(commands: &mut Commands, assets: &Res<GameAssets>) -> E
 fn spawn_dialogue_options(commands: &mut Commands, _assets: &Res<GameAssets>) -> Entity {
     let options = commands
         .spawn((
+            OptionsNode,
             NodeBundle {
                 style: Style {
-                    display: Display::None,
+                    display: Display::Flex,
                     flex_direction: FlexDirection::Column,
                     justify_content: JustifyContent::FlexEnd,
                     align_items: AlignItems::FlexStart,
@@ -230,12 +231,12 @@ fn spawn_dialogue_options(commands: &mut Commands, _assets: &Res<GameAssets>) ->
                 },
                 ..default()
             },
-            OptionsNode,
         ))
         .id();
 
     commands
         .spawn((
+            OptionsBackground,
             NodeBundle {
                 style: Style {
                     width: Val::Px(OPTIONS_WIDTH),
@@ -259,7 +260,6 @@ fn spawn_dialogue_options(commands: &mut Commands, _assets: &Res<GameAssets>) ->
                 visibility: Visibility::Hidden,
                 ..default()
             },
-            OptionsBackground,
         ))
         .push_children(&[options])
         .id()

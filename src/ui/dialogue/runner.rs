@@ -6,7 +6,10 @@ use crate::{
     GameState,
 };
 
-use super::{option_selection::OptionSelection, spawn::DialogueRoot};
+use super::{
+    option_selection::{CreateOptions, OptionSelection},
+    spawn::DialogueRoot,
+};
 
 #[derive(Component)]
 pub struct RunnerFlags {
@@ -31,6 +34,7 @@ fn spawn_dialogue_runner(
     mut q_runner_flags: Query<&mut RunnerFlags>,
     mut q_dialogue: Query<&mut Visibility, With<DialogueRoot>>,
     mut ev_player_started_chat: EventReader<PlayerStartedChat>,
+    mut ev_show_options: EventWriter<CreateOptions>,
 ) {
     let mut visibility = match q_dialogue.get_single_mut() {
         Ok(r) => r,
@@ -46,6 +50,7 @@ fn spawn_dialogue_runner(
                 cached = true;
                 flags.active = true;
                 if let Some(option_selection) = &flags.options {
+                    ev_show_options.send(CreateOptions(option_selection.clone()));
                     commands.insert_resource(option_selection.clone());
                 }
             }

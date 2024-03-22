@@ -130,14 +130,6 @@ fn show_continue(
     *visibility = Visibility::Inherited;
 }
 
-pub fn despawn(mut commands: Commands) {
-    commands.remove_resource::<Typewriter>();
-}
-
-pub fn spawn(mut commands: Commands) {
-    commands.init_resource::<Typewriter>();
-}
-
 fn send_finished_event(
     mut events: EventWriter<TypewriterFinishedEvent>,
     typewriter: Res<Typewriter>,
@@ -149,6 +141,14 @@ fn send_finished_event(
         events.send(TypewriterFinishedEvent);
         *last_finished = true;
     }
+}
+
+pub fn spawn(mut commands: Commands) {
+    commands.init_resource::<Typewriter>();
+}
+
+pub fn despawn(mut commands: Commands) {
+    commands.remove_resource::<Typewriter>();
 }
 
 pub struct DialogueTypewriterPlugin;
