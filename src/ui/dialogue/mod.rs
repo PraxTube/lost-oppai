@@ -1,5 +1,6 @@
+pub mod runner;
+
 mod option_selection;
-mod runner;
 mod spawn;
 mod start_hint;
 mod typewriter;

@@ -1,4 +1,4 @@
-mod dialogue;
+pub mod dialogue;
 
 use bevy::prelude::*;
 
