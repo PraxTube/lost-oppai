@@ -5,6 +5,7 @@ use crate::{GameAssets, GameState};
 
 use super::option_selection::OptionSelection;
 
+// The master root of the dialogue
 #[derive(Component)]
 pub struct Dialogue;
 #[derive(Component)]

@@ -45,6 +45,9 @@ fn spawn_dialogue_runner(
             if flags.dialogue == ev.dialogue {
                 cached = true;
                 flags.active = true;
+                if let Some(option_selection) = &flags.options {
+                    commands.insert_resource(option_selection.clone());
+                }
             }
         }
         if !cached {

@@ -68,11 +68,9 @@ fn present_options(
         commands.insert_resource(option_selection.clone());
 
         for mut flags in &mut q_runner_flags {
-            if !flags.active {
-                continue;
+            if flags.active {
+                flags.options = Some(option_selection.clone());
             }
-
-            flags.options = Some(option_selection.clone());
         }
     }
 }

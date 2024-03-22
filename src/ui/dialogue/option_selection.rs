@@ -6,11 +6,15 @@ use crate::player::chat::PlayerStoppedChat;
 use crate::player::input::PlayerInput;
 use crate::{GameAssets, GameState};
 
+use super::runner::RunnerFlags;
 use super::spawn::{
     spawn_options, DialogueContent, DialogueRoot, OptionButton, OptionsBackground, OptionsNode,
 };
 use super::typewriter::{self, Typewriter, TypewriterFinishedEvent};
 use super::DialogueViewSystemSet;
+
+#[derive(Event)]
+struct DespawnOption;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Reflect, Event)]
 struct HasSelectedOptionEvent;
@@ -192,22 +196,14 @@ fn despawn_options(
     mut q_options_background: Query<&mut Visibility, With<OptionsBackground>>,
     mut q_dialogue_node_text: Query<&mut Text, With<DialogueContent>>,
     mut q_root_visibility: Query<&mut Visibility, (With<DialogueRoot>, Without<OptionsBackground>)>,
-    mut ev_has_selected_option: EventReader<HasSelectedOptionEvent>,
-    mut ev_dialogue_complete: EventReader<DialogueCompleteEvent>,
-    mut ev_player_stopped_chat: EventReader<PlayerStoppedChat>,
+    mut ev_despawn_option: EventReader<DespawnOption>,
 ) {
-    if ev_has_selected_option.is_empty()
-        && ev_dialogue_complete.is_empty()
-        && ev_player_stopped_chat.is_empty()
-    {
+    if ev_despawn_option.is_empty() {
         return;
     }
+    ev_despawn_option.clear();
 
     commands.remove_resource::<OptionSelection>();
-
-    ev_has_selected_option.clear();
-    ev_dialogue_complete.clear();
-    ev_player_stopped_chat.clear();
 
     let entity = match q_options_node.get_single_mut() {
         Ok(r) => r,
@@ -224,6 +220,41 @@ fn despawn_options(
     *q_root_visibility.single_mut() = Visibility::Hidden;
 }
 
+fn relay_despawn_option(
+    mut ev_has_selected_option: EventReader<HasSelectedOptionEvent>,
+    mut ev_dialogue_complete: EventReader<DialogueCompleteEvent>,
+    mut ev_player_stopped_chat: EventReader<PlayerStoppedChat>,
+    mut ev_despawn_option: EventWriter<DespawnOption>,
+) {
+    if ev_has_selected_option.is_empty()
+        && ev_dialogue_complete.is_empty()
+        && ev_player_stopped_chat.is_empty()
+    {
+        return;
+    }
+    ev_has_selected_option.clear();
+    ev_dialogue_complete.clear();
+    ev_player_stopped_chat.clear();
+
+    ev_despawn_option.send(DespawnOption);
+}
+
+fn reset_option_flag(
+    mut flags: Query<&mut RunnerFlags>,
+    mut ev_has_selected_option: EventReader<HasSelectedOptionEvent>,
+) {
+    if ev_has_selected_option.is_empty() {
+        return;
+    }
+    ev_has_selected_option.clear();
+
+    for mut flags in &mut flags {
+        if flags.active {
+            flags.options = None;
+        }
+    }
+}
+
 pub struct DialogueSelectionPlugin;
 
 impl Plugin for DialogueSelectionPlugin {
@@ -236,6 +267,8 @@ impl Plugin for DialogueSelectionPlugin {
                 select_option
                     .run_if(resource_exists::<OptionSelection>())
                     .before(typewriter::despawn),
+                relay_despawn_option,
+                reset_option_flag,
                 despawn_options,
             )
                 .chain()
@@ -243,6 +276,7 @@ impl Plugin for DialogueSelectionPlugin {
                 .in_set(DialogueViewSystemSet)
                 .run_if(in_state(GameState::Gaming)),
         )
-        .add_event::<HasSelectedOptionEvent>();
+        .add_event::<HasSelectedOptionEvent>()
+        .add_event::<DespawnOption>();
     }
 }
