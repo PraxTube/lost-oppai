@@ -15,7 +15,7 @@ pub struct TypewriterFinished;
 #[derive(Event)]
 pub struct WriteDialogueText(pub LocalizedLine);
 
-#[derive(Debug, Clone, PartialEq, Resource)]
+#[derive(Resource)]
 pub struct Typewriter {
     pub character_name: Option<String>,
     pub current_text: String,
@@ -158,7 +158,6 @@ fn send_finished_event(
     mut ev_typewriter_finished: EventWriter<TypewriterFinished>,
 ) {
     if typewriter.is_finished() && !typewriter.last_finished {
-        info!("send finished");
         ev_typewriter_finished.send(TypewriterFinished);
         typewriter.last_finished = true;
     }

@@ -15,11 +15,10 @@ use super::DialogueViewSystemSet;
 struct DespawnOptions;
 #[derive(Event)]
 pub struct CreateOptions(pub OptionSelection);
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Reflect, Event)]
+#[derive(Event)]
 struct HasSelectedOptionEvent;
 
-#[derive(Debug, Clone, PartialEq, Default, Resource)]
+#[derive(Debug, Clone, Default, Resource)]
 pub struct OptionSelection {
     mouse_input: bool,
     current_selection: Option<usize>,
@@ -114,7 +113,7 @@ fn show_options(
 fn select_option(
     player_input: Res<PlayerInput>,
     typewriter: Res<Typewriter>,
-    mut dialogue_runners: Query<&mut DialogueRunner>,
+    mut dialogue_runners: Query<(&mut DialogueRunner, &RunnerFlags)>,
     mut option_selection: ResMut<OptionSelection>,
     mut q_buttons: Query<(&Interaction, &OptionButton, &Children), With<Button>>,
     mut q_text: Query<&mut Text, With<OptionsText>>,
@@ -153,8 +152,10 @@ fn select_option(
             let color = match *interaction {
                 Interaction::Pressed => {
                     selected_option_event.send(HasSelectedOptionEvent);
-                    for mut dialogue_runner in &mut dialogue_runners {
-                        dialogue_runner.select_option(button.0).unwrap();
+                    for (mut dialogue_runner, flags) in &mut dialogue_runners {
+                        if flags.active {
+                            dialogue_runner.select_option(button.0).unwrap();
+                        }
                     }
                     Color::WHITE
                 }
@@ -185,8 +186,10 @@ fn select_option(
     if let Some(index) = selection {
         let id = option_selection.options[index].id;
         selected_option_event.send(HasSelectedOptionEvent);
-        for mut dialogue_runner in &mut dialogue_runners {
-            dialogue_runner.select_option(id).unwrap();
+        for (mut dialogue_runner, flags) in &mut dialogue_runners {
+            if flags.active {
+                dialogue_runner.select_option(id).unwrap();
+            }
         }
     }
 }

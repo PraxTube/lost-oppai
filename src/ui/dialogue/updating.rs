@@ -49,7 +49,7 @@ fn continue_dialogue(
     input: Res<PlayerInput>,
     mut typewriter: ResMut<Typewriter>,
     option_selection: Option<Res<OptionSelection>>,
-    mut q_dialogue_runners: Query<&mut DialogueRunner>,
+    mut q_dialogue_runners: Query<(&mut DialogueRunner, &RunnerFlags)>,
     mut q_continue_visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
 ) {
     if input.dialogue_fast_forward && !typewriter.is_finished() {
@@ -64,7 +64,11 @@ fn continue_dialogue(
         return;
     }
 
-    for mut dialogue_runner in &mut q_dialogue_runners {
+    for (mut dialogue_runner, flags) in &mut q_dialogue_runners {
+        if !flags.active {
+            continue;
+        }
+
         if !dialogue_runner.is_waiting_for_option_selection() && dialogue_runner.is_running() {
             dialogue_runner.continue_in_next_update();
             *q_continue_visibility.single_mut() = Visibility::Hidden;

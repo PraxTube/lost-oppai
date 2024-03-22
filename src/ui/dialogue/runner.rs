@@ -106,6 +106,20 @@ fn deactivate_dialogue_runner(
     }
 }
 
+fn monitor_active_runners(q_runner_flags: Query<&RunnerFlags>) {
+    let mut active = 0;
+
+    for flags in &q_runner_flags {
+        if flags.active {
+            active += 1;
+        }
+    }
+
+    if active > 1 {
+        error!("There are more then 1 active flags!");
+    }
+}
+
 pub struct DialogueRunnerPlugin;
 
 impl Plugin for DialogueRunnerPlugin {
@@ -123,6 +137,7 @@ impl Plugin for DialogueRunnerPlugin {
                 hide_dialogue.run_if(
                     on_event::<DialogueCompleteEvent>().or_else(on_event::<PlayerStoppedChat>()),
                 ),
+                monitor_active_runners,
             ),
         );
     }
