@@ -4,6 +4,7 @@ use bevy_yarnspinner::{events::*, prelude::*};
 use crate::player::input::PlayerInput;
 
 use super::option_selection::OptionSelection;
+use super::runner::RunnerFlags;
 use super::spawn::{DialogueContinueNode, DialogueNameNode, DialogueRoot};
 use super::typewriter::{self, Typewriter};
 use super::DialogueViewSystemSet;
@@ -57,10 +58,22 @@ fn present_line(
     }
 }
 
-fn present_options(mut commands: Commands, mut events: EventReader<PresentOptionsEvent>) {
+fn present_options(
+    mut commands: Commands,
+    mut q_runner_flags: Query<&mut RunnerFlags>,
+    mut events: EventReader<PresentOptionsEvent>,
+) {
     for event in events.read() {
         let option_selection = OptionSelection::from_option_set(&event.options);
-        commands.insert_resource(option_selection);
+        commands.insert_resource(option_selection.clone());
+
+        for mut flags in &mut q_runner_flags {
+            if !flags.active {
+                continue;
+            }
+
+            flags.options = Some(option_selection.clone());
+        }
     }
 }
 

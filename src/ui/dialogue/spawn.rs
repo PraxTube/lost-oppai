@@ -354,7 +354,7 @@ fn spawn_option(
 pub fn spawn_options(
     commands: &mut Commands,
     assets: &Res<GameAssets>,
-    options: &Res<OptionSelection>,
+    options: &OptionSelection,
     entity: Entity,
 ) {
     for option in options.get_options() {

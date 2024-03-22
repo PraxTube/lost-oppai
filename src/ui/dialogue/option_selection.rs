@@ -2,8 +2,9 @@ use bevy::input::mouse::MouseMotion;
 use bevy::prelude::*;
 use bevy_yarnspinner::{events::*, prelude::*};
 
+use crate::player::chat::PlayerStoppedChat;
 use crate::player::input::PlayerInput;
-use crate::GameAssets;
+use crate::{GameAssets, GameState};
 
 use super::spawn::{
     spawn_options, DialogueContent, DialogueRoot, OptionButton, OptionsBackground, OptionsNode,
@@ -108,10 +109,10 @@ fn show_options(
 fn select_option(
     player_input: Res<PlayerInput>,
     typewriter: Res<Typewriter>,
-    mut buttons: Query<(&Interaction, &OptionButton, &Children), With<Button>>,
     mut dialogue_runners: Query<&mut DialogueRunner>,
-    mut text: Query<&mut Text, Without<DialogueContent>>,
     mut option_selection: ResMut<OptionSelection>,
+    mut q_buttons: Query<(&Interaction, &OptionButton, &Children), With<Button>>,
+    mut q_text: Query<&mut Text, Without<DialogueContent>>,
     mut selected_option_event: EventWriter<HasSelectedOptionEvent>,
     mut ev_mouse_motion: EventReader<MouseMotion>,
 ) {
@@ -143,7 +144,7 @@ fn select_option(
     }
 
     if option_selection.mouse_input {
-        for (interaction, button, children) in &mut buttons {
+        for (interaction, button, children) in &mut q_buttons {
             let color = match *interaction {
                 Interaction::Pressed => {
                     selected_option_event.send(HasSelectedOptionEvent);
@@ -158,15 +159,15 @@ fn select_option(
                 }
                 _ => Color::WHITE,
             };
-            let text_entity = children.iter().find(|&e| text.contains(*e)).unwrap();
-            let mut text = text.get_mut(*text_entity).unwrap();
+            let text_entity = children.iter().find(|&e| q_text.contains(*e)).unwrap();
+            let mut text = q_text.get_mut(*text_entity).unwrap();
             text.sections[0].style.color = color;
         }
     } else if let Some(r) = option_selection.current_selection {
-        for (i, (_, _, children)) in &mut buttons.iter().enumerate() {
+        for (i, (_, _, children)) in &mut q_buttons.iter().enumerate() {
             let color = if r == i { Color::TOMATO } else { Color::WHITE };
-            let text_entity = children.iter().find(|&e| text.contains(*e)).unwrap();
-            let mut text = text.get_mut(*text_entity).unwrap();
+            let text_entity = children.iter().find(|&e| q_text.contains(*e)).unwrap();
+            let mut text = q_text.get_mut(*text_entity).unwrap();
             text.sections[0].style.color = color;
         }
     }
@@ -187,22 +188,28 @@ fn select_option(
 
 fn despawn_options(
     mut commands: Commands,
-    mut q_options_node: Query<(Entity, &mut Style), With<OptionsNode>>,
+    mut q_options_node: Query<Entity, With<OptionsNode>>,
     mut q_options_background: Query<&mut Visibility, With<OptionsBackground>>,
-    mut dialogue_node_text: Query<&mut Text, With<DialogueContent>>,
-    mut root_visibility: Query<&mut Visibility, (With<DialogueRoot>, Without<OptionsBackground>)>,
-    mut has_selected_option_event: EventReader<HasSelectedOptionEvent>,
-    mut dialogue_complete_event: EventReader<DialogueCompleteEvent>,
+    mut q_dialogue_node_text: Query<&mut Text, With<DialogueContent>>,
+    mut q_root_visibility: Query<&mut Visibility, (With<DialogueRoot>, Without<OptionsBackground>)>,
+    mut ev_has_selected_option: EventReader<HasSelectedOptionEvent>,
+    mut ev_dialogue_complete: EventReader<DialogueCompleteEvent>,
+    mut ev_player_stopped_chat: EventReader<PlayerStoppedChat>,
 ) {
-    if has_selected_option_event.is_empty() && dialogue_complete_event.is_empty() {
+    if ev_has_selected_option.is_empty()
+        && ev_dialogue_complete.is_empty()
+        && ev_player_stopped_chat.is_empty()
+    {
         return;
     }
 
-    has_selected_option_event.clear();
-    dialogue_complete_event.clear();
     commands.remove_resource::<OptionSelection>();
 
-    let (entity, mut style) = match q_options_node.get_single_mut() {
+    ev_has_selected_option.clear();
+    ev_dialogue_complete.clear();
+    ev_player_stopped_chat.clear();
+
+    let entity = match q_options_node.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
@@ -212,10 +219,9 @@ fn despawn_options(
     };
 
     commands.entity(entity).despawn_descendants();
-    style.display = Display::None;
     *visibility = Visibility::Hidden;
-    *dialogue_node_text.single_mut() = Text::default();
-    *root_visibility.single_mut() = Visibility::Hidden;
+    *q_dialogue_node_text.single_mut() = Text::default();
+    *q_root_visibility.single_mut() = Visibility::Hidden;
 }
 
 pub struct DialogueSelectionPlugin;
@@ -234,7 +240,8 @@ impl Plugin for DialogueSelectionPlugin {
             )
                 .chain()
                 .after(YarnSpinnerSystemSet)
-                .in_set(DialogueViewSystemSet),
+                .in_set(DialogueViewSystemSet)
+                .run_if(in_state(GameState::Gaming)),
         )
         .add_event::<HasSelectedOptionEvent>();
     }

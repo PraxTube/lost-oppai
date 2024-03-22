@@ -90,13 +90,16 @@ impl Typewriter {
 
 fn write_text(
     assets: Res<GameAssets>,
-    mut text: Query<&mut Text, With<DialogueContent>>,
     mut typewriter: ResMut<Typewriter>,
     option_selection: Option<Res<OptionSelection>>,
-    mut speaker_change_events: EventWriter<SpeakerChangeEvent>,
-    mut root_visibility: Query<&mut Visibility, With<DialogueRoot>>,
+    mut q_text: Query<&mut Text, With<DialogueContent>>,
+    mut q_root_visibility: Query<&mut Visibility, With<DialogueRoot>>,
+    mut ev_speaker_changed: EventWriter<SpeakerChangeEvent>,
 ) {
-    let mut text = text.single_mut();
+    let mut text = match q_text.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
     if typewriter.last_before_options && option_selection.is_none() {
         *text = default();
         return;
@@ -104,15 +107,16 @@ fn write_text(
     if typewriter.is_finished() {
         return;
     }
+
     if !typewriter.last_before_options {
         // If this is last before options, the `OptionSelection`
         // will make the visibility inherited as soon as it's ready instead
-        *root_visibility.single_mut() = Visibility::Inherited;
+        *q_root_visibility.single_mut() = Visibility::Inherited;
     }
     typewriter.update_current_text();
     if typewriter.is_finished() {
         if let Some(name) = typewriter.character_name.as_deref() {
-            speaker_change_events.send(SpeakerChangeEvent {
+            ev_speaker_changed.send(SpeakerChangeEvent {
                 character_name: name.to_string(),
                 speaking: false,
             });

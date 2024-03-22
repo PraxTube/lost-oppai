@@ -6,11 +6,29 @@ use crate::{
     GameState,
 };
 
-use super::spawn::Dialogue;
+use super::{option_selection::OptionSelection, spawn::Dialogue};
+
+#[derive(Component)]
+pub struct RunnerFlags {
+    pub active: bool,
+    pub dialogue: String,
+    pub options: Option<OptionSelection>,
+}
+
+impl RunnerFlags {
+    fn new(dialogue: &str) -> Self {
+        Self {
+            active: true,
+            dialogue: dialogue.to_string(),
+            options: None,
+        }
+    }
+}
 
 fn spawn_dialogue_runner(
     mut commands: Commands,
     project: Res<YarnProject>,
+    mut q_runner_flags: Query<&mut RunnerFlags>,
     mut q_dialogue: Query<&mut Visibility, With<Dialogue>>,
     mut ev_player_started_chat: EventReader<PlayerStartedChat>,
 ) {
@@ -20,17 +38,27 @@ fn spawn_dialogue_runner(
     };
 
     for ev in ev_player_started_chat.read() {
-        let mut dialogue_runner = project.create_dialogue_runner();
-        dialogue_runner.start_node(&ev.dialogue);
         *visibility = Visibility::Inherited;
-        commands.spawn(dialogue_runner);
+
+        let mut cached = false;
+        for mut flags in &mut q_runner_flags {
+            if flags.dialogue == ev.dialogue {
+                cached = true;
+                flags.active = true;
+            }
+        }
+        if !cached {
+            let mut dialogue_runner = project.create_dialogue_runner();
+            dialogue_runner.start_node(&ev.dialogue);
+            commands.spawn((dialogue_runner, RunnerFlags::new(&ev.dialogue)));
+        }
     }
 }
 
-fn despawn_dialogue_runner(
+fn deactivate_dialogue_runner(
     mut commands: Commands,
     mut q_dialogue: Query<&mut Visibility, With<Dialogue>>,
-    mut q_dialogue_runners: Query<(Entity, &mut DialogueRunner)>,
+    mut q_runner_flags: Query<&mut RunnerFlags>,
     mut ev_player_stopped_chat: EventReader<PlayerStoppedChat>,
     mut ev_dialogue_completed: EventReader<DialogueCompleteEvent>,
 ) {
@@ -50,9 +78,8 @@ fn despawn_dialogue_runner(
     ev_player_stopped_chat.clear();
 
     *visibility = Visibility::Hidden;
-    for (entity, mut runner) in &mut q_dialogue_runners {
-        runner.stop();
-        commands.entity(entity).despawn_recursive();
+    for mut flags in &mut q_runner_flags {
+        flags.active = false;
     }
 }
 
@@ -62,7 +89,7 @@ impl Plugin for DialogueRunnerPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (spawn_dialogue_runner, despawn_dialogue_runner)
+            (spawn_dialogue_runner, deactivate_dialogue_runner)
                 .run_if(in_state(GameState::Gaming).and_then(resource_exists::<YarnProject>())),
         );
     }
