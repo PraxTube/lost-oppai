@@ -58,32 +58,36 @@ fn spawn_dialogue_runner(
     }
 }
 
-fn deactivate_dialogue_runner(
+fn despawn_dialogue_runner(
     mut commands: Commands,
+    mut ev_dialogue_completed: EventReader<DialogueCompleteEvent>,
+) {
+    for ev in ev_dialogue_completed.read() {
+        if let Some(r) = commands.get_entity(ev.source) {
+            r.despawn_recursive();
+        }
+    }
+}
+
+fn deactivate_dialogue_runner(
     mut q_dialogue: Query<&mut Visibility, With<Dialogue>>,
     mut q_runner_flags: Query<&mut RunnerFlags>,
     mut ev_player_stopped_chat: EventReader<PlayerStoppedChat>,
-    mut ev_dialogue_completed: EventReader<DialogueCompleteEvent>,
 ) {
-    let mut visibility = match q_dialogue.get_single_mut() {
-        Ok(r) => r,
-        Err(_) => return,
-    };
-
     if ev_player_stopped_chat.is_empty() {
-        for ev in ev_dialogue_completed.read() {
-            if let Some(r) = commands.get_entity(ev.source) {
-                r.despawn_recursive();
-            }
-        }
         return;
     }
     ev_player_stopped_chat.clear();
 
-    *visibility = Visibility::Hidden;
     for mut flags in &mut q_runner_flags {
         flags.active = false;
     }
+
+    let mut visibility = match q_dialogue.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+    *visibility = Visibility::Hidden;
 }
 
 pub struct DialogueRunnerPlugin;
@@ -92,8 +96,12 @@ impl Plugin for DialogueRunnerPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (spawn_dialogue_runner, deactivate_dialogue_runner)
+            (spawn_dialogue_runner,)
                 .run_if(in_state(GameState::Gaming).and_then(resource_exists::<YarnProject>())),
+        )
+        .add_systems(
+            Update,
+            (despawn_dialogue_runner, deactivate_dialogue_runner),
         );
     }
 }
