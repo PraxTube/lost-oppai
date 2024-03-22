@@ -6,21 +6,24 @@ use crate::player::input::PlayerInput;
 use super::option_selection::OptionSelection;
 use super::runner::RunnerFlags;
 use super::spawn::{DialogueContinueNode, DialogueNameNode};
-use super::typewriter::{self, Typewriter};
+use super::typewriter::{Typewriter, WriteDialogueText};
 use super::DialogueViewSystemSet;
 
 fn present_line(
     mut typewriter: ResMut<Typewriter>,
     mut q_name_text: Query<&mut Text, With<DialogueNameNode>>,
+    mut q_runner_flags: Query<&mut RunnerFlags>,
     mut ev_present_line: EventReader<PresentLineEvent>,
 ) {
     for event in ev_present_line.read() {
-        let name = if let Some(name) = event.line.character_name() {
-            name.to_string()
-        } else {
-            String::new()
-        };
+        let name = event.line.character_name().unwrap_or_default().to_string();
         q_name_text.single_mut().sections[0].value = name;
+
+        for mut flags in &mut q_runner_flags {
+            if flags.active {
+                flags.line = Some(event.line.clone());
+            }
+        }
         typewriter.set_line(&event.line);
     }
 }
@@ -69,6 +72,20 @@ fn continue_dialogue(
     }
 }
 
+fn update_dialogue_name(
+    mut q_name_text: Query<&mut Text, With<DialogueNameNode>>,
+    mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
+) {
+    let mut text = match q_name_text.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    for ev in ev_write_dialogue_text.read() {
+        text.sections[0].value = ev.0.character_name().unwrap_or_default().to_string();
+    }
+}
+
 pub struct DialogueUpdatingPlugin;
 
 impl Plugin for DialogueUpdatingPlugin {
@@ -76,15 +93,13 @@ impl Plugin for DialogueUpdatingPlugin {
         app.add_systems(
             Update,
             (
-                present_line.run_if(
-                    resource_exists::<Typewriter>().and_then(on_event::<PresentLineEvent>()),
-                ),
+                present_line.run_if(on_event::<PresentLineEvent>()),
                 present_options.run_if(on_event::<PresentOptionsEvent>()),
-                continue_dialogue.run_if(resource_exists::<Typewriter>()),
+                continue_dialogue,
+                update_dialogue_name,
             )
                 .chain()
                 .after(YarnSpinnerSystemSet)
-                .after(typewriter::spawn)
                 .in_set(DialogueViewSystemSet),
         );
     }

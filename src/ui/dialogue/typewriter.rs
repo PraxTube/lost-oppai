@@ -2,7 +2,7 @@ use unicode_segmentation::UnicodeSegmentation;
 
 use bevy::prelude::*;
 use bevy::utils::Instant;
-use bevy_yarnspinner::{events::*, prelude::*};
+use bevy_yarnspinner::prelude::*;
 
 use crate::{GameAssets, GameState};
 
@@ -10,8 +10,10 @@ use super::option_selection::OptionSelection;
 use super::spawn::{create_dialogue_text, DialogueContent, DialogueContinueNode};
 use super::DialogueViewSystemSet;
 
-#[derive(Debug, Eq, PartialEq, Hash, Reflect, Event)]
-pub struct TypewriterFinishedEvent;
+#[derive(Event)]
+pub struct TypewriterFinished;
+#[derive(Event)]
+pub struct WriteDialogueText(pub LocalizedLine);
 
 #[derive(Debug, Clone, PartialEq, Resource)]
 pub struct Typewriter {
@@ -22,6 +24,7 @@ pub struct Typewriter {
     elapsed: f32,
     start: Instant,
     fast_typing: bool,
+    last_finished: bool,
 }
 
 impl Default for Typewriter {
@@ -34,11 +37,21 @@ impl Default for Typewriter {
             elapsed: default(),
             start: Instant::now(),
             fast_typing: default(),
+            last_finished: default(),
         }
     }
 }
 
 impl Typewriter {
+    pub fn new_completed_line(line: &LocalizedLine) -> Self {
+        Self {
+            character_name: line.character_name().map(|s| s.to_string()),
+            current_text: line.text_without_character_name(),
+            last_finished: true,
+            ..default()
+        }
+    }
+
     pub fn set_line(&mut self, line: &LocalizedLine) {
         *self = Self {
             character_name: line.character_name().map(|s| s.to_string()),
@@ -51,6 +64,10 @@ impl Typewriter {
             last_before_options: line.is_last_line_before_options(),
             ..default()
         };
+    }
+
+    pub fn reset(&mut self) {
+        *self = Self::default();
     }
 
     pub fn is_finished(&self) -> bool {
@@ -89,13 +106,19 @@ fn write_text(
     mut typewriter: ResMut<Typewriter>,
     option_selection: Option<Res<OptionSelection>>,
     mut q_text: Query<&mut Text, With<DialogueContent>>,
+    mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
 ) {
     let mut text = match q_text.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
+
+    for ev in ev_write_dialogue_text.read() {
+        *text = create_dialogue_text(ev.0.text_without_character_name().clone(), "", &assets);
+        return;
+    }
+
     if typewriter.last_before_options && option_selection.is_none() {
-        *text = default();
         return;
     }
     if typewriter.is_finished() {
@@ -112,7 +135,7 @@ fn write_text(
 fn show_continue(
     typewriter: Res<Typewriter>,
     mut q_visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
-    mut ev_typewriter_finished: EventReader<TypewriterFinishedEvent>,
+    mut ev_typewriter_finished: EventReader<TypewriterFinished>,
 ) {
     if ev_typewriter_finished.is_empty() {
         return;
@@ -131,24 +154,14 @@ fn show_continue(
 }
 
 fn send_finished_event(
-    mut events: EventWriter<TypewriterFinishedEvent>,
-    typewriter: Res<Typewriter>,
-    mut last_finished: Local<bool>,
+    mut typewriter: ResMut<Typewriter>,
+    mut ev_typewriter_finished: EventWriter<TypewriterFinished>,
 ) {
-    if !typewriter.is_finished() {
-        *last_finished = false;
-    } else if !*last_finished {
-        events.send(TypewriterFinishedEvent);
-        *last_finished = true;
+    if typewriter.is_finished() && !typewriter.last_finished {
+        info!("send finished");
+        ev_typewriter_finished.send(TypewriterFinished);
+        typewriter.last_finished = true;
     }
-}
-
-pub fn spawn(mut commands: Commands) {
-    commands.init_resource::<Typewriter>();
-}
-
-pub fn despawn(mut commands: Commands) {
-    commands.remove_resource::<Typewriter>();
 }
 
 pub struct DialogueTypewriterPlugin;
@@ -157,18 +170,14 @@ impl Plugin for DialogueTypewriterPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (
-                send_finished_event.run_if(resource_exists::<Typewriter>()),
-                despawn.run_if(on_event::<DialogueCompleteEvent>()),
-                spawn.run_if(on_event::<DialogueStartEvent>()),
-                write_text.run_if(resource_exists::<Typewriter>()),
-                show_continue.run_if(resource_exists::<Typewriter>()),
-            )
+            (send_finished_event, write_text, show_continue)
                 .chain()
                 .after(YarnSpinnerSystemSet)
                 .in_set(DialogueViewSystemSet)
                 .run_if(in_state(GameState::Gaming)),
         )
-        .add_event::<TypewriterFinishedEvent>();
+        .init_resource::<Typewriter>()
+        .add_event::<TypewriterFinished>()
+        .add_event::<WriteDialogueText>();
     }
 }

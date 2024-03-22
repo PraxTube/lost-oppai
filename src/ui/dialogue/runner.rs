@@ -9,12 +9,14 @@ use crate::{
 use super::{
     option_selection::{CreateOptions, OptionSelection},
     spawn::DialogueRoot,
+    typewriter::{Typewriter, WriteDialogueText},
 };
 
 #[derive(Component)]
 pub struct RunnerFlags {
     pub active: bool,
     pub dialogue: String,
+    pub line: Option<LocalizedLine>,
     pub options: Option<OptionSelection>,
 }
 
@@ -23,6 +25,7 @@ impl RunnerFlags {
         Self {
             active: true,
             dialogue: dialogue.to_string(),
+            line: None,
             options: None,
         }
     }
@@ -30,11 +33,13 @@ impl RunnerFlags {
 
 fn spawn_dialogue_runner(
     mut commands: Commands,
+    mut typewriter: ResMut<Typewriter>,
     project: Res<YarnProject>,
     mut q_runner_flags: Query<&mut RunnerFlags>,
     mut q_dialogue: Query<&mut Visibility, With<DialogueRoot>>,
     mut ev_player_started_chat: EventReader<PlayerStartedChat>,
     mut ev_show_options: EventWriter<CreateOptions>,
+    mut ev_write_dialogue_text: EventWriter<WriteDialogueText>,
 ) {
     let mut visibility = match q_dialogue.get_single_mut() {
         Ok(r) => r,
@@ -53,9 +58,14 @@ fn spawn_dialogue_runner(
                     ev_show_options.send(CreateOptions(option_selection.clone()));
                     commands.insert_resource(option_selection.clone());
                 }
+                if let Some(line) = &flags.line {
+                    ev_write_dialogue_text.send(WriteDialogueText(line.clone()));
+                    commands.insert_resource(Typewriter::new_completed_line(line));
+                }
             }
         }
         if !cached {
+            typewriter.reset();
             let mut dialogue_runner = project.create_dialogue_runner();
             dialogue_runner.start_node(&ev.dialogue);
             commands.spawn((dialogue_runner, RunnerFlags::new(&ev.dialogue)));

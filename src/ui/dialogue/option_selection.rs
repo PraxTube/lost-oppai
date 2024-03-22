@@ -7,8 +7,8 @@ use crate::player::input::PlayerInput;
 use crate::{GameAssets, GameState};
 
 use super::runner::RunnerFlags;
-use super::spawn::{spawn_options, DialogueContent, OptionButton, OptionsBackground, OptionsNode};
-use super::typewriter::{self, Typewriter, TypewriterFinishedEvent};
+use super::spawn::{spawn_options, OptionButton, OptionsBackground, OptionsNode, OptionsText};
+use super::typewriter::{Typewriter, TypewriterFinished};
 use super::DialogueViewSystemSet;
 
 #[derive(Event)]
@@ -60,7 +60,7 @@ impl OptionSelection {
 
 fn create_options_typewriter_finished(
     option_selection: Option<Res<OptionSelection>>,
-    mut typewriter_finished_event: EventReader<TypewriterFinishedEvent>,
+    mut typewriter_finished_event: EventReader<TypewriterFinished>,
     mut show_options: EventWriter<CreateOptions>,
 ) {
     if typewriter_finished_event.is_empty() {
@@ -117,7 +117,7 @@ fn select_option(
     mut dialogue_runners: Query<&mut DialogueRunner>,
     mut option_selection: ResMut<OptionSelection>,
     mut q_buttons: Query<(&Interaction, &OptionButton, &Children), With<Button>>,
-    mut q_text: Query<&mut Text, Without<DialogueContent>>,
+    mut q_text: Query<&mut Text, With<OptionsText>>,
     mut selected_option_event: EventWriter<HasSelectedOptionEvent>,
     mut ev_mouse_motion: EventReader<MouseMotion>,
 ) {
@@ -254,9 +254,7 @@ impl Plugin for DialogueSelectionPlugin {
                 create_options_typewriter_finished,
                 create_options,
                 show_options,
-                select_option
-                    .run_if(resource_exists::<OptionSelection>())
-                    .before(typewriter::despawn),
+                select_option.run_if(resource_exists::<OptionSelection>()),
                 relay_despawn_option,
                 reset_option_flag,
                 despawn_options,

@@ -21,6 +21,8 @@ pub struct OptionsNode;
 #[derive(Component)]
 pub struct OptionsBackground;
 #[derive(Component)]
+pub struct OptionsText;
+#[derive(Component)]
 pub struct OptionButton(pub OptionId);
 
 const DIALOG_WIDTH: f32 = 800.0 * 0.8;
@@ -342,11 +344,12 @@ fn spawn_option(
     }];
     let text = commands
         .spawn((
+            OptionsText,
+            Label,
             TextBundle::from_sections(sections).with_style(Style {
                 width: Val::Px(OPTIONS_WIDTH - 2.0 * OPTIONS_TEXT_BORDER),
                 ..default()
             }),
-            Label,
         ))
         .id();
 
@@ -365,7 +368,6 @@ fn spawn_option(
             ))
             .push_children(&[text])
             .id();
-
         commands.entity(entity).push_children(&[button]);
     } else {
         commands.entity(entity).push_children(&[text]);
