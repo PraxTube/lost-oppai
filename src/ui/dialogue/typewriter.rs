@@ -8,8 +8,7 @@ use crate::{GameAssets, GameState};
 
 use super::option_selection::OptionSelection;
 use super::spawn::{
-    create_dialogue_text, DialogueContent, DialogueContinueNode, DialogueRoot,
-    INITIAL_DIALOGUE_CONTINUE_BOTTOM,
+    create_dialogue_text, DialogueContent, DialogueContinueNode, INITIAL_DIALOGUE_CONTINUE_BOTTOM,
 };
 use super::DialogueViewSystemSet;
 
@@ -92,7 +91,6 @@ fn write_text(
     mut typewriter: ResMut<Typewriter>,
     option_selection: Option<Res<OptionSelection>>,
     mut q_text: Query<&mut Text, With<DialogueContent>>,
-    mut q_root_visibility: Query<&mut Visibility, With<DialogueRoot>>,
 ) {
     let mut text = match q_text.get_single_mut() {
         Ok(r) => r,
@@ -106,11 +104,6 @@ fn write_text(
         return;
     }
 
-    if !typewriter.last_before_options {
-        // If this is last before options, the `OptionSelection`
-        // will make the visibility inherited as soon as it's ready instead
-        *q_root_visibility.single_mut() = Visibility::Inherited;
-    }
     typewriter.update_current_text();
 
     let current_text = &typewriter.current_text;

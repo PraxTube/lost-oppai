@@ -5,24 +5,9 @@ use crate::player::input::PlayerInput;
 
 use super::option_selection::OptionSelection;
 use super::runner::RunnerFlags;
-use super::spawn::{DialogueContinueNode, DialogueNameNode, DialogueRoot};
+use super::spawn::{DialogueContinueNode, DialogueNameNode};
 use super::typewriter::{self, Typewriter};
 use super::DialogueViewSystemSet;
-
-fn show_dialog(mut visibility: Query<&mut Visibility, With<DialogueRoot>>) {
-    *visibility.single_mut() = Visibility::Inherited;
-}
-
-fn hide_dialog(
-    mut root_visibility: Query<&mut Visibility, With<DialogueRoot>>,
-    mut dialogue_complete_events: EventReader<DialogueCompleteEvent>,
-) {
-    if dialogue_complete_events.is_empty() {
-        return;
-    }
-    dialogue_complete_events.clear();
-    *root_visibility.single_mut() = Visibility::Hidden;
-}
 
 fn present_line(
     mut typewriter: ResMut<Typewriter>,
@@ -62,11 +47,7 @@ fn continue_dialogue(
     mut typewriter: ResMut<Typewriter>,
     option_selection: Option<Res<OptionSelection>>,
     mut q_dialogue_runners: Query<&mut DialogueRunner>,
-    mut q_root_visibility: Query<&mut Visibility, With<DialogueRoot>>,
-    mut q_continue_visibility: Query<
-        &mut Visibility,
-        (With<DialogueContinueNode>, Without<DialogueRoot>),
-    >,
+    mut q_continue_visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
 ) {
     if input.dialogue_fast_forward && !typewriter.is_finished() {
         typewriter.fast_forward();
@@ -78,7 +59,6 @@ fn continue_dialogue(
         for mut dialogue_runner in q_dialogue_runners.iter_mut() {
             if !dialogue_runner.is_waiting_for_option_selection() && dialogue_runner.is_running() {
                 dialogue_runner.continue_in_next_update();
-                *q_root_visibility.single_mut() = Visibility::Hidden;
                 *q_continue_visibility.single_mut() = Visibility::Hidden;
             }
         }
@@ -92,10 +72,6 @@ impl Plugin for DialogueUpdatingPlugin {
         app.add_systems(
             Update,
             (
-                hide_dialog,
-                show_dialog.run_if(
-                    resource_exists::<Typewriter>().and_then(on_event::<PresentLineEvent>()),
-                ),
                 present_line.run_if(
                     resource_exists::<Typewriter>().and_then(on_event::<PresentLineEvent>()),
                 ),

@@ -6,7 +6,7 @@ use crate::{
     GameState,
 };
 
-use super::{option_selection::OptionSelection, spawn::Dialogue};
+use super::{option_selection::OptionSelection, spawn::DialogueRoot};
 
 #[derive(Component)]
 pub struct RunnerFlags {
@@ -29,7 +29,7 @@ fn spawn_dialogue_runner(
     mut commands: Commands,
     project: Res<YarnProject>,
     mut q_runner_flags: Query<&mut RunnerFlags>,
-    mut q_dialogue: Query<&mut Visibility, With<Dialogue>>,
+    mut q_dialogue: Query<&mut Visibility, With<DialogueRoot>>,
     mut ev_player_started_chat: EventReader<PlayerStartedChat>,
 ) {
     let mut visibility = match q_dialogue.get_single_mut() {
@@ -58,6 +58,14 @@ fn spawn_dialogue_runner(
     }
 }
 
+fn hide_dialogue(mut q_dialogue: Query<&mut Visibility, With<DialogueRoot>>) {
+    let mut visibility = match q_dialogue.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+    *visibility = Visibility::Hidden;
+}
+
 fn despawn_dialogue_runner(
     mut commands: Commands,
     mut ev_dialogue_completed: EventReader<DialogueCompleteEvent>,
@@ -70,7 +78,6 @@ fn despawn_dialogue_runner(
 }
 
 fn deactivate_dialogue_runner(
-    mut q_dialogue: Query<&mut Visibility, With<Dialogue>>,
     mut q_runner_flags: Query<&mut RunnerFlags>,
     mut ev_player_stopped_chat: EventReader<PlayerStoppedChat>,
 ) {
@@ -82,12 +89,6 @@ fn deactivate_dialogue_runner(
     for mut flags in &mut q_runner_flags {
         flags.active = false;
     }
-
-    let mut visibility = match q_dialogue.get_single_mut() {
-        Ok(r) => r,
-        Err(_) => return,
-    };
-    *visibility = Visibility::Hidden;
 }
 
 pub struct DialogueRunnerPlugin;
@@ -101,7 +102,13 @@ impl Plugin for DialogueRunnerPlugin {
         )
         .add_systems(
             Update,
-            (despawn_dialogue_runner, deactivate_dialogue_runner),
+            (
+                despawn_dialogue_runner,
+                deactivate_dialogue_runner,
+                hide_dialogue.run_if(
+                    on_event::<DialogueCompleteEvent>().or_else(on_event::<PlayerStoppedChat>()),
+                ),
+            ),
         );
     }
 }

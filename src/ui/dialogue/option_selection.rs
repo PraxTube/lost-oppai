@@ -7,9 +7,7 @@ use crate::player::input::PlayerInput;
 use crate::{GameAssets, GameState};
 
 use super::runner::RunnerFlags;
-use super::spawn::{
-    spawn_options, DialogueContent, DialogueRoot, OptionButton, OptionsBackground, OptionsNode,
-};
+use super::spawn::{spawn_options, DialogueContent, OptionButton, OptionsBackground, OptionsNode};
 use super::typewriter::{self, Typewriter, TypewriterFinishedEvent};
 use super::DialogueViewSystemSet;
 
@@ -65,7 +63,6 @@ fn create_options(
     q_children: Query<&Children>,
     mut q_options_node: Query<(Entity, &mut Style), With<OptionsNode>>,
     mut q_options_background: Query<&mut Visibility, With<OptionsBackground>>,
-    mut q_root_visibility: Query<&mut Visibility, (With<DialogueRoot>, Without<OptionsBackground>)>,
 ) {
     let (entity, mut style) = match q_options_node.get_single_mut() {
         Ok(r) => r,
@@ -79,7 +76,6 @@ fn create_options(
     style.display = Display::Flex;
     *visibility = Visibility::Hidden;
     if q_children.iter_descendants(entity).next().is_none() {
-        *q_root_visibility.single_mut() = Visibility::Inherited;
         spawn_options(&mut commands, &assets, &option_selection, entity);
     }
 }
@@ -195,7 +191,6 @@ fn despawn_options(
     mut q_options_node: Query<Entity, With<OptionsNode>>,
     mut q_options_background: Query<&mut Visibility, With<OptionsBackground>>,
     mut q_dialogue_node_text: Query<&mut Text, With<DialogueContent>>,
-    mut q_root_visibility: Query<&mut Visibility, (With<DialogueRoot>, Without<OptionsBackground>)>,
     mut ev_despawn_option: EventReader<DespawnOption>,
 ) {
     if ev_despawn_option.is_empty() {
@@ -217,7 +212,6 @@ fn despawn_options(
     commands.entity(entity).despawn_descendants();
     *visibility = Visibility::Hidden;
     *q_dialogue_node_text.single_mut() = Text::default();
-    *q_root_visibility.single_mut() = Visibility::Hidden;
 }
 
 fn relay_despawn_option(

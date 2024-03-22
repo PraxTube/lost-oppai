@@ -7,8 +7,6 @@ use super::option_selection::OptionSelection;
 
 // The master root of the dialogue
 #[derive(Component)]
-pub struct Dialogue;
-#[derive(Component)]
 pub struct DialogueRoot;
 #[derive(Component)]
 pub struct DialogueContent;
@@ -250,28 +248,24 @@ fn spawn_dialogue(mut commands: Commands, assets: Res<GameAssets>) {
     let dialogue_bottom = spawn_dialogue_bottom(&mut commands, &assets);
 
     let dialogue_root = commands
-        .spawn((
-            NodeBundle {
-                style: Style {
-                    width: Val::Percent(100.0),
-                    height: Val::Percent(100.0),
-                    justify_content: JustifyContent::FlexEnd,
-                    align_items: AlignItems::Center,
-                    padding: UiRect::bottom(Val::Px(30.0)),
-                    flex_direction: FlexDirection::Column,
-                    ..default()
-                },
-                visibility: Visibility::Hidden,
+        .spawn((NodeBundle {
+            style: Style {
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::FlexEnd,
+                align_items: AlignItems::Center,
+                padding: UiRect::bottom(Val::Px(30.0)),
+                flex_direction: FlexDirection::Column,
                 ..default()
             },
-            DialogueRoot,
-        ))
+            ..default()
+        },))
         .push_children(&[dialogue_top, dialogue_content, dialogue_bottom])
         .id();
 
     commands
         .spawn((
-            Dialogue,
+            DialogueRoot,
             NodeBundle {
                 style: Style {
                     width: Val::Percent(100.0),
@@ -279,6 +273,7 @@ fn spawn_dialogue(mut commands: Commands, assets: Res<GameAssets>) {
                     position_type: PositionType::Absolute,
                     ..default()
                 },
+                visibility: Visibility::Hidden,
                 ..default()
             },
         ))
