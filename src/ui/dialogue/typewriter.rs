@@ -7,9 +7,7 @@ use bevy_yarnspinner::{events::*, prelude::*};
 use crate::{GameAssets, GameState};
 
 use super::option_selection::OptionSelection;
-use super::spawn::{
-    create_dialogue_text, DialogueContent, DialogueContinueNode, INITIAL_DIALOGUE_CONTINUE_BOTTOM,
-};
+use super::spawn::{create_dialogue_text, DialogueContent, DialogueContinueNode};
 use super::DialogueViewSystemSet;
 
 #[derive(Debug, Eq, PartialEq, Hash, Reflect, Event)]
@@ -113,15 +111,23 @@ fn write_text(
 
 fn show_continue(
     typewriter: Res<Typewriter>,
-    mut visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
-    mut typewriter_finished_event: EventReader<TypewriterFinishedEvent>,
+    mut q_visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
+    mut ev_typewriter_finished: EventReader<TypewriterFinishedEvent>,
 ) {
-    for _event in typewriter_finished_event.read() {
-        if !typewriter.last_before_options {
-            let mut visibility = visibility.single_mut();
-            *visibility = Visibility::Inherited;
-        }
+    if ev_typewriter_finished.is_empty() {
+        return;
     }
+    ev_typewriter_finished.clear();
+
+    if typewriter.last_before_options {
+        return;
+    }
+
+    let mut visibility = match q_visibility.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+    *visibility = Visibility::Inherited;
 }
 
 pub fn despawn(mut commands: Commands) {
@@ -130,21 +136,6 @@ pub fn despawn(mut commands: Commands) {
 
 pub fn spawn(mut commands: Commands) {
     commands.init_resource::<Typewriter>();
-}
-
-fn bob_continue(
-    time: Res<Time>,
-    visibility: Query<&Visibility, With<DialogueContinueNode>>,
-    mut style: Query<&mut Style, With<DialogueContinueNode>>,
-) {
-    let visibility = visibility.single();
-    if *visibility == Visibility::Hidden {
-        return;
-    }
-    let mut style = style.single_mut();
-    let pixels =
-        (time.elapsed_seconds() * 3.0).sin().powi(2) * 5.0 + INITIAL_DIALOGUE_CONTINUE_BOTTOM;
-    style.bottom = Val::Px(pixels);
 }
 
 fn send_finished_event(
@@ -172,7 +163,6 @@ impl Plugin for DialogueTypewriterPlugin {
                 spawn.run_if(on_event::<DialogueStartEvent>()),
                 write_text.run_if(resource_exists::<Typewriter>()),
                 show_continue.run_if(resource_exists::<Typewriter>()),
-                bob_continue,
             )
                 .chain()
                 .after(YarnSpinnerSystemSet)

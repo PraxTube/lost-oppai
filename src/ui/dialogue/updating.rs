@@ -54,13 +54,17 @@ fn continue_dialogue(
         return;
     }
 
-    if (input.dialogue_fast_forward || typewriter.last_before_options) && option_selection.is_none()
-    {
-        for mut dialogue_runner in q_dialogue_runners.iter_mut() {
-            if !dialogue_runner.is_waiting_for_option_selection() && dialogue_runner.is_running() {
-                dialogue_runner.continue_in_next_update();
-                *q_continue_visibility.single_mut() = Visibility::Hidden;
-            }
+    if option_selection.is_some() {
+        return;
+    }
+    if !input.dialogue_fast_forward && !typewriter.last_before_options {
+        return;
+    }
+
+    for mut dialogue_runner in &mut q_dialogue_runners {
+        if !dialogue_runner.is_waiting_for_option_selection() && dialogue_runner.is_running() {
+            dialogue_runner.continue_in_next_update();
+            *q_continue_visibility.single_mut() = Visibility::Hidden;
         }
     }
 }

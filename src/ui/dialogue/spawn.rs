@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_tweening::{lens::*, *};
 use bevy_yarnspinner::prelude::*;
 
 use crate::{GameAssets, GameState};
@@ -22,11 +23,14 @@ pub struct OptionsBackground;
 #[derive(Component)]
 pub struct OptionButton(pub OptionId);
 
-pub const INITIAL_DIALOGUE_CONTINUE_BOTTOM: f32 = -5.0;
 const DIALOG_WIDTH: f32 = 800.0 * 0.8;
 const OPTIONS_WIDTH: f32 = 420.0;
 const TEXT_BORDER: f32 = 120.0;
 const OPTIONS_TEXT_BORDER: f32 = 10.0;
+
+const CONTINUE_BOTTOM: f32 = -5.0;
+const CONTINUE_BOB_DURATION: f32 = 1.0;
+const CONTINUE_BOB_OFFSET: f32 = 5.0;
 
 fn style_standard(_assets: &Res<GameAssets>) -> Style {
     Style {
@@ -158,8 +162,31 @@ fn spawn_dialogue_bottom(commands: &mut Commands, assets: &Res<GameAssets>) -> E
         },))
         .id();
 
+    let tween = Tween::new(
+        EaseFunction::SineInOut,
+        std::time::Duration::from_secs_f32(CONTINUE_BOB_DURATION),
+        UiPositionLens {
+            start: UiRect::new(
+                Val::Auto,
+                Val::Auto,
+                Val::Auto,
+                Val::Px(CONTINUE_BOTTOM + CONTINUE_BOB_OFFSET),
+            ),
+            end: UiRect::new(
+                Val::Auto,
+                Val::Auto,
+                Val::Auto,
+                Val::Px(CONTINUE_BOTTOM - CONTINUE_BOB_OFFSET),
+            ),
+        },
+    )
+    .with_repeat_count(RepeatCount::Infinite)
+    .with_repeat_strategy(RepeatStrategy::MirroredRepeat);
+
     let continue_node = commands
         .spawn((
+            DialogueContinueNode,
+            Animator::new(tween),
             ImageBundle {
                 image: UiImage {
                     texture: assets.dialogue_continue.clone(),
@@ -167,14 +194,12 @@ fn spawn_dialogue_bottom(commands: &mut Commands, assets: &Res<GameAssets>) -> E
                 },
                 style: Style {
                     position_type: PositionType::Absolute,
-                    bottom: Val::Px(INITIAL_DIALOGUE_CONTINUE_BOTTOM),
                     ..default()
                 },
                 z_index: ZIndex::Local(1),
                 visibility: Visibility::Hidden,
                 ..default()
             },
-            DialogueContinueNode,
         ))
         .id();
 
