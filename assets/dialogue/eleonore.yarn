@@ -15,8 +15,9 @@ title: Eleonore
     {$name}: Oh? Is this your first time you see this kind of magic?
     {$name}: It's a levitation spell, it's a fairly basic one too.
     -> Magic spell? Where on earth are we?
-        {$name}: Earth? Wow you seem really lost girl.
+        {$name}: Earth? Wow girl, you really are lost.
         <<jump Location>>
+    -> There must be trick, like a string pulling you up or something.
 
 ===
 
@@ -119,6 +120,27 @@ title: TeleportationMagic
 
 title: SummonMagic
 ---
-{$name}: That's at least what I consider to be the most likely explanation.
+{$name}: That's at least what I consider to be most likely.
+{$name}: Though only an extremely powerful and old mage could have pulled that off.
+-> Hm, there was nobody around when I woke up.
+-> An extremely powerful mage? More powerful then you?
+    {$name}: Haha, yeah much more powerful then me. Teleportation magic isn't even considered possible you know.
+    {$name}: For someone to have summoned you here from another world they much be immensly powerful.
+    -> I see, so you aren't able to return me home I assume?
+        {$name}: Nope, not a chance. If I would have the griomoire... maybe.
+        {$name}: But to begin with, that grimoire is considered to be nothing more then a fairy tail.
+        {$name}: Would you like to return home?
+        -> Yeah of course!
+        -> Wouldn't you?
+        -> I don't know. I would like to explore this world a bit first.
+            {$name}: I see. You said you don't have magic in your world right? Guess that must be quite interesting.
+            -> Yeah! You think I could become a mage too?
+            -> A different world in general is very interesting.
+        -> Hm, actually, no.
+            {$name}: Oh really? That's a bit surprising. Why is that?
+            -> A world filled with magic? Of course I don't wanna go back!
+            -> I have no reason to.
+            -> It's a shitty world with shitty people.
+    -> Any idea how we could find the one who summoned me?
 
 ===

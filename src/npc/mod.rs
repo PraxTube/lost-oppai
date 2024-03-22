@@ -12,7 +12,7 @@ pub struct NpcPlugin;
 
 impl Plugin for NpcPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnExit(GameState::AssetLoading), (spawn_npc,))
+        app.add_systems(OnExit(GameState::AssetLoading), (spawn_npcs,))
             .add_systems(Update, (face_player,));
     }
 }
@@ -30,8 +30,8 @@ impl Npc {
     }
 }
 
-fn spawn_npc(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets>) {
-    let transform = Transform::from_translation(bitmap.center_point().extend(0.0));
+fn spawn_npc(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3, npc: &str) {
+    let transform = Transform::from_translation(pos);
     let mut animator = AnimationPlayer2D::default();
     animator.play(assets.npc_animations[0].clone()).repeat();
 
@@ -65,7 +65,7 @@ fn spawn_npc(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets
 
     commands
         .spawn((
-            Npc::new("Eleonore"),
+            Npc::new(npc),
             YSort(16.0),
             animator,
             SpriteSheetBundle {
@@ -75,6 +75,14 @@ fn spawn_npc(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets
             },
         ))
         .push_children(&[collider, shadow]);
+}
+
+fn spawn_npcs(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets>) {
+    let pos = [bitmap.center_point().extend(0.0), Vec3::new(-5.0, 3.0, 0.0)];
+    let npcs = ["Eleonore", "NOTEleonore"];
+    for i in 0..pos.len() {
+        spawn_npc(&mut commands, &assets, pos[i], npcs[i]);
+    }
 }
 
 fn face_player(

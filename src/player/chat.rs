@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_yarnspinner::prelude::*;
 
-use crate::{npc::Npc, GameState};
+use crate::{npc::Npc, ui::dialogue::runner::RunnerFlags, GameState};
 
 use super::{input::PlayerInput, Player, PlayerState, NPC_PROXIMITY_DISTANCE};
 
@@ -17,14 +17,16 @@ fn start_chat(
     player_input: Res<PlayerInput>,
     mut q_player: Query<(&Transform, &mut Player)>,
     q_npcs: Query<(&Transform, &Npc), Without<Player>>,
-    q_dialogue_runners: Query<With<DialogueRunner>>,
+    q_dialogue_runners: Query<&RunnerFlags, With<DialogueRunner>>,
     mut ev_player_started_chat: EventWriter<PlayerStartedChat>,
 ) {
     if !player_input.start_dialogue {
         return;
     }
-    if !q_dialogue_runners.is_empty() {
-        return;
+    for flags in &q_dialogue_runners {
+        if flags.active {
+            return;
+        }
     }
 
     let (player_transform, mut player) = match q_player.get_single_mut() {

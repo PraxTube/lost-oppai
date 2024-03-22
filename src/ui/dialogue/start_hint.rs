@@ -15,7 +15,47 @@ const SCALE_DURATION: f32 = 0.5;
 #[derive(Component)]
 struct StartHint;
 
-fn spawn_hint(
+fn spawn_hint(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
+    let mut animator = AnimationPlayer2D::default();
+    animator
+        .play(assets.dialogue_start_hint_animations[0].clone())
+        .repeat();
+
+    let tween = Tween::new(
+        EaseFunction::QuarticInOut,
+        std::time::Duration::from_secs_f32(SCALE_DURATION),
+        TransformScaleLens {
+            start: Vec3::ZERO,
+            end: Vec3::ONE * SIZE,
+        },
+    );
+
+    let sprite = commands
+        .spawn((
+            animator,
+            Animator::new(tween),
+            SpriteSheetBundle {
+                texture_atlas: assets.dialogue_start_hint.clone(),
+                transform: Transform::from_translation(Vec3::new(0.0, 40.0, 0.0))
+                    .with_scale(Vec3::ZERO),
+                ..default()
+            },
+        ))
+        .id();
+
+    commands
+        .spawn((
+            StartHint,
+            YSort(100.0),
+            SpatialBundle {
+                transform: Transform::from_translation(pos),
+                ..default()
+            },
+        ))
+        .push_children(&[sprite]);
+}
+
+fn spawn_hints(
     mut commands: Commands,
     assets: Res<GameAssets>,
     q_player: Query<(&Transform, &Player)>,
@@ -42,45 +82,8 @@ fn spawn_hint(
             .distance_squared(npc_transform.translation.xy())
             <= NPC_PROXIMITY_DISTANCE.powi(2)
         {
-            let mut animator = AnimationPlayer2D::default();
-            animator
-                .play(assets.dialogue_start_hint_animations[0].clone())
-                .repeat();
-
-            let tween = Tween::new(
-                EaseFunction::QuarticInOut,
-                std::time::Duration::from_secs_f32(SCALE_DURATION),
-                TransformScaleLens {
-                    start: Vec3::ZERO,
-                    end: Vec3::ONE * SIZE,
-                },
-            );
-
-            let sprite = commands
-                .spawn((
-                    animator,
-                    Animator::new(tween),
-                    SpriteSheetBundle {
-                        texture_atlas: assets.dialogue_start_hint.clone(),
-                        transform: Transform::from_translation(Vec3::new(0.0, 40.0, 0.0))
-                            .with_scale(Vec3::ZERO),
-                        ..default()
-                    },
-                ))
-                .id();
-
-            commands
-                .spawn((
-                    StartHint,
-                    YSort(100.0),
-                    SpatialBundle {
-                        transform: Transform::from_translation(npc_transform.translation),
-                        ..default()
-                    },
-                ))
-                .push_children(&[sprite]);
+            spawn_hint(&mut commands, &assets, npc_transform.translation);
         }
-        break;
     }
 }
 
@@ -133,7 +136,7 @@ impl Plugin for DialogueStartHintPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (spawn_hint, despawn_hint).run_if(in_state(GameState::Gaming)),
+            (spawn_hints, despawn_hint).run_if(in_state(GameState::Gaming)),
         );
     }
 }
