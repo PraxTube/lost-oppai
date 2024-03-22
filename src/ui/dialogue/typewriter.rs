@@ -11,7 +11,6 @@ use super::spawn::{
     create_dialogue_text, DialogueContent, DialogueContinueNode, DialogueRoot,
     INITIAL_DIALOGUE_CONTINUE_BOTTOM,
 };
-use super::updating::SpeakerChangeEvent;
 use super::DialogueViewSystemSet;
 
 #[derive(Debug, Eq, PartialEq, Hash, Reflect, Event)]
@@ -94,7 +93,6 @@ fn write_text(
     option_selection: Option<Res<OptionSelection>>,
     mut q_text: Query<&mut Text, With<DialogueContent>>,
     mut q_root_visibility: Query<&mut Visibility, With<DialogueRoot>>,
-    mut ev_speaker_changed: EventWriter<SpeakerChangeEvent>,
 ) {
     let mut text = match q_text.get_single_mut() {
         Ok(r) => r,
@@ -114,14 +112,6 @@ fn write_text(
         *q_root_visibility.single_mut() = Visibility::Inherited;
     }
     typewriter.update_current_text();
-    if typewriter.is_finished() {
-        if let Some(name) = typewriter.character_name.as_deref() {
-            ev_speaker_changed.send(SpeakerChangeEvent {
-                character_name: name.to_string(),
-                speaking: false,
-            });
-        }
-    }
 
     let current_text = &typewriter.current_text;
     let rest = typewriter.graphemes_left.join("");

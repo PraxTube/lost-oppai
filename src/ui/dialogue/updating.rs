@@ -9,19 +9,6 @@ use super::spawn::{DialogueContinueNode, DialogueNameNode, DialogueRoot};
 use super::typewriter::{self, Typewriter};
 use super::DialogueViewSystemSet;
 
-/// Signals that a speaker has changed.
-/// A speaker starts speaking when a new line is presented with a [`PresentLineEvent`] which has a character name.
-/// A speaker stops speaking when the line is fully displayed on the screen, which happens over the course of a few seconds
-#[derive(Debug, Eq, PartialEq, Hash, Reflect, Event)]
-#[reflect(Debug, PartialEq, Hash)]
-#[non_exhaustive]
-pub struct SpeakerChangeEvent {
-    /// The name of the character who is or was speaking.
-    pub character_name: String,
-    /// If `true`, the character just started speaking. Otherwise, they just stopped.
-    pub speaking: bool,
-}
-
 fn show_dialog(mut visibility: Query<&mut Visibility, With<DialogueRoot>>) {
     *visibility.single_mut() = Visibility::Inherited;
 }
@@ -38,22 +25,17 @@ fn hide_dialog(
 }
 
 fn present_line(
-    mut line_events: EventReader<PresentLineEvent>,
-    mut speaker_change_events: EventWriter<SpeakerChangeEvent>,
     mut typewriter: ResMut<Typewriter>,
-    mut name_node: Query<&mut Text, With<DialogueNameNode>>,
+    mut q_name_text: Query<&mut Text, With<DialogueNameNode>>,
+    mut ev_present_line: EventReader<PresentLineEvent>,
 ) {
-    for event in line_events.read() {
+    for event in ev_present_line.read() {
         let name = if let Some(name) = event.line.character_name() {
-            speaker_change_events.send(SpeakerChangeEvent {
-                character_name: name.to_string(),
-                speaking: true,
-            });
             name.to_string()
         } else {
             String::new()
         };
-        name_node.single_mut().sections[0].value = name;
+        q_name_text.single_mut().sections[0].value = name;
         typewriter.set_line(&event.line);
     }
 }
@@ -124,8 +106,6 @@ impl Plugin for DialogueUpdatingPlugin {
                 .after(YarnSpinnerSystemSet)
                 .after(typewriter::spawn)
                 .in_set(DialogueViewSystemSet),
-        )
-        .add_event::<SpeakerChangeEvent>()
-        .register_type::<SpeakerChangeEvent>();
+        );
     }
 }
