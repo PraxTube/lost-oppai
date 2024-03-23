@@ -59,8 +59,8 @@ fn spawn_dialogue_runner(
                     commands.insert_resource(option_selection.clone());
                 }
                 if let Some(line) = &flags.line {
-                    ev_write_dialogue_text.send(WriteDialogueText(line.clone()));
-                    commands.insert_resource(Typewriter::new_completed_line(line));
+                    typewriter.set_completed_line(line);
+                    ev_write_dialogue_text.send(WriteDialogueText);
                 }
             }
         }

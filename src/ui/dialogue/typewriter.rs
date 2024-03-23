@@ -13,7 +13,7 @@ use super::DialogueViewSystemSet;
 #[derive(Event)]
 pub struct TypewriterFinished;
 #[derive(Event)]
-pub struct WriteDialogueText(pub LocalizedLine);
+pub struct WriteDialogueText;
 
 #[derive(Resource)]
 pub struct Typewriter {
@@ -43,11 +43,12 @@ impl Default for Typewriter {
 }
 
 impl Typewriter {
-    pub fn new_completed_line(line: &LocalizedLine) -> Self {
-        Self {
+    pub fn set_completed_line(&mut self, line: &LocalizedLine) {
+        *self = Self {
             character_name: line.character_name().map(|s| s.to_string()),
             current_text: line.text_without_character_name(),
             last_finished: true,
+            last_before_options: line.is_last_line_before_options(),
             ..default()
         }
     }
@@ -113,8 +114,9 @@ fn write_text(
         Err(_) => return,
     };
 
-    for ev in ev_write_dialogue_text.read() {
-        *text = create_dialogue_text(ev.0.text_without_character_name().clone(), "", &assets);
+    if !ev_write_dialogue_text.is_empty() {
+        ev_write_dialogue_text.clear();
+        *text = create_dialogue_text(&typewriter.current_text, "", &assets);
         return;
     }
 
@@ -136,21 +138,25 @@ fn show_continue(
     typewriter: Res<Typewriter>,
     mut q_visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
     mut ev_typewriter_finished: EventReader<TypewriterFinished>,
+    mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
 ) {
-    if ev_typewriter_finished.is_empty() {
+    if ev_typewriter_finished.is_empty() && ev_write_dialogue_text.is_empty() {
         return;
     }
     ev_typewriter_finished.clear();
-
-    if typewriter.last_before_options {
-        return;
-    }
+    ev_write_dialogue_text.clear();
 
     let mut visibility = match q_visibility.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
-    *visibility = Visibility::Inherited;
+
+    let vis = if typewriter.last_before_options {
+        Visibility::Hidden
+    } else {
+        Visibility::Inherited
+    };
+    *visibility = vis;
 }
 
 fn send_finished_event(

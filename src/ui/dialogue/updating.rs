@@ -77,17 +77,20 @@ fn continue_dialogue(
 }
 
 fn update_dialogue_name(
+    typewriter: Res<Typewriter>,
     mut q_name_text: Query<&mut Text, With<DialogueNameNode>>,
     mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
 ) {
+    if ev_write_dialogue_text.is_empty() {
+        return;
+    }
+    ev_write_dialogue_text.clear();
+
     let mut text = match q_name_text.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
-
-    for ev in ev_write_dialogue_text.read() {
-        text.sections[0].value = ev.0.character_name().unwrap_or_default().to_string();
-    }
+    text.sections[0].value = typewriter.character_name.clone().unwrap_or_default();
 }
 
 pub struct DialogueUpdatingPlugin;
