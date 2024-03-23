@@ -29,13 +29,21 @@ pub struct GameAssets {
 
     // --- NPC ---
     #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 64.0, columns = 9, rows = 1))]
-    #[asset(path = "npc/npc.png")]
-    pub npc: Handle<TextureAtlas>,
-    #[asset(paths("npc/npc.trickfilm#idle",), collection(typed))]
-    pub npc_animations: Vec<Handle<AnimationClip2D>>,
+    #[asset(path = "npc/eleonore.png")]
+    pub eleonore: Handle<TextureAtlas>,
+    #[asset(paths("npc/eleonore.trickfilm#idle",), collection(typed))]
+    pub eleonore_animations: Vec<Handle<AnimationClip2D>>,
     #[asset(texture_atlas(tile_size_x = 32.0, tile_size_y = 32.0, columns = 9, rows = 1))]
-    #[asset(path = "npc/shadow.png")]
-    pub npc_shadow: Handle<TextureAtlas>,
+    #[asset(path = "npc/eleonore_shadow.png")]
+    pub eleonore_shadow: Handle<TextureAtlas>,
+
+    #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 64.0, columns = 18, rows = 1))]
+    #[asset(path = "npc/joanna.png")]
+    pub joanna: Handle<TextureAtlas>,
+    #[asset(paths("npc/joanna.trickfilm#idle",), collection(typed))]
+    pub joanna_animatins: Vec<Handle<AnimationClip2D>>,
+    #[asset(path = "npc/joanna_shadow.png")]
+    pub joanna_shadow: Handle<Image>,
 
     // --- MAP ---
     #[asset(path = "map/tileset.png")]
