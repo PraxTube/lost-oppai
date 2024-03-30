@@ -5,7 +5,7 @@ use super::bitmask::BitMasks;
 use super::{
     TileCollision, TileType, BITMASK_BOT_LEFT, BITMASK_BOT_RIGHT, BITMASK_TOP_LEFT,
     BITMASK_TOP_RIGHT, CHUNK_SIZE, EMPTY_TYPE_INDEX, INVALID_TILE, NOISE_ZOOM, PATH_TYPE_INDEX,
-    RENDERED_CHUNKS_RADIUS, WATER_TYPE_INDEX,
+    RENDERED_CHUNKS_RADIUS, WATER_HEIGH_LEVEL, WATER_TYPE_INDEX,
 };
 
 #[derive(Resource)]
@@ -131,6 +131,7 @@ impl BitMap {
         self.get_tileset_raw(v).0 == PATH_TYPE_INDEX
     }
 
+    // Expand the tileset arrays if the given point lies outside.
     fn fit_tileset_size(&mut self, v: IVec2) {
         let tileset = match self.tileset_quadrant(v) {
             1 => &mut self.tile_q1,
@@ -176,7 +177,7 @@ impl BitMap {
         let secondary_noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, self.seed() + 1.0) * 1.0;
         let h = noise + secondary_noise;
 
-        let is_water = h < 10.0;
+        let is_water = h < WATER_HEIGH_LEVEL;
         if is_water {
             self.set_water_flag(v);
         }
