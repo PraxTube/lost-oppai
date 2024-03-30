@@ -51,34 +51,36 @@ fn generate_bezier_points(rng: &mut GameRng, p1: Vec2, distance: f32) -> (Vec2, 
     (p1, p2, c1, c2)
 }
 
-fn fill_path_points(bitmap: &mut ResMut<BitMap>, points: Vec<IVec2>) {
-    for v in points {
-        let w = Vec2::new(v.x as f32, v.y as f32);
+fn fill_path_point(bitmap: &mut ResMut<BitMap>, v: IVec2) {
+    let w = Vec2::new(v.x as f32, v.y as f32);
 
-        let noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, bitmap.seed());
-        let secondary_noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, bitmap.seed() + 1.0) * 1.0;
-        let radius = (MIN_RADIUS as f32
-            + 0.25 * (noise + secondary_noise + 2.0) * (MAX_RADIUS - MIN_RADIUS) as f32)
-            as i32;
-        let sqrt_radius = radius.pow(2);
-        let radius_grass = (MIN_RADIUS_GRASS as f32
-            + 0.25 * (noise + secondary_noise + 2.0) * (MAX_RADIUS_GRASS - MIN_RADIUS_GRASS) as f32)
-            as i32;
-        let sqrt_radius_grass = radius_grass.pow(2);
+    let noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, bitmap.seed());
+    let secondary_noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, bitmap.seed() + 1.0) * 1.0;
+    let radius = (MIN_RADIUS as f32
+        + 0.25 * (noise + secondary_noise + 2.0) * (MAX_RADIUS - MIN_RADIUS) as f32)
+        as i32;
+    let sqrt_radius = radius.pow(2);
+    let radius_grass = (MIN_RADIUS_GRASS as f32
+        + 0.25 * (noise + secondary_noise + 2.0) * (MAX_RADIUS_GRASS - MIN_RADIUS_GRASS) as f32)
+        as i32;
+    let sqrt_radius_grass = radius_grass.pow(2);
 
-        for x in -radius_grass..=radius_grass {
-            for y in -radius_grass..=radius_grass {
-                let offset = IVec2::new(x, y);
-                let dis = offset.length_squared();
-                if dis < sqrt_radius {
-                    bitmap.set_type_index(v + offset, PATH_TYPE_INDEX);
-                } else if dis < sqrt_radius_grass
-                    && bitmap.get_tileset_raw(v + offset).0 != PATH_TYPE_INDEX
-                {
-                    bitmap.set_type_index(v + offset, GRASS_TYPE_INDEX);
-                }
+    for x in -radius_grass..=radius_grass {
+        for y in -radius_grass..=radius_grass {
+            let offset = IVec2::new(x, y);
+            let dis = offset.length_squared();
+            if dis < sqrt_radius {
+                bitmap.set_type_index(v + offset, PATH_TYPE_INDEX);
+            } else if dis < sqrt_radius_grass && !bitmap.get_path_flag(v + offset) {
+                bitmap.set_type_index(v + offset, GRASS_TYPE_INDEX);
             }
         }
+    }
+}
+
+fn fill_path_points(bitmap: &mut ResMut<BitMap>, points: Vec<IVec2>) {
+    for v in points {
+        fill_path_point(bitmap, v);
     }
 }
 

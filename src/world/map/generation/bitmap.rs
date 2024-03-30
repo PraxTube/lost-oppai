@@ -59,7 +59,7 @@ impl BitMap {
         }
     }
 
-    pub fn get_tileset_raw(&mut self, v: IVec2) -> (u8, u16) {
+    fn get_tileset_raw(&mut self, v: IVec2) -> (u8, u16) {
         self.fit_tileset_size(v);
 
         let tileset = match self.tileset_quadrant(v) {
@@ -127,11 +127,12 @@ impl BitMap {
         }
     }
 
-    fn get_path_flag(&mut self, v: IVec2) -> bool {
+    pub fn get_path_flag(&mut self, v: IVec2) -> bool {
         self.get_tileset_raw(v).0 == PATH_TYPE_INDEX
     }
 
-    // Expand the tileset arrays if the given point lies outside.
+    // Expand the tileset arrays if the given point
+    // lies outside the current range.
     fn fit_tileset_size(&mut self, v: IVec2) {
         let tileset = match self.tileset_quadrant(v) {
             1 => &mut self.tile_q1,
