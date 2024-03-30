@@ -109,7 +109,7 @@ fn spawn_joanna(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
     commands
         .spawn((
             Npc::new("Joanna"),
-            YSort(16.0),
+            YSort(0.0),
             animator,
             SpriteSheetBundle {
                 transform,

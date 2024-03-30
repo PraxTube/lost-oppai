@@ -86,7 +86,6 @@ title: EleonoreIntroduction
             <<jump Location>>
     -> That would imply that there is no good or bad and that it's instead a matter of perspective.
     -> I don't understand what you are getting at.
--> Last time I checked, there was no magic in our world.
 -> Magic user? What does that mean?
 
 ===
@@ -113,7 +112,7 @@ title: TeleportationMagic
         {$name}: You just did a reality check, so if you are still having doubts then that's all I can do.
         {$name}: What you are asking is the equivalent to "How do I know I exist, how do I know the world truly exists?".
         {$name}: A rather philosophical question, a question we by definition don't know the answer to.
-        You: Okay fine. So I was transported to a different world?
+        You: Okay, fine. So I was transported to a different world?
         <<jump SummonMagic>>
     
 ===
@@ -123,6 +122,8 @@ title: SummonMagic
 {$name}: That's at least what I consider to be most likely.
 {$name}: Though only an extremely powerful and old mage could have pulled that off.
 -> Hm, there was nobody around when I woke up.
+    {$name}: I see. In that case it might be that you were transported by accident, or that something happened during the spell.
+    {$name}: This does mean that it will be harder for you to get back though, as we don't even know how you got here in the first place.
 -> An extremely powerful mage? More powerful then you?
     {$name}: Haha, yeah much more powerful then me. Teleportation magic isn't even considered possible you know.
     {$name}: For someone to have summoned you here from another world they much be immensly powerful.
@@ -131,6 +132,9 @@ title: SummonMagic
         {$name}: But to begin with, that grimoire is considered to be nothing more then a fairy tail.
         {$name}: Would you like to return home?
         -> Yeah of course!
+            {$name}: Haha, I see. I understand, though I don't wanna get your hopes up.
+            {$name}: Don't get me wrong, I am willing to help you but it's very unlikely I will succeed.
+            {$name}: To start with, I would need the griomoire to even get started.
         -> Wouldn't you?
         -> I don't know. I would like to explore this world a bit first.
             {$name}: I see. You said you don't have magic in your world right? Guess that must be quite interesting.
