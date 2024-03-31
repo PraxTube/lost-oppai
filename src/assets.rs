@@ -63,6 +63,31 @@ pub struct GameAssets {
     #[asset(paths("ui/dialogue_start_hint.trickfilm#main",), collection(typed))]
     pub dialogue_start_hint_animations: Vec<Handle<AnimationClip2D>>,
 
+    #[asset(texture_atlas(tile_size_x = 34.0, tile_size_y = 34.0, columns = 3, rows = 1))]
+    #[asset(path = "ui/keys/down_key.png")]
+    pub ui_down_key: Handle<TextureAtlas>,
+    #[asset(texture_atlas(tile_size_x = 34.0, tile_size_y = 34.0, columns = 3, rows = 1))]
+    #[asset(path = "ui/keys/up_key.png")]
+    pub ui_up_key: Handle<TextureAtlas>,
+    #[asset(texture_atlas(tile_size_x = 34.0, tile_size_y = 34.0, columns = 3, rows = 1))]
+    #[asset(path = "ui/keys/left_key.png")]
+    pub ui_left_key: Handle<TextureAtlas>,
+    #[asset(texture_atlas(tile_size_x = 34.0, tile_size_y = 34.0, columns = 3, rows = 1))]
+    #[asset(path = "ui/keys/right_key.png")]
+    pub ui_right_key: Handle<TextureAtlas>,
+    #[asset(texture_atlas(tile_size_x = 66.0, tile_size_y = 34.0, columns = 2, rows = 1))]
+    #[asset(path = "ui/keys/shift_key.png")]
+    pub ui_shift_key: Handle<TextureAtlas>,
+    #[asset(
+        paths(
+            "ui/keys/keys.trickfilm#key",
+            "ui/keys/keys.trickfilm#arrow",
+            "ui/keys/keys.trickfilm#shift"
+        ),
+        collection(typed)
+    )]
+    pub ui_keys_animations: Vec<Handle<AnimationClip2D>>,
+
     // --- FONT ---
     #[asset(path = "fonts/PressStart2P.ttf")]
     pub font: Handle<Font>,

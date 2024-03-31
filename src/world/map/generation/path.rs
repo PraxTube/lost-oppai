@@ -9,7 +9,7 @@ use super::{BitMap, GRASS_TYPE_INDEX, PATH_TYPE_INDEX};
 
 const NOISE_ZOOM: f32 = 0.02;
 const SAMPLE_RATE: f32 = 1.5;
-const START_FILL_RADIUS: i32 = 10;
+const START_FILL_RADIUS: i32 = 15;
 
 const MIN_RADIUS: i32 = 1;
 const MAX_RADIUS: i32 = MIN_RADIUS + 1;
