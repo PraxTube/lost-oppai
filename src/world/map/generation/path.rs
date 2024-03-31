@@ -9,11 +9,15 @@ use super::{BitMap, GRASS_TYPE_INDEX, PATH_TYPE_INDEX};
 
 const NOISE_ZOOM: f32 = 0.02;
 const SAMPLE_RATE: f32 = 1.5;
+const START_FILL_RADIUS: i32 = 10;
+
 const MIN_RADIUS: i32 = 1;
 const MAX_RADIUS: i32 = MIN_RADIUS + 1;
 const MIN_RADIUS_GRASS: i32 = MAX_RADIUS + 1;
 const MAX_RADIUS_GRASS: i32 = MIN_RADIUS_GRASS + 3;
 
+// Use bezier curve to compute the points along
+// the curve based on the given sample_size.
 fn compute_path_points(p1: Vec2, p2: Vec2, c1: Vec2, c2: Vec2, sample_size: usize) -> Vec<IVec2> {
     fn curve(p1: Vec2, p2: Vec2, c1: Vec2, c2: Vec2, t: f32) -> Vec2 {
         (1.0 - t).powi(3) * p1
@@ -55,7 +59,7 @@ fn fill_path_point(bitmap: &mut ResMut<BitMap>, v: IVec2) {
     let w = Vec2::new(v.x as f32, v.y as f32);
 
     let noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, bitmap.seed());
-    let secondary_noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, bitmap.seed() + 1.0) * 1.0;
+    let secondary_noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, bitmap.seed() + 1.0);
     let radius = (MIN_RADIUS as f32
         + 0.25 * (noise + secondary_noise + 2.0) * (MAX_RADIUS - MIN_RADIUS) as f32)
         as i32;
@@ -86,7 +90,7 @@ fn fill_path_points(bitmap: &mut ResMut<BitMap>, points: Vec<IVec2>) {
 
 fn generate_path(mut bitmap: ResMut<BitMap>) {
     let mut rng = GameRng::seed_from_u64(bitmap.seed() as u64);
-    let distance = 7.0;
+    let distance = 70.0;
     let sample_size = (distance * SAMPLE_RATE) as usize;
 
     let (p1, p2, c1, c2) = generate_bezier_points(&mut rng, Vec2::ZERO, distance);
@@ -95,7 +99,7 @@ fn generate_path(mut bitmap: ResMut<BitMap>) {
     let points = compute_path_points(p1, p2, c1, c2, sample_size);
     fill_path_points(&mut bitmap, points);
 
-    let distance = 20.0;
+    let distance = 100.0;
     let sample_size = (distance * SAMPLE_RATE) as usize;
     for _ in 0..3 {
         let (p1, p2, c1, c2) = generate_bezier_points(&mut rng, center_point, distance);
@@ -104,10 +108,24 @@ fn generate_path(mut bitmap: ResMut<BitMap>) {
     }
 }
 
+fn fill_player_starting_position(mut bitmap: ResMut<BitMap>) {
+    for x in -START_FILL_RADIUS..=START_FILL_RADIUS {
+        for y in -START_FILL_RADIUS..=START_FILL_RADIUS {
+            let v = IVec2::new(x, y);
+            if v.length_squared() <= START_FILL_RADIUS.pow(2) {
+                bitmap.set_type_index(v, GRASS_TYPE_INDEX);
+            }
+        }
+    }
+}
+
 pub struct PathGenerationPlugin;
 
 impl Plugin for PathGenerationPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::AssetLoading), (generate_path,));
+        app.add_systems(
+            OnEnter(GameState::AssetLoading),
+            (fill_player_starting_position, generate_path).chain(),
+        );
     }
 }
