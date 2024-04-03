@@ -2,7 +2,10 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use bevy_trickfilm::prelude::*;
 
-use crate::{world::map::generation::BitMap, GameAssets, GameState};
+use crate::{
+    world::{camera::YSort, map::generation::BitMap},
+    GameAssets, GameState,
+};
 
 const ANCHOR_DIS: f32 = 100.0;
 const BUTTON_DIS: f32 = 40.0;
@@ -80,7 +83,7 @@ fn spawn_animated_icon(
         .insert((Collider::cuboid(16.0, 16.0), animator));
 }
 
-fn spawn_still_icon(
+fn spawn_unanimated_icon(
     commands: &mut Commands,
     assets: &Res<GameAssets>,
     root: Entity,
@@ -118,7 +121,7 @@ fn spawn_keyboard_ui(mut commands: Commands, assets: Res<GameAssets>, bitmap: Re
     )
     .with_scale(Vec3::splat(ICON_SIZE));
     let root = commands
-        .spawn(SpatialBundle::from_transform(transform))
+        .spawn((YSort(-200.0), SpatialBundle::from_transform(transform)))
         .id();
 
     spawn_animated_icon(
@@ -128,7 +131,7 @@ fn spawn_keyboard_ui(mut commands: Commands, assets: Res<GameAssets>, bitmap: Re
         Icon::DownKey,
         Vec2::new(0.0, -BUTTON_DIS),
     );
-    spawn_still_icon(
+    spawn_unanimated_icon(
         &mut commands,
         &assets,
         root,
@@ -142,7 +145,7 @@ fn spawn_keyboard_ui(mut commands: Commands, assets: Res<GameAssets>, bitmap: Re
         Icon::UpKey,
         Vec2::new(0.0, BUTTON_DIS),
     );
-    spawn_still_icon(
+    spawn_unanimated_icon(
         &mut commands,
         &assets,
         root,
@@ -156,7 +159,7 @@ fn spawn_keyboard_ui(mut commands: Commands, assets: Res<GameAssets>, bitmap: Re
         Icon::LeftKey,
         Vec2::new(-BUTTON_DIS, 0.0),
     );
-    spawn_still_icon(
+    spawn_unanimated_icon(
         &mut commands,
         &assets,
         root,
@@ -170,7 +173,7 @@ fn spawn_keyboard_ui(mut commands: Commands, assets: Res<GameAssets>, bitmap: Re
         Icon::RightKey,
         Vec2::new(BUTTON_DIS, 0.0),
     );
-    spawn_still_icon(
+    spawn_unanimated_icon(
         &mut commands,
         &assets,
         root,
