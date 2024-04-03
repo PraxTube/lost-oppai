@@ -47,7 +47,7 @@ impl Player {
     fn new(collider_entity: Entity) -> Self {
         Self {
             state: PlayerState::default(),
-            current_direction: Vec2::ZERO,
+            current_direction: Vec2::NEG_Y,
             collider_entity,
         }
     }
