@@ -94,7 +94,7 @@ fn generate_path(mut bitmap: ResMut<BitMap>) {
     let sample_size = (distance * SAMPLE_RATE) as usize;
 
     let (p1, p2, c1, c2) = generate_bezier_points(&mut rng, Vec2::ZERO, distance);
-    bitmap.set_center_point(p2 * TILE_SIZE);
+    bitmap.push_hotspot(p2 * TILE_SIZE);
     let center_point = p2;
     let points = compute_path_points(p1, p2, c1, c2, sample_size);
     fill_path_points(&mut bitmap, points);
@@ -103,6 +103,7 @@ fn generate_path(mut bitmap: ResMut<BitMap>) {
     let sample_size = (distance * SAMPLE_RATE) as usize;
     for _ in 0..3 {
         let (p1, p2, c1, c2) = generate_bezier_points(&mut rng, center_point, distance);
+        bitmap.push_hotspot(p2 * TILE_SIZE);
         let points = compute_path_points(p1, p2, c1, c2, sample_size);
         fill_path_points(&mut bitmap, points);
     }

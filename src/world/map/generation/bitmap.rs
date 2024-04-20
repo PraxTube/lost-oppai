@@ -11,7 +11,7 @@ use super::{
 #[derive(Resource)]
 pub struct BitMap {
     seed: f32,
-    center_point: Vec2,
+    hotspots: Vec<Vec2>,
     tile_q1: Vec<Vec<(u8, u16)>>,
     tile_q2: Vec<Vec<(u8, u16)>>,
     tile_q3: Vec<Vec<(u8, u16)>>,
@@ -23,7 +23,7 @@ impl Default for BitMap {
         let length = CHUNK_SIZE as usize * RENDERED_CHUNKS_RADIUS as usize;
         Self {
             seed: 61.0,
-            center_point: Vec2::ZERO,
+            hotspots: Vec::new(),
             tile_q1: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
             tile_q2: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
             tile_q3: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
@@ -272,11 +272,15 @@ impl BitMap {
         self.seed
     }
 
-    pub fn center_point(&self) -> Vec2 {
-        self.center_point
+    pub fn get_hotspot(&self, index: usize) -> Vec2 {
+        if index >= self.hotspots.len() {
+            return Vec2::ZERO;
+        }
+
+        self.hotspots[index]
     }
 
-    pub fn set_center_point(&mut self, p: Vec2) {
-        self.center_point = p;
+    pub fn push_hotspot(&mut self, hotspot: Vec2) {
+        self.hotspots.push(hotspot);
     }
 }

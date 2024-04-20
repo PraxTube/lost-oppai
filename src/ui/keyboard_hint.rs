@@ -117,7 +117,7 @@ fn spawn_shift_icon(
 
 fn spawn_keyboard_ui(mut commands: Commands, assets: Res<GameAssets>, bitmap: Res<BitMap>) {
     let transform = Transform::from_translation(
-        -bitmap.center_point().normalize_or_zero().extend(0.0) * ANCHOR_DIS,
+        -bitmap.get_hotspot(0).normalize_or_zero().extend(0.0) * ANCHOR_DIS,
     )
     .with_scale(Vec3::splat(ICON_SIZE));
     let root = commands
