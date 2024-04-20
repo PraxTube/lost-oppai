@@ -1,6 +1,7 @@
 pub mod generation;
 
 mod collision;
+mod flora;
 mod render;
 
 use bevy::prelude::*;
@@ -20,6 +21,7 @@ impl Plugin for MapPlugin {
             generation::MapGenerationPlugin,
             render::MapRenderPlugin,
             collision::MapCollisionPlugin,
+            flora::FloraPlugin,
         ));
     }
 }
