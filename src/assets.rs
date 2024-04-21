@@ -49,12 +49,21 @@ pub struct GameAssets {
     #[asset(path = "map/tileset.png")]
     pub tileset: Handle<Image>,
 
-    #[asset(path = "map/tree.png")]
+    #[asset(path = "map/flora/tree.png")]
     pub tree: Handle<Image>,
-    #[asset(path = "map/tree_trunk.png")]
+    #[asset(path = "map/flora/tree_trunk.png")]
     pub tree_trunk: Handle<Image>,
-    #[asset(path = "map/tree_shadow.png")]
+    #[asset(path = "map/flora/tree_shadow.png")]
     pub tree_shadow: Handle<Image>,
+
+    #[asset(path = "map/flora/bush.png")]
+    pub bush: Handle<Image>,
+    #[asset(path = "map/flora/bush_base.png")]
+    pub bush_base: Handle<Image>,
+
+    #[asset(texture_atlas(tile_size_x = 16.0, tile_size_y = 16.0, columns = 3, rows = 1))]
+    #[asset(path = "map/rocks.png")]
+    pub rocks: Handle<TextureAtlas>,
 
     // --- UI ---
     #[asset(path = "ui/white_pixel.png")]
