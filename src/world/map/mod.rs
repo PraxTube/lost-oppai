@@ -2,6 +2,7 @@ pub mod generation;
 
 mod collision;
 mod flora;
+mod poisson_sampling;
 mod render;
 
 use bevy::prelude::*;

@@ -1,6 +1,8 @@
 use bevy::prelude::*;
 use noisy_bevy::simplex_noise_2d_seeded;
 
+use crate::world::map::TILE_SIZE;
+
 use super::bitmask::BitMasks;
 use super::{
     TileCollision, TileType, BITMASK_BOT_LEFT, BITMASK_BOT_RIGHT, BITMASK_TOP_LEFT,
@@ -280,7 +282,9 @@ impl BitMap {
         self.hotspots[index]
     }
 
-    pub fn push_hotspot(&mut self, hotspot: Vec2) {
-        self.hotspots.push(hotspot);
+    pub fn append_hotspots(&mut self, hotspots: &Vec<Vec2>) {
+        for p in hotspots {
+            self.hotspots.push(*p * TILE_SIZE);
+        }
     }
 }

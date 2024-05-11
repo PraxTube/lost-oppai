@@ -121,8 +121,8 @@ fn spawn_joanna(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
 }
 
 fn spawn_npcs(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets>) {
-    spawn_eleonore(&mut commands, &assets, bitmap.get_hotspot(0).extend(0.0));
-    spawn_joanna(&mut commands, &assets, bitmap.get_hotspot(1).extend(0.0));
+    spawn_eleonore(&mut commands, &assets, bitmap.get_hotspot(1).extend(0.0));
+    spawn_joanna(&mut commands, &assets, bitmap.get_hotspot(2).extend(0.0));
 }
 
 fn face_player(
