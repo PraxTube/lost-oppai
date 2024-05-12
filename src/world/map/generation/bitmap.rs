@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy::utils::HashSet;
 use noisy_bevy::simplex_noise_2d_seeded;
 
 use crate::world::map::TILE_SIZE;
@@ -13,7 +14,8 @@ use super::{
 #[derive(Resource)]
 pub struct BitMap {
     seed: f32,
-    hotspots: Vec<Vec2>,
+    vertices: Vec<Vec2>,
+    edges: HashSet<(usize, usize)>,
     tile_q1: Vec<Vec<(u8, u16)>>,
     tile_q2: Vec<Vec<(u8, u16)>>,
     tile_q3: Vec<Vec<(u8, u16)>>,
@@ -25,7 +27,8 @@ impl Default for BitMap {
         let length = CHUNK_SIZE as usize * RENDERED_CHUNKS_RADIUS as usize;
         Self {
             seed: 61.0,
-            hotspots: Vec::new(),
+            vertices: Vec::new(),
+            edges: HashSet::new(),
             tile_q1: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
             tile_q2: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
             tile_q3: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
@@ -275,16 +278,35 @@ impl BitMap {
     }
 
     pub fn get_hotspot(&self, index: usize) -> Vec2 {
-        if index >= self.hotspots.len() {
+        if index >= self.vertices.len() {
             return Vec2::ZERO;
         }
 
-        self.hotspots[index]
+        self.vertices[index]
     }
 
-    pub fn append_hotspots(&mut self, hotspots: &Vec<Vec2>) {
-        for p in hotspots {
-            self.hotspots.push(*p * TILE_SIZE);
+    pub fn set_vertices(&mut self, vertices: &Vec<Vec2>) {
+        for v in vertices {
+            self.vertices.push(*v * TILE_SIZE);
         }
+    }
+
+    pub fn set_edges(&mut self, edges: &HashSet<(usize, usize)>) {
+        self.edges = edges.clone();
+    }
+
+    pub fn get_origin_edges(&self) -> Vec<Vec2> {
+        self.edges
+            .clone()
+            .into_iter()
+            .filter(|&(u, v)| u == 0 || v == 0)
+            .map(|(u, v)| {
+                if u == 0 {
+                    self.vertices[v] - self.vertices[u]
+                } else {
+                    self.vertices[u] - self.vertices[v]
+                }
+            })
+            .collect()
     }
 }
