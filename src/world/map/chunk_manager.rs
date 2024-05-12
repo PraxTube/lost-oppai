@@ -1,4 +1,4 @@
-use crate::{GameAssets, GameState};
+use crate::{world::MainCamera, GameAssets, GameState};
 
 use super::{
     generation::BitMap, BACKGROUND_ZINDEX_ABS, CHUNK_SIZE, RENDERED_CHUNKS_RADIUS, TILE_SIZE,
@@ -22,6 +22,16 @@ pub struct ChunkManager {
 
 #[derive(Component, Deref)]
 pub struct ChunkIndex(pub IVec2);
+
+#[derive(Event)]
+pub struct SpawnedChunk {
+    pub pos: IVec2,
+}
+
+#[derive(Event)]
+pub struct DespawnedChunk {
+    pub pos: IVec2,
+}
 
 fn spawn_chunk(
     commands: &mut Commands,
@@ -91,22 +101,26 @@ fn camera_pos_to_chunk_pos(camera_pos: &Vec2) -> IVec2 {
 pub fn spawn_chunks(
     mut commands: Commands,
     assets: Res<GameAssets>,
-    camera_query: Query<&Transform, With<Camera>>,
     mut chunk_manager: ResMut<ChunkManager>,
-    mut map: ResMut<BitMap>,
+    mut bitmap: ResMut<BitMap>,
+    q_camera: Query<&Transform, With<MainCamera>>,
+    mut ev_spawned_chunk: EventWriter<SpawnedChunk>,
 ) {
-    for transform in camera_query.iter() {
-        let camera_chunk_pos = camera_pos_to_chunk_pos(&transform.translation.xy());
-        let chunks_radius =
-            IVec2::new(RENDERED_CHUNKS_RADIUS as i32, RENDERED_CHUNKS_RADIUS as i32);
+    let camera_transform = match q_camera.get_single() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
 
-        for y in (camera_chunk_pos.y - chunks_radius.y)..=(camera_chunk_pos.y + chunks_radius.y) {
-            for x in (camera_chunk_pos.x - chunks_radius.x)..=(camera_chunk_pos.x + chunks_radius.x)
-            {
-                if !chunk_manager.spawned_chunks.contains(&IVec2::new(x, y)) {
-                    chunk_manager.spawned_chunks.insert(IVec2::new(x, y));
-                    spawn_chunk(&mut commands, &assets, &mut map, IVec2::new(x, y));
-                }
+    let camera_chunk_pos = camera_pos_to_chunk_pos(&camera_transform.translation.xy());
+    let chunks_radius = IVec2::new(RENDERED_CHUNKS_RADIUS as i32, RENDERED_CHUNKS_RADIUS as i32);
+
+    for y in (camera_chunk_pos.y - chunks_radius.y)..=(camera_chunk_pos.y + chunks_radius.y) {
+        for x in (camera_chunk_pos.x - chunks_radius.x)..=(camera_chunk_pos.x + chunks_radius.x) {
+            if !chunk_manager.spawned_chunks.contains(&IVec2::new(x, y)) {
+                let chunk_pos = IVec2::new(x, y);
+                chunk_manager.spawned_chunks.insert(chunk_pos);
+                spawn_chunk(&mut commands, &assets, &mut bitmap, chunk_pos);
+                ev_spawned_chunk.send(SpawnedChunk { pos: chunk_pos });
             }
         }
     }
@@ -114,9 +128,10 @@ pub fn spawn_chunks(
 
 pub fn despawn_chunks(
     mut commands: Commands,
-    q_camera: Query<&Transform, With<Camera>>,
-    chunks_query: Query<(Entity, &ChunkIndex)>,
     mut chunk_manager: ResMut<ChunkManager>,
+    q_camera: Query<&Transform, With<MainCamera>>,
+    chunks_query: Query<(Entity, &ChunkIndex)>,
+    mut ev_despawned_chunk: EventWriter<DespawnedChunk>,
 ) {
     let camera_transform = match q_camera.get_single() {
         Ok(r) => r,
@@ -129,20 +144,22 @@ pub fn despawn_chunks(
         if (chunk.x - camera_chunk.x).abs() as u32 > RENDERED_CHUNKS_RADIUS
             || (chunk.y - camera_chunk.y).abs() as u32 > RENDERED_CHUNKS_RADIUS
         {
-            chunk_manager
-                .spawned_chunks
-                .remove(&IVec2::new(chunk.x, chunk.y));
+            let chunk_pos = IVec2::new(chunk.x, chunk.y);
+            chunk_manager.spawned_chunks.remove(&chunk_pos);
+            ev_despawned_chunk.send(DespawnedChunk { pos: chunk_pos });
             commands.entity(entity).despawn_recursive();
         }
     }
 }
 
-pub struct MapRenderPlugin;
+pub struct ChunkManagerPlugin;
 
-impl Plugin for MapRenderPlugin {
+impl Plugin for ChunkManagerPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(TilemapPlugin)
             .insert_resource(ChunkManager::default())
+            .add_event::<SpawnedChunk>()
+            .add_event::<DespawnedChunk>()
             .add_systems(
                 Update,
                 (

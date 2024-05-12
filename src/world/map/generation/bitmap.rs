@@ -7,8 +7,8 @@ use crate::world::map::TILE_SIZE;
 use super::bitmask::BitMasks;
 use super::{
     TileCollision, TileType, BITMASK_BOT_LEFT, BITMASK_BOT_RIGHT, BITMASK_TOP_LEFT,
-    BITMASK_TOP_RIGHT, CHUNK_SIZE, EMPTY_TYPE_INDEX, INVALID_TILE, NOISE_ZOOM, PATH_TYPE_INDEX,
-    RENDERED_CHUNKS_RADIUS, WATER_HEIGH_LEVEL, WATER_TYPE_INDEX,
+    BITMASK_TOP_RIGHT, CHUNK_SIZE, EMPTY_TYPE_INDEX, GRASS_TYPE_INDEX, INVALID_TILE, NOISE_ZOOM,
+    PATH_TYPE_INDEX, RENDERED_CHUNKS_RADIUS, WATER_HEIGH_LEVEL, WATER_TYPE_INDEX,
 };
 
 #[derive(Resource)]
@@ -58,9 +58,9 @@ impl BitMap {
             | self.collapse_water(v + IVec2::new(1, 1))
             | self.collapse_water(v + IVec2::new(1, 0));
         if has_water {
-            TileType::Grass
+            TileType::GrassWater
         } else {
-            TileType::Path
+            TileType::PathOrGrass
         }
     }
 
@@ -129,6 +129,8 @@ impl BitMap {
     fn set_water_flag(&mut self, v: IVec2) {
         if self.get_tileset_raw(v).0 == EMPTY_TYPE_INDEX {
             self.set_type_index(v, WATER_TYPE_INDEX);
+        } else {
+            warn!("Trying to set water flag on non empty type tile");
         }
     }
 
@@ -195,8 +197,8 @@ impl BitMap {
     /// This is used for all tiles, both grass and water.
     fn collapse_tile(&mut self, v: IVec2) {
         let (mask, bitmask) = match self.tile_type(v) {
-            TileType::Grass => (self.neigbhor_bitmask_grass(v), BitMasks::grass()),
-            TileType::Path => (self.neigbhor_bitmask_path(v), BitMasks::path()),
+            TileType::GrassWater => (self.neigbhor_bitmask_grass(v), BitMasks::grass()),
+            TileType::PathOrGrass => (self.neigbhor_bitmask_path(v), BitMasks::path()),
         };
 
         let tile = bitmask.get_index(mask);
@@ -271,6 +273,15 @@ impl BitMap {
         } else {
             TileCollision::None
         }
+    }
+
+    /// Check if flora can be placed on the given tile.
+    /// Flora can only be placed if the tile is surrounded by grass tiles.
+    pub fn get_flora_flag(&mut self, v: IVec2) -> bool {
+        self.get_tileset_raw(v).0 == GRASS_TYPE_INDEX
+            && self.get_tileset_raw(v + IVec2::new(0, 1)).0 == GRASS_TYPE_INDEX
+            && self.get_tileset_raw(v + IVec2::new(1, 1)).0 == GRASS_TYPE_INDEX
+            && self.get_tileset_raw(v + IVec2::new(1, 0)).0 == GRASS_TYPE_INDEX
     }
 
     pub fn seed(&self) -> f32 {

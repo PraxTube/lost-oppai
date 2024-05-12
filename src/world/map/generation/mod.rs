@@ -48,7 +48,10 @@ pub enum TileCollision {
     BotRightTri,
 }
 
+#[derive(PartialEq)]
 enum TileType {
-    Grass,
-    Path,
+    // This tile MUST be partly water or fully water
+    GrassWater,
+    // This tile is either full grass or full path or anything inbetween
+    PathOrGrass,
 }

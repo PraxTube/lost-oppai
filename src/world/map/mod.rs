@@ -1,9 +1,9 @@
 pub mod generation;
 
+mod chunk_manager;
 mod collision;
 mod flora;
 mod poisson_sampling;
-mod render;
 
 use bevy::prelude::*;
 
@@ -20,7 +20,7 @@ impl Plugin for MapPlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins((
             generation::MapGenerationPlugin,
-            render::MapRenderPlugin,
+            chunk_manager::ChunkManagerPlugin,
             collision::MapCollisionPlugin,
             flora::FloraPlugin,
         ));

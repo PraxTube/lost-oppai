@@ -2,8 +2,8 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 use super::{
+    chunk_manager::{despawn_chunks, spawn_chunks, ChunkIndex},
     generation::{BitMap, TileCollision},
-    render::{despawn_chunks, spawn_chunks, ChunkIndex},
     CHUNK_SIZE, TILE_SIZE,
 };
 
