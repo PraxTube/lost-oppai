@@ -134,6 +134,14 @@ impl BitMap {
         }
     }
 
+    fn set_grass_flag(&mut self, v: IVec2) {
+        if self.get_tileset_raw(v).0 == EMPTY_TYPE_INDEX {
+            self.set_type_index(v, GRASS_TYPE_INDEX);
+        } else {
+            warn!("Trying to set grass flag on non empty type tile");
+        }
+    }
+
     pub fn get_path_flag(&mut self, v: IVec2) -> bool {
         self.get_tileset_raw(v).0 == PATH_TYPE_INDEX
     }
@@ -188,6 +196,8 @@ impl BitMap {
         let is_water = h < WATER_HEIGH_LEVEL;
         if is_water {
             self.set_water_flag(v);
+        } else {
+            self.set_grass_flag(v);
         }
         is_water
     }
@@ -279,9 +289,9 @@ impl BitMap {
     /// Flora can only be placed if the tile is surrounded by grass tiles.
     pub fn get_flora_flag(&mut self, v: IVec2) -> bool {
         self.get_tileset_raw(v).0 == GRASS_TYPE_INDEX
-            && self.get_tileset_raw(v + IVec2::new(0, 1)).0 == GRASS_TYPE_INDEX
-            && self.get_tileset_raw(v + IVec2::new(1, 1)).0 == GRASS_TYPE_INDEX
-            && self.get_tileset_raw(v + IVec2::new(1, 0)).0 == GRASS_TYPE_INDEX
+            && self.get_tileset_raw(v + IVec2::X).0 == GRASS_TYPE_INDEX
+            && self.get_tileset_raw(v + IVec2::Y).0 == GRASS_TYPE_INDEX
+            && self.get_tileset_raw(v + IVec2::ONE).0 == GRASS_TYPE_INDEX
     }
 
     pub fn seed(&self) -> f32 {
