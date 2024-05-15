@@ -3,7 +3,10 @@ use rand::{thread_rng, Rng};
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
-use crate::{world::camera::YSort, GameAssets, GameState};
+use crate::{
+    world::camera::{YSort, YSortStatic, YSortStaticChild},
+    GameAssets, GameState,
+};
 
 use super::{
     chunk_manager::SpawnedChunk, generation::BitMap,
@@ -78,7 +81,7 @@ fn spawn_tree(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
 
     let trunk = commands
         .spawn((
-            YSort(-20.0),
+            YSortStaticChild(16.1),
             SpriteBundle {
                 texture: assets.tree_trunk.clone(),
                 ..default()
@@ -88,7 +91,7 @@ fn spawn_tree(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
 
     let shadow = commands
         .spawn((
-            YSort(300.0),
+            YSortStaticChild(64.0),
             SpriteBundle {
                 texture: assets.tree_shadow.clone(),
                 ..default()
@@ -107,7 +110,7 @@ fn spawn_tree(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
 
     commands
         .spawn((
-            YSort(40.0),
+            YSortStatic(40.0),
             SpriteBundle {
                 transform: Transform::from_translation(pos),
                 texture: assets.tree.clone(),

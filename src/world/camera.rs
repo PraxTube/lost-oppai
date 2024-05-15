@@ -12,9 +12,14 @@ use crate::player::Player;
 use crate::utils::DebugActive;
 use crate::GameState;
 
-// How much `1.0` in bevy coordinates translates to the pixels of a sprite.
-// Only relevant for the ysorting.
-pub const TRANSLATION_TO_PIXEL: f32 = 0.0001;
+// Only relevant for the backend.
+// We have to multiply each z coordinate with this value
+// because camera rendering only works for entities that are
+// at most 1000 z coordinates away.
+// Too small values may lead to float inpercision errors,
+// too large values will lead to overflow of the 1000 range
+// (in which case they won't get rendered on the camera anymore).
+const YSORT_SCALE: f32 = 0.0001;
 // This is not changing the actual timestep,
 // it's just a way to reduce magic numbers in code.
 const RAPIER_TIMESTEP: f32 = 60.0;
@@ -26,10 +31,39 @@ pub struct MainCamera;
 #[derive(Component)]
 pub struct YSort(pub f32);
 
+#[derive(Component)]
+pub struct YSortStatic(pub f32);
+#[derive(Component)]
+pub struct YSortStaticChild(pub f32);
+
 pub fn apply_y_sort(mut q_transforms: Query<(&mut Transform, &GlobalTransform, &YSort)>) {
     for (mut transform, global_transform, ysort) in &mut q_transforms {
-        transform.translation.z =
-            (ysort.0 - global_transform.translation().y) * TRANSLATION_TO_PIXEL;
+        transform.translation.z = (ysort.0 - global_transform.translation().y) * YSORT_SCALE;
+    }
+}
+
+pub fn apply_y_sort_static(
+    mut q_transforms: Query<(&mut Transform, &GlobalTransform, &YSortStatic), Added<YSortStatic>>,
+) {
+    for (mut transform, global_transform, ysort) in &mut q_transforms {
+        transform.translation.z = (ysort.0 - global_transform.translation().y) * YSORT_SCALE;
+    }
+}
+
+pub fn apply_y_sort_static_child(
+    q_parents: Query<&Transform, (With<YSortStatic>, Without<YSortStaticChild>)>,
+    mut q_transforms: Query<
+        (&Parent, &mut Transform, &GlobalTransform, &YSortStaticChild),
+        (Added<YSortStaticChild>, Without<YSortStatic>),
+    >,
+) {
+    for (parent, mut transform, global_transform, ysort) in &mut q_transforms {
+        let parent_transform = match q_parents.get(parent.get()) {
+            Ok(r) => r,
+            Err(_) => continue,
+        };
+        transform.translation.z = (ysort.0 - global_transform.translation().y) * YSORT_SCALE
+            - parent_transform.translation.z;
     }
 }
 
@@ -127,6 +161,8 @@ impl Plugin for CameraPlugin {
                 #[cfg(not(target_arch = "wasm32"))]
                 take_screenshot,
                 apply_y_sort,
+                apply_y_sort_static.after(apply_y_sort),
+                apply_y_sort_static_child.after(apply_y_sort_static),
                 zoom_camera,
             ),
         )
