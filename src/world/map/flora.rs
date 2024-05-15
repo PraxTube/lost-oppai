@@ -15,8 +15,10 @@ use crate::{
 };
 
 use super::{
-    chunk_manager::SpawnedChunk, generation::BitMap,
-    poisson_sampling::generate_poisson_points_variable_radii, CHUNK_SIZE, TILE_SIZE,
+    chunk_manager::{DespawnedChunk, SpawnedChunk},
+    generation::BitMap,
+    poisson_sampling::generate_poisson_points_variable_radii,
+    CHUNK_SIZE, TILE_SIZE,
 };
 
 const ROCKS_COUNT: usize = 3;
@@ -29,7 +31,18 @@ const TREE_RADIUS: f32 = 3.0;
 const BUSH_RADIUS: f32 = 1.25;
 const ROCK_RADIUS: f32 = 1.0;
 
-fn spawn_rock(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
+#[derive(Component)]
+struct Flora {
+    chunk_pos: IVec2,
+}
+
+impl Flora {
+    fn new(chunk_pos: IVec2) -> Self {
+        Self { chunk_pos }
+    }
+}
+
+fn spawn_rock(commands: &mut Commands, assets: &Res<GameAssets>, chunk_pos: IVec2, pos: Vec3) {
     let collider = commands
         .spawn((
             Collider::cuboid(8.0, 8.0),
@@ -41,6 +54,7 @@ fn spawn_rock(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
 
     commands
         .spawn((
+            Flora::new(chunk_pos),
             YSort(-40.0),
             SpriteSheetBundle {
                 transform: Transform::from_translation(pos),
@@ -55,7 +69,7 @@ fn spawn_rock(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
         .push_children(&[collider]);
 }
 
-fn spawn_bush(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
+fn spawn_bush(commands: &mut Commands, assets: &Res<GameAssets>, chunk_pos: IVec2, pos: Vec3) {
     let base = commands
         .spawn((SpriteBundle {
             texture: assets.bush_base.clone(),
@@ -72,6 +86,7 @@ fn spawn_bush(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
 
     commands
         .spawn((
+            Flora::new(chunk_pos),
             YSort(0.0),
             SpriteBundle {
                 transform: Transform::from_translation(pos),
@@ -82,7 +97,7 @@ fn spawn_bush(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
         .push_children(&[base, collider]);
 }
 
-fn spawn_tree(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
+fn spawn_tree(commands: &mut Commands, assets: &Res<GameAssets>, chunk_pos: IVec2, pos: Vec3) {
     let pos = pos + Vec3::new(0.0, 48.0, 0.0);
 
     let trunk = commands
@@ -145,6 +160,7 @@ fn spawn_tree(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
                 scale: 0.5.into(),
                 z_value_override: Some(100.0.into()),
                 looping: true,
+                despawn_particles_with_system: true,
                 ..ParticleSystem::default()
             },
             ..ParticleSystemBundle::default()
@@ -154,6 +170,7 @@ fn spawn_tree(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
 
     commands
         .spawn((
+            Flora::new(chunk_pos),
             YSortStatic(40.0),
             SpriteBundle {
                 transform: Transform::from_translation(pos),
@@ -188,22 +205,21 @@ fn spawn_flora(
         {
             return;
         }
-        spawn_tree(commands, assets, pos);
+        spawn_tree(commands, assets, chunk_pos, pos);
     } else if radius > BUSH_RADIUS {
         if !bitmap.get_flora_flag(v) {
             return;
         }
-        spawn_bush(commands, assets, pos);
+        spawn_bush(commands, assets, chunk_pos, pos);
     } else if radius > ROCK_RADIUS {
         if !bitmap.get_flora_flag(v) {
             return;
         }
-        spawn_rock(commands, assets, pos);
-    } else {
+        spawn_rock(commands, assets, chunk_pos, pos);
     }
 }
 
-fn spawn_flora_chunk(
+fn spawn_flora_chunks(
     mut commands: Commands,
     assets: Res<GameAssets>,
     mut bitmap: ResMut<BitMap>,
@@ -226,13 +242,27 @@ fn spawn_flora_chunk(
     }
 }
 
+fn despawn_flora_chunks(
+    mut commands: Commands,
+    q_floras: Query<(Entity, &Flora)>,
+    mut ev_despawned_chunk: EventReader<DespawnedChunk>,
+) {
+    for ev in ev_despawned_chunk.read() {
+        for (entity, flora) in &q_floras {
+            if flora.chunk_pos == ev.chunk_pos {
+                commands.entity(entity).despawn_recursive();
+            }
+        }
+    }
+}
+
 pub struct FloraPlugin;
 
 impl Plugin for FloraPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (spawn_flora_chunk,).run_if(in_state(GameState::Gaming)),
+            (spawn_flora_chunks, despawn_flora_chunks).run_if(in_state(GameState::Gaming)),
         );
     }
 }

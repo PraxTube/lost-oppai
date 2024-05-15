@@ -30,7 +30,7 @@ pub struct SpawnedChunk {
 
 #[derive(Event)]
 pub struct DespawnedChunk {
-    pub pos: IVec2,
+    pub chunk_pos: IVec2,
 }
 
 fn spawn_chunk(
@@ -146,7 +146,7 @@ pub fn despawn_chunks(
         {
             let chunk_pos = IVec2::new(chunk.x, chunk.y);
             chunk_manager.spawned_chunks.remove(&chunk_pos);
-            ev_despawned_chunk.send(DespawnedChunk { pos: chunk_pos });
+            ev_despawned_chunk.send(DespawnedChunk { chunk_pos });
             commands.entity(entity).despawn_recursive();
         }
     }
