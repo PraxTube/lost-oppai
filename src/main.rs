@@ -15,6 +15,7 @@ use bevy::prelude::*;
 use bevy::window::{PresentMode, Window, WindowMode};
 
 use bevy_asset_loader::prelude::*;
+use bevy_particle_systems::ParticleSystemPlugin;
 use bevy_rapier2d::prelude::*;
 use bevy_trickfilm::Animation2DPlugin;
 use bevy_tweening::*;
@@ -52,6 +53,7 @@ fn main() {
                 enabled: false,
                 ..default()
             },
+            ParticleSystemPlugin::default(),
             Animation2DPlugin,
             YarnSpinnerPlugin::with_yarn_sources([
                 YarnFileSource::file("dialogue/eleonore.yarn"),

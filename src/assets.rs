@@ -55,6 +55,8 @@ pub struct GameAssets {
     pub tree_trunk: Handle<Image>,
     #[asset(path = "map/flora/tree_shadow.png")]
     pub tree_shadow: Handle<Image>,
+    #[asset(path = "map/flora/tree_pedal.png")]
+    pub tree_pedal: Handle<Image>,
 
     #[asset(path = "map/flora/bush.png")]
     pub bush: Handle<Image>,

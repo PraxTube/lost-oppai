@@ -1,6 +1,12 @@
+use std::f32::consts::PI;
+
 use rand::{thread_rng, Rng};
 
 use bevy::prelude::*;
+use bevy_particle_systems::{
+    CircleSegment, ColorOverTime, Curve, CurvePoint, EmitterShape, JitteredValue, Noise2D,
+    ParticleSystem, ParticleSystemBundle, Playing, VectorOverTime, VelocityModifier,
+};
 use bevy_rapier2d::prelude::*;
 
 use crate::{
@@ -108,6 +114,44 @@ fn spawn_tree(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
         ))
         .id();
 
+    let tree_pedals = commands
+        .spawn(ParticleSystemBundle {
+            particle_system: ParticleSystem {
+                max_particles: 500,
+                texture: assets.tree_pedal.clone().into(),
+                spawn_rate_per_second: 2.0.into(),
+                initial_speed: JitteredValue::jittered(50.0, -3.0..3.0),
+                lifetime: JitteredValue::jittered(1.0, -0.5..1.5),
+                color: ColorOverTime::Gradient(Curve::new(vec![
+                    CurvePoint::new(Color::rgba(1.0, 1.0, 1.0, 0.0), 0.0),
+                    CurvePoint::new(Color::WHITE, 0.3),
+                    CurvePoint::new(Color::WHITE, 0.8),
+                    CurvePoint::new(Color::rgba(1.0, 1.0, 1.0, 0.0), 0.95),
+                    CurvePoint::new(Color::rgba(1.0, 1.0, 1.0, 0.0), 1.0),
+                ])),
+                emitter_shape: EmitterShape::CircleSegment(CircleSegment {
+                    opening_angle: PI / 2.0,
+                    direction_angle: 3.0 / 2.0 * PI,
+                    radius: 0.0.into(),
+                }),
+                initial_rotation: JitteredValue::jittered(PI, -PI..PI),
+                rotation_speed: JitteredValue::jittered(PI / 2.0, -PI / 4.0..PI / 4.0),
+                velocity_modifiers: vec![
+                    VelocityModifier::Vector(VectorOverTime::Constant(
+                        7.0 * Vec3::new(3.0, -1.5, 0.0),
+                    )),
+                    VelocityModifier::Noise(Noise2D::new(0.1, 2.0, Vec2::ZERO)),
+                ],
+                scale: 0.5.into(),
+                z_value_override: Some(100.0.into()),
+                looping: true,
+                ..ParticleSystem::default()
+            },
+            ..ParticleSystemBundle::default()
+        })
+        .insert(Playing)
+        .id();
+
     commands
         .spawn((
             YSortStatic(40.0),
@@ -117,7 +161,7 @@ fn spawn_tree(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
                 ..default()
             },
         ))
-        .push_children(&[trunk, shadow, collider]);
+        .push_children(&[trunk, shadow, collider, tree_pedals]);
 }
 
 fn spawn_flora(
