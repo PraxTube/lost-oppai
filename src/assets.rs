@@ -58,10 +58,10 @@ pub struct GameAssets {
     #[asset(path = "map/flora/tree_pedal.png")]
     pub tree_pedal: Handle<Image>,
 
-    #[asset(path = "map/flora/bush.png")]
-    pub bush: Handle<Image>,
-    #[asset(path = "map/flora/bush_base.png")]
-    pub bush_base: Handle<Image>,
+    #[asset(path = "map/flora/bush1.png")]
+    pub bush1: Handle<Image>,
+    #[asset(path = "map/flora/bush2.png")]
+    pub bush2: Handle<Image>,
 
     #[asset(texture_atlas(tile_size_x = 16.0, tile_size_y = 16.0, columns = 3, rows = 1))]
     #[asset(path = "map/rocks.png")]

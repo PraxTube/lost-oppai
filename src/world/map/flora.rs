@@ -29,7 +29,8 @@ const MIN_RADIUS: f32 = 1.0;
 const MAX_RADIUS: f32 = 4.0;
 
 const TREE_RADIUS: f32 = 3.0;
-const BUSH_RADIUS: f32 = 1.25;
+const BUSH_1_RADIUS: f32 = 2.25;
+const BUSH_2_RADIUS: f32 = 1.25;
 const ROCK_RADIUS: f32 = 1.0;
 
 #[derive(Component)]
@@ -70,17 +71,27 @@ fn spawn_rock(commands: &mut Commands, assets: &Res<GameAssets>, chunk_pos: IVec
         .push_children(&[collider]);
 }
 
-fn spawn_bush(commands: &mut Commands, assets: &Res<GameAssets>, chunk_pos: IVec2, pos: Vec3) {
-    let base = commands
-        .spawn((SpriteBundle {
-            texture: assets.bush_base.clone(),
-            ..default()
-        },))
-        .id();
+fn spawn_bush(
+    commands: &mut Commands,
+    assets: &Res<GameAssets>,
+    chunk_pos: IVec2,
+    pos: Vec3,
+    index: usize,
+) {
+    let texture = if index == 0 {
+        assets.bush1.clone()
+    } else {
+        assets.bush2.clone()
+    };
+    let c = if index == 0 {
+        Collider::cuboid(16.0, 8.0)
+    } else {
+        Collider::cuboid(8.0, 8.0)
+    };
 
     let collider = commands
         .spawn((
-            Collider::cuboid(16.0, 8.0),
+            c,
             TransformBundle::from_transform(Transform::from_translation(Vec3::new(0.0, -8.0, 0.0))),
         ))
         .id();
@@ -91,11 +102,11 @@ fn spawn_bush(commands: &mut Commands, assets: &Res<GameAssets>, chunk_pos: IVec
             YSort(0.0),
             SpriteBundle {
                 transform: Transform::from_translation(pos),
-                texture: assets.bush.clone(),
+                texture,
                 ..default()
             },
         ))
-        .push_children(&[base, collider]);
+        .push_children(&[collider]);
 }
 
 fn spawn_tree(commands: &mut Commands, assets: &Res<GameAssets>, chunk_pos: IVec2, pos: Vec3) {
@@ -207,11 +218,19 @@ fn spawn_flora(
             return;
         }
         spawn_tree(commands, assets, chunk_pos, pos);
-    } else if radius > BUSH_RADIUS {
-        if !bitmap.get_flora_flag(v) {
+    } else if radius > BUSH_1_RADIUS {
+        if !(bitmap.get_flora_flag(v)
+            && bitmap.get_flora_flag(v + IVec2::X)
+            && bitmap.get_flora_flag(v - IVec2::X))
+        {
             return;
         }
-        spawn_bush(commands, assets, chunk_pos, pos);
+        spawn_bush(commands, assets, chunk_pos, pos, 0);
+    } else if radius > BUSH_2_RADIUS {
+        if !(bitmap.get_flora_flag(v) && bitmap.get_flora_flag(v - IVec2::Y)) {
+            return;
+        }
+        spawn_bush(commands, assets, chunk_pos, pos, 1);
     } else if radius > ROCK_RADIUS {
         if !bitmap.get_flora_flag(v) {
             return;

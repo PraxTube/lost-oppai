@@ -83,7 +83,15 @@ impl BitMasks {
     pub fn path() -> Self {
         Self {
             masks: HashMap::from([
-                (0, vec![grid_to_index(0, 1)]),
+                (
+                    0,
+                    vec![
+                        grid_to_index(0, 1),
+                        grid_to_index(0, 2),
+                        grid_to_index(0, 3),
+                        grid_to_index(0, 4),
+                    ],
+                ),
                 (
                     BITMASK_BOT_LEFT | BITMASK_TOP_LEFT | BITMASK_TOP_RIGHT | BITMASK_BOT_RIGHT,
                     vec![grid_to_index(2, 1)],
