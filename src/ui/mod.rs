@@ -1,6 +1,6 @@
 pub mod dialogue;
+pub mod keyboard_hint;
 
-mod keyboard_hint;
 mod screen_fade;
 
 use bevy::prelude::*;

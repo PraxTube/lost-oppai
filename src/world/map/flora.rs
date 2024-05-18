@@ -10,6 +10,7 @@ use bevy_particle_systems::{
 use bevy_rapier2d::prelude::*;
 
 use crate::{
+    ui::keyboard_hint::{KeyboardHint, KEYBOARD_ICON_RADIUS},
     world::camera::{YSort, YSortStatic, YSortStaticChild},
     GameAssets, GameState,
 };
@@ -256,13 +257,39 @@ fn despawn_flora_chunks(
     }
 }
 
+fn despawn_flora_around_start_hint(
+    mut commands: Commands,
+    q_keyboard_icon: Query<&Transform, (With<KeyboardHint>, Without<Flora>)>,
+    q_floras: Query<(Entity, &Transform), Added<Flora>>,
+) {
+    let start_hint_transform = match q_keyboard_icon.get_single() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    for (entity, flora_transform) in &q_floras {
+        if flora_transform
+            .translation
+            .distance_squared(start_hint_transform.translation)
+            <= KEYBOARD_ICON_RADIUS.powi(2)
+        {
+            commands.entity(entity).despawn_recursive();
+        }
+    }
+}
+
 pub struct FloraPlugin;
 
 impl Plugin for FloraPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (spawn_flora_chunks, despawn_flora_chunks).run_if(in_state(GameState::Gaming)),
+            (
+                spawn_flora_chunks,
+                despawn_flora_chunks,
+                despawn_flora_around_start_hint,
+            )
+                .run_if(in_state(GameState::Gaming)),
         );
     }
 }

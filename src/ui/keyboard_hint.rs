@@ -15,8 +15,12 @@ const ARROW_DIS: f32 = 80.0;
 const SHIFT_DIS: f32 = 60.0;
 const ICON_SIZE: f32 = 0.5;
 
+pub const KEYBOARD_ICON_RADIUS: f32 = 64.0;
+
 #[derive(Component)]
 struct KeyboardIcon;
+#[derive(Component)]
+pub struct KeyboardHint;
 
 enum Icon {
     DownKey,
@@ -164,7 +168,11 @@ fn spawn_keyboard_ui(mut commands: Commands, assets: Res<GameAssets>, bitmap: Re
     )
     .with_scale(Vec3::splat(ICON_SIZE));
     let root = commands
-        .spawn((YSort(-200.0), SpatialBundle::from_transform(transform)))
+        .spawn((
+            KeyboardHint,
+            YSort(-200.0),
+            SpatialBundle::from_transform(transform),
+        ))
         .id();
 
     spawn_animated_icon(
