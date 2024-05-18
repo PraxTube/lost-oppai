@@ -4,11 +4,12 @@ use noisy_bevy::simplex_noise_2d_seeded;
 
 use crate::world::map::TILE_SIZE;
 
-use super::bitmask::BitMasks;
+use super::bitmask::{BitMasks, GRASS_FLOWER_SUPER_POSITION};
 use super::{
     TileCollision, TileType, BITMASK_BOT_LEFT, BITMASK_BOT_RIGHT, BITMASK_TOP_LEFT,
-    BITMASK_TOP_RIGHT, CHUNK_SIZE, EMPTY_TYPE_INDEX, GRASS_TYPE_INDEX, INVALID_TILE, NOISE_ZOOM,
-    PATH_TYPE_INDEX, RENDERED_CHUNKS_RADIUS, WATER_HEIGH_LEVEL, WATER_TYPE_INDEX,
+    BITMASK_TOP_RIGHT, CHUNK_SIZE, EMPTY_TYPE_INDEX, FLOWER_HEIGHT_LEVEL, FLOWER_NOISE_ZOOM,
+    GRASS_TYPE_INDEX, INVALID_TILE, NOISE_ZOOM, PATH_TYPE_INDEX, RENDERED_CHUNKS_RADIUS,
+    WATER_HEIGH_LEVEL, WATER_TYPE_INDEX,
 };
 
 #[derive(Resource)]
@@ -202,6 +203,21 @@ impl BitMap {
         is_water
     }
 
+    fn get_flower_tile(&self, v: IVec2) -> u16 {
+        let w = Vec2::new(v.x as f32, v.y as f32);
+
+        let noise = simplex_noise_2d_seeded(w * FLOWER_NOISE_ZOOM, self.seed() + 2.0);
+        let secondary_noise =
+            simplex_noise_2d_seeded(w * FLOWER_NOISE_ZOOM, self.seed() + 3.0) * 1.0;
+        let h = noise + secondary_noise;
+
+        if h < FLOWER_HEIGHT_LEVEL {
+            BitMasks::flower().get_index(1)
+        } else {
+            BitMasks::flower().get_index(0)
+        }
+    }
+
     /// Determine which tile to place. This will collapse
     /// the neigbhoring four tiles to see if they are grass or water.
     /// This is used for all tiles, both grass and water.
@@ -212,7 +228,11 @@ impl BitMap {
         };
 
         let tile = bitmask.get_index(mask);
-        self.set_tileset(v, tile);
+        if tile == GRASS_FLOWER_SUPER_POSITION {
+            self.set_tileset(v, self.get_flower_tile(v));
+        } else {
+            self.set_tileset(v, tile);
+        }
     }
 
     /// Return the bitmask indicating which of the neigbhors are grass

@@ -10,10 +10,12 @@ use bevy::prelude::*;
 use super::{CHUNK_SIZE, RENDERED_CHUNKS_RADIUS};
 
 const NOISE_ZOOM: f32 = 0.02;
+const FLOWER_NOISE_ZOOM: f32 = 0.1;
 // Determines the sea level,
 // between -1 and 1, the water tiles must be below
 // this value to count as water.
 const WATER_HEIGH_LEVEL: f32 = -0.5;
+const FLOWER_HEIGHT_LEVEL: f32 = -0.7;
 
 const EMPTY_TYPE_INDEX: u8 = 0;
 const WATER_TYPE_INDEX: u8 = 1;

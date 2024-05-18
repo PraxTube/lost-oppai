@@ -6,6 +6,8 @@ use super::{
     BITMASK_BOT_LEFT, BITMASK_BOT_RIGHT, BITMASK_TOP_LEFT, BITMASK_TOP_RIGHT, INVALID_TILE,
 };
 
+pub const GRASS_FLOWER_SUPER_POSITION: u16 = 15;
+
 fn grid_to_index(x: u16, y: u16) -> u16 {
     x + y * 16
 }
@@ -83,15 +85,7 @@ impl BitMasks {
     pub fn path() -> Self {
         Self {
             masks: HashMap::from([
-                (
-                    0,
-                    vec![
-                        grid_to_index(0, 1),
-                        grid_to_index(0, 2),
-                        grid_to_index(0, 3),
-                        grid_to_index(0, 4),
-                    ],
-                ),
+                (0, vec![GRASS_FLOWER_SUPER_POSITION]),
                 (
                     BITMASK_BOT_LEFT | BITMASK_TOP_LEFT | BITMASK_TOP_RIGHT | BITMASK_BOT_RIGHT,
                     vec![grid_to_index(2, 1)],
@@ -139,6 +133,35 @@ impl BitMasks {
                 (
                     BITMASK_BOT_LEFT | BITMASK_TOP_RIGHT,
                     vec![grid_to_index(3, 3)],
+                ),
+            ]),
+        }
+    }
+
+    pub fn flower() -> Self {
+        Self {
+            masks: HashMap::from([
+                (
+                    0,
+                    vec![
+                        grid_to_index(0, 1),
+                        grid_to_index(0, 2),
+                        grid_to_index(0, 3),
+                        grid_to_index(0, 4),
+                    ],
+                ),
+                (
+                    1,
+                    vec![
+                        grid_to_index(0, 6),
+                        grid_to_index(1, 6),
+                        grid_to_index(2, 6),
+                        grid_to_index(3, 6),
+                        grid_to_index(0, 7),
+                        grid_to_index(1, 7),
+                        grid_to_index(2, 7),
+                        grid_to_index(3, 7),
+                    ],
                 ),
             ]),
         }
