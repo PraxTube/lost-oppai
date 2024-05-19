@@ -10,6 +10,7 @@ use bevy_particle_systems::{
 use bevy_rapier2d::prelude::*;
 
 use crate::{
+    npc::Npc,
     ui::keyboard_hint::{KeyboardHint, KEYBOARD_ICON_RADIUS},
     world::camera::{YSort, YSortStatic, YSortStaticChild},
     GameAssets, GameState,
@@ -32,6 +33,8 @@ const TREE_RADIUS: f32 = 3.0;
 const BUSH_1_RADIUS: f32 = 2.25;
 const BUSH_2_RADIUS: f32 = 1.25;
 const ROCK_RADIUS: f32 = 1.0;
+
+const NPC_FLORA_RADIUS: f32 = 64.0;
 
 #[derive(Component)]
 struct Flora {
@@ -297,6 +300,24 @@ fn despawn_flora_around_start_hint(
     }
 }
 
+fn despawn_flora_around_npcs(
+    mut commands: Commands,
+    q_npcs: Query<&Transform, (With<Npc>, Without<Flora>)>,
+    q_floras: Query<(Entity, &Transform), Added<Flora>>,
+) {
+    for (entity, flora_transform) in &q_floras {
+        for npc_transform in &q_npcs {
+            if flora_transform
+                .translation
+                .distance_squared(npc_transform.translation)
+                <= NPC_FLORA_RADIUS.powi(2)
+            {
+                commands.entity(entity).despawn_recursive();
+            }
+        }
+    }
+}
+
 pub struct FloraPlugin;
 
 impl Plugin for FloraPlugin {
@@ -307,6 +328,7 @@ impl Plugin for FloraPlugin {
                 spawn_flora_chunks,
                 despawn_flora_chunks,
                 despawn_flora_around_start_hint,
+                despawn_flora_around_npcs,
             )
                 .run_if(in_state(GameState::Gaming)),
         );

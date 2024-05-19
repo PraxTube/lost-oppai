@@ -27,7 +27,7 @@ impl Default for BitMap {
     fn default() -> Self {
         let length = CHUNK_SIZE as usize * RENDERED_CHUNKS_RADIUS as usize;
         Self {
-            seed: 61.0,
+            seed: 611.0,
             vertices: Vec::new(),
             edges: HashSet::new(),
             tile_q1: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
