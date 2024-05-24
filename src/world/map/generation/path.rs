@@ -151,6 +151,8 @@ fn generate_path(mut bitmap: ResMut<BitMap>) {
     bitmap.set_vertices(&points);
     let edges = kruskals_edges(&points);
     bitmap.set_edges(&edges);
+    let mut edges: Vec<(usize, usize)> = edges.into_iter().collect();
+    edges.sort();
 
     let mut rng = GameRng::seed_from_u64(bitmap.seed() as u64);
     for (u, v) in edges {
