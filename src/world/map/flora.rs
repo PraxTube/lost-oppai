@@ -226,6 +226,7 @@ fn spawn_flora(
         spawn_tree(commands, assets, chunk_pos, pos);
     } else if radius > BUSH_1_RADIUS {
         if !(bitmap.get_flora_flag(v)
+            && bitmap.get_flora_flag(v - IVec2::Y)
             && bitmap.get_flora_flag(v + IVec2::X)
             && bitmap.get_flora_flag(v - IVec2::X))
         {

@@ -4,7 +4,10 @@ use bevy_trickfilm::prelude::*;
 
 use crate::{
     player::Player,
-    world::{camera::YSort, map::generation::BitMap},
+    world::{
+        camera::{YSort, YSortChild},
+        map::generation::BitMap,
+    },
     GameAssets, GameState,
 };
 
@@ -44,7 +47,7 @@ fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) 
 
     let shadow = commands
         .spawn((
-            YSort(-256.0),
+            YSortChild(-26.0),
             shadow_animator,
             SpriteSheetBundle {
                 transform: Transform::from_translation(Vec3::new(0.0, -25.0, 0.0)),
@@ -86,7 +89,7 @@ fn spawn_joanna(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
 
     let shadow = commands
         .spawn((
-            YSort(-256.0),
+            YSortChild(-22.0),
             SpriteBundle {
                 transform: Transform::from_translation(Vec3::new(0.0, -21.0, 0.0)),
                 texture: assets.joanna_shadow.clone(),

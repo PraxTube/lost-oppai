@@ -30,6 +30,8 @@ pub struct MainCamera;
 
 #[derive(Component)]
 pub struct YSort(pub f32);
+#[derive(Component)]
+pub struct YSortChild(pub f32);
 
 #[derive(Component)]
 pub struct YSortStatic(pub f32);
@@ -42,7 +44,24 @@ pub fn apply_y_sort(mut q_transforms: Query<(&mut Transform, &GlobalTransform, &
     }
 }
 
-pub fn apply_y_sort_static(
+fn apply_y_sort_child(
+    q_parents: Query<&Transform, (With<YSort>, Without<YSortChild>)>,
+    mut q_transforms: Query<
+        (&Parent, &mut Transform, &GlobalTransform, &YSortChild),
+        Without<YSort>,
+    >,
+) {
+    for (parent, mut transform, global_transform, ysort) in &mut q_transforms {
+        let parent_transform = match q_parents.get(parent.get()) {
+            Ok(r) => r,
+            Err(_) => continue,
+        };
+        transform.translation.z = (ysort.0 - global_transform.translation().y) * YSORT_SCALE
+            - parent_transform.translation.z;
+    }
+}
+
+fn apply_y_sort_static(
     mut q_transforms: Query<(&mut Transform, &GlobalTransform, &YSortStatic), Added<YSortStatic>>,
 ) {
     for (mut transform, global_transform, ysort) in &mut q_transforms {
@@ -50,7 +69,7 @@ pub fn apply_y_sort_static(
     }
 }
 
-pub fn apply_y_sort_static_child(
+fn apply_y_sort_static_child(
     q_parents: Query<&Transform, (With<YSortStatic>, Without<YSortStaticChild>)>,
     mut q_transforms: Query<
         (&Parent, &mut Transform, &GlobalTransform, &YSortStaticChild),
@@ -161,6 +180,9 @@ impl Plugin for CameraPlugin {
                 #[cfg(not(target_arch = "wasm32"))]
                 take_screenshot,
                 apply_y_sort,
+                apply_y_sort_child
+                    .after(apply_y_sort)
+                    .before(apply_y_sort_static),
                 apply_y_sort_static.after(apply_y_sort),
                 apply_y_sort_static_child.after(apply_y_sort_static),
                 zoom_camera,
