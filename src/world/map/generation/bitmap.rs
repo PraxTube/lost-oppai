@@ -350,4 +350,9 @@ impl BitMap {
             })
             .collect()
     }
+
+    pub fn is_position_water(&mut self, pos: Vec2) -> bool {
+        let v = IVec2::new((pos.x / TILE_SIZE) as i32, (pos.y / TILE_SIZE) as i32);
+        self.get_water_flag(v)
+    }
 }

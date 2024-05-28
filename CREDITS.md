@@ -18,6 +18,10 @@ https://seliel-the-shaper.itch.io/spring-forest
 
 https://otsoga.itch.io/free-medieval-npcs-witch-and-swordswoman
 
+### Bird
+
+https://ma9ici4n.itch.io/pixel-art-bird-16x16
+
 ---
 
 ## UI
