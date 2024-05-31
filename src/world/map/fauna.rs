@@ -21,12 +21,10 @@ const FLYING_SPEED: f32 = 160.0;
 const MIN_PLAYER_DISTANCE: f32 = 40.0;
 const PLAYER_JUMP_DISTANCE: f32 = 54.0;
 const FLYING_AWAY_DISTANCE: f32 = 100.0;
-const JUMP_EXCITEMENT: f32 = 0.1;
 
 #[derive(Component)]
 struct Bird {
     state: BirdState,
-    excitement: f32,
     action_timer: Timer,
     move_dir: Vec2,
 }
@@ -35,7 +33,6 @@ impl Default for Bird {
     fn default() -> Self {
         Self {
             state: BirdState::default(),
-            excitement: 1.0,
             action_timer: Timer::from_seconds(1.0, TimerMode::Repeating),
             move_dir: Vec2::ZERO,
         }
@@ -95,6 +92,45 @@ fn spawn_birds(
         .push_children(&[shadow]);
 }
 
+fn play_bird_animations(
+    assets: Res<GameAssets>,
+    mut q_birds: Query<(&mut AnimationPlayer2D, &Bird)>,
+) {
+    for (mut player, bird) in &mut q_birds {
+        match bird.state {
+            BirdState::Idling => player.play(assets.bird_animations[0].clone()).repeat(),
+            BirdState::Jumping => player.play(assets.bird_animations[1].clone()),
+            BirdState::Picking => player.play(assets.bird_animations[2].clone()),
+            BirdState::Flying => player.play(assets.bird_animations[3].clone()).repeat(),
+        };
+    }
+}
+
+fn pick_random_actions(time: Res<Time>, mut q_birds: Query<&mut Bird>) {
+    let mut rng = thread_rng();
+
+    for mut bird in &mut q_birds {
+        if bird.state != BirdState::Idling {
+            continue;
+        }
+
+        bird.action_timer.tick(time.delta());
+        if !bird.action_timer.just_finished() {
+            continue;
+        };
+
+        let action_value = rng.gen_range(0.0..1.0);
+        if action_value < 0.6 {
+            bird.state = BirdState::Idling;
+        } else if action_value < 0.7 {
+            bird.state = BirdState::Picking;
+        } else if action_value < 0.9 {
+            bird.state = BirdState::Jumping;
+            bird.move_dir = Vec2::from_angle(rng.gen_range(0.0..TAU));
+        }
+    }
+}
+
 fn return_to_idle_state(
     mut bitmap: ResMut<BitMap>,
     q_player: Query<&Transform, (With<Player>, Without<Bird>)>,
@@ -128,31 +164,6 @@ fn return_to_idle_state(
     }
 }
 
-fn pick_random_actions(time: Res<Time>, mut q_birds: Query<&mut Bird>) {
-    let mut rng = thread_rng();
-
-    for mut bird in &mut q_birds {
-        if bird.state != BirdState::Idling {
-            continue;
-        }
-
-        bird.action_timer.tick(time.delta());
-        if !bird.action_timer.just_finished() {
-            continue;
-        };
-
-        let action_value = rng.gen_range(0.0..1.0);
-        if action_value < 0.6 {
-            bird.state = BirdState::Idling;
-        } else if action_value < 0.7 {
-            bird.state = BirdState::Picking;
-        } else if action_value < 0.9 {
-            bird.state = BirdState::Jumping;
-            bird.move_dir = Vec2::from_angle(rng.gen_range(0.0..TAU));
-        }
-    }
-}
-
 fn move_birds(
     time: Res<Time>,
     mut q_birds: Query<(&mut Transform, &mut TextureAtlasSprite, &Bird)>,
@@ -170,20 +181,6 @@ fn move_birds(
                 sprite.flip_x = bird.move_dir.x > 0.0;
             }
             _ => {}
-        };
-    }
-}
-
-fn play_bird_animations(
-    assets: Res<GameAssets>,
-    mut q_birds: Query<(&mut AnimationPlayer2D, &Bird)>,
-) {
-    for (mut player, bird) in &mut q_birds {
-        match bird.state {
-            BirdState::Idling => player.play(assets.bird_animations[0].clone()).repeat(),
-            BirdState::Jumping => player.play(assets.bird_animations[1].clone()),
-            BirdState::Picking => player.play(assets.bird_animations[2].clone()),
-            BirdState::Flying => player.play(assets.bird_animations[3].clone()).repeat(),
         };
     }
 }
@@ -218,18 +215,8 @@ fn check_player_bird_distances(
         if dis < MIN_PLAYER_DISTANCE.powi(2) {
             bird.state = BirdState::Flying;
         } else {
-            bird.excitement += JUMP_EXCITEMENT;
             bird.state = BirdState::Jumping;
         }
-    }
-}
-
-fn update_excitement_meter(time: Res<Time>, mut q_birds: Query<&mut Bird>) {
-    for mut bird in &mut q_birds {
-        if bird.state == BirdState::Jumping || bird.state == BirdState::Flying {
-            continue;
-        }
-        bird.excitement = (bird.excitement - time.delta_seconds()).clamp(1.0, 2.0);
     }
 }
 
@@ -241,12 +228,11 @@ impl Plugin for FaunaPlugin {
             Update,
             (
                 spawn_birds,
-                pick_random_actions,
-                move_birds,
                 play_bird_animations,
-                check_player_bird_distances,
-                update_excitement_meter,
+                pick_random_actions,
                 return_to_idle_state,
+                move_birds,
+                check_player_bird_distances,
             )
                 .run_if(in_state(GameState::Gaming)),
         );
