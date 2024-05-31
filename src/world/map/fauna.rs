@@ -15,12 +15,13 @@ use super::generation::BitMap;
 const MAX_BIRD_COUNT: usize = 5;
 const BIRD_SCALE: f32 = 1.0;
 
-const JUMP_SPEED: f32 = 50.0;
-const FLYING_SPEED: f32 = 120.0;
+const JUMP_SPEED: f32 = 60.0;
+const FLYING_SPEED: f32 = 160.0;
 
-const MIN_PLAYER_DISTANCE: f32 = 48.0;
-const FLY_EXCITEMENT_ADD: f32 = 0.5;
-const JUMP_EXCITEMENT_ADD: f32 = 0.1;
+const MIN_PLAYER_DISTANCE: f32 = 40.0;
+const PLAYER_JUMP_DISTANCE: f32 = 54.0;
+const FLYING_AWAY_DISTANCE: f32 = 100.0;
+const JUMP_EXCITEMENT: f32 = 0.1;
 
 #[derive(Component)]
 struct Bird {
@@ -96,20 +97,38 @@ fn spawn_birds(
 
 fn return_to_idle_state(
     mut bitmap: ResMut<BitMap>,
+    q_player: Query<&Transform, (With<Player>, Without<Bird>)>,
     mut q_birds: Query<(&Transform, &AnimationPlayer2D, &mut Bird)>,
 ) {
+    let player_transform = match q_player.get_single() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
     for (transform, player, mut bird) in &mut q_birds {
-        if player.is_finished() {
-            if bitmap.is_position_water(transform.translation.truncate()) {
-                bird.state = BirdState::Flying;
-            } else {
-                bird.state = BirdState::Idling;
+        if bird.state == BirdState::Flying {
+            if transform
+                .translation
+                .distance_squared(player_transform.translation)
+                <= FLYING_AWAY_DISTANCE.powi(2)
+            {
+                continue;
             }
+        } else {
+            if !player.is_finished() {
+                continue;
+            }
+        }
+
+        if bitmap.is_position_water(transform.translation.truncate()) {
+            bird.state = BirdState::Flying;
+        } else {
+            bird.state = BirdState::Idling;
         }
     }
 }
 
-fn update_bird_states(time: Res<Time>, mut q_birds: Query<&mut Bird>) {
+fn pick_random_actions(time: Res<Time>, mut q_birds: Query<&mut Bird>) {
     let mut rng = thread_rng();
 
     for mut bird in &mut q_birds {
@@ -122,7 +141,6 @@ fn update_bird_states(time: Res<Time>, mut q_birds: Query<&mut Bird>) {
             continue;
         };
 
-        bird.move_dir = Vec2::ZERO;
         let action_value = rng.gen_range(0.0..1.0);
         if action_value < 0.6 {
             bird.state = BirdState::Idling;
@@ -143,14 +161,12 @@ fn move_birds(
         match bird.state {
             BirdState::Jumping => {
                 transform.translation +=
-                    bird.move_dir.extend(0.0) * bird.excitement * JUMP_SPEED * time.delta_seconds();
+                    bird.move_dir.extend(0.0) * JUMP_SPEED * time.delta_seconds();
                 sprite.flip_x = bird.move_dir.x > 0.0;
             }
             BirdState::Flying => {
-                transform.translation += bird.move_dir.extend(0.0)
-                    * bird.excitement
-                    * FLYING_SPEED
-                    * time.delta_seconds();
+                transform.translation +=
+                    bird.move_dir.extend(0.0) * FLYING_SPEED * time.delta_seconds();
                 sprite.flip_x = bird.move_dir.x > 0.0;
             }
             _ => {}
@@ -180,31 +196,29 @@ fn check_player_bird_distances(
         Ok(r) => r,
         Err(_) => return,
     };
-    let mut rng = thread_rng();
 
     for (transform, mut bird) in &mut q_birds {
-        if bird.state != BirdState::Idling {
-            return;
+        if bird.state == BirdState::Flying {
+            continue;
         }
 
         let dis = transform
             .translation
             .distance_squared(player_transform.translation);
 
-        if dis > MIN_PLAYER_DISTANCE.powi(2) * bird.excitement {
+        if dis > PLAYER_JUMP_DISTANCE.powi(2) {
             continue;
         }
 
-        let action = rng.gen_range(0.0..1.0);
-
-        bird.move_dir = (transform.translation - player_transform.translation)
+        let dir = (transform.translation - player_transform.translation)
             .truncate()
             .normalize_or_zero();
-        if action < bird.excitement - 1.0 {
-            bird.excitement += FLY_EXCITEMENT_ADD;
+        bird.move_dir = if dir == Vec2::ZERO { Vec2::X } else { dir };
+
+        if dis < MIN_PLAYER_DISTANCE.powi(2) {
             bird.state = BirdState::Flying;
         } else {
-            bird.excitement += JUMP_EXCITEMENT_ADD;
+            bird.excitement += JUMP_EXCITEMENT;
             bird.state = BirdState::Jumping;
         }
     }
@@ -227,7 +241,7 @@ impl Plugin for FaunaPlugin {
             Update,
             (
                 spawn_birds,
-                update_bird_states,
+                pick_random_actions,
                 move_birds,
                 play_bird_animations,
                 check_player_bird_distances,

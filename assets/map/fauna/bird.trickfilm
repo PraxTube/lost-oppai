@@ -7,8 +7,8 @@
     (
         name: "jump",
         keyframes: KeyframesVec([3, 0]),
-        keyframe_timestamps: Some([0.0, 0.4]),
-        duration: 0.4,
+        keyframe_timestamps: Some([0.0, 0.3]),
+        duration: 0.3,
     ),
     (
         name: "pick",
