@@ -1,6 +1,7 @@
 #![allow(clippy::too_many_arguments, clippy::type_complexity)]
 
 mod assets;
+mod audio;
 mod npc;
 mod player;
 mod ui;
@@ -72,6 +73,7 @@ fn main() {
         .add_plugins((
             world::WorldPlugin,
             ui::UiPlugin,
+            audio::GameAudioPlugin,
             player::PlayerPlugin,
             npc::NpcPlugin,
             utils::UtilsPlugin,

@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
+use bevy_kira_audio::AudioSource;
 use bevy_trickfilm::prelude::*;
-// use bevy_kira_audio::AudioSource;
 
 #[derive(AssetCollection, Resource)]
 pub struct GameAssets {
@@ -123,6 +123,10 @@ pub struct GameAssets {
         collection(typed)
     )]
     pub ui_keys_animations: Vec<Handle<AnimationClip2D>>,
+
+    // --- AUDIO ---
+    #[asset(path = "audio/player_footstep.ogg")]
+    pub player_footstep: Handle<AudioSource>,
 
     // --- FONT ---
     #[asset(path = "fonts/PressStart2P.ttf")]

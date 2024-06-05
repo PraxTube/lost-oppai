@@ -38,6 +38,11 @@ https://github.com/YarnSpinnerTool/YarnSpinner-Rust
 
 ## Audio
 
+### Sounds
+
+#### Footsteps
+
+https://dryoma.itch.io/footsteps-sounds
 ---
 
 ## Fonts

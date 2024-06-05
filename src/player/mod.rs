@@ -2,12 +2,11 @@ pub mod chat;
 pub mod input;
 pub mod state;
 
-// mod audio;
+mod audio;
 mod collision;
 mod movement;
 mod spawn;
 
-// pub use state::PlayerChangedState;
 pub use state::PlayerState;
 
 use bevy::prelude::*;
@@ -32,7 +31,7 @@ impl Plugin for PlayerPlugin {
             collision::PlayerCollisionPlugin,
             input::InputPlugin,
             state::PlayerStatePlugin,
-            // audio::PlayerAudioPlugin,
+            audio::PlayerAudioPlugin,
             chat::PlayerChatPlugin,
             spawn::PlayerSpawnPlugin,
             movement::PlayerMovementPlugin,
