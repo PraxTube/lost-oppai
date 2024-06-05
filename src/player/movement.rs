@@ -37,6 +37,16 @@ fn player_movement(
     velocity.linvel = direction * speed;
 }
 
+fn queue_direction(mut q_player: Query<&mut Player>) {
+    let mut player = match q_player.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    let dir = player.current_direction;
+    player.directions_queue.add(dir);
+}
+
 fn face_npc(
     mut q_player: Query<&mut Player>,
     mut ev_player_started_chat: EventReader<PlayerStartedChat>,
@@ -57,7 +67,7 @@ impl Plugin for PlayerMovementPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (player_movement, face_npc).run_if(in_state(GameState::Gaming)),
+            (player_movement, queue_direction, face_npc).run_if(in_state(GameState::Gaming)),
         );
     }
 }

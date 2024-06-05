@@ -13,12 +13,16 @@ pub use state::PlayerState;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
+use crate::utils::FixedQueue;
+
 pub const PLAYER_SPAWN_POS: Vec3 = Vec3::ZERO;
 pub const NPC_PROXIMITY_DISTANCE: f32 = 50.0;
 const PLAYER_SCALE: Vec3 = Vec3::splat(0.5);
 const WALK_SPEED: f32 = 75.0;
 const RUN_SPEED: f32 = 115.0;
 const PLAYER_COLLISION_GROUPS: CollisionGroups = CollisionGroups::new(Group::ALL, Group::ALL);
+
+const DIRECTIONS_QUEUE_SIZE: usize = 100;
 
 pub struct PlayerPlugin;
 
@@ -41,6 +45,7 @@ pub struct Player {
     pub state: PlayerState,
     pub current_direction: Vec2,
     pub collider_entity: Entity,
+    directions_queue: FixedQueue<Vec2, DIRECTIONS_QUEUE_SIZE>,
 }
 
 impl Player {
@@ -49,6 +54,16 @@ impl Player {
             state: PlayerState::default(),
             current_direction: Vec2::NEG_Y,
             collider_entity,
+            directions_queue: FixedQueue::new(),
+        }
+    }
+
+    pub fn average_direction(&self) -> Vec2 {
+        let dir = self.directions_queue.compute_average();
+
+        match dir {
+            Some(r) => r / DIRECTIONS_QUEUE_SIZE as f32,
+            None => Vec2::NEG_Y,
         }
     }
 }

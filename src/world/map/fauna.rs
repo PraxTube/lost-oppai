@@ -1,11 +1,11 @@
-use std::f32::consts::TAU;
+use std::f32::consts::{PI, TAU};
 
 use bevy::prelude::*;
 use bevy_trickfilm::animation::AnimationPlayer2D;
 use rand::{thread_rng, Rng};
 
 use crate::{
-    player::Player,
+    player::{Player, PLAYER_SPAWN_POS},
     world::camera::{YSort, YSortChild},
     GameAssets, GameState,
 };
@@ -21,6 +21,9 @@ const FLYING_SPEED: f32 = 160.0;
 const MIN_PLAYER_DISTANCE: f32 = 40.0;
 const PLAYER_JUMP_DISTANCE: f32 = 54.0;
 const FLYING_AWAY_DISTANCE: f32 = 100.0;
+const DESPAWN_DISTANCE: f32 = 400.0;
+const SPAWN_DISTANCE: f32 = 210.0;
+const RANDOM_OFFSET_DISTANCE: f32 = 20.0;
 
 #[derive(Component)]
 struct Bird {
@@ -29,12 +32,12 @@ struct Bird {
     move_dir: Vec2,
 }
 
-impl Default for Bird {
-    fn default() -> Self {
+impl Bird {
+    fn new(move_dir: Vec2) -> Self {
         Self {
             state: BirdState::default(),
             action_timer: Timer::from_seconds(1.0, TimerMode::Repeating),
-            move_dir: Vec2::ZERO,
+            move_dir,
         }
     }
 }
@@ -48,21 +51,7 @@ enum BirdState {
     Flying,
 }
 
-fn spawn_birds(
-    mut commands: Commands,
-    assets: Res<GameAssets>,
-    q_player: Query<&Transform, With<Player>>,
-    q_birds: Query<With<Bird>>,
-) {
-    let player_transform = match q_player.get_single() {
-        Ok(r) => r,
-        Err(_) => return,
-    };
-
-    if q_birds.iter().len() >= MAX_BIRD_COUNT {
-        return;
-    }
-
+fn spawn_bird(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3, move_dir: Vec2) {
     let shadow = commands
         .spawn((
             YSortChild(-9.0),
@@ -79,17 +68,81 @@ fn spawn_birds(
 
     commands
         .spawn((
-            Bird::default(),
+            Bird::new(move_dir),
             YSort(0.0),
             animator,
             SpriteSheetBundle {
-                transform: Transform::from_translation(player_transform.translation)
-                    .with_scale(Vec3::splat(BIRD_SCALE)),
+                transform: Transform::from_translation(pos).with_scale(Vec3::splat(BIRD_SCALE)),
                 texture_atlas: assets.bird.clone(),
                 ..default()
             },
         ))
         .push_children(&[shadow]);
+}
+
+fn spawn_initial_birds(mut commands: Commands, assets: Res<GameAssets>) {
+    let mut rng = thread_rng();
+    for _ in 0..MAX_BIRD_COUNT {
+        let dir = Vec2::from_angle(rng.gen_range(0.0..2.0 * PI));
+        let pos = PLAYER_SPAWN_POS + dir.normalize_or_zero().extend(0.0) * SPAWN_DISTANCE;
+        spawn_bird(&mut commands, &assets, pos, Vec2::NEG_Y);
+    }
+}
+
+fn spawn_birds(
+    mut commands: Commands,
+    assets: Res<GameAssets>,
+    q_player: Query<(&Transform, &Player)>,
+    q_birds: Query<With<Bird>>,
+) {
+    let (player_transform, player) = match q_player.get_single() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    if q_birds.iter().len() >= MAX_BIRD_COUNT {
+        return;
+    }
+
+    let mut rng = thread_rng();
+
+    let dir = player.average_direction().normalize_or_zero().extend(0.0);
+    if dir == Vec3::ZERO {
+        return;
+    }
+    let offset =
+        Vec3::new(rng.gen_range(-1.0..1.0), rng.gen_range(-1.0..0.0), 0.0) * RANDOM_OFFSET_DISTANCE;
+    let pos = player_transform.translation + dir * SPAWN_DISTANCE + offset;
+
+    spawn_bird(
+        &mut commands,
+        &assets,
+        pos,
+        (pos - player_transform.translation)
+            .truncate()
+            .normalize_or_zero(),
+    );
+}
+
+fn despawn_birds(
+    mut commands: Commands,
+    q_player: Query<&Transform, (With<Player>, Without<Bird>)>,
+    mut q_birds: Query<(Entity, &Transform), With<Bird>>,
+) {
+    let player_transform = match q_player.get_single() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    for (entity, transform) in &mut q_birds {
+        let dis = transform
+            .translation
+            .distance_squared(player_transform.translation);
+
+        if dis >= DESPAWN_DISTANCE.powi(2) {
+            commands.entity(entity).despawn_recursive();
+        }
+    }
 }
 
 fn play_bird_animations(
@@ -228,6 +281,7 @@ impl Plugin for FaunaPlugin {
             Update,
             (
                 spawn_birds,
+                despawn_birds,
                 play_bird_animations,
                 pick_random_actions,
                 return_to_idle_state,
@@ -235,6 +289,7 @@ impl Plugin for FaunaPlugin {
                 check_player_bird_distances,
             )
                 .run_if(in_state(GameState::Gaming)),
-        );
+        )
+        .add_systems(OnExit(GameState::AssetLoading), (spawn_initial_birds,));
     }
 }
