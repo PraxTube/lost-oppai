@@ -43,6 +43,11 @@ https://github.com/YarnSpinnerTool/YarnSpinner-Rust
 #### Footsteps
 
 https://dryoma.itch.io/footsteps-sounds
+
+#### Bird Chirps
+
+https://indiesfx.itch.io/indiesfx-k002a/devlog/334792/nature-loops-released
+
 ---
 
 ## Fonts

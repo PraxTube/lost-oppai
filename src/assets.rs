@@ -128,6 +128,9 @@ pub struct GameAssets {
     #[asset(path = "audio/player_footstep.ogg")]
     pub player_footstep: Handle<AudioSource>,
 
+    #[asset(path = "audio/birds.ogg")]
+    pub bird_sounds: Handle<AudioSource>,
+
     // --- FONT ---
     #[asset(path = "fonts/PressStart2P.ttf")]
     pub font: Handle<Font>,
