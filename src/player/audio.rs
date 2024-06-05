@@ -11,12 +11,15 @@ use crate::{
 
 use super::{Player, PlayerState};
 
+const RAND_SPEED_INTENSITY: f64 = 0.2;
 const TIME_BETWEEN_STEPS_WALKING: f32 = 0.5;
 const TIME_BETWEEN_STEPS_RUNNING: f32 = 0.4;
-const RAND_SPEED_INTENSITY: f64 = 0.2;
+const WALK_VOLUME: f64 = 1.5;
+const RUN_VOLUME: f64 = 2.0;
 
-const VOLUME: f64 = 5.0;
-const NOISE_ZOOM: f32 = 0.2;
+const BIRD_MAX_VOLUME: f64 = 1.0;
+const BIRD_MIN_VOLUME: f32 = 0.1;
+const NOISE_ZOOM: f32 = 0.02;
 const SEED: f32 = 64.0;
 
 #[derive(Resource, Deref, DerefMut)]
@@ -51,9 +54,10 @@ fn update_bird_sound(
     mut audio_instances: ResMut<Assets<AudioInstance>>,
     bird_sound: Res<BirdSound>,
 ) {
-    let noise =
-        simplex_noise_2d_seeded(Vec2::ONE * time.delta_seconds() * NOISE_ZOOM, SEED).max(0.0);
-    let volume = noise as f64 * game_audio.main_volume * VOLUME;
+    let noise = simplex_noise_2d_seeded(Vec2::ONE * time.elapsed_seconds() * NOISE_ZOOM, SEED)
+        .max(BIRD_MIN_VOLUME);
+    let volume = noise as f64 * game_audio.main_volume * BIRD_MAX_VOLUME;
+    info!("{}", volume);
     if let Some(instance) = audio_instances.get_mut(bird_sound.handle.clone()) {
         instance.set_volume(volume, AudioTween::default());
     }
@@ -83,7 +87,7 @@ fn play_step_sounds(
             steps_timer.set_duration(Duration::from_secs_f32(TIME_BETWEEN_STEPS_WALKING));
             Some(PlaySound {
                 clip: assets.player_footstep.clone(),
-                volume: 1.5,
+                volume: WALK_VOLUME,
                 rand_speed_intensity: RAND_SPEED_INTENSITY,
                 ..default()
             })
@@ -92,7 +96,7 @@ fn play_step_sounds(
             steps_timer.set_duration(Duration::from_secs_f32(TIME_BETWEEN_STEPS_RUNNING));
             Some(PlaySound {
                 clip: assets.player_footstep.clone(),
-                volume: 2.5,
+                volume: RUN_VOLUME,
                 rand_speed_intensity: RAND_SPEED_INTENSITY,
                 ..default()
             })
