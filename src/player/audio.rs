@@ -57,7 +57,6 @@ fn update_bird_sound(
     let noise = simplex_noise_2d_seeded(Vec2::ONE * time.elapsed_seconds() * NOISE_ZOOM, SEED)
         .max(BIRD_MIN_VOLUME);
     let volume = noise as f64 * game_audio.main_volume * BIRD_MAX_VOLUME;
-    info!("{}", volume);
     if let Some(instance) = audio_instances.get_mut(bird_sound.handle.clone()) {
         instance.set_volume(volume, AudioTween::default());
     }
