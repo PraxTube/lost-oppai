@@ -11,13 +11,15 @@ pub struct MouseWorldCoords(pub Vec2);
 #[derive(Resource, Default)]
 pub struct PlayerInput {
     pub move_direction: Vec2,
-    pub zoom: f32,
+    pub scroll: f32,
     pub running: bool,
     pub escape: bool,
+
     pub start_dialogue: bool,
     pub dialogue_confirm: bool,
     pub dialogue_fast_forward: bool,
     pub dialogue_direction: i8,
+
     pub toggle_fullscreen: bool,
     pub toggle_debug: bool,
 }
@@ -70,11 +72,11 @@ fn fetch_scroll_events(
                 }
             }
         };
-        player_input.zoom = scroll;
+        player_input.scroll = scroll;
     }
 }
 
-fn zoom_camera(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
+fn input_scroll(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
     let mut zoom = 0.0;
     if keys.just_pressed(KeyCode::Plus) {
         zoom -= 1.0;
@@ -84,7 +86,7 @@ fn zoom_camera(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>)
     }
 
     if zoom != 0.0 {
-        player_input.zoom = zoom;
+        player_input.scroll = zoom;
     }
 }
 
@@ -160,7 +162,7 @@ impl Plugin for InputPlugin {
             (
                 fetch_scroll_events,
                 fetch_mouse_world_coords,
-                zoom_camera,
+                input_scroll,
                 player_movement,
                 input_running,
                 input_escape,
