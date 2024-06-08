@@ -7,9 +7,10 @@ use crate::world::map::TILE_SIZE;
 use super::bitmask::{BitMasks, GRASS_FLOWER_SUPER_POSITION};
 use super::{
     TileCollision, TileType, BITMASK_BOT_LEFT, BITMASK_BOT_RIGHT, BITMASK_TOP_LEFT,
-    BITMASK_TOP_RIGHT, CHUNK_SIZE, EMPTY_TYPE_INDEX, FLOWER_HEIGHT_LEVEL, FLOWER_NOISE_ZOOM,
-    GRASS_TYPE_INDEX, INVALID_TILE, NOISE_ZOOM, PATH_TYPE_INDEX, RENDERED_CHUNKS_RADIUS,
-    WATER_HEIGH_LEVEL, WATER_TYPE_INDEX,
+    BITMASK_TOP_RIGHT, CHUNK_SIZE, EMPTY_TYPE_MASK, FLOWER_HEIGHT_LEVEL, FLOWER_NOISE_ZOOM,
+    GRASS_TYPE_MASK, INVALID_TILE, NOISE_ZOOM, PATH_TYPE_MASK, RENDERED_CHUNKS_RADIUS,
+    WATER_HEIGH_LEVEL, WATER_SPARKLE_HEIGHT_LEVEL, WATER_SPARKLE_NOISE_ZOOM,
+    WATER_SPARKLE_TYPE_MASK, WATER_TYPE_MASK,
 };
 
 #[derive(Resource)]
@@ -17,6 +18,12 @@ pub struct BitMap {
     seed: f32,
     vertices: Vec<Vec2>,
     edges: HashSet<(usize, usize)>,
+
+    grass_mask: BitMasks,
+    path_mask: BitMasks,
+    flower_mask: BitMasks,
+    water_sparkle_mask: BitMasks,
+
     tile_q1: Vec<Vec<(u8, u16)>>,
     tile_q2: Vec<Vec<(u8, u16)>>,
     tile_q3: Vec<Vec<(u8, u16)>>,
@@ -30,10 +37,16 @@ impl Default for BitMap {
             seed: 611.0,
             vertices: Vec::new(),
             edges: HashSet::new(),
-            tile_q1: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
-            tile_q2: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
-            tile_q3: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
-            tile_q4: vec![vec![(EMPTY_TYPE_INDEX, INVALID_TILE); length]; length],
+
+            grass_mask: BitMasks::grass(),
+            path_mask: BitMasks::path(),
+            flower_mask: BitMasks::flower(),
+            water_sparkle_mask: BitMasks::water_sparkle(),
+
+            tile_q1: vec![vec![(EMPTY_TYPE_MASK, INVALID_TILE); length]; length],
+            tile_q2: vec![vec![(EMPTY_TYPE_MASK, INVALID_TILE); length]; length],
+            tile_q3: vec![vec![(EMPTY_TYPE_MASK, INVALID_TILE); length]; length],
+            tile_q4: vec![vec![(EMPTY_TYPE_MASK, INVALID_TILE); length]; length],
         }
     }
 }
@@ -86,10 +99,27 @@ impl BitMap {
     }
 
     pub fn set_type_index(&mut self, v: IVec2, tile_type: u8) {
-        self.fit_tileset_size(v);
+        if tile_type == EMPTY_TYPE_MASK {
+            error!(
+                "Setting tile type to empty tile index, should never happen, {}",
+                v
+            );
+        }
 
-        let tile = self.get_tileset_raw(v).1;
-        let tile = (tile_type, tile);
+        let t = self.get_tileset_raw(v);
+        let tile_type = if tile_type == WATER_SPARKLE_TYPE_MASK {
+            if t.0 & WATER_TYPE_MASK != WATER_TYPE_MASK {
+                warn!(
+                    "Setting water sparkle mask on a tile that is not water! mask: {}",
+                    t.0
+                );
+            }
+            (t.0 & WATER_TYPE_MASK) | tile_type
+        } else {
+            tile_type
+        };
+
+        let tile = (tile_type, t.1);
 
         let tileset = match self.tileset_quadrant(v) {
             1 => &mut self.tile_q1,
@@ -123,31 +153,42 @@ impl BitMap {
         tileset[x_index][y_index] = tile;
     }
 
+    fn get_empty_flag(&mut self, v: IVec2) -> bool {
+        self.get_tileset_raw(v).0 & EMPTY_TYPE_MASK == EMPTY_TYPE_MASK
+    }
+
     fn get_water_flag(&mut self, v: IVec2) -> bool {
-        self.get_tileset_raw(v).0 == WATER_TYPE_INDEX
+        self.get_tileset_raw(v).0 & WATER_TYPE_MASK == WATER_TYPE_MASK
     }
 
     fn set_water_flag(&mut self, v: IVec2) {
-        if self.get_tileset_raw(v).0 == EMPTY_TYPE_INDEX {
-            self.set_type_index(v, WATER_TYPE_INDEX);
-        } else {
-            warn!("Trying to set water flag on non empty type tile");
-        }
+        self.set_type_index(v, WATER_TYPE_MASK);
+    }
+
+    fn get_grass_flag(&mut self, v: IVec2) -> bool {
+        self.get_tileset_raw(v).0 & GRASS_TYPE_MASK == GRASS_TYPE_MASK
     }
 
     fn set_grass_flag(&mut self, v: IVec2) {
-        if self.get_tileset_raw(v).0 == EMPTY_TYPE_INDEX {
-            self.set_type_index(v, GRASS_TYPE_INDEX);
-        } else {
-            warn!("Trying to set grass flag on non empty type tile");
-        }
+        self.set_type_index(v, GRASS_TYPE_MASK);
     }
 
     pub fn get_path_flag(&mut self, v: IVec2) -> bool {
-        self.get_tileset_raw(v).0 == PATH_TYPE_INDEX
+        self.get_tileset_raw(v).0 & PATH_TYPE_MASK == PATH_TYPE_MASK
     }
 
-    // Expand the tileset arrays if the given point
+    pub fn get_water_sparkle_flag(&mut self, v: IVec2) -> bool {
+        if self.get_tileset_raw(v).0 & WATER_SPARKLE_TYPE_MASK != WATER_SPARKLE_TYPE_MASK {
+            return false;
+        }
+        self.neigbhor_bitmask_grass(v) == 0
+    }
+
+    fn set_water_sparkle_flag(&mut self, v: IVec2) {
+        self.set_type_index(v, WATER_SPARKLE_TYPE_MASK);
+    }
+
+    // Expand the tileset lists if the given point
     // lies outside the current range.
     fn fit_tileset_size(&mut self, v: IVec2) {
         let tileset = match self.tileset_quadrant(v) {
@@ -164,7 +205,7 @@ impl BitMap {
             if tileset.len() <= v.x.abs() as usize {
                 fitting_size = false;
                 let mut addition = vec![
-                    vec![(EMPTY_TYPE_INDEX, INVALID_TILE); tileset[0].len()];
+                    vec![(EMPTY_TYPE_MASK, INVALID_TILE); tileset[0].len()];
                     CHUNK_SIZE as usize
                 ];
                 tileset.append(&mut addition);
@@ -172,31 +213,45 @@ impl BitMap {
             if tileset[0].len() <= v.y.abs() as usize {
                 fitting_size = false;
                 for i in 0..tileset.len() {
-                    let mut addition = vec![(EMPTY_TYPE_INDEX, INVALID_TILE); tileset[0].len()];
+                    let mut addition = vec![(EMPTY_TYPE_MASK, INVALID_TILE); tileset[0].len()];
                     tileset[i].append(&mut addition);
                 }
             }
         }
     }
 
-    /// Determine if a given tile is water or grass.
-    /// This will only set the water bit flag,
-    /// not the actual tile index.
-    fn collapse_water(&mut self, v: IVec2) -> bool {
-        let tile_type = self.get_tileset_raw(v).0;
-        if tile_type != EMPTY_TYPE_INDEX {
-            return self.get_water_flag(v);
-        }
-
+    fn water_height(&self, v: IVec2) -> f32 {
         let w = Vec2::new(v.x as f32, v.y as f32);
 
         let noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, self.seed());
         let secondary_noise = simplex_noise_2d_seeded(w * NOISE_ZOOM, self.seed() + 1.0) * 1.0;
-        let h = noise + secondary_noise;
+        noise + secondary_noise
+    }
 
-        let is_water = h < WATER_HEIGH_LEVEL;
+    fn water_sparkle_height(&self, v: IVec2) -> f32 {
+        let w = Vec2::new(v.x as f32, v.y as f32);
+
+        let noise = simplex_noise_2d_seeded(w * WATER_SPARKLE_NOISE_ZOOM, self.seed());
+        let secondary_noise =
+            simplex_noise_2d_seeded(w * WATER_SPARKLE_NOISE_ZOOM, self.seed() + 1.0) * 1.0;
+        noise + secondary_noise
+    }
+
+    /// Determine if a given tile is water or grass.
+    /// This will only set the water bit flag,
+    /// not the actual tile index.
+    fn collapse_water(&mut self, v: IVec2) -> bool {
+        if !self.get_empty_flag(v) {
+            return self.get_water_flag(v);
+        }
+
+        let height = self.water_height(v);
+        let is_water = height < WATER_HEIGH_LEVEL;
         if is_water {
             self.set_water_flag(v);
+            if height < WATER_SPARKLE_HEIGHT_LEVEL && self.water_sparkle_height(v) < 0.0 {
+                self.set_water_sparkle_flag(v);
+            }
         } else {
             self.set_grass_flag(v);
         }
@@ -212,9 +267,9 @@ impl BitMap {
         let h = noise + secondary_noise;
 
         if h < FLOWER_HEIGHT_LEVEL {
-            BitMasks::flower().get_index(1)
+            self.flower_mask.get_index(1)
         } else {
-            BitMasks::flower().get_index(0)
+            self.flower_mask.get_index(0)
         }
     }
 
@@ -222,12 +277,17 @@ impl BitMap {
     /// the neigbhoring four tiles to see if they are grass or water.
     /// This is used for all tiles, both grass and water.
     fn collapse_tile(&mut self, v: IVec2) {
-        let (mask, bitmask) = match self.tile_type(v) {
-            TileType::GrassWater => (self.neigbhor_bitmask_grass(v), BitMasks::grass()),
-            TileType::PathOrGrass => (self.neigbhor_bitmask_path(v), BitMasks::path()),
+        let tile = match self.tile_type(v) {
+            TileType::GrassWater => {
+                let t = self.neigbhor_bitmask_grass(v);
+                self.grass_mask.get_index(t)
+            }
+            TileType::PathOrGrass => {
+                let t = self.neigbhor_bitmask_path(v);
+                self.path_mask.get_index(t)
+            }
         };
 
-        let tile = bitmask.get_index(mask);
         if tile == GRASS_FLOWER_SUPER_POSITION {
             self.set_tileset(v, self.get_flower_tile(v));
         } else {
@@ -308,10 +368,10 @@ impl BitMap {
     /// Check if flora can be placed on the given tile.
     /// Flora can only be placed if the tile is surrounded by grass tiles.
     pub fn get_flora_flag(&mut self, v: IVec2) -> bool {
-        self.get_tileset_raw(v).0 == GRASS_TYPE_INDEX
-            && self.get_tileset_raw(v + IVec2::X).0 == GRASS_TYPE_INDEX
-            && self.get_tileset_raw(v + IVec2::Y).0 == GRASS_TYPE_INDEX
-            && self.get_tileset_raw(v + IVec2::ONE).0 == GRASS_TYPE_INDEX
+        self.get_grass_flag(v)
+            && self.get_grass_flag(v + IVec2::X)
+            && self.get_grass_flag(v + IVec2::Y)
+            && self.get_grass_flag(v + IVec2::ONE)
     }
 
     pub fn seed(&self) -> f32 {
@@ -359,5 +419,9 @@ impl BitMap {
             || self.get_water_flag(v - IVec2::ONE)
             || self.get_water_flag(v + IVec2::new(-1, 1))
             || self.get_water_flag(v + IVec2::new(1, -1))
+    }
+
+    pub fn get_water_sparkle_indices(&mut self) -> Vec<u16> {
+        self.water_sparkle_mask.get_animation_indices(0)
     }
 }

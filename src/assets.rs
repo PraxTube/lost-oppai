@@ -49,6 +49,9 @@ pub struct GameAssets {
     #[asset(path = "map/tileset.png")]
     pub tileset: Handle<Image>,
 
+    #[asset(path = "map/water_sparkles.png")]
+    pub water_sparkles: Handle<Image>,
+
     // --- FLORA ---
     #[asset(path = "map/flora/tree.png")]
     pub tree: Handle<Image>,

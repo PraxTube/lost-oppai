@@ -5,7 +5,7 @@ use noisy_bevy::simplex_noise_2d_seeded;
 
 use crate::{world::map::poisson_sampling::generate_poisson_points, GameRng, GameState};
 
-use super::{BitMap, GRASS_TYPE_INDEX, PATH_TYPE_INDEX};
+use super::{BitMap, GRASS_TYPE_MASK, PATH_TYPE_MASK};
 
 const NOISE_ZOOM: f32 = 0.02;
 const START_FILL_RADIUS: i32 = 15;
@@ -73,9 +73,9 @@ fn fill_path_point(bitmap: &mut ResMut<BitMap>, v: IVec2) {
             let offset = IVec2::new(x, y);
             let dis = offset.length_squared();
             if dis < sqrt_radius {
-                bitmap.set_type_index(v + offset, PATH_TYPE_INDEX);
+                bitmap.set_type_index(v + offset, PATH_TYPE_MASK);
             } else if dis < sqrt_radius_grass && !bitmap.get_path_flag(v + offset) {
-                bitmap.set_type_index(v + offset, GRASS_TYPE_INDEX);
+                bitmap.set_type_index(v + offset, GRASS_TYPE_MASK);
             }
         }
     }
@@ -168,7 +168,7 @@ fn fill_player_starting_position(mut bitmap: ResMut<BitMap>) {
         for y in -START_FILL_RADIUS..=START_FILL_RADIUS {
             let v = IVec2::new(x, y);
             if v.length_squared() <= START_FILL_RADIUS.pow(2) {
-                bitmap.set_type_index(v, GRASS_TYPE_INDEX);
+                bitmap.set_type_index(v, GRASS_TYPE_MASK);
             }
         }
     }

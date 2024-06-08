@@ -166,6 +166,20 @@ impl BitMasks {
             ]),
         }
     }
+
+    /// This mask reads as follows:
+    ///     First entry is the tile type or tile index
+    ///     In the vec the first and second are the start and end index of animation respectively
+    ///     Last element in vec is the playback speed in milliseconds
+    pub fn water_sparkle() -> Self {
+        Self {
+            masks: HashMap::from([
+                (0, vec![grid_to_index(9, 0), grid_to_index(12, 0), 1500]),
+                (1, vec![grid_to_index(9, 1), grid_to_index(12, 1), 1500]),
+                (2, vec![grid_to_index(9, 2), grid_to_index(12, 2), 1500]),
+            ]),
+        }
+    }
 }
 
 impl BitMasks {
@@ -175,5 +189,10 @@ impl BitMasks {
         let mut rng = thread_rng();
         let index = rng.gen_range(0..indices.len());
         indices[index]
+    }
+
+    pub fn get_animation_indices(&self, tile: u16) -> Vec<u16> {
+        let binding = vec![INVALID_TILE];
+        self.masks.get(&tile).unwrap_or(&binding).to_vec()
     }
 }

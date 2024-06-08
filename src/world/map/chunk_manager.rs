@@ -40,6 +40,7 @@ fn spawn_chunk(
     chunk_pos: IVec2,
 ) {
     let tilemap_entity = commands.spawn(ChunkIndex(chunk_pos)).id();
+
     let mut tile_storage = TileStorage::empty(TilemapSize::new(CHUNK_SIZE, CHUNK_SIZE));
 
     for x in 0..CHUNK_SIZE {
@@ -48,17 +49,38 @@ fn spawn_chunk(
                 x as i32 + chunk_pos.x * CHUNK_SIZE as i32,
                 y as i32 + chunk_pos.y * CHUNK_SIZE as i32,
             );
-            let index = map.get_tile_index(v) as u32;
-
             let tile_pos = TilePos { x, y };
-            let tile_entity = commands
-                .spawn(TileBundle {
-                    position: tile_pos,
-                    tilemap_id: TilemapId(tilemap_entity),
-                    texture_index: TileTextureIndex(index),
-                    ..Default::default()
-                })
-                .id();
+
+            let tile_entity = if map.get_water_sparkle_flag(v) {
+                // let tile_entity = if false {
+                let indices = map.get_water_sparkle_indices();
+                commands
+                    .spawn((
+                        TileBundle {
+                            position: tile_pos,
+                            tilemap_id: TilemapId(tilemap_entity),
+                            texture_index: TileTextureIndex(0),
+                            ..Default::default()
+                        },
+                        AnimatedTile {
+                            start: indices[0].into(),
+                            end: indices[1].into(),
+                            speed: indices[2] as f32 / 1000.0,
+                        },
+                    ))
+                    .id()
+            } else {
+                let index = map.get_tile_index(v) as u32;
+                commands
+                    .spawn(TileBundle {
+                        position: tile_pos,
+                        tilemap_id: TilemapId(tilemap_entity),
+                        texture_index: TileTextureIndex(index),
+                        ..Default::default()
+                    })
+                    .id()
+            };
+
             commands.entity(tilemap_entity).add_child(tile_entity);
             tile_storage.set(&tile_pos, tile_entity);
         }
@@ -130,7 +152,7 @@ pub fn despawn_chunks(
     mut commands: Commands,
     mut chunk_manager: ResMut<ChunkManager>,
     q_camera: Query<&Transform, With<MainCamera>>,
-    chunks_query: Query<(Entity, &ChunkIndex)>,
+    q_chunks: Query<(Entity, &ChunkIndex)>,
     mut ev_despawned_chunk: EventWriter<DespawnedChunk>,
 ) {
     let camera_transform = match q_camera.get_single() {
@@ -140,7 +162,7 @@ pub fn despawn_chunks(
 
     let camera_chunk = camera_pos_to_chunk_pos(&camera_transform.translation.xy());
 
-    for (entity, chunk) in &chunks_query {
+    for (entity, chunk) in &q_chunks {
         if (chunk.x - camera_chunk.x).abs() as u32 > RENDERED_CHUNKS_RADIUS
             || (chunk.y - camera_chunk.y).abs() as u32 > RENDERED_CHUNKS_RADIUS
         {
