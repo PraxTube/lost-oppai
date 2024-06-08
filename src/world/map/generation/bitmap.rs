@@ -9,8 +9,8 @@ use super::{
     TileCollision, TileType, BITMASK_BOT_LEFT, BITMASK_BOT_RIGHT, BITMASK_TOP_LEFT,
     BITMASK_TOP_RIGHT, CHUNK_SIZE, EMPTY_TYPE_MASK, FLOWER_HEIGHT_LEVEL, FLOWER_NOISE_ZOOM,
     GRASS_TYPE_MASK, INVALID_TILE, NOISE_ZOOM, PATH_TYPE_MASK, RENDERED_CHUNKS_RADIUS,
-    WATER_HEIGH_LEVEL, WATER_SPARKLE_HEIGHT_LEVEL, WATER_SPARKLE_NOISE_ZOOM,
-    WATER_SPARKLE_TYPE_MASK, WATER_TYPE_MASK,
+    WATER_HEIGH_LEVEL, WATER_SPARKLE_HEIGHT_LEVEL_MAX, WATER_SPARKLE_HEIGHT_LEVEL_MIN,
+    WATER_SPARKLE_NOISE_ZOOM, WATER_SPARKLE_TYPE_MASK, WATER_TYPE_MASK,
 };
 
 #[derive(Resource)]
@@ -249,7 +249,9 @@ impl BitMap {
         let is_water = height < WATER_HEIGH_LEVEL;
         if is_water {
             self.set_water_flag(v);
-            if height < WATER_SPARKLE_HEIGHT_LEVEL && self.water_sparkle_height(v) < 0.0 {
+            if (height > WATER_SPARKLE_HEIGHT_LEVEL_MAX || height < WATER_SPARKLE_HEIGHT_LEVEL_MIN)
+                && self.water_sparkle_height(v) < 0.0
+            {
                 self.set_water_sparkle_flag(v);
             }
         } else {
@@ -422,6 +424,6 @@ impl BitMap {
     }
 
     pub fn get_water_sparkle_indices(&mut self) -> Vec<u16> {
-        self.water_sparkle_mask.get_animation_indices(0)
+        self.water_sparkle_mask.get_animation_indices()
     }
 }

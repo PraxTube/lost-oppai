@@ -17,7 +17,8 @@ const WATER_SPARKLE_NOISE_ZOOM: f32 = 0.1;
 // this value to count as water.
 const WATER_HEIGH_LEVEL: f32 = -0.5;
 const FLOWER_HEIGHT_LEVEL: f32 = -0.7;
-const WATER_SPARKLE_HEIGHT_LEVEL: f32 = -0.7;
+const WATER_SPARKLE_HEIGHT_LEVEL_MAX: f32 = -0.6;
+const WATER_SPARKLE_HEIGHT_LEVEL_MIN: f32 = -0.85;
 
 const EMPTY_TYPE_MASK: u8 = 1 << 0;
 const WATER_TYPE_MASK: u8 = 1 << 1;

@@ -191,8 +191,10 @@ impl BitMasks {
         indices[index]
     }
 
-    pub fn get_animation_indices(&self, tile: u16) -> Vec<u16> {
+    pub fn get_animation_indices(&self) -> Vec<u16> {
         let binding = vec![INVALID_TILE];
-        self.masks.get(&tile).unwrap_or(&binding).to_vec()
+        let mut rng = thread_rng();
+        let index = rng.gen_range(0..self.masks.len()) as u16;
+        self.masks.get(&index).unwrap_or(&binding).to_vec()
     }
 }
