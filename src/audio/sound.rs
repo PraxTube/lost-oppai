@@ -13,6 +13,7 @@ pub struct PlaySound {
     pub rand_speed_intensity: f64,
     pub repeat: bool,
     pub reverse: bool,
+    /// If you want to have spacial audio, you must give a parent entity.
     pub parent: Option<Entity>,
 }
 

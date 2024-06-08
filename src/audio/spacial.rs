@@ -3,7 +3,7 @@ use bevy_kira_audio::prelude::*;
 
 use super::GameAudio;
 
-const MAX_DISTANCE: f64 = 500.0;
+const MAX_DISTANCE: f64 = 250.0;
 
 fn update(
     game_audio: &Res<GameAudio>,

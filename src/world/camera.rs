@@ -3,7 +3,7 @@ use bevy::render::camera::ScalingMode;
 #[cfg(not(target_arch = "wasm32"))]
 use bevy::render::view::screenshot::ScreenshotManager;
 use bevy::window::{PrimaryWindow, WindowMode};
-// use bevy_kira_audio::prelude::AudioReceiver;
+use bevy_kira_audio::prelude::AudioReceiver;
 use bevy_rapier2d::dynamics::Velocity;
 
 use super::camera_shake::{update_camera, CameraShake};
@@ -90,7 +90,7 @@ fn spawn_camera(mut commands: Commands) {
     let mut camera = Camera2dBundle::default();
     camera.projection.scaling_mode = ScalingMode::FixedVertical(PROJECTION_SCALE);
     // commands.spawn((MainCamera, AudioReceiver, camera));
-    commands.spawn((MainCamera, camera));
+    commands.spawn((MainCamera, camera, AudioReceiver));
 }
 
 fn update_camera_target(

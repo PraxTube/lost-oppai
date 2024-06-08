@@ -1,3 +1,5 @@
+mod audio;
+
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use bevy_trickfilm::prelude::*;
@@ -15,7 +17,8 @@ pub struct NpcPlugin;
 
 impl Plugin for NpcPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnExit(GameState::AssetLoading), (spawn_npcs,))
+        app.add_plugins(audio::NpcAudioPlugin)
+            .add_systems(OnExit(GameState::AssetLoading), (spawn_npcs,))
             .add_systems(Update, (face_player,));
     }
 }
@@ -23,6 +26,11 @@ impl Plugin for NpcPlugin {
 #[derive(Component)]
 pub struct Npc {
     pub dialogue: String,
+}
+
+#[derive(Component, Default)]
+struct Eleonore {
+    is_playing_flap_sound: bool,
 }
 
 impl Npc {
@@ -70,6 +78,7 @@ fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) 
 
     commands
         .spawn((
+            Eleonore::default(),
             Npc::new("Eleonore"),
             YSort(16.0),
             animator,
