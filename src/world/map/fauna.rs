@@ -283,11 +283,14 @@ impl Plugin for FaunaPlugin {
             (
                 spawn_birds,
                 despawn_birds,
-                play_bird_animations,
-                pick_random_actions,
-                return_to_idle_state,
                 move_birds,
-                check_player_bird_distances,
+                (
+                    check_player_bird_distances,
+                    pick_random_actions,
+                    return_to_idle_state,
+                    play_bird_animations,
+                )
+                    .chain(),
             )
                 .run_if(in_state(GameState::Gaming)),
         )
