@@ -3,7 +3,12 @@ use rand::{thread_rng, Rng};
 use bevy::{prelude::*, utils::HashSet};
 use bevy_kira_audio::prelude::{AudioSource, *};
 
+use crate::GameState;
+
 use super::GameAudio;
+
+#[derive(Resource, Deref, DerefMut, Default)]
+struct RepeatingSounds(Vec<(f64, Handle<AudioInstance>)>);
 
 #[derive(Event)]
 pub struct PlaySound {
@@ -39,6 +44,7 @@ fn play_sounds(
     mut commands: Commands,
     audio: Res<Audio>,
     game_audio: Res<GameAudio>,
+    mut repeating_sounds: ResMut<RepeatingSounds>,
     mut ev_play_sound: EventReader<PlaySound>,
 ) {
     let mut rng = thread_rng();
@@ -58,18 +64,21 @@ fn play_sounds(
         let volume_offset = if ev.parent.is_some() { 0.0 } else { 1.0 };
 
         let mut audio_command = audio.play(ev.clip.clone());
+        let sound_volume = ev.volume * volume_offset;
         audio_command
-            .with_volume(ev.volume * volume_offset * game_audio.main_volume)
+            .with_volume(sound_volume * game_audio.main_volume)
             .with_playback_rate(ev.playback_rate + speed_offset);
+
+        let audio_instance = audio_command.handle();
 
         if ev.repeat {
             audio_command.looped();
+            repeating_sounds.push((sound_volume, audio_instance.clone()));
+            info!("pushed to repeating sounds");
         }
         if ev.reverse {
             audio_command.reverse();
         }
-
-        let audio_instance = audio_command.handle();
 
         if let Some(parent) = ev.parent {
             let audio_emitter = commands
@@ -93,12 +102,47 @@ fn play_sounds(
     }
 }
 
+fn update_repeating_sounds(
+    mut audio_instances: ResMut<Assets<AudioInstance>>,
+    game_audio: Res<GameAudio>,
+    mut repeating_sounds: ResMut<RepeatingSounds>,
+) {
+    let mut invalid_indices = vec![];
+    for (index, (volume, instance)) in repeating_sounds.iter().enumerate() {
+        match audio_instances.get_mut(instance) {
+            Some(r) => {
+                r.set_volume(volume * game_audio.main_volume, AudioTween::default());
+                info!("updating volume");
+            }
+            None => {
+                invalid_indices.push(index);
+                info!("invalid");
+            }
+        }
+    }
+
+    for index in invalid_indices.iter().rev() {
+        repeating_sounds.remove(*index);
+        info!("removing");
+    }
+}
+
 pub struct GameSoundPlugin;
 
 impl Plugin for GameSoundPlugin {
     fn build(&self, app: &mut App) {
         app.add_event::<PlaySound>()
             .init_resource::<GameAudio>()
-            .add_systems(Update, (play_sounds,));
+            .init_resource::<RepeatingSounds>()
+            .add_systems(
+                Update,
+                (
+                    update_repeating_sounds
+                        .run_if(resource_changed::<GameAudio>())
+                        .before(play_sounds),
+                    play_sounds,
+                )
+                    .run_if(in_state(GameState::Gaming)),
+            );
     }
 }
