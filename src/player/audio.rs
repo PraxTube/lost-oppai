@@ -48,6 +48,15 @@ fn spawn_bird_sound(mut commands: Commands, assets: Res<GameAssets>, audio: Res<
     commands.insert_resource(BirdSound { handle });
 }
 
+fn spawn_cricket_sound(assets: Res<GameAssets>, mut ev_play_sound: EventWriter<PlaySound>) {
+    ev_play_sound.send(PlaySound {
+        clip: assets.cricket_sounds.clone(),
+        volume: 0.35,
+        repeat: true,
+        ..default()
+    });
+}
+
 fn update_bird_sound(
     time: Res<Time>,
     game_audio: Res<GameAudio>,
@@ -118,6 +127,9 @@ impl Plugin for PlayerAudioPlugin {
                 .run_if(in_state(GameState::Gaming)),
         )
         .init_resource::<StepsTimer>()
-        .add_systems(OnExit(GameState::AssetLoading), (spawn_bird_sound,));
+        .add_systems(
+            OnExit(GameState::AssetLoading),
+            (spawn_bird_sound, spawn_cricket_sound),
+        );
     }
 }

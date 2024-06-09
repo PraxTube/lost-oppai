@@ -48,6 +48,10 @@ https://dryoma.itch.io/footsteps-sounds
 
 https://indiesfx.itch.io/indiesfx-k002a/devlog/334792/nature-loops-released
 
+#### Crickets
+
+https://opengameart.org/content/crickets-ambient-noise-loopable
+
 ---
 
 ## Fonts
