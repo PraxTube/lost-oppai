@@ -9,7 +9,11 @@ use super::GameAudio;
 pub struct PlaySound {
     pub clip: Handle<AudioSource>,
     pub volume: f64,
+    /// Playback rate, default is 1.0.
     pub playback_rate: f64,
+    /// Playback offset intensity. This will add a random offset
+    /// to the playback rate by this intensity.
+    /// Useful for pitch shifting a sound by a certain range.
     pub rand_speed_intensity: f64,
     pub repeat: bool,
     pub reverse: bool,

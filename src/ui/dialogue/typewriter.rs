@@ -4,6 +4,7 @@ use bevy::prelude::*;
 use bevy::utils::Instant;
 use bevy_yarnspinner::prelude::*;
 
+use crate::audio::PlaySound;
 use crate::{GameAssets, GameState};
 
 use super::option_selection::OptionSelection;
@@ -108,6 +109,7 @@ fn write_text(
     option_selection: Option<Res<OptionSelection>>,
     mut q_text: Query<&mut Text, With<DialogueContent>>,
     mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
+    mut ev_play_sound: EventWriter<PlaySound>,
 ) {
     let mut text = match q_text.get_single_mut() {
         Ok(r) => r,
@@ -127,9 +129,20 @@ fn write_text(
         return;
     }
 
+    let previous_text = &typewriter.current_text.clone();
     typewriter.update_current_text();
-
     let current_text = &typewriter.current_text;
+
+    if previous_text != current_text {
+        ev_play_sound.send(PlaySound {
+            clip: assets.npc_blip.clone(),
+            rand_speed_intensity: 0.05,
+            volume: 0.5,
+            playback_rate: 3.0,
+            ..default()
+        })
+    }
+
     let rest = typewriter.graphemes_left.join("");
     *text = create_dialogue_text(current_text, rest, &assets);
 }

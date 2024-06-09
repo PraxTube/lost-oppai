@@ -137,6 +137,9 @@ pub struct GameAssets {
     #[asset(path = "audio/eleonore_flap_sound.ogg")]
     pub eleonore_flap_sound: Handle<AudioSource>,
 
+    #[asset(path = "audio/npc_blip.ogg")]
+    pub npc_blip: Handle<AudioSource>,
+
     // --- FONT ---
     #[asset(path = "fonts/PressStart2P.ttf")]
     pub font: Handle<Font>,

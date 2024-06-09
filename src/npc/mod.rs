@@ -42,6 +42,7 @@ impl Npc {
 }
 
 fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
+    let pos = Vec3::default();
     let transform = Transform::from_translation(pos);
     let mut animator = AnimationPlayer2D::default();
     animator
