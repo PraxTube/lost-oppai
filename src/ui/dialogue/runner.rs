@@ -2,6 +2,7 @@ use bevy::prelude::*;
 use bevy_yarnspinner::{events::DialogueCompleteEvent, prelude::*};
 
 use crate::{
+    npc::NpcDialogue,
     player::chat::{PlayerStartedChat, PlayerStoppedChat},
     GameState,
 };
@@ -15,16 +16,16 @@ use super::{
 #[derive(Component)]
 pub struct RunnerFlags {
     pub active: bool,
-    pub dialogue: String,
+    pub dialogue: NpcDialogue,
     pub line: Option<LocalizedLine>,
     pub options: Option<OptionSelection>,
 }
 
 impl RunnerFlags {
-    fn new(dialogue: &str) -> Self {
+    fn new(dialogue: NpcDialogue) -> Self {
         Self {
             active: true,
-            dialogue: dialogue.to_string(),
+            dialogue,
             line: None,
             options: None,
         }
@@ -67,8 +68,8 @@ fn spawn_dialogue_runner(
         if !cached {
             typewriter.reset();
             let mut dialogue_runner = project.create_dialogue_runner();
-            dialogue_runner.start_node(&ev.dialogue);
-            commands.spawn((dialogue_runner, RunnerFlags::new(&ev.dialogue)));
+            dialogue_runner.start_node(&ev.dialogue.to_string());
+            commands.spawn((dialogue_runner, RunnerFlags::new(ev.dialogue)));
         }
     }
 }

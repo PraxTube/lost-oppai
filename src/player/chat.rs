@@ -1,13 +1,17 @@
 use bevy::prelude::*;
 use bevy_yarnspinner::prelude::*;
 
-use crate::{npc::Npc, ui::dialogue::runner::RunnerFlags, GameState};
+use crate::{
+    npc::{Npc, NpcDialogue},
+    ui::dialogue::runner::RunnerFlags,
+    GameState,
+};
 
 use super::{input::PlayerInput, Player, PlayerState, NPC_PROXIMITY_DISTANCE};
 
 #[derive(Event)]
 pub struct PlayerStartedChat {
-    pub dialogue: String,
+    pub dialogue: NpcDialogue,
     pub direction: Vec2,
 }
 #[derive(Event)]
@@ -43,7 +47,7 @@ fn start_chat(
         {
             player.state = PlayerState::Talking;
             ev_player_started_chat.send(PlayerStartedChat {
-                dialogue: npc.dialogue.clone(),
+                dialogue: npc.dialogue,
                 direction: npc_transform.translation.xy() - player_transform.translation.xy(),
             });
             break;

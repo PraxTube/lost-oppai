@@ -4,9 +4,9 @@ use bevy::prelude::*;
 use bevy::utils::Instant;
 use bevy_yarnspinner::prelude::*;
 
-use crate::audio::PlaySound;
 use crate::{GameAssets, GameState};
 
+use super::audio::PlayBlipEvent;
 use super::option_selection::OptionSelection;
 use super::spawn::{create_dialogue_text, DialogueContent, DialogueContinueNode};
 use super::DialogueViewSystemSet;
@@ -86,19 +86,32 @@ impl Typewriter {
         }
         self.elapsed += self.start.elapsed().as_secs_f32();
         self.start = Instant::now();
+
         let calculated_graphemes = (self.graphemes_per_second() * self.elapsed).floor() as usize;
         let graphemes_left = self.graphemes_left.len();
         let grapheme_length_to_take = (calculated_graphemes).min(graphemes_left);
+
         self.elapsed -= grapheme_length_to_take as f32 / self.graphemes_per_second();
-        let graphemes_to_take = self.graphemes_left.drain(..grapheme_length_to_take);
-        self.current_text.extend(graphemes_to_take);
+        let graphemes_to_take = self
+            .graphemes_left
+            .drain(..grapheme_length_to_take)
+            .collect::<Vec<String>>()
+            .concat();
+        if graphemes_to_take.contains(".") {
+            self.elapsed -= 0.2;
+        } else if graphemes_to_take.contains("?") {
+            self.elapsed -= 0.35;
+        } else if graphemes_to_take.contains(",") {
+            self.elapsed -= 0.1;
+        }
+        self.current_text += &graphemes_to_take;
     }
 
     fn graphemes_per_second(&self) -> f32 {
         if self.fast_typing {
-            120.0
+            75.0
         } else {
-            40.0
+            30.0
         }
     }
 }
@@ -109,7 +122,7 @@ fn write_text(
     option_selection: Option<Res<OptionSelection>>,
     mut q_text: Query<&mut Text, With<DialogueContent>>,
     mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
-    mut ev_play_sound: EventWriter<PlaySound>,
+    mut ev_play_blip: EventWriter<PlayBlipEvent>,
 ) {
     let mut text = match q_text.get_single_mut() {
         Ok(r) => r,
@@ -134,13 +147,9 @@ fn write_text(
     let current_text = &typewriter.current_text;
 
     if previous_text != current_text {
-        ev_play_sound.send(PlaySound {
-            clip: assets.npc_blip.clone(),
-            rand_speed_intensity: 0.05,
-            volume: 0.5,
-            playback_rate: 3.0,
-            ..default()
-        })
+        ev_play_blip.send(PlayBlipEvent::new(
+            &typewriter.character_name.clone().unwrap_or_default(),
+        ));
     }
 
     let rest = typewriter.graphemes_left.join("");

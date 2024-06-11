@@ -74,7 +74,6 @@ fn play_sounds(
         if ev.repeat {
             audio_command.looped();
             repeating_sounds.push((sound_volume, audio_instance.clone()));
-            info!("pushed to repeating sounds");
         }
         if ev.reverse {
             audio_command.reverse();
@@ -112,18 +111,15 @@ fn update_repeating_sounds(
         match audio_instances.get_mut(instance) {
             Some(r) => {
                 r.set_volume(volume * game_audio.main_volume, AudioTween::default());
-                info!("updating volume");
             }
             None => {
                 invalid_indices.push(index);
-                info!("invalid");
             }
         }
     }
 
     for index in invalid_indices.iter().rev() {
         repeating_sounds.remove(*index);
-        info!("removing");
     }
 }
 

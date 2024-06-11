@@ -1,5 +1,7 @@
 mod audio;
 
+use strum_macros::{Display, EnumString};
+
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use bevy_trickfilm::prelude::*;
@@ -13,6 +15,12 @@ use crate::{
     GameAssets, GameState,
 };
 
+#[derive(Clone, Copy, Display, PartialEq, EnumString)]
+pub enum NpcDialogue {
+    Eleonore,
+    Joanna,
+}
+
 pub struct NpcPlugin;
 
 impl Plugin for NpcPlugin {
@@ -25,7 +33,7 @@ impl Plugin for NpcPlugin {
 
 #[derive(Component)]
 pub struct Npc {
-    pub dialogue: String,
+    pub dialogue: NpcDialogue,
 }
 
 #[derive(Component, Default)]
@@ -34,14 +42,12 @@ struct Eleonore {
 }
 
 impl Npc {
-    fn new(dialogue: &str) -> Self {
-        Self {
-            dialogue: dialogue.to_string(),
-        }
+    fn new(dialogue: NpcDialogue) -> Self {
+        Self { dialogue }
     }
 }
 
-fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
+fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, _pos: Vec3) {
     let pos = Vec3::default();
     let transform = Transform::from_translation(pos);
     let mut animator = AnimationPlayer2D::default();
@@ -80,7 +86,7 @@ fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) 
     commands
         .spawn((
             Eleonore::default(),
-            Npc::new("Eleonore"),
+            Npc::new(NpcDialogue::Eleonore),
             YSort(16.0),
             animator,
             SpriteSheetBundle {
@@ -121,7 +127,7 @@ fn spawn_joanna(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
 
     commands
         .spawn((
-            Npc::new("Joanna"),
+            Npc::new(NpcDialogue::Joanna),
             YSort(0.0),
             animator,
             SpriteSheetBundle {

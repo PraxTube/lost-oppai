@@ -1,12 +1,14 @@
 title: Eleonore
 ---
-<<set $name to "???">>
+<<set $name to "_Eleonore">>
 <<set $self_introduction to false>>
 
 {$name}: Oh hey there.
 {$name}: Are you alright? You seem kinda... lost.
 -> Where am I?
-    {$name}: So you are lost then. How did you even get here if you don't even know where you are? *sight*
+    {$name}: So you are lost then.
+    {$name}: How did you even get here if you don't even know where you are? *sight*
+    You: Ey...
     <<jump Location>>
 -> Who are you?
     {$name}: Asking me to introduce myself before you introduce yourself first huh?
@@ -23,18 +25,21 @@ title: Eleonore
 
 title: Location
 ---
-{$name}: We are in a grassy field near the Kingdom of Aurelia. Not a lot of people are able to come here as it's pretty difficult to traverse through the neighboring terrain.
+{$name}: We are in a grassy field near the Kingdom of Aurelia.
+{$name}: Few people manage to come here as the neighboring terrain is very dangerous.
 -> Kingdom Aurelia? Never heard about it.
-    {$name}: Really? It's the second largest kingdom there is. You must come from a village in the goons if you haven't even heard about it.
+    {$name}: Really? It's the second largest kingdom there is.
+    {$name}: You must come from a village in the goons if you haven't even heard about it.
     -> I must be dreaming, I was just sleeping in my bed in Tokyo.
     -> No, I was born and raised in a metropolis.
 -> The neighboring terrain?
-    {$name}: Yeah, it's mostly poisonous swamps. Only skilled adventures are able to make it through there.
+    {$name}: Yeah, it's mostly poisonous swamps.
+    {$name}: Only skilled adventures are able to make it through there.
     -> Adventures?
     -> What about you then? Are you strong?
-        {$name}: Most magic users are considered strong just for being able to use magic, though as I am a witch, I am very strong.
+        {$name}: Who knows? Maybe I will show you later.
         <<if $self_introduction is false>>
-            {$name}: Though don't you think it's about time you tell me a bit about yourself? I don't even know your name!
+            {$name}: First though, how about you tell me a bit about yourself? I don't even know your name!
             <<jump Oppai>>
         <<endif>>
 
@@ -44,28 +49,22 @@ title: Oppai
 ---
 ...
 -> *Introduce yourself*
-    You: My name is Pai, 21 years old and currently in studying in university.
-    You: I live in Tokyo, but this doesn't look like Tokyo at all.
-    You: The last thing I remember was some loud noise when I was sleeping in my bed.
-    {$name}: What a strange name, but oh well, nice to meet you Pai
+    You: My name is Pai, Op Pai, and I am-
+    You: I am...
+    You: ...
+    You: Eh? I don't remember.
+    {$name}: What?!
+    {$name}: Then how did you- Where did you- Who did you-...
+    {$name}: Huuuh...
+    {$name}: Though I guess that explains why you are so lost.
+    {$name}: You also have a strange name, but oh well, nice to meet you Pai.
     <<if $name is "???">>
         <<set $name to "Eleonore">>
         {$name}: I am Eleonore by the way.
     <<endif>>
-    {$name}: Also I have never heard of Tokyo, must be a small village somewhere far away huh?
-    -> eh, are you kidding me? We are in Japan though, right?
-        {$name}: Japan? Is that a kingdom somewhere? Looks like you are quite lost.
-        <<jump Location>>
-    -> It's a metropolis with millsions of people living there.
-        {$name}: Haha yeah sure and I have never even heard anything abou-
-        {$name}: Hold on, you said you were sleeping in bed when you all of a sudden heard a loud noise?
-        You: Yeah?
-        {$name}: And none of this here seems familiar to you, like the names of the kingdoms or the magic I am using?
-        You: Yeah..?
-        <<jump TeleportationMagic>>
 -> How about you introduce yourself first? <<if $name is "???">>
     {$name}: Wow, not a lot of people talk to me like that you know?
-    {$name}: Fine then.
+    {$name}: Fine.
     <<jump EleonoreIntroduction>>
 
 ===
