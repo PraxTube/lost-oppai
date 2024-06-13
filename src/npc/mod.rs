@@ -41,7 +41,7 @@ impl Npc {
     }
 }
 
-fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
+fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, _pos: Vec3) {
     let pos = Vec3::default();
     let transform = Transform::from_translation(pos);
     let mut animator = AnimationPlayer2D::default();
@@ -133,9 +133,42 @@ fn spawn_joanna(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
         .push_children(&[collider, shadow]);
 }
 
+fn spawn_isabelle(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
+    let transform = Transform::from_translation(pos);
+    let mut animator = AnimationPlayer2D::default();
+    animator
+        .play(assets.isabelle_animations[0].clone())
+        .repeat();
+
+    let collider = commands
+        .spawn((
+            Collider::ball(16.0),
+            ActiveEvents::COLLISION_EVENTS,
+            CollisionGroups::default(),
+            TransformBundle::from_transform(Transform::from_translation(Vec3::new(
+                0.0, -16.0, 0.0,
+            ))),
+        ))
+        .id();
+
+    commands
+        .spawn((
+            Npc::new("Isabelle"),
+            YSort(0.0),
+            animator,
+            SpriteSheetBundle {
+                transform,
+                texture_atlas: assets.isabelle.clone(),
+                ..default()
+            },
+        ))
+        .push_children(&[collider]);
+}
+
 fn spawn_npcs(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets>) {
     spawn_eleonore(&mut commands, &assets, bitmap.get_hotspot(1).extend(0.0));
     spawn_joanna(&mut commands, &assets, bitmap.get_hotspot(2).extend(0.0));
+    spawn_isabelle(&mut commands, &assets, Vec3::new(100.0, -50.0, 0.0));
 }
 
 fn face_player(

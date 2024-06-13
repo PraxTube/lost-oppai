@@ -1,0 +1,12 @@
+title: Isabelle
+---
+<<set $name to "???">>
+<<set $self_introduction to false>>
+
+{$name}: Good day stranger.
+-> Hello
+    {$name}: Are you also out enjoying the beatiful sun today?
+-> Hey, how are you doing?
+-> Hi, what are up to out here?
+
+===

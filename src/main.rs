@@ -59,6 +59,7 @@ fn main() {
             YarnSpinnerPlugin::with_yarn_sources([
                 YarnFileSource::file("dialogue/eleonore.yarn"),
                 YarnFileSource::file("dialogue/joanna.yarn"),
+                YarnFileSource::file("dialogue/isabelle.yarn"),
             ]),
             TweeningPlugin,
         ))
