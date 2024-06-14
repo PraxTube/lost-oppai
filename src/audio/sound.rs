@@ -5,7 +5,7 @@ use bevy_kira_audio::prelude::{AudioSource, *};
 
 use crate::GameState;
 
-use super::GameAudio;
+use super::{spacial::SpacialSound, GameAudio};
 
 #[derive(Resource, Deref, DerefMut, Default)]
 struct RepeatingSounds(Vec<(f64, Handle<AudioInstance>)>);
@@ -74,7 +74,6 @@ fn play_sounds(
         if ev.repeat {
             audio_command.looped();
             repeating_sounds.push((sound_volume, audio_instance.clone()));
-            info!("pushed to repeating sounds");
         }
         if ev.reverse {
             audio_command.reverse();
@@ -84,6 +83,7 @@ fn play_sounds(
             let audio_emitter = commands
                 .spawn((
                     TransformBundle::default(),
+                    SpacialSound::new(ev.volume),
                     AudioEmitter {
                         instances: vec![audio_instance],
                     },
@@ -112,18 +112,15 @@ fn update_repeating_sounds(
         match audio_instances.get_mut(instance) {
             Some(r) => {
                 r.set_volume(volume * game_audio.main_volume, AudioTween::default());
-                info!("updating volume");
             }
             None => {
                 invalid_indices.push(index);
-                info!("invalid");
             }
         }
     }
 
     for index in invalid_indices.iter().rev() {
         repeating_sounds.remove(*index);
-        info!("removing");
     }
 }
 
