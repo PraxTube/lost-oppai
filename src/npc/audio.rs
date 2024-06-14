@@ -23,7 +23,7 @@ fn play_elenore_flap_sound(
         eleonore.is_playing_flap_sound = true;
         ev_play_sound.send(PlaySound {
             clip: assets.eleonore_flap_sound.clone(),
-            volume: 5.0,
+            volume: 1.5,
             parent: Some(entity),
             ..default()
         });

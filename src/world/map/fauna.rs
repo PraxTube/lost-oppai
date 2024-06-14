@@ -5,6 +5,7 @@ use bevy_trickfilm::animation::AnimationPlayer2D;
 use rand::{thread_rng, Rng};
 
 use crate::{
+    audio::PlaySound,
     player::{Player, PLAYER_SPAWN_POS},
     world::camera::{YSort, YSortChild},
     GameAssets, GameState,
@@ -29,6 +30,7 @@ const RANDOM_OFFSET_DISTANCE: f32 = 20.0;
 #[derive(Component)]
 struct Bird {
     state: BirdState,
+    old_state: BirdState,
     action_timer: Timer,
     move_dir: Vec2,
 }
@@ -37,13 +39,14 @@ impl Bird {
     fn new(move_dir: Vec2) -> Self {
         Self {
             state: BirdState::default(),
+            old_state: BirdState::default(),
             action_timer: Timer::from_seconds(1.0, TimerMode::Repeating),
             move_dir,
         }
     }
 }
 
-#[derive(Default, PartialEq)]
+#[derive(Default, PartialEq, Debug, Clone, Copy)]
 enum BirdState {
     #[default]
     Idling,
@@ -268,9 +271,33 @@ fn check_player_bird_distances(
 
         if dis < MIN_PLAYER_DISTANCE.powi(2) {
             bird.state = BirdState::Flying;
-        } else {
+        } else if bird.state != BirdState::Jumping {
             bird.state = BirdState::Jumping;
         }
+    }
+}
+
+fn play_bird_step_sounds(
+    assets: Res<GameAssets>,
+    q_birds: Query<(Entity, &Bird)>,
+    mut ev_play_sound: EventWriter<PlaySound>,
+) {
+    for (entity, bird) in &q_birds {
+        if bird.state == BirdState::Jumping && bird.old_state != BirdState::Jumping {
+            ev_play_sound.send(PlaySound {
+                clip: assets.bird_step_sound.clone(),
+                volume: 3.0,
+                rand_speed_intensity: 0.2,
+                parent: Some(entity),
+                ..default()
+            });
+        }
+    }
+}
+
+fn update_old_bird_state(mut q_birds: Query<&mut Bird>) {
+    for mut bird in &mut q_birds {
+        bird.old_state = bird.state;
     }
 }
 
@@ -283,12 +310,14 @@ impl Plugin for FaunaPlugin {
             (
                 spawn_birds,
                 despawn_birds,
-                move_birds,
                 (
                     check_player_bird_distances,
                     pick_random_actions,
                     return_to_idle_state,
                     play_bird_animations,
+                    move_birds,
+                    play_bird_step_sounds,
+                    update_old_bird_state,
                 )
                     .chain(),
             )
