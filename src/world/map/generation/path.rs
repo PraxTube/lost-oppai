@@ -1,11 +1,14 @@
 use rand::{Rng, SeedableRng};
 
-use bevy::{prelude::*, utils::HashSet};
+use bevy::prelude::*;
 use noisy_bevy::simplex_noise_2d_seeded;
 
 use crate::{world::map::poisson_sampling::generate_poisson_points, GameRng, GameState};
 
-use super::{BitMap, GRASS_TYPE_MASK, PATH_TYPE_MASK};
+use super::{
+    graph::{connect_outer_vertices, kruskals_edges},
+    BitMap, GRASS_TYPE_MASK, PATH_TYPE_MASK,
+};
 
 const NOISE_ZOOM: f32 = 0.02;
 const START_FILL_RADIUS: i32 = 15;
@@ -87,76 +90,24 @@ fn fill_path_points(bitmap: &mut ResMut<BitMap>, points: Vec<IVec2>) {
     }
 }
 
-fn generate_edges(vertices: &Vec<Vec2>) -> Vec<(usize, usize)> {
-    let mut edges = Vec::new();
-    for i in 0..vertices.len() {
-        for j in 0..vertices.len() {
-            if i >= j {
-                continue;
-            }
-            edges.push((i, j, vertices[i].distance_squared(vertices[j])));
-        }
-    }
-
-    edges.sort_by(|a, b| a.2.partial_cmp(&b.2).unwrap());
-    edges.into_iter().map(|(a, b, _)| (a, b)).collect()
-}
-
-fn kruskals_edges(vertices: &Vec<Vec2>) -> HashSet<(usize, usize)> {
-    let sorted_edges = generate_edges(&vertices);
-
-    let mut result = HashSet::new();
-    let mut sets = Vec::new();
-    for i in 0..vertices.len() {
-        let mut s = HashSet::new();
-        s.insert(i);
-        sets.push(s);
-    }
-
-    for (u, v) in sorted_edges {
-        let mut u_set_index = None;
-        let mut v_set_index = None;
-
-        for (index, set) in sets.iter().enumerate() {
-            if set.contains(&u) {
-                u_set_index = Some(index);
-            }
-            if set.contains(&v) {
-                v_set_index = Some(index);
-            }
-            if u_set_index.is_some() && v_set_index.is_some() {
-                break;
-            }
-        }
-
-        if let (Some(u_index), Some(v_index)) = (u_set_index, v_set_index) {
-            if u_index != v_index {
-                result.insert((u, v));
-                let other = sets[v_index].clone();
-                sets[u_index].extend(other);
-                sets.remove(v_index);
-            }
-        }
-    }
-    result
-}
-
 fn generate_path(mut bitmap: ResMut<BitMap>) {
-    let points = generate_poisson_points(
+    let vertices = generate_poisson_points(
         DISK_RADIUS,
         REGION_SIZE,
         POISSON_REJECTION_ITER,
         bitmap.seed() as u64,
     );
-    bitmap.set_vertices(&points);
-    let edges = kruskals_edges(&points);
+    bitmap.set_vertices(&vertices);
+
+    let mut edges = kruskals_edges(&vertices);
     bitmap.set_edges(&edges);
+    connect_outer_vertices(&vertices, &mut edges);
     let mut edges: Vec<(usize, usize)> = edges.into_iter().collect();
     edges.sort();
 
     let mut rng = GameRng::seed_from_u64(bitmap.seed() as u64);
     for (u, v) in edges {
-        let (p1, p2) = (points[u], points[v]);
+        let (p1, p2) = (vertices[u], vertices[v]);
         let (c1, c2) = generate_bezier_points(&mut rng, p1, p2);
         let points = compute_path_points(p1, p2, c1, c2, SAMPLE_RATE);
         fill_path_points(&mut bitmap, points);

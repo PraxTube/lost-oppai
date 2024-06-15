@@ -1,6 +1,7 @@
 pub mod bitmap;
 
 mod bitmask;
+mod graph;
 mod path;
 
 pub use bitmap::BitMap;
