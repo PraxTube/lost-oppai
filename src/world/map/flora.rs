@@ -210,10 +210,10 @@ fn spawn_flora(
     );
     let pos = TILE_SIZE * Vec3::new(v.x as f32, v.y as f32, 0.0);
 
+    if v.x.abs() as u32 % CHUNK_SIZE == 0 || v.y.abs() as u32 % CHUNK_SIZE == 0 {
+        return;
+    }
     if radius > TREE_RADIUS {
-        if v.x.abs() as u32 % CHUNK_SIZE == 0 || v.y.abs() as u32 % CHUNK_SIZE == 0 {
-            return;
-        }
         if !(bitmap.get_flora_flag(v)
             && bitmap.get_flora_flag(v + IVec2::new(1, 0))
             && bitmap.get_flora_flag(v + IVec2::new(0, 1))
