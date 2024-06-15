@@ -54,20 +54,19 @@ fn present_options(
 
 fn continue_dialogue(
     input: Res<PlayerInput>,
-    mut typewriter: ResMut<Typewriter>,
+    typewriter: Res<Typewriter>,
     option_selection: Option<Res<OptionSelection>>,
     mut q_dialogue_runners: Query<(&mut DialogueRunner, &RunnerFlags)>,
     mut q_continue_visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
 ) {
-    if input.dialogue_fast_forward && !typewriter.is_finished() {
-        typewriter.fast_forward();
+    if input.dialogue_continue && !typewriter.is_finished() {
         return;
     }
 
     if option_selection.is_some() {
         return;
     }
-    if !input.dialogue_fast_forward && !typewriter.last_before_options {
+    if !input.dialogue_continue && !typewriter.last_before_options {
         return;
     }
 

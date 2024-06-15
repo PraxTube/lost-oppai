@@ -24,7 +24,6 @@ pub struct Typewriter {
     pub last_before_options: bool,
     elapsed: f32,
     start: Instant,
-    fast_typing: bool,
     last_finished: bool,
 }
 
@@ -37,7 +36,6 @@ impl Default for Typewriter {
             last_before_options: default(),
             elapsed: default(),
             start: Instant::now(),
-            fast_typing: default(),
             last_finished: default(),
         }
     }
@@ -76,10 +74,6 @@ impl Typewriter {
         self.graphemes_left.is_empty() && !self.current_text.is_empty()
     }
 
-    pub fn fast_forward(&mut self) {
-        self.fast_typing = true;
-    }
-
     fn update_current_text(&mut self) {
         if self.is_finished() {
             return;
@@ -108,11 +102,7 @@ impl Typewriter {
     }
 
     fn graphemes_per_second(&self) -> f32 {
-        if self.fast_typing {
-            75.0
-        } else {
-            30.0
-        }
+        30.0
     }
 }
 

@@ -17,7 +17,7 @@ pub struct PlayerInput {
 
     pub start_dialogue: bool,
     pub dialogue_confirm: bool,
-    pub dialogue_fast_forward: bool,
+    pub dialogue_continue: bool,
     pub dialogue_direction: i8,
 
     pub toggle_fullscreen: bool,
@@ -141,7 +141,7 @@ fn input_dialogue(
     player_input.start_dialogue = keys.just_pressed(KeyCode::E);
     player_input.dialogue_confirm = keys.just_pressed(KeyCode::Return);
 
-    player_input.dialogue_fast_forward =
+    player_input.dialogue_continue =
         keys.just_pressed(KeyCode::Space) || mouse_buttons.just_pressed(MouseButton::Left);
 }
 
