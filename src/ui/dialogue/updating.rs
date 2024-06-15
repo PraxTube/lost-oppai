@@ -9,6 +9,13 @@ use super::spawn::{DialogueContinueNode, DialogueNameNode};
 use super::typewriter::{Typewriter, WriteDialogueText};
 use super::DialogueViewSystemSet;
 
+fn convert_name(name: &str) -> String {
+    if name.starts_with("_") {
+        return "???".to_string();
+    }
+    return name.to_string();
+}
+
 fn present_line(
     mut typewriter: ResMut<Typewriter>,
     mut q_name_text: Query<&mut Text, With<DialogueNameNode>>,
@@ -16,7 +23,7 @@ fn present_line(
     mut ev_present_line: EventReader<PresentLineEvent>,
 ) {
     for event in ev_present_line.read() {
-        let name = event.line.character_name().unwrap_or_default().to_string();
+        let name = convert_name(event.line.character_name().unwrap_or_default());
         q_name_text.single_mut().sections[0].value = name;
 
         for mut flags in &mut q_runner_flags {
@@ -90,7 +97,7 @@ fn update_dialogue_name(
         Ok(r) => r,
         Err(_) => return,
     };
-    text.sections[0].value = typewriter.character_name.clone().unwrap_or_default();
+    text.sections[0].value = convert_name(&typewriter.character_name.clone().unwrap_or_default());
 }
 
 pub struct DialogueUpdatingPlugin;

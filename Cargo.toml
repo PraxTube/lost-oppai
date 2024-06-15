@@ -24,6 +24,8 @@ rand = "0.8.5"
 rand_xoshiro = "0.6.0"
 chrono = "0.4.34"
 unicode-segmentation = "1.11.0"
+strum = "0.26.2"
+strum_macros = "0.26.4"
 
 bevy = "0.12.1"
 bevy_asset_loader = { version = "0.19.1", features = ["2d"] }
