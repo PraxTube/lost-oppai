@@ -70,7 +70,7 @@ fn spawn_bird(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3, move
     commands
         .spawn((
             Bird::new(move_dir),
-            YSort(0.0),
+            YSort(-8.0),
             animator,
             SpriteSheetBundle {
                 transform: Transform::from_translation(pos).with_scale(Vec3::splat(BIRD_SCALE)),
