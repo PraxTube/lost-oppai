@@ -143,8 +143,10 @@ pub struct GameAssets {
 
     #[asset(path = "audio/pai_blip.ogg")]
     pub pai_blip_sound: Handle<AudioSource>,
-    #[asset(path = "audio/npc_blip.ogg")]
-    pub npc_blip: Handle<AudioSource>,
+    #[asset(path = "audio/eleonore_blip.ogg")]
+    pub eleonore_blip_sound: Handle<AudioSource>,
+    #[asset(path = "audio/joanna_blip.ogg")]
+    pub joanna_blip_sound: Handle<AudioSource>,
 
     // --- FONT ---
     #[asset(path = "fonts/PressStart2P.ttf")]

@@ -47,8 +47,7 @@ impl Npc {
     }
 }
 
-fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, _pos: Vec3) {
-    let pos = Vec3::default();
+fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
     let transform = Transform::from_translation(pos);
     let mut animator = AnimationPlayer2D::default();
     animator
@@ -141,7 +140,7 @@ fn spawn_joanna(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
 
 fn spawn_npcs(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets>) {
     spawn_eleonore(&mut commands, &assets, bitmap.get_hotspot(1).extend(0.0));
-    spawn_joanna(&mut commands, &assets, bitmap.get_hotspot(2).extend(0.0));
+    spawn_joanna(&mut commands, &assets, Vec3::ZERO);
 }
 
 fn face_player(

@@ -32,16 +32,16 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
     match NpcDialogue::from_str(character) {
         Ok(r) => match r {
             NpcDialogue::Eleonore => PlaySound {
-                clip: assets.npc_blip.clone(),
+                clip: assets.eleonore_blip_sound.clone(),
                 rand_speed_intensity: 0.05,
                 playback_rate: 3.0,
                 volume: 0.5,
                 ..default()
             },
             NpcDialogue::Joanna => PlaySound {
-                clip: assets.npc_blip.clone(),
-                rand_speed_intensity: 0.2,
-                playback_rate: 2.0,
+                clip: assets.joanna_blip_sound.clone(),
+                rand_speed_intensity: 0.01,
+                playback_rate: 1.2,
                 ..default()
             },
         },
@@ -50,7 +50,7 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
                 error!("You should never hardcode character name: '???' in dialogues!");
             }
             PlaySound {
-                clip: assets.npc_blip.clone(),
+                clip: assets.eleonore_blip_sound.clone(),
                 ..default()
             }
         }
