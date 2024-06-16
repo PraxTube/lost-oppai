@@ -40,11 +40,6 @@ fn increase_ysorts(
             }
         }
     }
-
-    // TODO
-    // 3. Text that says which ending
-    // 4. ? Then fade to complete black after some seconds?
-    // 5. FIN
 }
 
 fn fade_in_black_sprite(mut commands: Commands, assets: Res<GameAssets>) {

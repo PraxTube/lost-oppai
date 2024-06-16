@@ -23,11 +23,11 @@ impl WriteableText {
     }
 }
 
-fn text_style_standard(_assets: &Res<GameAssets>) -> TextStyle {
+fn text_style_standard(assets: &Res<GameAssets>) -> TextStyle {
     TextStyle {
         font_size: 100.0,
         color: Color::WHITE,
-        ..default()
+        font: assets.silver_font.clone(),
     }
 }
 

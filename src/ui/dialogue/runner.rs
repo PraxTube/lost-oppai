@@ -232,7 +232,7 @@ fn monitor_active_runners(q_runner_flags: Query<&RunnerFlags>) {
     }
 
     if active > 1 {
-        error!("There are more then 1 active flags!");
+        error!("There are more than 1 active flags!");
     }
 }
 

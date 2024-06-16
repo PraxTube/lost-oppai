@@ -41,25 +41,28 @@ fn style_standard(_assets: &Res<GameAssets>) -> Style {
     }
 }
 
-fn text_style_standard(_assets: &Res<GameAssets>) -> TextStyle {
+fn text_style_standard(assets: &Res<GameAssets>) -> TextStyle {
     TextStyle {
-        font_size: 24.0,
+        font: assets.silver_font.clone(),
+        font_size: 50.0,
         color: Color::WHITE,
         ..default()
     }
 }
 
-fn text_style_name(_assets: &Res<GameAssets>) -> TextStyle {
+fn text_style_name(assets: &Res<GameAssets>) -> TextStyle {
     TextStyle {
-        font_size: 22.0,
+        font: assets.silver_font.clone(),
+        font_size: 46.0,
         color: Color::WHITE,
         ..default()
     }
 }
 
-fn text_style_option_text(_assets: &Res<GameAssets>) -> TextStyle {
+fn text_style_option_text(assets: &Res<GameAssets>) -> TextStyle {
     TextStyle {
-        font_size: 24.0,
+        font: assets.silver_font.clone(),
+        font_size: 50.0,
         color: Color::WHITE,
         ..default()
     }

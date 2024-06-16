@@ -160,5 +160,7 @@ pub struct GameAssets {
 
     // --- FONT ---
     #[asset(path = "fonts/PressStart2P.ttf")]
-    pub font: Handle<Font>,
+    pub pixel_font: Handle<Font>,
+    #[asset(path = "fonts/Silver.ttf")]
+    pub silver_font: Handle<Font>,
 }
