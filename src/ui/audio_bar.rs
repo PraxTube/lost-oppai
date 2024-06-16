@@ -19,7 +19,7 @@ impl Default for Bar {
 
 fn spawn_bar(mut commands: Commands, assets: Res<GameAssets>) {
     let text_style = TextStyle {
-        font: assets.font.clone(),
+        font: assets.pixel_font.clone(),
         font_size: 30.0,
         color: Color::WHITE,
     };
