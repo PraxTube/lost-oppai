@@ -15,7 +15,7 @@ const ARROW_DIS: f32 = 80.0;
 const SHIFT_DIS: f32 = 60.0;
 const ICON_SIZE: f32 = 0.5;
 
-pub const KEYBOARD_ICON_RADIUS: f32 = 64.0;
+pub const KEYBOARD_ICON_RADIUS: f32 = 100.0;
 
 #[derive(Component)]
 struct KeyboardIcon;
