@@ -4,6 +4,8 @@ title: Eleonore
 <<set $self_introduction to false>>
 
 {$name}: Oh hey there.
+You: And your next line will be:
+You: Are you alright? You seem kinda... lost.
 {$name}: Are you alright? You seem kinda... lost.
 -> Where am I?
     {$name}: So you are lost then.

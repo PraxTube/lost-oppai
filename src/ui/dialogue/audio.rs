@@ -21,9 +21,9 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
     let character = character.trim_start_matches("_");
     if character == "You" {
         return PlaySound {
-            clip: assets.npc_blip.clone(),
-            rand_speed_intensity: 0.05,
-            playback_rate: 2.5,
+            clip: assets.pai_blip_sound.clone(),
+            rand_speed_intensity: 0.02,
+            playback_rate: 1.2,
             volume: 0.5,
             ..default()
         };
