@@ -100,8 +100,8 @@ fn generate_path(mut bitmap: ResMut<BitMap>) {
     bitmap.set_vertices(&vertices);
 
     let mut edges = kruskals_edges(&vertices);
-    bitmap.set_edges(&edges);
     connect_outer_vertices(&vertices, &mut edges);
+    bitmap.set_edges(&edges);
     let mut edges: Vec<(usize, usize)> = edges.into_iter().collect();
     edges.sort();
 
