@@ -55,7 +55,7 @@ enum BirdState {
     Flying,
 }
 
-fn spawn_bird(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3, move_dir: Vec2) {
+fn spawn_bird(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2, move_dir: Vec2) {
     let shadow = commands
         .spawn((
             YSortChild(-9.0),
@@ -76,7 +76,8 @@ fn spawn_bird(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3, move
             YSort(-8.0),
             animator,
             SpriteSheetBundle {
-                transform: Transform::from_translation(pos).with_scale(Vec3::splat(BIRD_SCALE)),
+                transform: Transform::from_translation(pos.extend(0.0))
+                    .with_scale(Vec3::splat(BIRD_SCALE)),
                 texture_atlas: assets.bird.clone(),
                 ..default()
             },
@@ -88,7 +89,7 @@ fn spawn_initial_birds(mut commands: Commands, assets: Res<GameAssets>) {
     let mut rng = thread_rng();
     for _ in 0..MAX_BIRD_COUNT {
         let dir = Vec2::from_angle(rng.gen_range(0.0..2.0 * PI));
-        let pos = PLAYER_SPAWN_POS + dir.normalize_or_zero().extend(0.0) * SPAWN_DISTANCE;
+        let pos = PLAYER_SPAWN_POS.truncate() + dir.normalize_or_zero() * SPAWN_DISTANCE;
         spawn_bird(&mut commands, &assets, pos, Vec2::NEG_Y);
     }
 }
@@ -110,21 +111,19 @@ fn spawn_birds(
 
     let mut rng = thread_rng();
 
-    let dir = player.average_direction().normalize_or_zero().extend(0.0);
-    if dir == Vec3::ZERO {
+    let dir = player.average_direction().normalize_or_zero();
+    if dir == Vec2::ZERO {
         return;
     }
     let offset =
-        Vec3::new(rng.gen_range(-1.0..1.0), rng.gen_range(-1.0..0.0), 0.0) * RANDOM_OFFSET_DISTANCE;
-    let pos = player_transform.translation + dir * SPAWN_DISTANCE + offset;
+        Vec2::new(rng.gen_range(-1.0..1.0), rng.gen_range(-1.0..0.0)) * RANDOM_OFFSET_DISTANCE;
+    let pos = player_transform.translation.truncate() + dir * SPAWN_DISTANCE + offset;
 
     spawn_bird(
         &mut commands,
         &assets,
         pos,
-        (pos - player_transform.translation)
-            .truncate()
-            .normalize_or_zero(),
+        (pos - player_transform.translation.truncate()).normalize_or_zero(),
     );
 }
 
@@ -141,7 +140,8 @@ fn despawn_birds(
     for (entity, transform) in &mut q_birds {
         let dis = transform
             .translation
-            .distance_squared(player_transform.translation);
+            .truncate()
+            .distance_squared(player_transform.translation.truncate());
 
         if dis >= DESPAWN_DISTANCE.powi(2) {
             commands.entity(entity).despawn_recursive();
@@ -202,7 +202,8 @@ fn return_to_idle_state(
         if bird.state == BirdState::Flying {
             if transform
                 .translation
-                .distance_squared(player_transform.translation)
+                .truncate()
+                .distance_squared(player_transform.translation.truncate())
                 <= FLYING_AWAY_DISTANCE.powi(2)
             {
                 continue;
@@ -258,7 +259,8 @@ fn check_player_bird_distances(
 
         let dis = transform
             .translation
-            .distance_squared(player_transform.translation);
+            .truncate()
+            .distance_squared(player_transform.translation.truncate());
 
         if dis > PLAYER_JUMP_DISTANCE.powi(2) {
             continue;
