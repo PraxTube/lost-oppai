@@ -19,6 +19,7 @@ use crate::{
 pub enum NpcDialogue {
     Eleonore,
     Joanna,
+    Jotem,
 }
 
 pub struct NpcPlugin;
@@ -47,8 +48,8 @@ impl Npc {
     }
 }
 
-fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
-    let transform = Transform::from_translation(pos);
+fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) {
+    let transform = Transform::from_translation(pos.extend(0.0));
     let mut animator = AnimationPlayer2D::default();
     animator
         .play(assets.eleonore_animations[0].clone())
@@ -97,8 +98,8 @@ fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) 
         .push_children(&[collider, shadow]);
 }
 
-fn spawn_joanna(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
-    let transform = Transform::from_translation(pos);
+fn spawn_joanna(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) {
+    let transform = Transform::from_translation(pos.extend(0.0));
     let mut animator = AnimationPlayer2D::default();
     animator.play(assets.joanna_animatins[0].clone()).repeat();
 
@@ -138,9 +139,51 @@ fn spawn_joanna(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
         .push_children(&[collider, shadow]);
 }
 
+fn spawn_jotem(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) {
+    let transform = Transform::from_translation(pos.extend(0.0));
+    let mut animator = AnimationPlayer2D::default();
+    animator.play(assets.jotem_animations[0].clone()).repeat();
+
+    let shadow = commands
+        .spawn((
+            YSortChild(-19.0),
+            SpriteBundle {
+                transform: Transform::from_translation(Vec3::new(0.0, -18.0, 0.0)),
+                texture: assets.jotem_shadow.clone(),
+                ..default()
+            },
+        ))
+        .id();
+
+    let collider = commands
+        .spawn((
+            Collider::ball(16.0),
+            ActiveEvents::COLLISION_EVENTS,
+            CollisionGroups::default(),
+            TransformBundle::from_transform(Transform::from_translation(Vec3::new(
+                0.0, -16.0, 0.0,
+            ))),
+        ))
+        .id();
+
+    commands
+        .spawn((
+            Npc::new(NpcDialogue::Jotem),
+            YSort(0.0),
+            animator,
+            SpriteSheetBundle {
+                transform,
+                texture_atlas: assets.jotem.clone(),
+                ..default()
+            },
+        ))
+        .push_children(&[collider, shadow]);
+}
+
 fn spawn_npcs(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets>) {
-    spawn_eleonore(&mut commands, &assets, bitmap.get_hotspot(1).extend(0.0));
-    spawn_joanna(&mut commands, &assets, Vec3::ZERO);
+    spawn_eleonore(&mut commands, &assets, bitmap.get_hotspot(1));
+    spawn_joanna(&mut commands, &assets, bitmap.get_hotspot(2));
+    spawn_jotem(&mut commands, &assets, Vec2::ZERO);
 }
 
 fn face_player(

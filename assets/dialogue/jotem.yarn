@@ -1,0 +1,31 @@
+title: Jotem
+---
+<<set $name to "_Jotem">>
+<<set $self_introduction to false>>
+<<set_type_speed 25.0>>
+{$name}: Howdy, young lady.
+<<jump PastJotem>>
+{$name}: Wow, didn't see a beaty like you in a while.
+-> Hey
+    {$name}:
+You: NO SHUT THE HELL UP YOU LITTLE BITCH
+You: Because I AM the main character.
+
+===
+
+title: PastJotem
+---
+<<set_type_speed 15.0>>
+{$name}: I used to be a fisherman, you know.
+{$name}: All my life, a fisherman.
+{$name}: Never liked it.
+{$name}: I always had a different dream.
+{$name}: Always wanted to do something else with my life.
+{$name}: But I couldn't just drop everything and "follow my dreams", you know?
+{$name}: I always thought my life was shit.
+{$name}: That I was unlucky I wasn't born rich and able to do what I want.
+{$name}: That I can't change what I was given and have to accept it.
+<<set_type_speed 25.0>>
+{$name}: But... that all changed at one point.
+
+===

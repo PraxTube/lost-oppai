@@ -25,6 +25,7 @@ pub struct Typewriter {
     elapsed: f32,
     start: Instant,
     last_finished: bool,
+    current_speed: f32,
 }
 
 impl Default for Typewriter {
@@ -37,6 +38,7 @@ impl Default for Typewriter {
             elapsed: default(),
             start: Instant::now(),
             last_finished: default(),
+            current_speed: 30.0,
         }
     }
 }
@@ -48,6 +50,7 @@ impl Typewriter {
             current_text: line.text_without_character_name(),
             last_finished: true,
             last_before_options: line.is_last_line_before_options(),
+            current_speed: self.current_speed,
             ..default()
         }
     }
@@ -62,6 +65,7 @@ impl Typewriter {
                 .map(|s| s.to_string())
                 .collect(),
             last_before_options: line.is_last_line_before_options(),
+            current_speed: self.current_speed,
             ..default()
         };
     }
@@ -74,9 +78,13 @@ impl Typewriter {
         self.graphemes_left.is_empty() && !self.current_text.is_empty()
     }
 
-    fn update_current_text(&mut self) {
+    pub fn set_type_speed(&mut self, speed: f32) {
+        self.current_speed = speed;
+    }
+
+    fn update_current_text(&mut self) -> String {
         if self.is_finished() {
-            return;
+            return String::new();
         }
         self.elapsed += self.start.elapsed().as_secs_f32();
         self.start = Instant::now();
@@ -99,10 +107,11 @@ impl Typewriter {
             self.elapsed -= 0.1;
         }
         self.current_text += &graphemes_to_take;
+        graphemes_to_take.to_string()
     }
 
     fn graphemes_per_second(&self) -> f32 {
-        30.0
+        self.current_speed
     }
 }
 
@@ -132,18 +141,16 @@ fn write_text(
         return;
     }
 
-    let previous_text = &typewriter.current_text.clone();
-    typewriter.update_current_text();
-    let current_text = &typewriter.current_text;
+    let added_text = typewriter.update_current_text();
 
-    if previous_text != current_text {
+    if !added_text.is_empty() && &added_text != " " {
         ev_play_blip.send(PlayBlipEvent::new(
             &typewriter.character_name.clone().unwrap_or_default(),
         ));
     }
 
     let rest = typewriter.graphemes_left.join("");
-    *text = create_dialogue_text(current_text, rest, &assets);
+    *text = create_dialogue_text(&typewriter.current_text, rest, &assets);
 }
 
 fn show_continue(

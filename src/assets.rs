@@ -45,6 +45,14 @@ pub struct GameAssets {
     #[asset(path = "npc/joanna_shadow.png")]
     pub joanna_shadow: Handle<Image>,
 
+    #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 64.0, columns = 6, rows = 1))]
+    #[asset(path = "npc/jotem.png")]
+    pub jotem: Handle<TextureAtlas>,
+    #[asset(paths("npc/jotem.trickfilm#idle",), collection(typed))]
+    pub jotem_animations: Vec<Handle<AnimationClip2D>>,
+    #[asset(path = "npc/jotem_shadow.png")]
+    pub jotem_shadow: Handle<Image>,
+
     // --- MAP ---
     #[asset(path = "map/tileset.png")]
     pub tileset: Handle<Image>,
@@ -147,6 +155,8 @@ pub struct GameAssets {
     pub eleonore_blip_sound: Handle<AudioSource>,
     #[asset(path = "audio/joanna_blip.ogg")]
     pub joanna_blip_sound: Handle<AudioSource>,
+    #[asset(path = "audio/jotem_blip.ogg")]
+    pub jotem_blip_sound: Handle<AudioSource>,
 
     // --- FONT ---
     #[asset(path = "fonts/PressStart2P.ttf")]

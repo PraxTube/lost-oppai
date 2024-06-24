@@ -1,6 +1,7 @@
 pub mod runner;
 
 mod audio;
+mod command;
 mod option_selection;
 mod spawn;
 mod start_hint;

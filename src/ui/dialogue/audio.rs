@@ -44,6 +44,13 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
                 playback_rate: 1.2,
                 ..default()
             },
+            NpcDialogue::Jotem => PlaySound {
+                clip: assets.jotem_blip_sound.clone(),
+                rand_speed_intensity: 0.01,
+                playback_rate: 1.0,
+                volume: 0.5,
+                ..default()
+            },
         },
         Err(_) => {
             if character == "???" {

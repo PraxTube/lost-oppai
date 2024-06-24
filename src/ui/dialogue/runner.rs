@@ -8,6 +8,7 @@ use crate::{
 };
 
 use super::{
+    command::set_type_speed,
     option_selection::{CreateOptions, OptionSelection},
     spawn::DialogueRoot,
     typewriter::{Typewriter, WriteDialogueText},
@@ -68,6 +69,9 @@ fn spawn_dialogue_runner(
         if !cached {
             typewriter.reset();
             let mut dialogue_runner = project.create_dialogue_runner();
+            dialogue_runner
+                .commands_mut()
+                .add_command("set_type_speed", set_type_speed);
             dialogue_runner.start_node(&ev.dialogue.to_string());
             commands.spawn((dialogue_runner, RunnerFlags::new(ev.dialogue)));
         }
