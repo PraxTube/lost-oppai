@@ -4,6 +4,7 @@ use bevy::prelude::*;
 use bevy::utils::Instant;
 use bevy_yarnspinner::prelude::*;
 
+use crate::player::chat::PlayerStoppedChat;
 use crate::{GameAssets, GameState};
 
 use super::audio::PlayBlipEvent;
@@ -113,6 +114,14 @@ impl Typewriter {
     fn graphemes_per_second(&self) -> f32 {
         self.current_speed
     }
+
+    fn finish_current_line(&mut self) {
+        if self.is_finished() {
+            return;
+        }
+        let remaining_graphemes = self.graphemes_left.drain(..);
+        self.current_text.extend(remaining_graphemes);
+    }
 }
 
 fn write_text(
@@ -188,13 +197,30 @@ fn send_finished_event(
     }
 }
 
+fn finish_stopped_dialoauge(
+    mut typewriter: ResMut<Typewriter>,
+    mut ev_player_stopped_chat: EventReader<PlayerStoppedChat>,
+) {
+    if ev_player_stopped_chat.is_empty() {
+        return;
+    }
+    ev_player_stopped_chat.clear();
+
+    typewriter.finish_current_line();
+}
+
 pub struct DialogueTypewriterPlugin;
 
 impl Plugin for DialogueTypewriterPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (send_finished_event, write_text, show_continue)
+            (
+                send_finished_event,
+                write_text,
+                show_continue,
+                finish_stopped_dialoauge,
+            )
                 .chain()
                 .after(YarnSpinnerSystemSet)
                 .in_set(DialogueViewSystemSet)
