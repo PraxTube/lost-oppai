@@ -1,7 +1,7 @@
 title: Jotem
 ---
 <<set $normal_speed to 20.0>>
-<<set $slow_speed to 15.0>>
+<<set $slow_speed to 20.0>>
 <<set $name to "_Jotem">>
 <<set $self_introduction to false>>
 
@@ -89,7 +89,8 @@ title: PastJotem
 {$name}: Never liked it.
 {$name}: I always had a different dream.
 {$name}: But I couldn't just drop everything and "follow my dreams", ya know?
-{$name}: I always thought my life was shit.
+{$name}: I had responsibilities. A family to look after.
+{$name}: I thought it was unfair.
 {$name}: That I was unlucky I wasn't born rich and able to do what I want.
 {$name}: That I can't change what I was given and must accept it.
 {$name}: But after meeting *her*, all of that changed...
@@ -110,8 +111,6 @@ title: ThatOneEncounter
 {$name}: That day I learned that I don't *have* to go fishing every day, I *get* to go fishing every day.
 {$name}: I don't *have* to provide for my family, I *get* to provide for them.
 {$name}: Viewing my life and seeing myself as the victim is far too easy.
-{$name}: That view will not do shit for me.
-{$name}: If ya see ya life and think "how pathetic", of course ya are gonna feel miserable!
 {$name}: I learned that if ya want to achieve anything, ya have to put in the work.
 {$name}: It's all about ya perspective.
 <<set_type_speed {$normal_speed}>>
@@ -147,18 +146,20 @@ title: ThatOneEncounter
             {$name}: Of course! In fact, you don't have anywhere to go right?
             You: No, I wouldn't know where anyways.
             {$name}: Right. So how about you join me?
-            {$name}: Your dream might not be to become an adventurer, but you work towrads you dream while making money as an adventurer.
+            {$name}: Your dream might not be to become an adventurer, but ya can work towards ya dream while making money as an adventurer.
             -> I am not too sure...
                 {$name}: Yeh right, how about you talk with her first?
                 {$name}: I mean Eleonore, the person that helped me back then.
                 {$name}: She is a witch and is borderline immortal, what a cheatcode...
                 {$name}: She should be around here somewhere.
-                {$name}: You can't really miss her, bit witch-like hat and orange hair.
+                {$name}: You can't really miss her, big witch-like hat and orange hair.
                 {$name}: Oh yeah and she is usuall floating in the air.
                 {$name}: So how about you go talk to her and then come back and tell me about your decision?
                 -> Okay, I will give it a try.
                     {$name}: Alright! I will be waiting here for you.
                     {$name}: Good luck!
+                    <<stop_chat>>
+                    ...
                     <<jump JotemWaiting>>
                 -> I don't know, perhaps a different time.
 

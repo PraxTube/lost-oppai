@@ -8,7 +8,7 @@ use crate::{
 };
 
 use super::{
-    command::set_type_speed,
+    command::{set_type_speed_command, stop_chat_command},
     option_selection::{CreateOptions, OptionSelection},
     spawn::DialogueRoot,
     typewriter::{Typewriter, WriteDialogueText},
@@ -71,7 +71,8 @@ fn spawn_dialogue_runner(
             let mut dialogue_runner = project.create_dialogue_runner();
             dialogue_runner
                 .commands_mut()
-                .add_command("set_type_speed", set_type_speed);
+                .add_command("set_type_speed", set_type_speed_command)
+                .add_command("stop_chat", stop_chat_command);
             dialogue_runner.start_node(&ev.dialogue.to_string());
             commands.spawn((dialogue_runner, RunnerFlags::new(ev.dialogue)));
         }

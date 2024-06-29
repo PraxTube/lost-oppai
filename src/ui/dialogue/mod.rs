@@ -23,6 +23,7 @@ impl Plugin for DialoguePlugin {
             runner::DialogueRunnerPlugin,
             start_hint::DialogueStartHintPlugin,
             audio::DialogueAudioPlugin,
+            command::DialogueCommandPlugin,
         ));
     }
 }
