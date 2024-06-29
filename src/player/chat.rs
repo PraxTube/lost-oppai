@@ -60,14 +60,15 @@ fn stop_chat(
     q_player: Query<&Player>,
     mut ev_player_stopped_chat: EventWriter<PlayerStoppedChat>,
 ) {
-    if !player_input.escape {
-        return;
-    }
-
     let player = match q_player.get_single() {
         Ok(r) => r,
         Err(_) => return,
     };
+
+    if !player_input.escape {
+        return;
+    }
+
     if player.state != PlayerState::Talking {
         return;
     }

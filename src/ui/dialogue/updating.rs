@@ -22,16 +22,21 @@ fn present_line(
     mut q_runner_flags: Query<&mut RunnerFlags>,
     mut ev_present_line: EventReader<PresentLineEvent>,
 ) {
+    let mut name_text = match q_name_text.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
     for event in ev_present_line.read() {
         let name = convert_name(event.line.character_name().unwrap_or_default());
-        q_name_text.single_mut().sections[0].value = name;
+        name_text.sections[0].value = name;
+        typewriter.set_line(&event.line);
 
         for mut flags in &mut q_runner_flags {
             if flags.active {
                 flags.line = Some(event.line.clone());
             }
         }
-        typewriter.set_line(&event.line);
     }
 }
 
