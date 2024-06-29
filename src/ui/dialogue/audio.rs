@@ -19,6 +19,14 @@ impl PlayBlipEvent {
 
 fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
     let character = character.trim_start_matches("_");
+    // Narrator, i.e. no character name on screen.
+    if character == "" {
+        return PlaySound {
+            volume: 0.0,
+            ..default()
+        };
+    }
+
     if character == "You" {
         return PlaySound {
             clip: assets.pai_blip_sound.clone(),

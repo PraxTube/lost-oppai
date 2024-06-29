@@ -1,31 +1,179 @@
 title: Jotem
 ---
+<<set $normal_speed to 20.0>>
+<<set $slow_speed to 15.0>>
 <<set $name to "_Jotem">>
 <<set $self_introduction to false>>
-<<set_type_speed 25.0>>
+
+<<set_type_speed {$normal_speed}>>
 {$name}: Howdy, young lady.
-<<jump PastJotem>>
 {$name}: Wow, didn't see a beaty like you in a while.
--> Hey
-    {$name}:
-You: NO SHUT THE HELL UP YOU LITTLE BITCH
-You: Because I AM the main character.
+-> Ey...
+    {$name}: Haha sorry, I am just fooling around.
+    {$name}: Though why are you dressed so lightly?
+    <<jump OppaiIsWeird>>
+-> Who are you?
+    <<set $name to "Jotem">>
+    {$name}: I am Jotem, an adventurer.
+    {$name}: What about you?
+    -> I am Pai, nice to meet you.
+        {$name}: Pai, huh? Strange name ya got there.
+        {$name}: But who am I to judge? Nice to meet ya too Pai.
+        {$name}: Say, Pai, were are you coming from?
+        <<jump OppaiIsWeird>>
+    -> I am... lost.
+        {$name}: Hahaha, figures.
+        <<jump OppaiIsLost>>
+    -> Jotem? That's quite a strange name. I am Pai by the way.
+        {$name}: Hahahaha, like you are the one to talk.
+        {$name}: Never heard of someone with a name like that.
+        {$name}: But oh well. So what are you doing out here while bein dressed so lightly?
+        <<jump OppaiIsWeird>>
+-> What are you doing out here?
 
 ===
+title: OppaiIsLost
+---
 
+{$name}: Perhaps I can help ya out, want some help?
+-> Yes, very much!
+-> I am actually lost in a different way...
+    {$name}: Hm? What do you mean?
+    -> I just don't know what to do in life.
+        {$name}: Hoo... I see.
+        {$name}: Well, I don't know your circumstances.
+        {$name}: But perhaps I can give you my perspective on your situation.
+        <<jump OppaiIsLostInLife>>
+    -> Never mind, I don't wanna talk about it.
+        {$name}: You sure? Talking with somebody can be surprisingly helpful.
+        {$name}: But I am not going to force you to anything.
+        <<jump JotemHub>>
+
+===
+title: OppaiIsWeird
+---
+
+...
+-> I don't remember. I woke up in this place without any memories of how I got here.
+-> What do you care?
+
+===
+title: OppaiIsLostInLife
+---
+
+...
+-> How do I become happy? My life feels so shallow.
+    {$name}: Sounds like ya missing meaning in ya life?
+    {$name}: Do you have a dream that you are trying to achieve?
+    You: A dream?
+    {$name}: Yeh, like a goal.
+    {$name}: Ya have something like that? Or when ya were little?
+    -> Yes... Yes I actually did have a dream.
+        {$name}: Good! Then all ya need to do is try ya best to achieve it.
+        {$name}: Life ain't that deep. If ya feel like ya found ya purpose, then ya gotta fulfill it.
+        {$name}: Ya can only feel truly happy when doing work that feels meaningful.
+        {$name}: And ya know what? Only hard work feels meaningful.
+        {$name}: So ya first gotta be unhappy before ya can be happy! Hahaha
+        -> Hm, I don't know about that.
+            {$name}: Let me tell ya a little about my past.
+            <<jump PastJotem>>
+        -> What? No, that doesn't make any sense.
+
+===
 title: PastJotem
 ---
-<<set_type_speed 15.0>>
-{$name}: I used to be a fisherman, you know.
+
+<<set_type_speed {$slow_speed}>>
+{$name}: I used to be a fisherman, ya know.
 {$name}: All my life, a fisherman.
 {$name}: Never liked it.
 {$name}: I always had a different dream.
-{$name}: Always wanted to do something else with my life.
-{$name}: But I couldn't just drop everything and "follow my dreams", you know?
+{$name}: But I couldn't just drop everything and "follow my dreams", ya know?
 {$name}: I always thought my life was shit.
 {$name}: That I was unlucky I wasn't born rich and able to do what I want.
-{$name}: That I can't change what I was given and have to accept it.
-<<set_type_speed 25.0>>
-{$name}: But... that all changed at one point.
+{$name}: That I can't change what I was given and must accept it.
+{$name}: But after meeting *her*, all of that changed...
+-> Who is *her*?
+    {$name}: A person with a tremendous will.
+    <<jump ThatOneEncounter>>
+-> What happend?
+    {$name}: 
+-> Your dream?
+
+===
+title: ThatOneEncounter
+---
+
+{$name}: She taught me that the only person that can give me a happy life, is myself.
+{$name}: She taught me that I am the one who gets to decide whether I am living a happy life.
+{$name}: That I am the one that decides whether fishing sucks, that providing for my family sucks.
+{$name}: That day I learned that I don't *have* to go fishing every day, I *get* to go fishing every day.
+{$name}: I don't *have* to provide for my family, I *get* to provide for them.
+{$name}: Viewing my life and seeing myself as the victim is far too easy.
+{$name}: That view will not do shit for me.
+{$name}: If ya see ya life and think "how pathetic", of course ya are gonna feel miserable!
+{$name}: I learned that if ya want to achieve anything, ya have to put in the work.
+{$name}: It's all about ya perspective.
+<<set_type_speed {$normal_speed}>>
+...
+{$name}: Sorry, that might have been a bit much. I always get carried away when I think back.
+-> That was indeed a lot.
+-> I disagree with you.
+    {$name}: Is that so? Do ya mind telling me why?
+    -> What about people with mental health issues? If you chronically can't feel happyness or have depression.
+    -> You can't control external factors, yet they have a huge affect on your life.
+        {$name}: Ya certainly right about that one!
+        {$name}: But that's also missing my point.
+        {$name}: I was talking about how ya have full control of how ya *view* these things.
+        {$name}: It's up to ya whether you see an external factor as something good or bad.
+    -> A
+-> I have never really thought about this. Do you mind explaining a bit more?
+-> I don't mind. Could you go into more detail?
+    {$name}: Sure can!
+    {$name}: When I met her, I was at a low in my life.
+    {$name}: However, after talkin to her for just one evening, one loong evening, life seemed so much easier.
+    {$name}: Of course my habits and behaviour didn't change over night!
+    {$name}: But I was able to appreciate life as a whole much more, the good and the bad.
+    {$name}: It was like I was finally able to see all the beatiful colors in the world.
+    {$name}: Where everything was just one gray mess before, now everything was brimming with life.
+    {$name}: Agh! Ya get what I mean, right?
+    -> Yes, I think so.
+        {$name}: Okay, good.
+        {$name}: So anyways, that was my little story.
+        {$name}: After that point, I was able to enjoy fishing.
+        {$name}: In my free time I build towards my dream of becoming an adventurer.
+        {$name}: And eventually, I did!
+        -> That's awesome. Do you think I could achieve that too?
+            {$name}: Of course! In fact, you don't have anywhere to go right?
+            You: No, I wouldn't know where anyways.
+            {$name}: Right. So how about you join me?
+            {$name}: Your dream might not be to become an adventurer, but you work towrads you dream while making money as an adventurer.
+            -> I am not too sure...
+                {$name}: Yeh right, how about you talk with her first?
+                {$name}: I mean Eleonore, the person that helped me back then.
+                {$name}: She is a witch and is borderline immortal, what a cheatcode...
+                {$name}: She should be around here somewhere.
+                {$name}: You can't really miss her, bit witch-like hat and orange hair.
+                {$name}: Oh yeah and she is usuall floating in the air.
+                {$name}: So how about you go talk to her and then come back and tell me about your decision?
+                -> Okay, I will give it a try.
+                    {$name}: Alright! I will be waiting here for you.
+                    {$name}: Good luck!
+                    <<jump JotemWaiting>>
+                -> I don't know, perhaps a different time.
+
+===
+title: JotemHub
+---
+
+<<set_type_speed {$normal_speed}>>
+{$name}: Just tell me what you want to talk about.
+-> TMP
+
+===
+title: JotemWaiting
+---
+
+...
 
 ===
