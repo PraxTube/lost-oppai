@@ -35,6 +35,7 @@ impl Plugin for NpcPlugin {
 #[derive(Component)]
 pub struct Npc {
     pub dialogue: NpcDialogue,
+    pub was_talked_to: bool,
 }
 
 #[derive(Component, Default)]
@@ -44,7 +45,10 @@ struct Eleonore {
 
 impl Npc {
     fn new(dialogue: NpcDialogue) -> Self {
-        Self { dialogue }
+        Self {
+            dialogue,
+            was_talked_to: false,
+        }
     }
 }
 
@@ -181,8 +185,8 @@ fn spawn_jotem(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) {
 }
 
 fn spawn_npcs(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets>) {
-    spawn_eleonore(&mut commands, &assets, bitmap.get_hotspot(1));
-    spawn_joanna(&mut commands, &assets, bitmap.get_hotspot(2));
+    spawn_eleonore(&mut commands, &assets, Vec2::new(-200.0, -200.0));
+    spawn_joanna(&mut commands, &assets, Vec2::new(200.0, 200.0));
     spawn_jotem(&mut commands, &assets, Vec2::ZERO);
 }
 

@@ -4,10 +4,12 @@ title: Jotem
 <<set $slow_speed to 20.0>>
 <<set $name to "_Jotem">>
 <<set $self_introduction to false>>
+<<set $npc_to_talk_to = "eleonore">>
+<<set $talked_with_other_npc to false>>
 
 <<set_type_speed {$normal_speed}>>
 {$name}: Howdy, young lady.
-{$name}: Wow, didn't see a beaty like you in a while.
+{$name}: Wow, didn't see a beauty like you in a while.
 -> Ey...
     {$name}: Haha sorry, I am just fooling around.
     {$name}: Though why are you dressed so lightly?
@@ -125,6 +127,8 @@ title: ThatOneEncounter
         {$name}: But that's also missing my point.
         {$name}: I was talking about how ya have full control of how ya *view* these things.
         {$name}: It's up to ya whether you see an external factor as something good or bad.
+        {$name}: Ya can take every challenges and see it as an opportunity, or as a hurdle.
+        {$name}: But life is gonna be a lot easier if ya try to see challenges as an opportunity.
     -> A
 -> I have never really thought about this. Do you mind explaining a bit more?
 -> I don't mind. Could you go into more detail?
