@@ -1,14 +1,20 @@
 title: Jotem
 ---
+<<set $npc_target = "eleonore">>
+<<set $talked_with_target_npc = false>>
+
 <<set $normal_speed to 20.0>>
 <<set $slow_speed to 20.0>>
 <<set $name to "_Jotem">>
 <<set $self_introduction to false>>
-<<set $npc_to_talk_to = "eleonore">>
-<<set $talked_with_other_npc to false>>
 
 <<set_type_speed {$normal_speed}>>
 {$name}: Howdy, young lady.
+<<if $talked_with_target_npc>>
+    You talked to Eleonore! Yay
+<<else>>
+    You DID NOT talk to Eleonore, SHAME
+<<endif>>
 {$name}: Wow, didn't see a beauty like you in a while.
 -> Ey...
     {$name}: Haha sorry, I am just fooling around.

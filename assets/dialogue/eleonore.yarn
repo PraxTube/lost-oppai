@@ -1,5 +1,8 @@
 title: Eleonore
 ---
+<<set $npc_target = "TODO">>
+<<set $talked_with_target_npc = false>>
+
 <<set $name to "_Eleonore">>
 <<set $self_introduction to false>>
 

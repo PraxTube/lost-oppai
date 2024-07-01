@@ -1,5 +1,8 @@
 title: Joanna
 ---
+<<set $npc_target = "TODO">>
+<<set $talked_with_target_npc = false>>
+
 <<set $name to "_Joanna">>
 <<set $self_introduction to false>>
 {$name}: Need something?
