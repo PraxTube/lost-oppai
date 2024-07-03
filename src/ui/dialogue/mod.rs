@@ -5,6 +5,8 @@ mod command;
 mod option_selection;
 mod spawn;
 mod start_hint;
+#[cfg(test)]
+mod test;
 mod typewriter;
 mod updating;
 
