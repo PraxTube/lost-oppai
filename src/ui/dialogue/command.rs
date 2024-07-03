@@ -5,6 +5,7 @@ use bevy::prelude::*;
 use crate::{
     npc::{Npc, NpcDialogue},
     player::{chat::PlayerStoppedChat, Player, PlayerState},
+    world::ending::EndingTriggered,
     GameState,
 };
 
@@ -55,6 +56,20 @@ pub fn target_npc_mentioned_command(
             npc.was_mentioned_by.push(source_npc);
         }
     }
+}
+
+pub fn trigger_ending_command(
+    In(npc_name): In<&str>,
+    mut ev_ending_triggered: EventWriter<EndingTriggered>,
+) {
+    let dialogue = match NpcDialogue::from_str(npc_name.trim_start_matches("_")) {
+        Ok(r) => r,
+        Err(err) => {
+            error!("Not a valid npc name! {}", err);
+            return;
+        }
+    };
+    ev_ending_triggered.send(EndingTriggered { dialogue });
 }
 
 fn relay_player_stopped_chat_event(

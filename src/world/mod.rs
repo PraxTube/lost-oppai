@@ -1,5 +1,6 @@
 pub mod camera;
 pub mod camera_shake;
+pub mod ending;
 pub mod map;
 
 pub use camera::MainCamera;
@@ -18,6 +19,7 @@ impl Plugin for WorldPlugin {
             camera::CameraPlugin,
             camera_shake::CameraShakePlugin,
             map::MapPlugin,
+            ending::EndingPlugin,
         ))
         .add_systems(OnExit(GameState::AssetLoading), configure_physics);
     }

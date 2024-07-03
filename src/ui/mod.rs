@@ -2,6 +2,7 @@ pub mod dialogue;
 pub mod keyboard_hint;
 
 mod audio_bar;
+mod ending_text;
 mod screen_fade;
 
 use bevy::prelude::*;
@@ -15,6 +16,7 @@ impl Plugin for UiPlugin {
             keyboard_hint::KeyboardUiPlugin,
             screen_fade::ScreenFadeUiPlugin,
             audio_bar::AudioBarPlugin,
+            ending_text::EndingTextPlugin,
         ));
     }
 }

@@ -3,7 +3,6 @@ title: Eleonore
 <<set $target_npc = "TODO">>
 <<set $talked_with_target_npc = false>>
 <<set $mentioned_by_Jotem = false>>
-<<set $mentioned_by_Joanna = false>>
 
 <<set $name to "_Eleonore">>
 <<set $self_introduction to false>>
@@ -26,7 +25,6 @@ title: Eleonore
         <<jump Location>>
     -> There must be trick, like a string pulling you up or something.
 -> Are you Eleonore? Jotem told me to talk with you. <<if $mentioned_by_Jotem>>
--> You also talked to Joana <<if $mentioned_by_Joanna>>
 
 ===
 

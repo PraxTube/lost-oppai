@@ -5,7 +5,9 @@ title: Jotem
 <<set $talked_with_target_npc = false>>
 
 {$name}: Howdy, young lady.
-<<target_npc_mentioned {$name} {$target_npc}>>
+<<trigger_ending {$name}>>
+<<stop_chat>>
+<<jump FinalAct>>
 {$name}: Wow, didn't see a beauty like you in a while.
 -> Ey...
     {$name}: Haha sorry, I am just fooling around.
@@ -149,6 +151,7 @@ title: ThatOneEncounter
             -> I am not too sure...
                 {$name}: Yeh right, how about you talk with her first?
                 {$name}: I mean Eleonore, the person that helped me back then.
+                <<target_npc_mentioned {$name} {$target_npc}>>
                 {$name}: She is a witch and is borderline immortal, what a cheatcode...
                 {$name}: She should be around here somewhere.
                 {$name}: You can't really miss her, big witch-like hat and orange hair.
@@ -220,7 +223,7 @@ title: FinalAct
     {$name}: Haha! Very well then.
     {$name}: Then how about I lent ya a hand with that?
     -> Yes! *Join Jotem*
-    FIN!
+    <<trigger_ending {$name}>>
 -> I wish to be more free. I think being an adventurer is very freeing.
 -> Just wanna try it out.
 -> A

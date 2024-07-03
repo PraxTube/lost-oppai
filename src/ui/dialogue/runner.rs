@@ -8,7 +8,7 @@ use crate::{
 };
 
 use super::{
-    command::{stop_chat_command, target_npc_mentioned_command},
+    command::{stop_chat_command, target_npc_mentioned_command, trigger_ending_command},
     option_selection::{CreateOptions, OptionSelection},
     spawn::DialogueRoot,
     typewriter::{Typewriter, WriteDialogueText},
@@ -66,7 +66,8 @@ fn spawn_dialogue_runner(
         dialogue_runner
             .commands_mut()
             .add_command("stop_chat", stop_chat_command)
-            .add_command("target_npc_mentioned", target_npc_mentioned_command);
+            .add_command("target_npc_mentioned", target_npc_mentioned_command)
+            .add_command("trigger_ending", trigger_ending_command);
 
         dialogue_runner.start_node(&ev.dialogue.to_string());
         commands.spawn((dialogue_runner, RunnerFlags::new(ev.dialogue)));
