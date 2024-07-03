@@ -6,7 +6,6 @@ title: Jotem
 
 {$name}: Howdy, young lady.
 <<trigger_ending {$name}>>
-<<stop_chat>>
 <<jump FinalAct>>
 {$name}: Wow, didn't see a beauty like you in a while.
 -> Ey...

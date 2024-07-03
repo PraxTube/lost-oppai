@@ -123,8 +123,10 @@ impl Plugin for PlayerAudioPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (update_bird_sound, play_step_sounds, tick_steps_timers)
-                .run_if(in_state(GameState::Gaming)),
+            (
+                update_bird_sound.run_if(not(in_state(GameState::AssetLoading))),
+                (play_step_sounds, tick_steps_timers).run_if(in_state(GameState::Gaming)),
+            ),
         )
         .init_resource::<StepsTimer>()
         .add_systems(

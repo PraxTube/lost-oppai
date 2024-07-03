@@ -4,6 +4,7 @@ use bevy::prelude::*;
 use bevy::window::{PrimaryWindow, Window};
 
 use crate::world::MainCamera;
+use crate::GameState;
 
 #[derive(Resource, Default)]
 pub struct MouseWorldCoords(pub Vec2);
@@ -170,6 +171,7 @@ impl Plugin for InputPlugin {
                 toggle_fullscreen,
                 toggle_debug,
             )
+                .run_if(in_state(GameState::Gaming))
                 .after(InputSystem),
         )
         .init_resource::<PlayerInput>()

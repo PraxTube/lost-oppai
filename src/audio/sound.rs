@@ -139,7 +139,7 @@ impl Plugin for GameSoundPlugin {
                         .before(play_sounds),
                     play_sounds,
                 )
-                    .run_if(in_state(GameState::Gaming)),
+                    .run_if(not(in_state(GameState::AssetLoading))),
             );
     }
 }

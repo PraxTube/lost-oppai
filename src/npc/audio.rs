@@ -36,7 +36,7 @@ impl Plugin for NpcAudioPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (play_elenore_flap_sound,).run_if(in_state(GameState::Gaming)),
+            (play_elenore_flap_sound,).run_if(not(in_state(GameState::AssetLoading))),
         );
     }
 }

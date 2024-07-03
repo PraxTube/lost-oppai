@@ -67,6 +67,10 @@ fn fade_in_black_sprite(mut commands: Commands, assets: Res<GameAssets>) {
     ));
 }
 
+fn change_game_state(mut next_state: ResMut<NextState<GameState>>) {
+    next_state.set(GameState::Ending);
+}
+
 pub struct EndingPlugin;
 
 impl Plugin for EndingPlugin {
@@ -76,8 +80,9 @@ impl Plugin for EndingPlugin {
             (
                 increase_ysorts,
                 fade_in_black_sprite.run_if(on_event::<EndingTriggered>()),
+                change_game_state.run_if(on_event::<EndingTriggered>()),
             )
-                .run_if(in_state(GameState::Gaming)),
+                .run_if(not(in_state(GameState::AssetLoading))),
         );
     }
 }

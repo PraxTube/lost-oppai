@@ -129,7 +129,7 @@ impl Plugin for EndingTextPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (spawn_texts, write_texts).run_if(in_state(GameState::Gaming)),
+            (spawn_texts, write_texts).run_if(not(in_state(GameState::AssetLoading))),
         );
     }
 }

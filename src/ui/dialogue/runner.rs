@@ -4,6 +4,7 @@ use bevy_yarnspinner::{events::DialogueCompleteEvent, prelude::*};
 use crate::{
     npc::{Npc, NpcDialogue},
     player::chat::{PlayerStartedChat, PlayerStoppedChat},
+    world::ending::EndingTriggered,
     GameState,
 };
 
@@ -253,13 +254,18 @@ impl Plugin for DialogueRunnerPlugin {
             (
                 despawn_dialogue_runner,
                 deactivate_dialogue_runner,
-                hide_dialogue.run_if(
-                    on_event::<DialogueCompleteEvent>().or_else(on_event::<PlayerStoppedChat>()),
-                ),
                 monitor_active_runners,
                 update_target_npcs,
             )
                 .run_if(in_state(GameState::Gaming)),
+        )
+        .add_systems(
+            Update,
+            hide_dialogue
+                .run_if(on_event::<DialogueCompleteEvent>().or_else(
+                    on_event::<PlayerStoppedChat>().or_else(on_event::<EndingTriggered>()),
+                ))
+                .run_if(not(in_state(GameState::AssetLoading))),
         );
     }
 }
