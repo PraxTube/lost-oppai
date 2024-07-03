@@ -1,6 +1,6 @@
 title: Joanna
 ---
-<<set $npc_target = "TODO">>
+<<set $target_npc = "TODO">>
 <<set $talked_with_target_npc = false>>
 
 <<set $name to "_Joanna">>

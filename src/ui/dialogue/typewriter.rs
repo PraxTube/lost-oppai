@@ -1,9 +1,12 @@
+use std::str::FromStr;
+
 use unicode_segmentation::UnicodeSegmentation;
 
 use bevy::prelude::*;
 use bevy::utils::Instant;
-use bevy_yarnspinner::prelude::*;
+use bevy_yarnspinner::{events::*, prelude::*};
 
+use crate::npc::NpcDialogue;
 use crate::player::chat::PlayerStoppedChat;
 use crate::{GameAssets, GameState};
 
@@ -209,6 +212,33 @@ fn finish_stopped_dialoauge(
     typewriter.finish_current_line();
 }
 
+fn set_writer_speed(
+    mut typewriter: ResMut<Typewriter>,
+    mut ev_present_line: EventReader<PresentLineEvent>,
+) {
+    for ev in ev_present_line.read() {
+        let name = ev
+            .line
+            .character_name()
+            .unwrap_or_default()
+            .trim_start_matches("_");
+        let maybe_npc = NpcDialogue::from_str(name);
+        let speed = if let Ok(npc) = maybe_npc {
+            match npc {
+                NpcDialogue::Jotem => 18.0,
+                NpcDialogue::Eleonore => 20.0,
+                NpcDialogue::Joanna => 23.0,
+            }
+        } else {
+            match name {
+                "You" => 20.0,
+                _ => 15.0,
+            }
+        };
+        typewriter.set_type_speed(speed);
+    }
+}
+
 pub struct DialogueTypewriterPlugin;
 
 impl Plugin for DialogueTypewriterPlugin {
@@ -220,6 +250,7 @@ impl Plugin for DialogueTypewriterPlugin {
                 write_text,
                 show_continue,
                 finish_stopped_dialoauge,
+                set_writer_speed,
             )
                 .chain()
                 .after(YarnSpinnerSystemSet)

@@ -8,7 +8,7 @@ use crate::{
 };
 
 use super::{
-    command::{set_type_speed_command, stop_chat_command},
+    command::stop_chat_command,
     option_selection::{CreateOptions, OptionSelection},
     spawn::DialogueRoot,
     typewriter::{Typewriter, WriteDialogueText},
@@ -32,7 +32,7 @@ struct SpawnDialogueRunner {
 }
 
 #[derive(Event)]
-pub struct UpdateNpcTargets;
+pub struct UpdateTargetNpcs;
 
 impl RunnerFlags {
     fn new(active: bool, dialogue: NpcDialogue) -> Self {
@@ -52,7 +52,7 @@ fn spawn_dialogue_runner(
     project: Res<YarnProject>,
     mut q_npcs: Query<&mut Npc>,
     mut ev_spawn_dialogue_runner: EventReader<SpawnDialogueRunner>,
-    mut ev_update_npc_targets: EventWriter<UpdateNpcTargets>,
+    mut ev_update_target_npcs: EventWriter<UpdateTargetNpcs>,
 ) {
     for ev in ev_spawn_dialogue_runner.read() {
         for mut npc in &mut q_npcs {
@@ -65,12 +65,11 @@ fn spawn_dialogue_runner(
         let mut dialogue_runner = project.create_dialogue_runner();
         dialogue_runner
             .commands_mut()
-            .add_command("set_type_speed", set_type_speed_command)
             .add_command("stop_chat", stop_chat_command);
 
         dialogue_runner.start_node(&ev.dialogue.to_string());
         commands.spawn((dialogue_runner, RunnerFlags::new(true, ev.dialogue)));
-        ev_update_npc_targets.send(UpdateNpcTargets);
+        ev_update_target_npcs.send(UpdateTargetNpcs);
     }
 }
 
@@ -115,19 +114,19 @@ fn activate_dialogue_runner(
     }
 }
 
-fn update_npc_target(flags: &RunnerFlags, runner: &mut DialogueRunner, dialogue: NpcDialogue) {
+fn update_target_npc(flags: &RunnerFlags, runner: &mut DialogueRunner, dialogue: NpcDialogue) {
     let variable_storage = runner.variable_storage_mut();
-    let npc_target: String = match variable_storage.get("$npc_target") {
+    let target_npc: String = match variable_storage.get("$target_npc") {
         Ok(r) => r.to_string(),
         Err(err) => {
             error!(
-                "Dialogue without the variable $npc_target! In dialogue {}, {}",
+                "Dialogue without the variable $target_npc! In dialogue {}, {}",
                 flags.dialogue, err
             );
             String::new()
         }
     };
-    if npc_target.to_lowercase() == dialogue.to_string().to_lowercase() {
+    if target_npc.to_lowercase() == dialogue.to_string().to_lowercase() {
         if let Err(err) = variable_storage.set("$talked_with_target_npc".to_string(), (true).into())
         {
             error!(
@@ -138,14 +137,14 @@ fn update_npc_target(flags: &RunnerFlags, runner: &mut DialogueRunner, dialogue:
     }
 }
 
-fn update_npc_targets(
+fn update_target_npcs(
     q_npcs: Query<&Npc>,
     mut q_dialogue_runners: Query<(&mut DialogueRunner, &RunnerFlags)>,
-    mut ev_update_npc_targets: EventReader<UpdateNpcTargets>,
+    mut ev_update_target_npcs: EventReader<UpdateTargetNpcs>,
     mut started: Local<bool>,
     mut frames: Local<usize>,
 ) {
-    for _ev in ev_update_npc_targets.read() {
+    for _ev in ev_update_target_npcs.read() {
         *started = true;
     }
 
@@ -163,7 +162,7 @@ fn update_npc_targets(
     for (mut runner, flags) in &mut q_dialogue_runners {
         for npc in &q_npcs {
             if npc.was_talked_to {
-                update_npc_target(flags, &mut runner, npc.dialogue);
+                update_target_npc(flags, &mut runner, npc.dialogue);
             }
         }
     }
@@ -227,7 +226,7 @@ impl Plugin for DialogueRunnerPlugin {
                 .run_if(in_state(GameState::Gaming).and_then(resource_exists::<YarnProject>())),
         )
         .add_event::<SpawnDialogueRunner>()
-        .add_event::<UpdateNpcTargets>()
+        .add_event::<UpdateTargetNpcs>()
         .add_systems(
             Update,
             (
@@ -237,7 +236,7 @@ impl Plugin for DialogueRunnerPlugin {
                     on_event::<DialogueCompleteEvent>().or_else(on_event::<PlayerStoppedChat>()),
                 ),
                 monitor_active_runners,
-                update_npc_targets,
+                update_target_npcs,
             )
                 .run_if(in_state(GameState::Gaming)),
         );

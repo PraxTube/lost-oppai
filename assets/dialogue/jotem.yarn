@@ -1,21 +1,15 @@
 title: Jotem
 ---
-<<set $npc_target = "eleonore">>
+<<set $target_npc = "eleonore">>
 <<set $talked_with_target_npc = false>>
 
-<<set $normal_speed to 20.0>>
-<<set $slow_speed to 20.0>>
 <<set $name to "_Jotem">>
 <<set $self_introduction to false>>
 
-<<set_type_speed {$normal_speed}>>
 {$name}: Howdy, young lady.
-<<if $talked_with_target_npc>>
-    You talked to Eleonore! Yay
-<<else>>
-    You DID NOT talk to Eleonore, SHAME
-<<endif>>
+You: I am talking a bit faster than you are you old fart.
 {$name}: Wow, didn't see a beauty like you in a while.
+Now the narrator is speaking, everybody silence in my presense.
 -> Ey...
     {$name}: Haha sorry, I am just fooling around.
     {$name}: Though why are you dressed so lightly?
@@ -91,7 +85,6 @@ title: OppaiIsLostInLife
 title: PastJotem
 ---
 
-<<set_type_speed {$slow_speed}>>
 {$name}: I used to be a fisherman, ya know.
 {$name}: All my life, a fisherman.
 {$name}: Never liked it.
@@ -121,7 +114,6 @@ title: ThatOneEncounter
 {$name}: Viewing my life and seeing myself as the victim is far too easy.
 {$name}: I learned that if ya want to achieve anything, ya have to put in the work.
 {$name}: It's all about ya perspective.
-<<set_type_speed {$normal_speed}>>
 ...
 {$name}: Sorry, that might have been a bit much. I always get carried away when I think back.
 -> That was indeed a lot.
@@ -169,7 +161,6 @@ title: ThatOneEncounter
                     {$name}: Alright! I will be waiting here for you.
                     {$name}: Good luck!
                     <<stop_chat>>
-                    ...
                     <<jump JotemWaiting>>
                 -> I don't know, perhaps a different time.
 
@@ -177,7 +168,6 @@ title: ThatOneEncounter
 title: JotemHub
 ---
 
-<<set_type_speed {$normal_speed}>>
 {$name}: Just tell me what you want to talk about.
 -> TMP
 
@@ -186,5 +176,56 @@ title: JotemWaiting
 ---
 
 ...
+<<if $talked_with_target_npc>>
+{$name}: So, you talked with Eleonore?
+-> Yep
+    <<jump TalkedWithEleonore>>
+<<else>>
+{$name}: So, you talked with Eleonore?
+-> No, not yet.
+-> I can't find her.
+-> Yes
+    <<if $talked_with_target_npc>>
+        <<jump TalkedWithEleonore>>
+    <<else>>
+        {$name}: Hm, that seems like a lie.
+        {$name}: I am not forcing you to talk to her.
+        {$name}: But I think it would be very helpful for you.
+    <<endif>>
+<<endif>>
+
+<<jump JotemWaiting>>
+
+===
+title: TalkedWithEleonore
+---
+
+{$name}: Okay sweet. Then let's hear about ya decision.
+{$name}: You wanna join me in my adventures?
+-> Before I answer, let me ask you a few questions.
+-> Yes!
+    <<jump FinalAct>>
+-> Thank you for the offer, but no.
+
+===
+title: QandA
+---
+
+
+
+===
+title: FinalAct
+---
+
+{$name}: Awesome!
+{$name}: I would like to know though, what was your reason for deciding to join?
+-> I want to achieve my dream, just like you.
+    {$name}: Haha! Very well then.
+    {$name}: Then how about I lent ya a hand with that?
+    -> Yes! *Join Jotem*
+    FIN!
+-> I wish to be more free. I think being an adventurer is very freeing.
+-> Just wanna try it out.
+-> A
 
 ===

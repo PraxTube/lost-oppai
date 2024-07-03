@@ -1,14 +1,14 @@
 title: Eleonore
 ---
-<<set $npc_target = "TODO">>
+<<set $target_npc = "TODO">>
+<<set $npc_source = "Jotem">>
 <<set $talked_with_target_npc = false>>
+<<set $triggered_source_npc = false>>
 
 <<set $name to "_Eleonore">>
 <<set $self_introduction to false>>
 
 {$name}: Oh hey there.
-You: And your next line will be:
-You: Are you alright? You seem kinda... lost.
 {$name}: Are you alright? You seem kinda... lost.
 -> Where am I?
     {$name}: So you are lost then.
@@ -25,6 +25,7 @@ You: Are you alright? You seem kinda... lost.
         {$name}: Earth? Wow girl, you really are lost.
         <<jump Location>>
     -> There must be trick, like a string pulling you up or something.
+-> Are you Eleonore? Jotem told me to talk with you. <<if $triggered_source_npc>>
 
 ===
 

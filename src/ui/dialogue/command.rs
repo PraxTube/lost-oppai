@@ -5,16 +5,10 @@ use crate::{
     GameState,
 };
 
-use super::typewriter::Typewriter;
-
 const DELAY_FRAMES_PLAYER_STOPPED_CHAT: usize = 3;
 
 #[derive(Event)]
 pub struct DelayedPlayerStoppedChat;
-
-pub fn set_type_speed_command(In(speed): In<f32>, mut typewriter: ResMut<Typewriter>) {
-    typewriter.set_type_speed(speed);
-}
 
 pub fn stop_chat_command(
     In(_): In<()>,
