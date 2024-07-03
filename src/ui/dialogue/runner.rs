@@ -35,9 +35,9 @@ struct SpawnDialogueRunner {
 pub struct UpdateTargetNpcs;
 
 impl RunnerFlags {
-    fn new(active: bool, dialogue: NpcDialogue) -> Self {
+    fn new(dialogue: NpcDialogue) -> Self {
         Self {
-            active,
+            active: true,
             dialogue,
             line: None,
             options: None,
@@ -68,7 +68,7 @@ fn spawn_dialogue_runner(
             .add_command("stop_chat", stop_chat_command);
 
         dialogue_runner.start_node(&ev.dialogue.to_string());
-        commands.spawn((dialogue_runner, RunnerFlags::new(true, ev.dialogue)));
+        commands.spawn((dialogue_runner, RunnerFlags::new(ev.dialogue)));
         ev_update_target_npcs.send(UpdateTargetNpcs);
     }
 }
