@@ -1,11 +1,11 @@
 title: Joanna
 ---
+<<set $name to "_Joanna">>
 <<set $target_npc = "TODO">>
 <<set $talked_with_target_npc = false>>
 
-<<set $name to "_Joanna">>
-<<set $self_introduction to false>>
 {$name}: Need something?
+<<target_npc_mentioned {$name} Eleonore>>
 {$name}: Girl... you are really starting to piss me of for real.
 You: NO SHUT THE HELL UP YOU LITTLE BITCH
 You: Because I AM the main character.

@@ -1,15 +1,12 @@
 title: Jotem
 ---
-<<set $target_npc = "eleonore">>
+<<set $name to "_Jotem">>
+<<set $target_npc = "Eleonore">>
 <<set $talked_with_target_npc = false>>
 
-<<set $name to "_Jotem">>
-<<set $self_introduction to false>>
-
 {$name}: Howdy, young lady.
-You: I am talking a bit faster than you are you old fart.
+<<target_npc_mentioned {$name} {$target_npc}>>
 {$name}: Wow, didn't see a beauty like you in a while.
-Now the narrator is speaking, everybody silence in my presense.
 -> Ey...
     {$name}: Haha sorry, I am just fooling around.
     {$name}: Though why are you dressed so lightly?

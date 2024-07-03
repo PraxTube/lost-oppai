@@ -36,6 +36,7 @@ impl Plugin for NpcPlugin {
 pub struct Npc {
     pub dialogue: NpcDialogue,
     pub was_talked_to: bool,
+    pub was_mentioned_by: Vec<NpcDialogue>,
 }
 
 #[derive(Component, Default)]
@@ -48,6 +49,7 @@ impl Npc {
         Self {
             dialogue,
             was_talked_to: false,
+            was_mentioned_by: Vec::new(),
         }
     }
 }
@@ -184,7 +186,7 @@ fn spawn_jotem(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) {
         .push_children(&[collider, shadow]);
 }
 
-fn spawn_npcs(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets>) {
+fn spawn_npcs(mut commands: Commands, _bitmap: Res<BitMap>, assets: Res<GameAssets>) {
     spawn_eleonore(&mut commands, &assets, Vec2::new(-200.0, -200.0));
     spawn_joanna(&mut commands, &assets, Vec2::new(200.0, 200.0));
     spawn_jotem(&mut commands, &assets, Vec2::ZERO);

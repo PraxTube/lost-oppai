@@ -1,6 +1,9 @@
+use std::str::FromStr;
+
 use bevy::prelude::*;
 
 use crate::{
+    npc::{Npc, NpcDialogue},
     player::{chat::PlayerStoppedChat, Player, PlayerState},
     GameState,
 };
@@ -25,6 +28,33 @@ pub fn stop_chat_command(
     }
 
     ev_delayed_player_stopped_chat.send(DelayedPlayerStoppedChat);
+}
+
+pub fn target_npc_mentioned_command(
+    In((source_npc, target_npc)): In<(&str, &str)>,
+    mut q_npcs: Query<&mut Npc>,
+) {
+    let source_npc = match NpcDialogue::from_str(source_npc.trim_start_matches("_")) {
+        Ok(r) => r,
+        Err(err) => {
+            error!("Not a valid npc name! {}", err);
+            return;
+        }
+    };
+
+    let target_npc = match NpcDialogue::from_str(target_npc.trim_start_matches("_")) {
+        Ok(r) => r,
+        Err(err) => {
+            error!("Not a valid npc name! {}", err);
+            return;
+        }
+    };
+
+    for mut npc in &mut q_npcs {
+        if npc.dialogue == target_npc {
+            npc.was_mentioned_by.push(source_npc);
+        }
+    }
 }
 
 fn relay_player_stopped_chat_event(

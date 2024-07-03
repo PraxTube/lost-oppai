@@ -8,7 +8,7 @@ use crate::{
 };
 
 use super::{
-    command::stop_chat_command,
+    command::{stop_chat_command, target_npc_mentioned_command},
     option_selection::{CreateOptions, OptionSelection},
     spawn::DialogueRoot,
     typewriter::{Typewriter, WriteDialogueText},
@@ -65,7 +65,8 @@ fn spawn_dialogue_runner(
         let mut dialogue_runner = project.create_dialogue_runner();
         dialogue_runner
             .commands_mut()
-            .add_command("stop_chat", stop_chat_command);
+            .add_command("stop_chat", stop_chat_command)
+            .add_command("target_npc_mentioned", target_npc_mentioned_command);
 
         dialogue_runner.start_node(&ev.dialogue.to_string());
         commands.spawn((dialogue_runner, RunnerFlags::new(ev.dialogue)));
@@ -126,14 +127,27 @@ fn update_target_npc(flags: &RunnerFlags, runner: &mut DialogueRunner, dialogue:
             String::new()
         }
     };
-    if target_npc.to_lowercase() == dialogue.to_string().to_lowercase() {
+    if target_npc == dialogue.to_string() {
         if let Err(err) = variable_storage.set("$talked_with_target_npc".to_string(), (true).into())
         {
-            error!(
-                "Error while trying to get the variable $talked_with_target_npc! In dialogue {}, {}",
-                flags.dialogue, err
-            );
+            error!("{}, {}", flags.dialogue, err);
         }
+    }
+}
+
+fn update_mentioned_by(
+    flags: &RunnerFlags,
+    runner: &mut DialogueRunner,
+    mentioned_by: &NpcDialogue,
+) {
+    let variable_storage = runner.variable_storage_mut();
+    let variable = format!("$mentioned_by_{}", mentioned_by.to_string());
+    if !variable_storage.contains(&variable) {
+        error!("Npc {}, does not contain var {}", flags.dialogue, variable);
+        return;
+    };
+    if let Err(err) = variable_storage.set(variable, (true).into()) {
+        error!("{}, {}", flags.dialogue, err);
     }
 }
 
@@ -163,6 +177,12 @@ fn update_target_npcs(
         for npc in &q_npcs {
             if npc.was_talked_to {
                 update_target_npc(flags, &mut runner, npc.dialogue);
+            }
+
+            if flags.dialogue == npc.dialogue {
+                for mentioned_by in &npc.was_mentioned_by {
+                    update_mentioned_by(flags, &mut runner, mentioned_by);
+                }
             }
         }
     }
