@@ -39,7 +39,7 @@ impl Default for Typewriter {
             elapsed: default(),
             start: Instant::now(),
             last_finished: default(),
-            current_speed: 30.0,
+            current_speed: 25.0,
         }
     }
 }

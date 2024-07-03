@@ -23,7 +23,6 @@ pub struct OptionSelection {
     mouse_input: bool,
     current_selection: Option<usize>,
     options: Vec<DialogueOption>,
-    unavailable_options: Vec<DialogueOption>,
 }
 
 impl OptionSelection {
@@ -31,12 +30,9 @@ impl OptionSelection {
         dialogue_options: impl IntoIterator<Item = &'a DialogueOption>,
     ) -> Self {
         let mut options: Vec<DialogueOption> = Vec::new();
-        let mut unavailable_options: Vec<DialogueOption> = Vec::new();
         for option in dialogue_options {
             if option.is_available {
                 options.push(option.clone());
-            } else {
-                unavailable_options.push(option.clone());
             }
         }
 
@@ -44,16 +40,11 @@ impl OptionSelection {
             mouse_input: true,
             current_selection: None,
             options,
-            unavailable_options,
         }
     }
 
     pub fn get_options(&self) -> Vec<DialogueOption> {
         self.options.clone()
-    }
-
-    pub fn get_unavailable_options(&self) -> Vec<DialogueOption> {
-        self.unavailable_options.clone()
     }
 }
 

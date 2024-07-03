@@ -65,14 +65,6 @@ fn text_style_option_text(_assets: &Res<GameAssets>) -> TextStyle {
     }
 }
 
-fn text_style_unavailable_option_text(_assets: &Res<GameAssets>) -> TextStyle {
-    TextStyle {
-        font_size: 24.0,
-        color: Color::GRAY,
-        ..default()
-    }
-}
-
 fn spawn_dialogue_top(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity {
     let edge = commands
         .spawn((ImageBundle {
@@ -332,15 +324,10 @@ fn spawn_option(
     assets: &Res<GameAssets>,
     option: DialogueOption,
     entity: Entity,
-    available: bool,
 ) {
     let sections = [TextSection {
         value: format!("- {}", option.line.text.clone()),
-        style: if available {
-            text_style_option_text(assets)
-        } else {
-            text_style_unavailable_option_text(assets)
-        },
+        style: text_style_option_text(assets),
     }];
     let text = commands
         .spawn((
@@ -353,25 +340,21 @@ fn spawn_option(
         ))
         .id();
 
-    if available {
-        let button = commands
-            .spawn((
-                ButtonBundle {
-                    style: Style {
-                        justify_content: JustifyContent::FlexStart,
-                        ..default()
-                    },
-                    background_color: Color::NONE.into(),
+    let button = commands
+        .spawn((
+            ButtonBundle {
+                style: Style {
+                    justify_content: JustifyContent::FlexStart,
                     ..default()
                 },
-                OptionButton(option.id),
-            ))
-            .push_children(&[text])
-            .id();
-        commands.entity(entity).push_children(&[button]);
-    } else {
-        commands.entity(entity).push_children(&[text]);
-    }
+                background_color: Color::NONE.into(),
+                ..default()
+            },
+            OptionButton(option.id),
+        ))
+        .push_children(&[text])
+        .id();
+    commands.entity(entity).push_children(&[button]);
 }
 
 pub fn spawn_options(
@@ -381,10 +364,7 @@ pub fn spawn_options(
     entity: Entity,
 ) {
     for option in options.get_options() {
-        spawn_option(commands, assets, option, entity, true);
-    }
-    for option in options.get_unavailable_options() {
-        spawn_option(commands, assets, option, entity, false);
+        spawn_option(commands, assets, option, entity);
     }
 }
 
