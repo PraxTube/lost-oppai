@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use bevy::prelude::*;
 use bevy_tweening::{lens::*, *};
 
@@ -10,6 +12,8 @@ use crate::{
 use super::camera::YSort;
 
 const FADE_OUT_DURATION: f32 = 2.0;
+const BLACK_OUT_FADE_DURATION: f32 = 5.0;
+const BLACK_OUT_DELAY: f32 = 12.0;
 const START_COLOR: Color = Color::rgba(0.0, 0.0, 0.0, 0.0);
 const END_COLOR: Color = Color::rgba(0.0, 0.0, 0.0, 1.0);
 
@@ -42,6 +46,7 @@ fn increase_ysorts(
     }
 }
 
+/// This fades in a black sprite that covers everything except the two characters and some text.
 fn fade_in_black_sprite(mut commands: Commands, assets: Res<GameAssets>) {
     let tween = Tween::new(
         EaseFunction::CubicIn,
@@ -67,6 +72,55 @@ fn fade_in_black_sprite(mut commands: Commands, assets: Res<GameAssets>) {
     ));
 }
 
+/// This fades in a black screen that overlays everything.
+/// It fades in after a delay
+fn fade_in_black_screen(
+    mut commands: Commands,
+    time: Res<Time>,
+    mut timer: Local<Timer>,
+    mut is_started: Local<bool>,
+    mut is_finished: Local<bool>,
+) {
+    if *is_finished {
+        return;
+    }
+
+    if !*is_started {
+        *is_started = true;
+        timer.set_duration(Duration::from_secs_f32(BLACK_OUT_DELAY));
+        timer.set_elapsed(Duration::ZERO);
+    }
+
+    timer.tick(time.delta());
+    if !timer.just_finished() {
+        return;
+    }
+
+    *is_finished = true;
+    let tween = Tween::new(
+        EaseFunction::CubicIn,
+        std::time::Duration::from_secs_f32(BLACK_OUT_FADE_DURATION),
+        UiBackgroundColorLens {
+            start: START_COLOR,
+            end: END_COLOR,
+        },
+    );
+
+    commands.spawn((
+        Animator::new(tween),
+        ImageBundle {
+            style: Style {
+                width: Val::Vw(110.0),
+                height: Val::Vh(110.0),
+                ..default()
+            },
+            background_color: BackgroundColor(START_COLOR),
+            z_index: ZIndex::Global(100),
+            ..default()
+        },
+    ));
+}
+
 fn change_game_state(mut next_state: ResMut<NextState<GameState>>) {
     next_state.set(GameState::Ending);
 }
@@ -75,7 +129,7 @@ pub struct EndingPlugin;
 
 impl Plugin for EndingPlugin {
     fn build(&self, app: &mut App) {
-        app.add_event::<EndingTriggered>().add_systems(
+        app.add_systems(
             Update,
             (
                 increase_ysorts,
@@ -83,6 +137,11 @@ impl Plugin for EndingPlugin {
                 change_game_state.run_if(on_event::<EndingTriggered>()),
             )
                 .run_if(not(in_state(GameState::AssetLoading))),
+        )
+        .add_event::<EndingTriggered>()
+        .add_systems(
+            Update,
+            (fade_in_black_screen,).run_if(in_state(GameState::Ending)),
         );
     }
 }
