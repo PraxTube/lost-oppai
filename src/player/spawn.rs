@@ -24,7 +24,7 @@ fn spawn_player(mut commands: Commands, assets: Res<GameAssets>) {
 
     commands
         .spawn((
-            Player::new(collider),
+            Player::default(),
             RigidBody::Dynamic,
             LockedAxes::ROTATION_LOCKED,
             Velocity::zero(),

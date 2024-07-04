@@ -18,6 +18,7 @@ pub enum PlayerState {
     Talking,
 }
 
+#[allow(dead_code)]
 #[derive(Event)]
 pub struct PlayerChangedState {
     pub old_state: PlayerState,

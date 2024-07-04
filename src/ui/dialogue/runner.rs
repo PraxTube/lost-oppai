@@ -23,7 +23,6 @@ pub struct RunnerFlags {
     pub dialogue: NpcDialogue,
     pub line: Option<LocalizedLine>,
     pub options: Option<OptionSelection>,
-    pub talked_with_target_npc: bool,
 }
 
 /// This is only fired when the dialogue runner isn't cached yet and was thus never spawned.
@@ -42,7 +41,6 @@ impl RunnerFlags {
             dialogue,
             line: None,
             options: None,
-            talked_with_target_npc: false,
         }
     }
 }

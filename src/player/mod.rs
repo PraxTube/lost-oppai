@@ -43,20 +43,20 @@ impl Plugin for PlayerPlugin {
 pub struct Player {
     pub state: PlayerState,
     pub current_direction: Vec2,
-    pub collider_entity: Entity,
     directions_queue: FixedQueue<Vec2, DIRECTIONS_QUEUE_SIZE>,
 }
 
-impl Player {
-    fn new(collider_entity: Entity) -> Self {
+impl Default for Player {
+    fn default() -> Self {
         Self {
             state: PlayerState::default(),
             current_direction: Vec2::NEG_Y,
-            collider_entity,
             directions_queue: FixedQueue::new(),
         }
     }
+}
 
+impl Player {
     pub fn average_direction(&self) -> Vec2 {
         let dir = self.directions_queue.compute_average();
 
