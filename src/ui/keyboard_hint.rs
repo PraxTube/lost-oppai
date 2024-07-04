@@ -122,7 +122,7 @@ fn spawn_shift_icon(
 }
 
 fn calculate_dir(vecs: &Vec<Vec2>) -> Vec2 {
-    if vecs.len() == 0 {
+    if vecs.is_empty() {
         warn!("There is no connection between the origin and any other vertex. \
             Should never happen, something must be wrong with the edge algorithm (kruskals algorithm)");
         return Vec2::ZERO;
@@ -139,7 +139,7 @@ fn calculate_dir(vecs: &Vec<Vec2>) -> Vec2 {
         angles.push(angle);
     }
     // Sort the angles so that we get the vectors in a (a)cylcic order
-    angles.sort_by(|a, b| a.partial_cmp(&b).unwrap());
+    angles.sort_by(|a, b| a.partial_cmp(b).unwrap());
 
     // Initialize the max_angle and current_angle to the biggest - small angle
     // This is useful because we would need to handle this in a special way anyways

@@ -22,7 +22,7 @@ fn try_read_yarn_contents(entry: Result<DirEntry, Error>) -> Option<String> {
             return Some(fs::read_to_string(path).expect("Should have been able to read the file"));
         }
     }
-    return None;
+    None
 }
 
 fn validate_lines<F>(predicate: F)

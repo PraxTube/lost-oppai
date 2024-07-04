@@ -11,8 +11,8 @@ const RENDER_TILE_SIZE: TilemapTileSize = TilemapTileSize {
     y: TILE_SIZE,
 };
 const RENDER_CHUNK_SIZE: UVec2 = UVec2 {
-    x: CHUNK_SIZE as u32 * 2,
-    y: CHUNK_SIZE as u32 * 2,
+    x: CHUNK_SIZE * 2,
+    y: CHUNK_SIZE * 2,
 };
 
 #[derive(Default, Debug, Resource)]
@@ -163,8 +163,8 @@ pub fn despawn_chunks(
     let camera_chunk = camera_pos_to_chunk_pos(&camera_transform.translation.xy());
 
     for (entity, chunk) in &q_chunks {
-        if (chunk.x - camera_chunk.x).abs() as u32 > RENDERED_CHUNKS_RADIUS
-            || (chunk.y - camera_chunk.y).abs() as u32 > RENDERED_CHUNKS_RADIUS
+        if (chunk.x - camera_chunk.x).unsigned_abs() > RENDERED_CHUNKS_RADIUS
+            || (chunk.y - camera_chunk.y).unsigned_abs() > RENDERED_CHUNKS_RADIUS
         {
             let chunk_pos = IVec2::new(chunk.x, chunk.y);
             chunk_manager.spawned_chunks.remove(&chunk_pos);
