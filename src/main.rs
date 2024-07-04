@@ -53,7 +53,7 @@ fn main() {
                 enabled: false,
                 ..default()
             },
-            ParticleSystemPlugin::default(),
+            ParticleSystemPlugin,
             Animation2DPlugin,
             YarnSpinnerPlugin::with_yarn_sources([
                 YarnFileSource::file("dialogue/eleonore.yarn"),

@@ -44,7 +44,7 @@ fn spawn_header_text(
     commands
         .spawn((
             TextBundle {
-                text: Text::from_section("", text_style_standard(&assets)),
+                text: Text::from_section("", text_style_standard(assets)),
                 z_index: ZIndex::Local(1),
                 ..default()
             },
@@ -66,7 +66,7 @@ fn spawn_body_text(
     commands
         .spawn((
             TextBundle {
-                text: Text::from_section("", text_style_standard(&assets)),
+                text: Text::from_section("", text_style_standard(assets)),
                 z_index: ZIndex::Local(1),
                 ..default()
             },
@@ -119,7 +119,9 @@ fn write_texts(time: Res<Time>, mut q_writable_texts: Query<(&mut Text, &mut Wri
             let next_char = writeable_text.text_left.remove(0);
             writeable_text.written_text.push(next_char);
         }
-        text.sections[0].value = writeable_text.written_text.clone();
+        text.sections[0]
+            .value
+            .clone_from(&writeable_text.written_text);
     }
 }
 

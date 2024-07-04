@@ -22,7 +22,7 @@ pub fn generate_poisson_points(
 
     let mut rng = GameRng::seed_from_u64(seed);
 
-    while spawn_points.len() > 0 {
+    while !spawn_points.is_empty() {
         let spawn_index = rng.gen_range(0..spawn_points.len());
         let spawn_center = spawn_points[spawn_index];
 
@@ -70,7 +70,7 @@ pub fn generate_poisson_points_variable_radii(
 
     let mut rng = GameRng::seed_from_u64(seed);
 
-    while spawn_points.len() > 0 {
+    while !spawn_points.is_empty() {
         let spawn_index = rng.gen_range(0..spawn_points.len());
         let spawn_center = spawn_points[spawn_index];
 
@@ -107,8 +107,8 @@ fn is_valid(
     region_size: Vec2,
     cell_size: f32,
     radius: f32,
-    points: &Vec<Vec2>,
-    grid: &Vec<Vec<i32>>,
+    points: &[Vec2],
+    grid: &[Vec<i32>],
 ) -> bool {
     if candidate.x < 0.0
         || candidate.x >= region_size.x
@@ -128,7 +128,9 @@ fn is_valid(
     let search_start_y = (cell_y - 2).max(0) as usize;
     let search_end_y = (cell_y + 2).min(grid.len() as i32) as usize;
 
+    #[allow(clippy::needless_range_loop)]
     for x in search_start_x..search_end_x {
+        #[allow(clippy::needless_range_loop)]
         for y in search_start_y..search_end_y {
             let point_index = grid[y][x];
             if point_index != -1 {
@@ -146,8 +148,8 @@ fn is_valid_variable_radii(
     candidate: Vec3,
     region_size: Vec2,
     cell_size: f32,
-    points: &Vec<Vec3>,
-    grid: &Vec<Vec<i32>>,
+    points: &[Vec3],
+    grid: &[Vec<i32>],
 ) -> bool {
     if candidate.x < 0.0
         || candidate.x >= region_size.x
@@ -167,7 +169,9 @@ fn is_valid_variable_radii(
     let search_start_y = (cell_y - 2).max(0) as usize;
     let search_end_y = (cell_y + 2).min(grid.len() as i32) as usize;
 
+    #[allow(clippy::needless_range_loop)]
     for x in search_start_x..search_end_x {
+        #[allow(clippy::needless_range_loop)]
         for y in search_start_y..search_end_y {
             let point_index = grid[y][x];
             if point_index > -1 {

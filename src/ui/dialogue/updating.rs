@@ -10,10 +10,10 @@ use super::typewriter::{Typewriter, WriteDialogueText};
 use super::DialogueViewSystemSet;
 
 fn convert_name(name: &str) -> String {
-    if name.starts_with("_") {
+    if name.starts_with('_') {
         return "???".to_string();
     }
-    return name.to_string();
+    name.to_string()
 }
 
 fn present_line(

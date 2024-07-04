@@ -7,7 +7,7 @@ fn number_of_edges(vertex_index: usize, edges: &HashSet<(usize, usize)>) -> usiz
         .count()
 }
 
-fn generate_edges(vertices: &Vec<Vec2>) -> Vec<(usize, usize)> {
+fn generate_edges(vertices: &[Vec2]) -> Vec<(usize, usize)> {
     let mut edges = Vec::new();
     for i in 0..vertices.len() {
         for j in 0..vertices.len() {
@@ -22,8 +22,8 @@ fn generate_edges(vertices: &Vec<Vec2>) -> Vec<(usize, usize)> {
     edges.into_iter().map(|(a, b, _)| (a, b)).collect()
 }
 
-pub fn kruskals_edges(vertices: &Vec<Vec2>) -> HashSet<(usize, usize)> {
-    let sorted_edges = generate_edges(&vertices);
+pub fn kruskals_edges(vertices: &[Vec2]) -> HashSet<(usize, usize)> {
+    let sorted_edges = generate_edges(vertices);
 
     let mut result = HashSet::new();
     let mut sets = Vec::new();
@@ -61,7 +61,7 @@ pub fn kruskals_edges(vertices: &Vec<Vec2>) -> HashSet<(usize, usize)> {
     result
 }
 
-pub fn connect_outer_vertices(vertices: &Vec<Vec2>, edges: &mut HashSet<(usize, usize)>) {
+pub fn connect_outer_vertices(vertices: &[Vec2], edges: &mut HashSet<(usize, usize)>) {
     if vertices.len() < 2 {
         error!(
             "Should not call function to connect outer vertices on only two vertices, {:?}",
@@ -74,7 +74,7 @@ pub fn connect_outer_vertices(vertices: &Vec<Vec2>, edges: &mut HashSet<(usize, 
         // If this vertex has more than two edges we don't need
         // to connect it any further because it either is
         // a vertex in the center somewhere or already forms a loop.
-        if number_of_edges(i, &edges) > 1 {
+        if number_of_edges(i, edges) > 1 {
             continue;
         };
 

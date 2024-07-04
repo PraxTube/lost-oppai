@@ -186,9 +186,9 @@ fn spawn_jotem(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) {
         .push_children(&[collider, shadow]);
 }
 
-fn spawn_npcs(mut commands: Commands, _bitmap: Res<BitMap>, assets: Res<GameAssets>) {
+fn spawn_npcs(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets>) {
     spawn_eleonore(&mut commands, &assets, Vec2::new(-200.0, -200.0));
-    spawn_joanna(&mut commands, &assets, Vec2::new(200.0, 200.0));
+    spawn_joanna(&mut commands, &assets, bitmap.get_hotspot(1));
     spawn_jotem(&mut commands, &assets, Vec2::ZERO);
 }
 

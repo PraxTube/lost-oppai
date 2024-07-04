@@ -131,7 +131,7 @@ fn select_option(
                 option_selection.current_selection = Some(new_index);
             }
             None => {
-                if option_selection.options.len() > 0 {
+                if !option_selection.options.is_empty() {
                     option_selection.current_selection = Some(0);
                 }
             }

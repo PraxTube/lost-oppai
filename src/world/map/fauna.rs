@@ -208,10 +208,8 @@ fn return_to_idle_state(
             {
                 continue;
             }
-        } else {
-            if !player.is_finished() {
-                continue;
-            }
+        } else if !player.is_finished() {
+            continue;
         }
 
         if bitmap.is_position_water(transform.translation.truncate()) {

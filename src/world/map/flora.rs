@@ -210,7 +210,7 @@ fn spawn_flora(
     );
     let pos = TILE_SIZE * Vec3::new(v.x as f32, v.y as f32, 0.0);
 
-    if v.x.abs() as u32 % CHUNK_SIZE == 0 || v.y.abs() as u32 % CHUNK_SIZE == 0 {
+    if v.x.unsigned_abs() % CHUNK_SIZE == 0 || v.y.unsigned_abs() % CHUNK_SIZE == 0 {
         return;
     }
     if radius > TREE_RADIUS {
@@ -253,7 +253,8 @@ fn spawn_flora_chunks(
     mut ev_spawned_chunk: EventReader<SpawnedChunk>,
 ) {
     for ev in ev_spawned_chunk.read() {
-        let seed = bitmap.seed() as u64 + ev.pos.x.abs() as u64 + ev.pos.y.abs() as u64;
+        let seed =
+            bitmap.seed() as u64 + ev.pos.x.unsigned_abs() as u64 + ev.pos.y.unsigned_abs() as u64;
         let points_with_radius = generate_poisson_points_variable_radii(
             MIN_RADIUS,
             MAX_RADIUS,

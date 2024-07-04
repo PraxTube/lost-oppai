@@ -103,11 +103,11 @@ impl Typewriter {
             .drain(..grapheme_length_to_take)
             .collect::<Vec<String>>()
             .concat();
-        if graphemes_to_take.contains(".") {
+        if graphemes_to_take.contains('.') {
             self.elapsed -= 0.2;
-        } else if graphemes_to_take.contains("?") {
+        } else if graphemes_to_take.contains('?') {
             self.elapsed -= 0.35;
-        } else if graphemes_to_take.contains(",") {
+        } else if graphemes_to_take.contains(',') {
             self.elapsed -= 0.1;
         }
         self.current_text += &graphemes_to_take;
@@ -221,7 +221,7 @@ fn set_writer_speed(
             .line
             .character_name()
             .unwrap_or_default()
-            .trim_start_matches("_");
+            .trim_start_matches('_');
         let maybe_npc = NpcDialogue::from_str(name);
         let speed = if let Ok(npc) = maybe_npc {
             match npc {

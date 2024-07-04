@@ -35,7 +35,7 @@ pub fn target_npc_mentioned_command(
     In((source_npc, target_npc)): In<(&str, &str)>,
     mut q_npcs: Query<&mut Npc>,
 ) {
-    let source_npc = match NpcDialogue::from_str(source_npc.trim_start_matches("_")) {
+    let source_npc = match NpcDialogue::from_str(source_npc.trim_start_matches('_')) {
         Ok(r) => r,
         Err(err) => {
             error!("Not a valid npc name! {}", err);
@@ -43,7 +43,7 @@ pub fn target_npc_mentioned_command(
         }
     };
 
-    let target_npc = match NpcDialogue::from_str(target_npc.trim_start_matches("_")) {
+    let target_npc = match NpcDialogue::from_str(target_npc.trim_start_matches('_')) {
         Ok(r) => r,
         Err(err) => {
             error!("Not a valid npc name! {}", err);
@@ -62,7 +62,7 @@ pub fn trigger_ending_command(
     In(npc_name): In<&str>,
     mut ev_ending_triggered: EventWriter<EndingTriggered>,
 ) {
-    let dialogue = match NpcDialogue::from_str(npc_name.trim_start_matches("_")) {
+    let dialogue = match NpcDialogue::from_str(npc_name.trim_start_matches('_')) {
         Ok(r) => r,
         Err(err) => {
             error!("Not a valid npc name! {}", err);

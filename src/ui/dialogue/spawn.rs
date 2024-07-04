@@ -46,7 +46,6 @@ fn text_style_standard(assets: &Res<GameAssets>) -> TextStyle {
         font: assets.silver_font.clone(),
         font_size: 50.0,
         color: Color::WHITE,
-        ..default()
     }
 }
 
@@ -55,7 +54,6 @@ fn text_style_name(assets: &Res<GameAssets>) -> TextStyle {
         font: assets.silver_font.clone(),
         font_size: 46.0,
         color: Color::WHITE,
-        ..default()
     }
 }
 
@@ -64,7 +62,6 @@ fn text_style_option_text(assets: &Res<GameAssets>) -> TextStyle {
         font: assets.silver_font.clone(),
         font_size: 50.0,
         color: Color::WHITE,
-        ..default()
     }
 }
 

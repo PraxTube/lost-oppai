@@ -89,8 +89,8 @@ impl BitMap {
             _ => return (0, INVALID_TILE),
         };
 
-        let x_index = v.x.abs() as usize;
-        let y_index = v.y.abs() as usize;
+        let x_index = v.x.unsigned_abs() as usize;
+        let y_index = v.y.unsigned_abs() as usize;
         tileset[x_index][y_index]
     }
 
@@ -129,8 +129,8 @@ impl BitMap {
             _ => return,
         };
 
-        let x_index = v.x.abs() as usize;
-        let y_index = v.y.abs() as usize;
+        let x_index = v.x.unsigned_abs() as usize;
+        let y_index = v.y.unsigned_abs() as usize;
         tileset[x_index][y_index] = tile;
     }
 
@@ -148,8 +148,8 @@ impl BitMap {
             _ => return,
         };
 
-        let x_index = v.x.abs() as usize;
-        let y_index = v.y.abs() as usize;
+        let x_index = v.x.unsigned_abs() as usize;
+        let y_index = v.y.unsigned_abs() as usize;
         tileset[x_index][y_index] = tile;
     }
 
@@ -202,7 +202,7 @@ impl BitMap {
         let mut fitting_size = false;
         while !fitting_size {
             fitting_size = true;
-            if tileset.len() <= v.x.abs() as usize {
+            if tileset.len() <= v.x.unsigned_abs() as usize {
                 fitting_size = false;
                 let mut addition = vec![
                     vec![(EMPTY_TYPE_MASK, INVALID_TILE); tileset[0].len()];
@@ -210,7 +210,7 @@ impl BitMap {
                 ];
                 tileset.append(&mut addition);
             }
-            if tileset[0].len() <= v.y.abs() as usize {
+            if tileset[0].len() <= v.y.unsigned_abs() as usize {
                 fitting_size = false;
                 for i in 0..tileset.len() {
                     let mut addition = vec![(EMPTY_TYPE_MASK, INVALID_TILE); tileset[0].len()];
@@ -249,7 +249,7 @@ impl BitMap {
         let is_water = height < WATER_HEIGH_LEVEL;
         if is_water {
             self.set_water_flag(v);
-            if (height > WATER_SPARKLE_HEIGHT_LEVEL_MAX || height < WATER_SPARKLE_HEIGHT_LEVEL_MIN)
+            if !(WATER_SPARKLE_HEIGHT_LEVEL_MIN..=WATER_SPARKLE_HEIGHT_LEVEL_MAX).contains(&height)
                 && self.water_sparkle_height(v) < 0.0
             {
                 self.set_water_sparkle_flag(v);
@@ -395,7 +395,7 @@ impl BitMap {
     }
 
     pub fn set_edges(&mut self, edges: &HashSet<(usize, usize)>) {
-        self.edges = edges.clone();
+        self.edges.clone_from(edges);
     }
 
     pub fn get_origin_edges(&self) -> Vec<Vec2> {
