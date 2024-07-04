@@ -38,3 +38,6 @@ bevy_particle_systems = "0.11.2"
 bevy_ecs_tilemap = "0.12.0"
 bevy_trickfilm = { git = "https://github.com/PraxTube/bevy_trickfilm", branch = "main" }
 bevy_yarnspinner = "0.1.0"
+
+[dev-dependencies]
+strsim = "0.11.1"
