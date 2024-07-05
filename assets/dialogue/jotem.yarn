@@ -19,7 +19,7 @@ title: Jotem
     -> I am Pai, nice to meet you.
         {$name}: Pai, huh? Strange name ya got there.
         {$name}: But who am I to judge? Nice to meet ya too Pai.
-        {$name}: Say, Pai, were are you coming from?
+        {$name}: Say, Pai, were are ya comin from?
         <<jump OppaiIsWeird>>
     -> I am... lost.
         {$name}: Hahaha, figures.
@@ -27,7 +27,8 @@ title: Jotem
     -> Jotem? That's quite a strange name. I am Pai by the way.
         {$name}: Hahahaha, like you are the one to talk.
         {$name}: Never heard of someone with a name like that.
-        {$name}: But oh well. So what are you doing out here while bein dressed so lightly?
+        {$name}: But oh well, nice to meet ya Pai.
+        {$name}: So anyways, what are you doing out here while bein dressed so lightly?
         <<jump OppaiIsWeird>>
 -> What are you doing out here?
 
@@ -35,8 +36,8 @@ title: Jotem
 title: OppaiIsLost
 ---
 
-{$name}: Perhaps I can help ya out, want some help?
--> Yes, very much!
+{$name}: Perhaps I can help ya out?
+-> Yes, please!
 -> I am actually lost in a different way...
     {$name}: Hm? What do you mean?
     -> I just don't know what to do in life.
@@ -168,6 +169,8 @@ title: JotemHub
 ---
 
 {$name}: Just tell me what you want to talk about.
+-> Where are we?
+-> Who are you?
 -> TMP
 
 ===
