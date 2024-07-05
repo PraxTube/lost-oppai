@@ -1,0 +1,11 @@
+title: Isabelle
+---
+<<set $name to "_Isabelle">>
+
+{$name}: Good day stranger.
+-> Hello
+    {$name}: Are you also out enjoying the beatiful sun today?
+-> Hey, how are you doing?
+-> Hi, what are up to out here?
+
+===

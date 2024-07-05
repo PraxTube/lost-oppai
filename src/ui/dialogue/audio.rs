@@ -59,6 +59,13 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
                 volume: 0.5,
                 ..default()
             },
+            NpcDialogue::Isabelle => PlaySound {
+                clip: assets.eleonore_blip_sound.clone(),
+                rand_speed_intensity: 0.05,
+                playback_rate: 3.5,
+                volume: 0.45,
+                ..default()
+            },
         },
         Err(_) => {
             if character == "???" {

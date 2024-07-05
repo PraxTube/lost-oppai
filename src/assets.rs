@@ -53,6 +53,12 @@ pub struct GameAssets {
     #[asset(path = "npc/jotem_shadow.png")]
     pub jotem_shadow: Handle<Image>,
 
+    #[asset(texture_atlas(tile_size_x = 48.0, tile_size_y = 64.0, columns = 7, rows = 1))]
+    #[asset(path = "npc/isabelle.png")]
+    pub isabelle: Handle<TextureAtlas>,
+    #[asset(paths("npc/isabelle.trickfilm#idle",), collection(typed))]
+    pub isabelle_animations: Vec<Handle<AnimationClip2D>>,
+
     // --- MAP ---
     #[asset(path = "map/tileset.png")]
     pub tileset: Handle<Image>,

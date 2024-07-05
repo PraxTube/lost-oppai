@@ -228,6 +228,7 @@ fn set_writer_speed(
                 NpcDialogue::Jotem => 18.0,
                 NpcDialogue::Eleonore => 20.0,
                 NpcDialogue::Joanna => 23.0,
+                NpcDialogue::Isabelle => 20.0,
             }
         } else {
             match name {

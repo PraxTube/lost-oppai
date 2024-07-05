@@ -40,6 +40,7 @@ fn spawn_header_text(
         NpcDialogue::Jotem => "Pai joins Jotem",
         NpcDialogue::Eleonore => "Pai joins Eleonore",
         NpcDialogue::Joanna => "Pai joins Joanna",
+        NpcDialogue::Isabelle => "Pai joins Isabelle",
     };
     commands
         .spawn((
@@ -62,6 +63,7 @@ fn spawn_body_text(
         NpcDialogue::Jotem => "Ending: Adventurer",
         NpcDialogue::Eleonore => "Ending: Witch's Apprentice",
         NpcDialogue::Joanna => "Ending: TMP",
+        NpcDialogue::Isabelle => "Ending: Farm Girl",
     };
     commands
         .spawn((
