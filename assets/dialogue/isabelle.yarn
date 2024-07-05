@@ -1,6 +1,8 @@
 title: Isabelle
 ---
 <<set $name to "_Isabelle">>
+<<set $target_npc = "Jotem">>
+<<set $talked_with_target_npc = false>>
 
 {$name}: Good day stranger.
 -> Hello
