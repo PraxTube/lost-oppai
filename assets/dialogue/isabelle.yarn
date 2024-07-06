@@ -1,13 +1,144 @@
 title: Isabelle
 ---
-<<set $name to "_Isabelle">>
+<<set $name = "_Isabelle">>
 <<set $target_npc = "Jotem">>
 <<set $talked_with_target_npc = false>>
 
-{$name}: Good day stranger.
--> Hello
-    {$name}: Are you also out enjoying the beatiful sun today?
--> Hey, how are you doing?
--> Hi, what are up to out here?
+{$name}: Hello, stranger. You look like you have had quite a day.
+-> Hello, yes sort of.
+    {$name}: What are you doing out here? Are you lost?
+    -> Yes...
+    <<jump IsabelleHelpsPai>>
+
+===
+title: IsabelleHelpsPai
+---
+
+{$name}: Well, then how about I give you a hand?
+{$name}: I live around this area.
+{$name}: When it's a beatiful sunny day like today, I like to take a stroll.
+{$name}: I suppose you aren't taking a leisurely stroll?
+-> I am not. I don't remember anything, I just woke up in the middle of the road.
+    {$name}: Wait, what?
+    {$name}: So you don't even know how you got here?
+    {$name}: Where are you from then?
+    You: I... I don't remember.
+    {$name}: Hm... OH! How rude of me, I didn't even introduce myself yet!
+    <<set $name = "Isabelle">>
+    {$name}: I am Isabelle, who are you?
+    -> I am Pai, nice to meet you.
+        {$name}: So you at least remember your name!
+        {$name}: It's also nice to meet you, Pai.
+        {$name}: Is there anything else you remember besides your name?
+        -> No... not really. Only that this feeling of being lost seems familiar.
+            {$name}: Huh.
+            {$name}: Could it be that you are lost in a more general way in life?
+            -> That... may be the case.
+                <<jump IsabelleLifeAdvice>>
+
+
+===
+title: IsabelleLifeAdvice
+---
+
+{$name}: I see. Well that's nothing bad though.
+{$name}: You still seem pretty young.
+{$name}: I have met people that changed their lifes for the better when they were way older.
+{$name}: It's never to late to change directions.
+{$name}: Or to find one in the first place I guess.
+{$name}: What are you struggling with the most?
+-> Kind of... everything. What does it mean to be happy? That kind.
+    {$name}: I see...
+    {$name}: Some might tell you that it's following your purpose.
+    {$name}: Or that you need to have a dream that you fully commit yourself to.
+    {$name}: And there is absolutely nothing wrong with that.
+    {$name}: In fact it can be very freeing to just commit yourself to something.
+    {$name}: For me however, happyness comes from enjoying the little things.
+    {$name}: Enjoying what is, not what was or could.
+    {$name}: Enjoying the hear and now and time spend with others.
+    -> I have heard that before. You may say that, but it's something else to actually life like it.
+        {$name}: That is true of course.
+        {$name}: But let me just give you this one advice.
+        {$name}: Treasure your relationships with others.
+        {$name}: Treat the people that are dear to you with the respect and kindness they deserve.
+        {$name}: If you give love and kindness, it will come back to you.
+        {$name}: You never know how much time you will have left with them.
+        {$name}: Often times it's even outside of your control.
+        {$name}: So you better treasure the moment you have and enjoy what is.
+        {$name}: Sounds reasonable?
+        -> Hm, I suppose.
+            {$name}: You still seem hesitant.
+            {$name}: Oh yeah!
+            {$name}: How about this then?
+            <<jump IsabelleProposal>>
+
+===
+title: IsabelleProposal
+---
+
+{$name}: You can life with me for a while.
+{$name}: My husband and I started a family not too long ago.
+{$name}: It's still quite chaotic with the kids, so I could use a helping hand.
+{$name}: How about you life with us?
+{$name}: You help us out with chores and I will show you how to enjoy the simple life.
+-> I don't know, seems very sudden.
+    {$name}: Right, of course.
+    {$name}: In that case, why don't you talk with an old acquaintance of mine.
+    {$name}: He goes by the name of Jotem and is and adventurer.
+    {$name}: I meet him often on my strolls as he likes to train in this area.
+    {$name}: He should be around here somewhere.
+    {$name}: Why don't you talk to him and tell me about your decision after?
+    -> Okay, I will give it a try.
+        {$name}: Awesome! I will be waiting here for you then.
+        {$name}: Safe trip! And don't get lost ^_^
+        <<jump IsabelleWaiting>>
+
+===
+title: IsabelleWaiting
+---
+
+...
+<<if $talked_with_target_npc>>
+{$name}: Had a chat with old Jotem?
+-> Yep
+    <<jump IsabelleTalkedWithTarget>>
+<<else>>
+{$name}: Had a chat with old Jotem?
+-> No, not yet.
+-> I can't find him.
+-> Yes
+    <<if $talked_with_target_npc>>
+        <<jump IsabelleTalkedWithTarget>>
+    <<else>>
+        {$name}: Really? That didn't sound very confident.
+        {$name}: If you don't want to talk to him that's fine.
+        {$name}: But I think it could give you another perspective.
+    <<endif>>
+<<endif>>
+
+<<jump IsabelleWaiting>>
+
+===
+title: IsabelleTalkedWithTarget
+---
+
+{$name}: Oh really? Did you manage to decide?
+{$name}: Are you going to come life with me and my family?
+{$name}: And try to find peace and happyness in living in the moment.
+{$name}: Finding meaning in the simple life.
+-> Yes, I will come with you.
+    <<jump IsabelleFinalAct>>
+
+===
+title: IsabelleFinalAct
+---
+
+{$name}: Great!
+{$name}: What was your final reason to decide to come with me?
+-> I think what you said makes sense. I want to try to life more in the moment and appreciate the small things more.
+    {$name}: Well said!
+    {$name}: In that case, how about we get going?
+    -> Let's go *Join Isabelle*
+    <<trigger_ending {$name}>>
 
 ===
