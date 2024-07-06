@@ -98,7 +98,7 @@ fn fade_in_black_screen(
 
     *is_finished = true;
     let tween = Tween::new(
-        EaseFunction::CubicIn,
+        EaseFunction::QuadraticIn,
         std::time::Duration::from_secs_f32(BLACK_OUT_FADE_DURATION),
         UiBackgroundColorLens {
             start: START_COLOR,
