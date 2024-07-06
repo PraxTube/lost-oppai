@@ -1,4 +1,5 @@
 use std::{
+    collections::HashSet,
     fs::{self, DirEntry},
     io::Error,
     str::FromStr,
@@ -40,9 +41,10 @@ fn try_read_yarn_contents(entry: Result<DirEntry, Error>) -> Option<(String, Str
     None
 }
 
-fn validate_lines<F>(predicate: F)
+/// Loop over all yarn files in `PATH_TO_DIR` and apply the predicate on each line.
+fn validate_lines<F>(mut predicate: F)
 where
-    F: Fn(&str, &str),
+    F: FnMut(&str, &str),
 {
     for entry in fs::read_dir(PATH_TO_DIR).expect("Can't read entries in current dir") {
         let (contents, npc_file_name) = match try_read_yarn_contents(entry) {
@@ -141,6 +143,52 @@ fn validate_npc_names_existence() {
 }
 
 #[test]
+fn validate_node_title_uniqueness() {
+    let mut titles = HashSet::new();
+
+    validate_lines(|line, npc_file_name| {
+        if let Some(title) = line.strip_prefix("title: ") {
+            assert!(
+                titles.insert(title.to_string()),
+                "Title already exists! title: {title}, in file: {npc_file_name}",
+            );
+        }
+    });
+}
+
+/// This test ensures that all yarn files only jump to nodes that are within that file.
+/// While it works to jump to nodes that are definied in other files,
+/// I don't see any reason to make use of this feature in this game.
+/// It seems like it will just lead to bugs.
+#[test]
+fn validate_node_exists() {
+    fn format_title_with_file(title: &str, file: &str) -> String {
+        format!("{title}-{file}")
+    }
+
+    let mut titles_with_file = HashSet::new();
+
+    validate_lines(|line, npc_file_name| {
+        if let Some(title) = line.strip_prefix("title: ") {
+            titles_with_file.insert(format_title_with_file(title, npc_file_name));
+        }
+    });
+
+    validate_lines(|line, npc_file_name| {
+        if let Some(command) = line.strip_prefix("<<jump ") {
+            let title = command.trim_end_matches(">>");
+            let title_with_file = format_title_with_file(title, npc_file_name);
+            assert!(
+                titles_with_file.contains(&title_with_file),
+                "Referenced title: '{title}' in file: '{npc_file_name}' doesn't exist! (jump command)"
+            );
+        }
+    });
+}
+
+/// Ensures that the name is the same as the yarn file.
+/// This will only work for single NPC dialogues.
+#[test]
 fn match_names_with_files() {
     validate_lines(|line, npc_file_name| {
         if line.starts_with("<<set $name") {
@@ -163,6 +211,7 @@ fn match_names_with_files() {
     });
 }
 
+/// Make sure all required variables are set in each yarn file.
 #[test]
 fn check_all_required_variables() {
     for entry in fs::read_dir(PATH_TO_DIR).expect("Can't read entries in current dir") {
