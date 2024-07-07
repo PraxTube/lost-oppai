@@ -9,6 +9,9 @@ use crate::{GameAssets, GameState};
 
 use super::{chat::PlayerStoppedChat, input::PlayerInput, Player};
 
+// Used to make sure we always play up/down animation when player moves diagonally.
+const MOVEMENT_ANIMATION_ANGLE_BUFFER: f32 = 0.05;
+
 #[derive(Debug, Default, PartialEq, Clone, Copy)]
 pub enum PlayerState {
     #[default]
@@ -90,28 +93,30 @@ fn switch_player_move_state(
 
 fn update_animation(
     assets: Res<GameAssets>,
-    mut q_player: Query<(&Velocity, &mut AnimationPlayer2D, &Player)>,
+    mut q_player: Query<(&mut AnimationPlayer2D, &Player)>,
 ) {
-    let (velocity, mut animator, player) = match q_player.get_single_mut() {
+    let (mut animator, player) = match q_player.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
 
-    let dir = if velocity.linvel == Vec2::ZERO {
-        if player.current_direction == Vec2::ZERO {
-            Vec2::NEG_X
-        } else {
-            player.current_direction
-        }
+    let dir = if player.current_direction == Vec2::ZERO {
+        Vec2::NEG_X
     } else {
-        velocity.linvel
+        player.current_direction
     };
 
     let angle = Vec2::X.angle_between(dir);
-    let direction_index = if (-3.0 / 4.0 * PI..=-1.0 / 4.0 * PI).contains(&angle) {
+    let direction_index = if (-3.0 / 4.0 * PI - MOVEMENT_ANIMATION_ANGLE_BUFFER
+        ..=-1.0 / 4.0 * PI + MOVEMENT_ANIMATION_ANGLE_BUFFER)
+        .contains(&angle)
+    {
         // Down
         0
-    } else if (1.0 / 4.0 * PI..=3.0 / 4.0 * PI).contains(&angle) {
+    } else if (1.0 / 4.0 * PI - MOVEMENT_ANIMATION_ANGLE_BUFFER
+        ..=3.0 / 4.0 * PI + MOVEMENT_ANIMATION_ANGLE_BUFFER)
+        .contains(&angle)
+    {
         // Up
         3
     } else if !(-3.0 / 4.0 * PI..=3.0 / 4.0 * PI).contains(&angle) {

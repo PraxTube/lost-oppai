@@ -55,7 +55,7 @@ title: IsabelleLifeAdvice
     {$name}: In fact it can be very freeing to just commit yourself to something.
     {$name}: For me however, happyness comes from enjoying the little things.
     {$name}: Enjoying what is, not what was or could.
-    {$name}: Enjoying the hear and now and time spend with others.
+    {$name}: Enjoying the here and now and time spend with others.
     -> I have heard that before. You may say that, but it's something else to actually life like it.
         {$name}: That is true of course.
         {$name}: But let me just give you this one advice.
@@ -63,7 +63,6 @@ title: IsabelleLifeAdvice
         {$name}: Treat the people that are dear to you with the respect and kindness they deserve.
         {$name}: If you give love and kindness, it will come back to you.
         {$name}: You never know how much time you will have left with them.
-        {$name}: Often times it's even outside of your control.
         {$name}: So you better treasure the moment you have and enjoy what is.
         {$name}: Sounds reasonable?
         -> Hm, I suppose.
@@ -91,6 +90,7 @@ title: IsabelleProposal
     -> Okay, I will give it a try.
         {$name}: Awesome! I will be waiting here for you then.
         {$name}: Safe trip! And don't get lost ^_^
+        <<stop_chat>>
         <<jump IsabelleWaiting>>
 
 ===
@@ -125,7 +125,6 @@ title: IsabelleTalkedWithTarget
 {$name}: Oh really? Did you manage to decide?
 {$name}: Are you going to come life with me and my family?
 {$name}: And try to find peace and happyness in living in the moment.
-{$name}: Finding meaning in the simple life.
 -> Yes, I will come with you.
     <<jump IsabelleFinalAct>>
 
