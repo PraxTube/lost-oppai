@@ -2,7 +2,7 @@ use std::f32::consts::PI;
 
 use rand::{thread_rng, Rng};
 
-use bevy::prelude::*;
+use bevy::{prelude::*, utils::HashSet};
 use bevy_particle_systems::{
     CircleSegment, ColorOverTime, Curve, CurvePoint, EmitterShape, JitteredValue, Noise2D,
     ParticleSystem, ParticleSystemBundle, Playing, VectorOverTime, VelocityModifier,
@@ -201,12 +201,12 @@ fn spawn_flora(
     assets: &Res<GameAssets>,
     bitmap: &mut ResMut<BitMap>,
     chunk_pos: IVec2,
-    pos: Vec2,
+    ipos: IVec2,
     radius: f32,
 ) {
     let v = IVec2::new(
-        pos.x.floor() as i32 + chunk_pos.x * CHUNK_SIZE as i32,
-        pos.y.floor() as i32 + chunk_pos.y * CHUNK_SIZE as i32,
+        ipos.x + chunk_pos.x * CHUNK_SIZE as i32,
+        ipos.y + chunk_pos.y * CHUNK_SIZE as i32,
     );
     let pos = TILE_SIZE * Vec3::new(v.x as f32, v.y as f32, 0.0);
 
@@ -255,17 +255,28 @@ fn spawn_flora_chunks(
     for ev in ev_spawned_chunk.read() {
         let seed =
             bitmap.seed() as u64 + ev.pos.x.unsigned_abs() as u64 + ev.pos.y.unsigned_abs() as u64;
-        let points_with_radius = generate_poisson_points_variable_radii(
+
+        // Because we discretize our positions here, we have to make sure that no two
+        // flora positions map to the same IVec2.
+        // We filter out any duplicates with a HashSet.
+        let mut unique_points = HashSet::new();
+        let points_with_radius: Vec<(IVec2, f32)> = generate_poisson_points_variable_radii(
             MIN_RADIUS,
             MAX_RADIUS,
             CHUNK_SIZE as f32 * Vec2::ONE,
             REJECTION_ITER,
             seed,
-        );
-        for p_r in points_with_radius {
-            let (x, y, r) = (p_r.x, p_r.y, p_r.z);
-            let point = Vec2::new(x, y);
-            spawn_flora(&mut commands, &assets, &mut bitmap, ev.pos, point, r);
+        )
+        .into_iter()
+        .map(|p_r| {
+            let v = IVec2::new(p_r.x.floor() as i32, p_r.y.floor() as i32);
+            (v, p_r.z)
+        })
+        .filter(|(p, _)| unique_points.insert(*p))
+        .collect();
+
+        for (p, r) in points_with_radius {
+            spawn_flora(&mut commands, &assets, &mut bitmap, ev.pos, p, r);
         }
     }
 }
