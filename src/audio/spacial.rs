@@ -55,7 +55,7 @@ fn update_volumes(
 
 fn cleanup_stopped_spacial_instances(
     mut emitters: Query<&mut AudioEmitter>,
-    instances: ResMut<Assets<AudioInstance>>,
+    instances: Res<Assets<AudioInstance>>,
 ) {
     for mut emitter in emitters.iter_mut() {
         let handles = &mut emitter.instances;

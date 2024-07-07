@@ -1,6 +1,10 @@
-use std::f32::consts::{PI, TAU};
+use std::{
+    f32::consts::{PI, TAU},
+    time::Duration,
+};
 
 use bevy::prelude::*;
+use bevy_kira_audio::prelude::*;
 use bevy_trickfilm::animation::AnimationPlayer2D;
 use rand::{thread_rng, Rng};
 
@@ -33,15 +37,17 @@ struct Bird {
     old_state: BirdState,
     action_timer: Timer,
     move_dir: Vec2,
+    flapping_sound_container: Entity,
 }
 
 impl Bird {
-    fn new(move_dir: Vec2) -> Self {
+    fn new(move_dir: Vec2, flapping_sound_container: Entity) -> Self {
         Self {
             state: BirdState::default(),
             old_state: BirdState::default(),
             action_timer: Timer::from_seconds(1.0, TimerMode::Repeating),
             move_dir,
+            flapping_sound_container,
         }
     }
 }
@@ -67,12 +73,14 @@ fn spawn_bird(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2, move
         ))
         .id();
 
+    let flapping_sound_container = commands.spawn(SpatialBundle::default()).id();
+
     let mut animator = AnimationPlayer2D::default();
     animator.play(assets.bird_animations[0].clone()).repeat();
 
     commands
         .spawn((
-            Bird::new(move_dir),
+            Bird::new(move_dir, flapping_sound_container),
             YSort(-8.0),
             animator,
             SpriteSheetBundle {
@@ -82,7 +90,7 @@ fn spawn_bird(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2, move
                 ..default()
             },
         ))
-        .push_children(&[shadow]);
+        .push_children(&[shadow, flapping_sound_container]);
 }
 
 fn spawn_initial_birds(mut commands: Commands, assets: Res<GameAssets>) {
@@ -295,6 +303,45 @@ fn play_bird_step_sounds(
     }
 }
 
+fn play_bird_flap_sounds(
+    assets: Res<GameAssets>,
+    q_birds: Query<&Bird>,
+    mut ev_play_sound: EventWriter<PlaySound>,
+) {
+    for bird in &q_birds {
+        if bird.state == BirdState::Flying && bird.old_state != BirdState::Flying {
+            ev_play_sound.send(PlaySound {
+                clip: assets.bird_flaps_sound.clone(),
+                repeat: true,
+                parent: Some(bird.flapping_sound_container),
+                volume: 2.5,
+                rand_speed_intensity: 0.2,
+                ..default()
+            })
+        }
+    }
+}
+
+fn stop_bird_flap_sounds(
+    mut instances: ResMut<Assets<AudioInstance>>,
+    q_emitters: Query<(&Parent, &AudioEmitter)>,
+    q_birds: Query<&Bird>,
+) {
+    for bird in &q_birds {
+        if bird.state != BirdState::Flying && bird.old_state == BirdState::Flying {
+            for (parent, emitter) in &q_emitters {
+                if parent.get() == bird.flapping_sound_container {
+                    emitter.instances.iter().for_each(|instance_handle| {
+                        if let Some(instance) = instances.get_mut(instance_handle) {
+                            instance.stop(AudioTween::linear(Duration::from_millis(600)));
+                        }
+                    });
+                }
+            }
+        }
+    }
+}
+
 fn update_old_bird_state(mut q_birds: Query<&mut Bird>) {
     for mut bird in &mut q_birds {
         bird.old_state = bird.state;
@@ -317,6 +364,8 @@ impl Plugin for FaunaPlugin {
                     play_bird_animations,
                     move_birds,
                     play_bird_step_sounds,
+                    play_bird_flap_sounds,
+                    stop_bird_flap_sounds,
                     update_old_bird_state,
                 )
                     .chain(),
