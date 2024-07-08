@@ -21,6 +21,9 @@ pub enum NpcDialogue {
     Joanna,
     Jotem,
     Isabelle,
+    IonasAndAntonius,
+    Ionas,
+    Antonius,
 }
 
 pub struct NpcPlugin;
@@ -219,11 +222,113 @@ fn spawn_isabelle(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) 
         .push_children(&[collider]);
 }
 
+fn spawn_antonius(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) -> Entity {
+    let transform = Transform::from_translation(pos.extend(0.0));
+    let mut animator = AnimationPlayer2D::default();
+    animator
+        .play(assets.antonius_animations[0].clone())
+        .repeat();
+
+    let shadow = commands
+        .spawn((
+            YSortChild(-1.0),
+            SpriteBundle {
+                texture: assets.antonius_shadow.clone(),
+                ..default()
+            },
+        ))
+        .id();
+
+    let collider = commands
+        .spawn((
+            Collider::ball(8.0),
+            ActiveEvents::COLLISION_EVENTS,
+            CollisionGroups::default(),
+            TransformBundle::from_transform(Transform::from_translation(Vec3::new(
+                0.0, -16.0, 0.0,
+            ))),
+        ))
+        .id();
+
+    commands
+        .spawn((
+            animator,
+            SpriteSheetBundle {
+                transform,
+                texture_atlas: assets.antonius.clone(),
+                ..default()
+            },
+        ))
+        .push_children(&[collider, shadow])
+        .id()
+}
+
+fn spawn_ionas(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) -> Entity {
+    let transform = Transform::from_translation(pos.extend(0.0));
+    let mut animator = AnimationPlayer2D::default();
+    animator.play(assets.ionas_animations[0].clone()).repeat();
+
+    let shadow = commands
+        .spawn((
+            YSortChild(-1.0),
+            SpriteBundle {
+                texture: assets.antonius_shadow.clone(),
+                ..default()
+            },
+        ))
+        .id();
+
+    let collider = commands
+        .spawn((
+            Collider::ball(8.0),
+            ActiveEvents::COLLISION_EVENTS,
+            CollisionGroups::default(),
+            TransformBundle::from_transform(Transform::from_translation(Vec3::new(
+                0.0, -16.0, 0.0,
+            ))),
+        ))
+        .id();
+
+    commands
+        .spawn((
+            animator,
+            SpriteSheetBundle {
+                transform,
+                texture_atlas: assets.ionas.clone(),
+                sprite: TextureAtlasSprite {
+                    flip_x: true,
+                    ..default()
+                },
+                ..default()
+            },
+        ))
+        .push_children(&[collider, shadow])
+        .id()
+}
+
+fn spawn_antonius_and_ionas(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) {
+    let offset = Vec2::new(-20.0, 0.0);
+    let antonius = spawn_antonius(commands, assets, offset);
+    let ionas = spawn_ionas(commands, assets, -offset);
+
+    commands
+        .spawn((
+            YSort(0.0),
+            Npc::new(NpcDialogue::IonasAndAntonius),
+            SpatialBundle {
+                transform: Transform::from_translation(pos.extend(0.0)),
+                ..default()
+            },
+        ))
+        .push_children(&[antonius, ionas]);
+}
+
 fn spawn_npcs(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets>) {
     spawn_eleonore(&mut commands, &assets, Vec2::new(-200.0, -200.0));
     spawn_joanna(&mut commands, &assets, bitmap.get_hotspot(1));
     spawn_jotem(&mut commands, &assets, Vec2::ZERO);
     spawn_isabelle(&mut commands, &assets, bitmap.get_hotspot(2));
+    spawn_antonius_and_ionas(&mut commands, &assets, Vec2::new(200.0, 200.0));
 }
 
 fn face_player(

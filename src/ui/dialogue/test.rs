@@ -13,7 +13,7 @@ const PATH_TO_DIR: &str = "assets/dialogue";
 
 const MAX_SIMILARITY_DISTANCE: usize = 4;
 
-const REQUIRED_VARIABLES: [&str; 3] = ["name", "target_npc", "talked_with_target_npc"];
+const REQUIRED_VARIABLES: [&str; 2] = ["target_npc", "talked_with_target_npc"];
 
 fn try_read_yarn_contents(entry: Result<DirEntry, Error>) -> Option<(String, String)> {
     let entry = entry.expect("Can't get entry in current dir");
@@ -113,7 +113,23 @@ fn validate_stop_chat_command() {
 fn validate_trigger_ending() {
     validate_lines(|line, _| {
         if line.starts_with("<<trigger_ending") {
-            assert!(line == "<<trigger_ending {$name}>>");
+            let name = line.split(" ").collect::<Vec<&str>>()[1].trim_end_matches(">>");
+
+            if name.starts_with("\"") {
+                assert!(
+                    NpcDialogue::from_str(
+                        name.strip_prefix("\"")
+                            .expect(&format!("Not a string in, {}", line))
+                            .strip_suffix("\"")
+                            .expect(&format!("Not a string in, {}", line))
+                    )
+                    .is_ok(),
+                    "Given name is not in NpcDialogue, {}",
+                    line
+                );
+            } else {
+                assert!(line == "<<trigger_ending {$name}>>");
+            }
         }
     })
 }

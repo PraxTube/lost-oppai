@@ -1,0 +1,12 @@
+title: IonasAndAntonius
+---
+<<set $ionas to "_Ionas">>
+<<set $antonius to "_Antonius">>
+<<set $target_npc = "Jotem">>
+<<set $talked_with_target_npc = false>>
+
+{$antonius}: -that's is why I see it differently.
+{$ionas}: Yeah I understand... oh, hey there.
+<<trigger_ending "IonasAndAntonius">>
+
+===

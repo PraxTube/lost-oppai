@@ -22,6 +22,8 @@ https://seliel-the-shaper.itch.io/spring-forest
     - https://atari-boy.itch.io/oldherocharacter
 - Isabelle
     - https://ansimuz.itch.io/gothicvania-town
+- Ionas & Antonius
+    - https://gandalfhardcore.itch.io/free-pixel-art
 
 ### Bird
 

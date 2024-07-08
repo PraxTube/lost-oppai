@@ -59,6 +59,20 @@ pub struct GameAssets {
     #[asset(paths("npc/isabelle.trickfilm#idle",), collection(typed))]
     pub isabelle_animations: Vec<Handle<AnimationClip2D>>,
 
+    #[asset(texture_atlas(tile_size_x = 80.0, tile_size_y = 80.0, columns = 5, rows = 1))]
+    #[asset(path = "npc/antonius.png")]
+    pub antonius: Handle<TextureAtlas>,
+    #[asset(paths("npc/antonius.trickfilm#idle",), collection(typed))]
+    pub antonius_animations: Vec<Handle<AnimationClip2D>>,
+    #[asset(path = "npc/antonius_shadow.png")]
+    pub antonius_shadow: Handle<Image>,
+
+    #[asset(texture_atlas(tile_size_x = 80.0, tile_size_y = 80.0, columns = 5, rows = 1))]
+    #[asset(path = "npc/ionas.png")]
+    pub ionas: Handle<TextureAtlas>,
+    #[asset(paths("npc/ionas.trickfilm#idle",), collection(typed))]
+    pub ionas_animations: Vec<Handle<AnimationClip2D>>,
+
     // --- MAP ---
     #[asset(path = "map/tileset.png")]
     pub tileset: Handle<Image>,

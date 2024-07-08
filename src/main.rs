@@ -60,6 +60,7 @@ fn main() {
                 YarnFileSource::file("dialogue/joanna.yarn"),
                 YarnFileSource::file("dialogue/jotem.yarn"),
                 YarnFileSource::file("dialogue/isabelle.yarn"),
+                YarnFileSource::file("dialogue/ionas-and-antonius.yarn"),
             ]),
             TweeningPlugin,
         ))

@@ -41,6 +41,9 @@ fn spawn_header_text(
         NpcDialogue::Eleonore => "Pai joins Eleonore",
         NpcDialogue::Joanna => "Pai joins Joanna",
         NpcDialogue::Isabelle => "Pai joins Isabelle",
+        NpcDialogue::IonasAndAntonius => "Pai joins Ionas & Antonius",
+        NpcDialogue::Ionas => "SHOULD NEVER HAPPEN",
+        NpcDialogue::Antonius => "SHOULD NEVER HAPPEN",
     };
     commands
         .spawn((
@@ -64,6 +67,9 @@ fn spawn_body_text(
         NpcDialogue::Eleonore => "Ending: Witch's Apprentice",
         NpcDialogue::Joanna => "Ending: TMP",
         NpcDialogue::Isabelle => "Ending: Farm Girl",
+        NpcDialogue::IonasAndAntonius => "Ending: Truth Seeker",
+        NpcDialogue::Ionas => "SHOULD NEVER HAPPEN",
+        NpcDialogue::Antonius => "SHOULD NEVER HAPPEN",
     };
     commands
         .spawn((
@@ -72,7 +78,7 @@ fn spawn_body_text(
                 z_index: ZIndex::Local(1),
                 ..default()
             },
-            WriteableText::new(text, 0.15, 4.5),
+            WriteableText::new(text, 0.15, 6.5),
         ))
         .id()
 }

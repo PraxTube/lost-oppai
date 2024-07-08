@@ -229,6 +229,9 @@ fn set_writer_speed(
                 NpcDialogue::Eleonore => 20.0,
                 NpcDialogue::Joanna => 23.0,
                 NpcDialogue::Isabelle => 20.0,
+                NpcDialogue::Ionas => 16.0,
+                NpcDialogue::Antonius => 19.0,
+                NpcDialogue::IonasAndAntonius => 300.0,
             }
         } else {
             match name {
