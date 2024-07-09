@@ -12,8 +12,8 @@ use crate::{
 use super::camera::YSort;
 
 const FADE_OUT_DURATION: f32 = 2.0;
-const BLACK_OUT_FADE_DURATION: f32 = 5.0;
-const BLACK_OUT_DELAY: f32 = 12.0;
+const BLACK_OUT_FADE_DURATION: f32 = 4.5;
+const BLACK_OUT_DELAY: f32 = 10.0;
 const START_COLOR: Color = Color::rgba(0.0, 0.0, 0.0, 0.0);
 const END_COLOR: Color = Color::rgba(0.0, 0.0, 0.0, 1.0);
 
