@@ -102,58 +102,35 @@ fn spawn_initial_birds(mut commands: Commands, assets: Res<GameAssets>) {
     }
 }
 
-fn spawn_birds(
-    mut commands: Commands,
-    assets: Res<GameAssets>,
-    q_player: Query<(&Transform, &Player)>,
-    q_birds: Query<With<Bird>>,
+fn teleport_birds(
+    q_player: Query<(&Transform, &Player), Without<Bird>>,
+    mut q_birds: Query<&mut Transform, With<Bird>>,
 ) {
     let (player_transform, player) = match q_player.get_single() {
         Ok(r) => r,
         Err(_) => return,
     };
 
-    if q_birds.iter().len() >= MAX_BIRD_COUNT {
-        return;
-    }
-
-    let mut rng = thread_rng();
-
-    let dir = player.average_direction().normalize_or_zero();
-    if dir == Vec2::ZERO {
-        return;
-    }
-    let offset =
-        Vec2::new(rng.gen_range(-1.0..1.0), rng.gen_range(-1.0..0.0)) * RANDOM_OFFSET_DISTANCE;
-    let pos = player_transform.translation.truncate() + dir * SPAWN_DISTANCE + offset;
-
-    spawn_bird(
-        &mut commands,
-        &assets,
-        pos,
-        (pos - player_transform.translation.truncate()).normalize_or_zero(),
-    );
-}
-
-fn despawn_birds(
-    mut commands: Commands,
-    q_player: Query<&Transform, (With<Player>, Without<Bird>)>,
-    mut q_birds: Query<(Entity, &Transform), With<Bird>>,
-) {
-    let player_transform = match q_player.get_single() {
-        Ok(r) => r,
-        Err(_) => return,
-    };
-
-    for (entity, transform) in &mut q_birds {
+    for mut transform in &mut q_birds {
         let dis = transform
             .translation
             .truncate()
             .distance_squared(player_transform.translation.truncate());
 
-        if dis >= DESPAWN_DISTANCE.powi(2) {
-            commands.entity(entity).despawn_recursive();
+        if dis < DESPAWN_DISTANCE.powi(2) {
+            continue;
         }
+
+        let mut rng = thread_rng();
+
+        let dir = player.average_direction().normalize_or_zero();
+        if dir == Vec2::ZERO {
+            return;
+        }
+        let offset =
+            Vec2::new(rng.gen_range(-1.0..1.0), rng.gen_range(-1.0..0.0)) * RANDOM_OFFSET_DISTANCE;
+        transform.translation =
+            (player_transform.translation.truncate() + dir * SPAWN_DISTANCE + offset).extend(0.0);
     }
 }
 
@@ -355,8 +332,7 @@ impl Plugin for FaunaPlugin {
         app.add_systems(
             Update,
             (
-                spawn_birds,
-                despawn_birds,
+                teleport_birds,
                 (
                     check_player_bird_distances,
                     pick_random_actions,
