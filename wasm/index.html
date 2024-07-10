@@ -1,7 +1,21 @@
 <!doctype html>
 <html lang="en">
 
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
 <body style="margin: 0px;">
+  <div class="game-container">
+    <canvas id="bevy">
+      Javascript and canvas support is required
+    </canvas>
+    <div id="loading">
+      <span class="loader"></span>
+    </div>
+  </div>
+
   <script type="module">
     import './restart-audio-context.js'
     import init from './bevy_game.js'
@@ -11,7 +25,16 @@
         throw error;
       }
     });
+
+    // Hide loading screen when the game starts
+    const bevy = document.getElementById('bevy');
+    const loading = document.getElementById('loading');
+    const observer = new MutationObserver(() => {
+      if (bevy.height > 1) {
+        loading.style.display = 'none';
+      }
+    });
+    observer.observe(bevy, { attributes: true });
   </script>
 </body>
-
 </html>
