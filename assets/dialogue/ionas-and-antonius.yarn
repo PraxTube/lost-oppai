@@ -5,8 +5,133 @@ title: IonasAndAntonius
 <<set $target_npc = "Jotem">>
 <<set $talked_with_target_npc = false>>
 
-{$antonius}: -that's is why I see it differently.
-{$ionas}: Yeah I understand... oh, hey there.
-<<trigger_ending "IonasAndAntonius">>
+{$antonius}: and that's where I see it differently.
+{$ionas}: Hm, yes I think I- oh, hey there.
+-> Hi, where you two in the middle of a conversation?
+    {$ionas}: Yeah kind of.
+    {$antonius}: Don't worry about it.
+    <<set $ionas to "Ionas">>
+    <<set $antonius to "Antonius">>
+    {$antonius}: I am Antonius, and this is Ionas.
+    {$ionas}: Nice to meet you.
+    {$antonius}: And you are?
+    -> I am Pai, also nice to meet you.
+        {$antonius}: Pai, huh?
+        {$antonius}: I have got a question for you Pai.
+        {$antonius}: Do you believe in a god?
+        -> That's sudden. But no, I don't.
+            {$antonius}: Hahaha, yeah perhaps from your view.
+            {$antonius}: We have been talking about just this.
+            <<jump PaiDoesntBelieve>>
+
+
+===
+title: PaiDoesntBelieve
+---
+
+{$antonius}: So you don't believe in a god then.
+{$antonius}: Me neither, I am an atheist.
+{$antonius}: Ionas over here does believe in a god.
+{$antonius}: We have been talking about our differing worldviews.
+{$antonius}: I agree with what his religion considers good and bad.
+{$antonius}: The do's and dont's essentially.
+{$antonius}: However we see the world fundamentally different.
+{$antonius}: Different in terms of subjective or objective truth.
+-> How can truth be subjective?
+    {$ionas}: Yeah it doesn't make much sense by definition.
+    {$ionas}: What Antonius is talking about is whether there even is such a thing as truth.
+    {$antonius}: That's right, thanks.
+    {$antonius}: I believe that there isn't such a thing as a source of truth.
+    {$antonius}: At least not in the real world as we perceive it.
+    {$antonius}: We cannot be sure of anything in this world.
+    {$antonius}: Nothing is certain, there are no proofs for anything.
+    {$antonius}: All there is, is evidence.
+    {$antonius}: The only exception being mathematics, but that isn't tangible.
+    {$ionas}: That one we agree on.
+    {$ionas}: Mathematics is separat to our perceivable world.
+    {$ionas}: But I disagree with a subjective truths.
+    {$ionas}: There must be a definite truth to everything.
+    {$ionas}: Anything else doesn't make any sense.
+    {$antonius}: This is actually really interesting.
+    {$antonius}: Because it's the foundation of our believes.
+    {$antonius}: What do you think about this Pai?
+    {$antonius}: Do you believe in a subjective or objective worldivew?
+    -> I think I need some more context before answering.
+        {$antonius}: Yeah that's reasonable.
+        {$antonius}: In that case, Ionas, why don't you define the terms here.
+        {$antonius}: You are better at this than I am.
+        {$ionas}: Okay sure.
+        <<jump SubjectiveAndObjectiveWorldview>>
+
+===
+title: SubjectiveAndObjectiveWorldview
+---
+
+{$ionas}: When I talk about an objective worldview, I mean the following.
+{$ionas}: Take a persons moral views.
+{$ionas}: Who gets to decide which morals are right or wrong?
+{$ionas}: To me the only logical answer is that god who created us decides this.
+{$ionas}: So god is the objective truth, he defines what is true and what false.
+{$ionas}: This applies to everything, not just moral.
+{$ionas}: What is happyness, the purpose of life, being lucky in life, everything.
+{$ionas}: God is truth, god is love. // I don't quite understand this god is love thing, I have seen that a lot of times now but don't quite get how it works exactly
+{$ionas}: Whether something is morally correct or not is something we don't decide.
+{$ionas}: It's something god defined.
+{$ionas}: We can only try our best to get close to this truth.
+{$ionas}: ... That's about what I mean with objective worldview.
+{$antonius}: It's so interesting, I have a completely different perspective.
+{$antonius}: For me, the logical conclusion what is morally right or wrong must be subjective.
+{$antonius}: Whether something is considered lucky or good, must be inherently subjective.
+{$ionas}: This however means, that if somebody thinks murder is okay, then he would be correct?
+{$antonius}: That's the thing, correct and incorrect, right and wrong, I think it doesn't make that much sense.
+{$antonius}: Like, okay. From his perspective, yes, he would think it's correct or okay.
+{$antonius}: But that doesn't mean that I agree with it.
+{$antonius}: It doesn't mean just because he thinks it's okay I must acknowledge it.
+{$antonius}: I too, have a set of rules and standards I think are correct or moral.
+{$ionas}: But then how do you know those are the correct or the right ones?
+{$ionas}: Why would you ever change your moral values if you always think they are subjectively correct?
+{$antonius}: I think every human has an innate dream.
+{$antonius}: A goal they want to achieve, whatever that may be.
+{$antonius}: Your morals are the constrains you set yourself for achieving your dream.
+{$antonius}: Knowledge and experience can influence your believes.
+{$antonius}: And believe can change a man.
+-> I am not quite following
+-> ... *say nothing*
+{$ionas}: But that doesn't answer the question.
+{$ionas}: Even if your morals can change, how do you even know they are changing for the better?
+{$antonius}: I think you evaluate it based on how it affects your life.
+{$antonius}: Morals are a way to guide you through life, if they have a positive effect, you keep them.
+{$antonius}: If they don't, you throw them out.
+{$ionas}: How do you define positive effect?
+{$ionas}: If you are an assassian and your morals help you with murder, is that positive?
+{$antonius}: It's true that it might make life easier in the short term.
+{$antonius}: But I firmly believe that violence always sparks more violence.
+{$antonius}: It may take a while, but in the long term, violence is a net negative.
+{$antonius}: Conflict in general is.
+{$antonius}: Opposite to that is cooperation.
+{$antonius}: It may come with downsides in the short term, but is a net positive in the long run.
+{$antonius}: That is also why I admire your religions dedication to forgiveness so much.
+{$antonius}: It sparks cooperation.
+{$ionas}: Hm, that is actually a pretty interesting point.
+{$ionas}: Though how does that relate to your moral standards?
+{$ionas}: I still don't see how morality makes sense in your worldview.
+{$antonius}: For me, morals are a way to set yourself rules.
+{$antonius}: Rules that are meant to protect you from taking decisions you will regret.
+{$antonius}: Sure, you might not regret killing a person in the moment.
+{$antonius}: There might even be people out there that don't regret it their entire life.
+{$antonius}: But I have never once regretted helping another person.
+{$antonius}: I did regret hurting others though.
+{$antonius}: And again, I don't think that you should never change your morals.
+{$antonius}: It's something you learn through experience.
+{$antonius}: We could also look at this from the perspective of evolution.
+{$antonius}: Those people without morals might have it easier at first.
+{$antonius}: But it will come back to bite them later.
+{$antonius}: They are more likely to get into trouble and have a harder time to build a family.
+{$antonius}: Which means they have less offspring to teach their morals to.
+{$antonius}: So over time, morals get more cooperative.
+{$antonius}: Though I know that evolution is another huge topic, we don't need to go into that one.
+{$ionas}: I was about to say...
+{$ionas}: Though I think I understand what you mean.
+{$ionas}: Ultimately, it seems like we just see this differently on a fundamental level.
 
 ===
