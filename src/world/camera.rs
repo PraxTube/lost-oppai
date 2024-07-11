@@ -1,11 +1,11 @@
-use bevy::prelude::*;
 use bevy::render::camera::ScalingMode;
 #[cfg(not(target_arch = "wasm32"))]
 use bevy::render::view::screenshot::ScreenshotManager;
 #[cfg(not(target_arch = "wasm32"))]
 use bevy::window::{PrimaryWindow, WindowMode};
+use bevy::{prelude::*, transform::TransformSystem};
 use bevy_kira_audio::prelude::AudioReceiver;
-use bevy_rapier2d::dynamics::Velocity;
+use bevy_rapier2d::plugin::PhysicsSet;
 
 use super::camera_shake::{update_camera, CameraShake};
 use crate::player::input::PlayerInput;
@@ -21,9 +21,6 @@ use crate::GameState;
 // too large values will lead to overflow of the 1000 range
 // (in which case they won't get rendered on the camera anymore).
 const YSORT_SCALE: f32 = 0.0001;
-// This is not changing the actual timestep,
-// it's just a way to reduce magic numbers in code.
-const RAPIER_TIMESTEP: f32 = 60.0;
 const PROJECTION_SCALE: f32 = 200.0;
 
 #[derive(Component)]
@@ -94,19 +91,13 @@ fn spawn_camera(mut commands: Commands) {
     commands.spawn((MainCamera, camera, AudioReceiver));
 }
 
-fn update_camera_target(
-    mut shake: ResMut<CameraShake>,
-    q_player: Query<(&Transform, &Velocity), With<Player>>,
-) {
-    let (player_pos, player_vel) = match q_player.get_single() {
-        Ok(p) => (p.0.translation, p.1),
+fn update_camera_target(mut shake: ResMut<CameraShake>, q_player: Query<&Transform, With<Player>>) {
+    let player_transform = match q_player.get_single() {
+        Ok(r) => r,
         Err(_) => return,
     };
 
-    shake.update_target(Vec2::new(
-        player_pos.x + player_vel.linvel.x / RAPIER_TIMESTEP,
-        player_pos.y + player_vel.linvel.y / RAPIER_TIMESTEP,
-    ));
+    shake.update_target(player_transform.translation.truncate());
 }
 
 fn zoom_camera(
@@ -190,6 +181,12 @@ impl Plugin for CameraPlugin {
             ),
         )
         .add_systems(OnEnter(GameState::Gaming), spawn_camera)
-        .add_systems(PostUpdate, update_camera_target.before(update_camera));
+        .add_systems(
+            PostUpdate,
+            update_camera_target
+                .after(PhysicsSet::Writeback)
+                .before(TransformSystem::TransformPropagate)
+                .before(update_camera),
+        );
     }
 }
