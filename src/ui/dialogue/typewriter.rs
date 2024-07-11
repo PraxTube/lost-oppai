@@ -8,12 +8,19 @@ use bevy_yarnspinner::{events::*, prelude::*};
 
 use crate::npc::NpcDialogue;
 use crate::player::chat::PlayerStoppedChat;
+use crate::utils::DebugActive;
 use crate::{GameAssets, GameState};
 
 use super::audio::PlayBlipEvent;
 use super::option_selection::OptionSelection;
 use super::spawn::{create_dialogue_text, DialogueContent, DialogueContinueNode};
 use super::DialogueViewSystemSet;
+
+// Write dialogue instantly, for going through dialogue fast.
+const DEBUG_SPEED: f32 = 1000.0;
+// The average speed over all people.
+// It's used to calculate the multiplier of the pauses caused by punctuation.
+const AVERAGE_SPEED: f32 = 22.5;
 
 #[derive(Event)]
 pub struct TypewriterFinished;
@@ -42,7 +49,9 @@ impl Default for Typewriter {
             elapsed: default(),
             start: Instant::now(),
             last_finished: default(),
-            current_speed: 25.0,
+            // We set this high so we can see when things go wrong.
+            // The speed in game should never be this number!
+            current_speed: 100.0,
         }
     }
 }
@@ -54,6 +63,7 @@ impl Typewriter {
             current_text: line.text_without_character_name(),
             last_finished: true,
             last_before_options: line.is_last_line_before_options(),
+            // This fn can get called AFTER setting writer speed
             current_speed: self.current_speed,
             ..default()
         }
@@ -69,6 +79,7 @@ impl Typewriter {
                 .map(|s| s.to_string())
                 .collect(),
             last_before_options: line.is_last_line_before_options(),
+            // This fn can get called AFTER setting writer speed
             current_speed: self.current_speed,
             ..default()
         };
@@ -82,10 +93,6 @@ impl Typewriter {
         self.graphemes_left.is_empty() && !self.current_text.is_empty()
     }
 
-    pub fn set_type_speed(&mut self, speed: f32) {
-        self.current_speed = speed;
-    }
-
     fn update_current_text(&mut self) -> String {
         if self.is_finished() {
             return String::new();
@@ -93,29 +100,29 @@ impl Typewriter {
         self.elapsed += self.start.elapsed().as_secs_f32();
         self.start = Instant::now();
 
-        let calculated_graphemes = (self.graphemes_per_second() * self.elapsed).floor() as usize;
+        let calculated_graphemes = (self.current_speed * self.elapsed).floor() as usize;
         let graphemes_left = self.graphemes_left.len();
         let grapheme_length_to_take = (calculated_graphemes).min(graphemes_left);
 
-        self.elapsed -= grapheme_length_to_take as f32 / self.graphemes_per_second();
+        self.elapsed -= grapheme_length_to_take as f32 / self.current_speed;
         let graphemes_to_take = self
             .graphemes_left
             .drain(..grapheme_length_to_take)
             .collect::<Vec<String>>()
             .concat();
-        if graphemes_to_take.contains('.') {
-            self.elapsed -= 0.2;
-        } else if graphemes_to_take.contains('?') {
-            self.elapsed -= 0.35;
+
+        let multiplier = AVERAGE_SPEED / self.current_speed;
+        if graphemes_to_take.contains('?') {
+            self.elapsed -= 0.35 * multiplier;
+        } else if graphemes_to_take.contains('-') {
+            self.elapsed -= 0.25 * multiplier;
+        } else if graphemes_to_take.contains('.') {
+            self.elapsed -= 0.2 * multiplier;
         } else if graphemes_to_take.contains(',') {
-            self.elapsed -= 0.1;
+            self.elapsed -= 0.1 * multiplier;
         }
         self.current_text += &graphemes_to_take;
         graphemes_to_take.to_string()
-    }
-
-    fn graphemes_per_second(&self) -> f32 {
-        self.current_speed
     }
 
     fn finish_current_line(&mut self) {
@@ -213,10 +220,16 @@ fn finish_stopped_dialoauge(
 }
 
 fn set_writer_speed(
+    debug_active: Res<DebugActive>,
     mut typewriter: ResMut<Typewriter>,
     mut ev_present_line: EventReader<PresentLineEvent>,
 ) {
     for ev in ev_present_line.read() {
+        if **debug_active {
+            typewriter.current_speed = DEBUG_SPEED;
+            continue;
+        }
+
         let name = ev
             .line
             .character_name()
@@ -239,7 +252,7 @@ fn set_writer_speed(
                 _ => 15.0,
             }
         };
-        typewriter.set_type_speed(speed);
+        typewriter.current_speed = speed;
     }
 }
 
