@@ -21,7 +21,7 @@ fn try_read_yarn_contents(entry: Result<DirEntry, Error>) -> Option<(String, Str
         .file_name()
         .into_string()
         .expect("Can't convert OsString to String")
-        .split(".")
+        .split('.')
         .collect::<Vec<&str>>()[0]
         .to_string();
     let path = entry.path();
@@ -113,15 +113,15 @@ fn validate_stop_chat_command() {
 fn validate_trigger_ending() {
     validate_lines(|line, _| {
         if line.starts_with("<<trigger_ending") {
-            let name = line.split(" ").collect::<Vec<&str>>()[1].trim_end_matches(">>");
+            let name = line.split(' ').collect::<Vec<&str>>()[1].trim_end_matches(">>");
 
-            if name.starts_with("\"") {
+            if name.starts_with('"') {
                 assert!(
                     NpcDialogue::from_str(
-                        name.strip_prefix("\"")
-                            .expect(&format!("Not a string in, {}", line))
-                            .strip_suffix("\"")
-                            .expect(&format!("Not a string in, {}", line))
+                        name.strip_prefix('"')
+                            .unwrap_or_else(|| panic!("Not a string in, {}", line))
+                            .strip_suffix('"')
+                            .unwrap_or_else(|| panic!("Not a string in, {}", line))
                     )
                     .is_ok(),
                     "Given name is not in NpcDialogue, {}",
@@ -138,7 +138,7 @@ fn validate_trigger_ending() {
 fn validate_npc_names_existence() {
     validate_lines(|line, _| {
         if line.starts_with("<<set $name") || line.starts_with("<<set $target_npc") {
-            let parts: Vec<&str> = line.split("\"").collect();
+            let parts: Vec<&str> = line.split('"').collect();
             assert!(
                 parts.len() == 3,
                 "Length of parts is not 3, instead it's {}, {:?}",
@@ -146,7 +146,7 @@ fn validate_npc_names_existence() {
                 parts
             );
 
-            let npc_name = parts[1].trim_start_matches("_");
+            let npc_name = parts[1].trim_start_matches('_');
             match NpcDialogue::from_str(npc_name) {
                 Ok(_) => {}
                 Err(err) => panic!(
@@ -208,7 +208,7 @@ fn validate_node_exists() {
 fn match_names_with_files() {
     validate_lines(|line, npc_file_name| {
         if line.starts_with("<<set $name") {
-            let parts: Vec<&str> = line.split("\"").collect();
+            let parts: Vec<&str> = line.split('"').collect();
             assert!(
                 parts.len() == 3,
                 "Length of parts is not 3, instead it's {}, {:?}",
@@ -216,7 +216,7 @@ fn match_names_with_files() {
                 parts
             );
 
-            let npc_name = parts[1].trim_start_matches("_");
+            let npc_name = parts[1].trim_start_matches('_');
             if npc_name.to_lowercase() != npc_file_name {
                 panic!(
                     "Name of npc is {} in yarn file, but yarn file is named {}",
@@ -244,7 +244,7 @@ fn check_all_required_variables() {
 
         for line in contents.lines().map(str::trim) {
             if line.starts_with("<<set ") {
-                let command = line.split(' ').collect::<Vec<&str>>()[1].trim_start_matches("$");
+                let command = line.split(' ').collect::<Vec<&str>>()[1].trim_start_matches('$');
                 if let Some(index) = REQUIRED_VARIABLES.iter().position(|cmd| *cmd == command) {
                     contains_variables[index] = true;
                 }
