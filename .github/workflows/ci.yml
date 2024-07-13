@@ -38,8 +38,10 @@ jobs:
           cargo -V
           cargo clippy -V
           cargo fmt -- -V
-      - name: Run cargo test
+      - name: Run tests
         run: cargo test
+      - name: Print dialogue lines
+        run: cargo run --bin dialogue_lines
 
   clippy_check:
     name: Clippy
