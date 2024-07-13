@@ -3,7 +3,10 @@ use std::{
     io::Error,
 };
 
+use bevy::utils::HashMap;
+
 const PATH_TO_DIR: &str = "assets/dialogue";
+const MAX_NPC_DISPLAY_NAME: usize = 16;
 
 fn try_read_yarn_contents(entry: Result<DirEntry, Error>) -> Option<(String, String)> {
     let entry = entry.expect("Can't get entry in current dir");
@@ -78,8 +81,44 @@ fn number_player_lines() -> usize {
     number_of_lines
 }
 
+fn print_individual_npc_lines() {
+    let mut npc_lines: HashMap<String, usize> = HashMap::new();
+
+    apply_to_lines(|line, file_name| {
+        let line_parts = line.split('}').collect::<Vec<&str>>();
+        let (name_with_prefix, rest) = if line_parts.len() == 2 {
+            (line_parts[0], line_parts[1])
+        } else {
+            return;
+        };
+
+        if !rest.starts_with(':') {
+            return;
+        }
+
+        if let Some(name) = name_with_prefix.strip_prefix("{$") {
+            let name = if name == "name" { file_name } else { name };
+            match npc_lines.get_mut(name) {
+                Some(r) => *r += 1,
+                None => assert!(npc_lines.insert(name.to_string(), 1).is_none()),
+            };
+        }
+    });
+
+    let mut npc_lines_vec = npc_lines.into_iter().collect::<Vec<(String, usize)>>();
+    npc_lines_vec.sort_by(|x, y| y.1.cmp(&x.1));
+
+    for (key, value) in npc_lines_vec {
+        let chars = key.chars().count();
+        assert!(chars <= MAX_NPC_DISPLAY_NAME);
+        let npc_display_name = key + &" ".repeat(MAX_NPC_DISPLAY_NAME - chars);
+        println!("  {}: {}", npc_display_name, value);
+    }
+}
+
 fn main() {
-    println!("Total NPC lines: {}", number_npc_lines());
     println!("Total player lines: {}", number_player_lines());
     println!("Total player options: {}", number_player_options());
+    println!("Total NPC lines: {}", number_npc_lines());
+    print_individual_npc_lines();
 }
