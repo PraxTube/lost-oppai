@@ -225,7 +225,7 @@ title: FinalAct
     {$name}: Haha! Very well then.
     {$name}: Then how about I lent ya a hand with that?
     -> Yes! *Join Jotem*
-    <<trigger_ending {$name}>>
+        <<trigger_ending {$name}>>
 -> I wish to be more free. I think being an adventurer is very freeing.
 -> Just wanna try it out.
 -> A
