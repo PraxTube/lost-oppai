@@ -1,154 +1,175 @@
 title: Eleonore
 ---
-<<set $target_npc = "Jotem">>
-<<set $talked_with_target_npc = false>>
-<<set $mentioned_by_Jotem = false>>
-
 <<set $name to "_Eleonore">>
-<<set $self_introduction to false>>
+<<set $target_npc = "Isabelle">>
+<<set $talked_with_target_npc = false>>
 
 {$name}: Oh hey there.
-{$name}: Are you alright? You seem kinda... lost.
--> Where am I?
-    {$name}: So you are lost then.
-    {$name}: How did you even get here if you don't even know where you are? *sight*
-    You: Ey...
-    <<jump Location>>
--> Who are you?
-    {$name}: Asking me to introduce myself before you introduce yourself first huh?
-    <<jump EleonoreIntroduction>>
--> Woah, are you hovering?
-    {$name}: Oh? Is this your first time you see this kind of magic?
-    {$name}: It's a levitation spell, it's a fairly basic one too.
-    -> Magic spell? Where on earth are we?
-        {$name}: Earth? Wow girl, you really are lost.
-        <<jump Location>>
-    -> There must be trick, like a string pulling you up or something.
--> Are you Eleonore? Jotem told me to talk with you. <<if $mentioned_by_Jotem>>
-
-===
-
-title: Location
----
-{$name}: We are in a grassy field near the Kingdom of Aurelia.
-{$name}: Few people manage to come here as the neighboring terrain is very dangerous.
--> Kingdom Aurelia? Never heard about it.
-    {$name}: Really? It's the second largest kingdom there is.
-    {$name}: You must come from a village in the goons if you haven't even heard about it.
-    -> I must be dreaming, I was just sleeping in my bed in Tokyo.
-    -> No, I was born and raised in a metropolis.
--> The neighboring terrain?
-    {$name}: Yeah, it's mostly poisonous swamps.
-    {$name}: Only skilled adventures are able to make it through there.
-    -> Adventures?
-    -> What about you then? Are you strong?
-        {$name}: Who knows? Maybe I will show you later.
-        <<if $self_introduction is false>>
-            {$name}: First though, how about you tell me a bit about yourself? I don't even know your name!
-            <<jump Oppai>>
-        <<endif>>
-
-===
-
-title: Oppai
----
-...
--> *Introduce yourself*
-    You: My name is Pai, Op Pai, and I am-
-    You: I am...
-    You: ...
-    You: Eh? I don't remember.
-    {$name}: What?!
-    {$name}: Then how did you- Where did you- Who did you-...
-    {$name}: Huuuh...
-    {$name}: Though I guess that explains why you are so lost.
-    {$name}: You also have a strange name, but oh well, nice to meet you Pai.
-    <<if $name is "???">>
+-> Hi. Wait are you flying?
+    {$name}: First time?
+    {$name}: Guess there aren't that many mages around here.
+    {$name}: Yeah I am using a spell to levitate.
+    {$name}: By your reaction I assume your are from some small village?
+    -> I, I actually don't remember.
+        {$name}: Huh? You don't remember were you are coming from?
+        {$name}: Then how did you get here?
+        You: I don't remember either.
+        You: I just woke up in the middle of the road.
+        {$name}: Hm... could be the doing of a spell.
         <<set $name to "Eleonore">>
         {$name}: I am Eleonore by the way.
+        {$name}: Do you at least remember your name?
+        -> Yes, I am Pai, nice to meet you.
+            {$name}: Oh, it also seems like you didn't forget your manners!
+            {$name}: Nice to meet you too, Pai.
+            -> You said something about mages? What do you mean by that?
+                {$name}: Oh that.
+                {$name}: Yeah I guess you wouldn't know given your state.
+                <<jump EleonoreIsAMage>>
+===
+title: EleonoreIsAMage
+---
+
+{$name}: So mages are people that can manipulate mana.
+{$name}: Either their own or that of the environment.
+{$name}: It's what allows me to hover like this.
+{$name}: To me, magic is the most beatiful thing in the world.
+{$name}: I have dedicated my whole life into the study of the craft.
+{$name}: You see, I am actually not just any mage, I am a witch.
+-> A witch? How is that different?
+    {$name}: Oh right, you don't know ~_~
+    {$name}: It basically means I am a very powerful mage.
+    {$name}: I mean to say that I dedicated an extraordinary amount of time into learnig about magic.
+    {$name}: There isn't anything more fascinating than magic.
+    -> What's so amazing about magic?
+        {$name}: Oh girl, what isn't?!
+        {$name}: The endless amounts of possibilities, the complexity and depth.
+        {$name}: There is so much that you will never be able to know everything.
+        {$name}: But most importanly, it's just fun.
+        {$name}: It's my dream to create the most powerful fire spell.
+        -> Your dream is surprisingly... childish.
+            {$name}: Hahaha ey, that's my dream you are talking about!
+            {$name}: But yes, it is.
+            {$name}: However, is there a need to have some grandious and meaningful dream?
+            {$name}: I get to do what I love and help others through it.
+            {$name}: But it isn't easy, you know.
+            {$name}: Everything worth pursuing is difficult.
+            {$name}: It's important to have the right mindset.
+            <<jump EleonoreLowTimePreference>>
+
+===
+title: EleonoreLowTimePreference
+---
+
+{$name}: Do you know about the concept of time preference?
+-> No, what is that?
+    {$name}: It's a concept from economics.
+    {$name}: It indicates how much an entity is willing to sacrifice future benifits for the short term gain.
+    {$name}: A high time preference indicates a high want for instanst satisfaction.
+    {$name}: And a low time preference means you are more willing to delay your satisfaction for a bigger reward.
+    {$name}: However I think it applies to much more, not just money.
+    {$name}: For example, a person deciding to workout and strengthen their body indicates a low time preference.
+    {$name}: Choosing to go do hard work for delayed payoff.
+    {$name}: What would you say, Pai.
+    {$name}: Do you have a high or low time preference?
+    -> I think I have a high time preference.
+    -> I think I have a low time preference.
+        {$name}: Really? That would be great.
+        {$name}: Most people benifit from a lower time preference.
+        {$name}: Of course this depends on the circumstances though.
+        {$name}: But my point with this was to say the following.
+        {$name}: If you want to achieve your dream, you must adopt a low time preference.
+        {$name}: Any dream worth having is going to be hard to achieve!
+        {$name}: You will inevitably hit a wall.
+        {$name}: And no matter how motivated you are, no matter how much you love your craft.
+        {$name}: The time will come were this fire will burn out.
+        {$name}: I love magic more than anybody I know, yet even I reached this point.
+        {$name}: It's important to take care of your mind and body.
+        {$name}: You are likely to fail if you try to rush to get to your goal.
+        {$name}: Instead think for the long run.
+        {$name}: Slow and steady wins it all.
+        -> But wouldn't that mean that you are always living in the future and never in the present?
+            {$name}: Not quite.
+            <<jump EleonoreLivingInThePresent>>
+    -> Which one is better?
+
+===
+title: EleonoreLivingInThePresent
+---
+
+{$name}: Planning ahead and living in the moment are not mutually exclusive.
+{$name}: I plan ahead to not live with any regrets.
+{$name}: I think of it like planting seeds for a future harvest.
+{$name}: You still need to tend to them daily, living fully in the present while also preparing for a fulfilling future.
+{$name}: It helps me treassure my love for magic even more.
+{$name}: What about you Pai, do you have anything that deeply fascinates you?
+-> Hm, yes, I actually do.
+    {$name}: Oh really? I expected you to not remember.
+    {$name}: But that is great.
+    {$name}: I think every human should have something like this.
+    {$name}: So are you acting on this fascination?
+    {$name}: Are you following this drive?
+    -> ... Not really.
+        {$name}: That's a shame. I know it's hard.
+        {$name}: I would not be were I am now without the help of my mentor.
+        {$name}: Oh! What about this then?
+        {$name}: How about I become your mentor?
+        {$name}: Show you how to live with a low time preference and to foster your ambitions.
+        {$name}: Do you want to become my apprentice, Pai?
+        -> Wow... that's quite sudden.
+            {$name}: I suppose.
+            {$name}: Hm, how about you speak with certain a someone then?
+            {$name}: There lives a girl around here called Isabelle.
+            {$name}: She is a simple country girl but it's really interesting to talk with her.
+            {$name}: I learned from her how to treassure the moment.
+            {$name}: Why don't you talk with her, perhaps that will help you to decide?
+            -> Hm, I guess I can talk to her.
+                {$name}: Awesome.
+                {$name}: I will be waiting here for you.
+                {$name}: See ya in a bit.
+                <<stop_chat>>
+                <<jump EleonoreWaiting>>
+
+===
+title: EleonoreWaiting
+---
+
+...
+<<if $talked_with_target_npc>>
+{$name}: Did you talk with Isabelle?
+-> I did.
+    <<jump TalkedWithIsabelle>>
+<<else>>
+{$name}: Did you talk with Isabelle?
+-> No, not yet.
+-> I can't find her.
+-> Yes
+    <<if $talked_with_target_npc>>
+        <<jump TalkedWithIsabelle>>
+    <<else>>
+        {$name}: Hm, really? Your mana is telling me that is a lie.
+        {$name}: I am not forcing you.
+        {$name}: But I think it could be helpful for you.
     <<endif>>
--> How about you introduce yourself first? <<if $name is "???">>
-    {$name}: Wow, not a lot of people talk to me like that you know?
-    {$name}: Fine.
-    <<jump EleonoreIntroduction>>
+<<endif>>
+<<jump EleonoreWaiting>>
 
 ===
-
-title: EleonoreIntroduction
+title: TalkedWithIsabelle
 ---
-<<set $name to "Eleonore">>
-{$name}: I am Eleonore, as you might have noticed I am a magic user.
-{$name}: To be more precise, I am a witch.
--> A witch? Does that mean you are evil?
-    {$name}: Hm, that's a difficult question. Isn't every evil person only evil from the perspective of someone else?
-    {$name}: Most "evil" people don't see themselves as "evil", so asking me whether or not I am "evil" is a bit of an odd thing to do, don't you think?
-    -> You are dodging the question.
-        {$name}: I am saying that asking me such a question is pointless, as most people see themselves as a "good" person, even those who are considered "evil" by the majority.
-        {$name}: But no, I am not evil. Happy now?
-        -> What differentiates witches from normal people?
-        -> Fine, so anyways, where are we?
-            <<jump Location>>
-    -> That would imply that there is no good or bad and that it's instead a matter of perspective.
-    -> I don't understand what you are getting at.
--> Magic user? What does that mean?
 
-===
-
-title: TeleportationMagic
----
-{$name}: ...There are rumors of some ancient grimoires that contain magic that could describe what is going on here...
-{$name}: Teleportation magic.
-{$name}: Magic to summon people from different worlds into this one.
-{$name}: Though those are merely rumors, and in the past two thousand years there were never any records of this kind of magic.
--> You mean... I was transported to a different world?
-    <<jump SummonMagic>>
--> Maybe I am just dreaming?
-    {$name}: You aren't, though I guess that's not very convincing huh?
-    {$name}: Pinch your nose and try to breath in.
-    *You follow the instructions but can't breath.*
-    You: Ah, nope, I am suffocating.
-    {$name}: See? You aren't dreaming then.
-    -> Uh, so I was transported to a different world?
-        <<jump SummonMagic>>
-    -> I'm not sold.
-        {$name}: Hmph, I guess if you have never seen magic before that's a normal reaction.
-        {$name}: However I can't really do much more to convince you.
-        {$name}: You just did a reality check, so if you are still having doubts then that's all I can do.
-        {$name}: What you are asking is the equivalent to "How do I know I exist, how do I know the world truly exists?".
-        {$name}: A rather philosophical question, a question we by definition don't know the answer to.
-        You: Okay, fine. So I was transported to a different world?
-        <<jump SummonMagic>>
-    
-===
-
-title: SummonMagic
----
-{$name}: That's at least what I consider to be most likely.
-{$name}: Though only an extremely powerful and old mage could have pulled that off.
--> Hm, there was nobody around when I woke up.
-    {$name}: I see. In that case it might be that you were transported by accident, or that something happened during the spell.
-    {$name}: This does mean that it will be harder for you to get back though, as we don't even know how you got here in the first place.
--> An extremely powerful mage? More powerful then you?
-    {$name}: Haha, yeah much more powerful then me. Teleportation magic isn't even considered possible you know.
-    {$name}: For someone to have summoned you here from another world they much be immensly powerful.
-    -> I see, so you aren't able to return me home I assume?
-        {$name}: Nope, not a chance. If I would have the griomoire... maybe.
-        {$name}: But to begin with, that grimoire is considered to be nothing more then a fairy tail.
-        {$name}: Would you like to return home?
-        -> Yeah of course!
-            {$name}: Haha, I see. I understand, though I don't wanna get your hopes up.
-            {$name}: Don't get me wrong, I am willing to help you but it's very unlikely I will succeed.
-            {$name}: To start with, I would need the griomoire to even get started.
-        -> Wouldn't you?
-        -> I don't know. I would like to explore this world a bit first.
-            {$name}: I see. You said you don't have magic in your world right? Guess that must be quite interesting.
-            -> Yeah! You think I could become a mage too?
-            -> A different world in general is very interesting.
-        -> Hm, actually, no.
-            {$name}: Oh really? That's a bit surprising. Why is that?
-            -> A world filled with magic? Of course I don't wanna go back!
-            -> I have no reason to.
-            -> It's a shitty world with shitty people.
-    -> Any idea how we could find the one who summoned me?
+{$name}: Cool. How did it go?
+{$name}: Did you learn something, were you able to decide?
+-> Yes, I will become your apprentice.
+    {$name}: Really? Awesome!
+    {$name}: I would like to know though, what was the final reason for you to join me?
+    -> It's not just one thing. But I guess I simply don't want to regret not joining you. I think this is a rare opportunity.
+        {$name}: Hahaha, well that much is certain.
+        {$name}: There aren't many witches who would just take in an apprentice like that.
+        {$name}: But I feel like you are special.
+        {$name}: Alright then, shall we?
+        {$name}: I will show you all I know about magic and how to live your life so you will not have any regrets.
+        -> Yes please! *Join Eleonore*
+            <<trigger_ending {$name}>>
 
 ===

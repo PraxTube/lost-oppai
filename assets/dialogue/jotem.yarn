@@ -195,7 +195,6 @@ title: JotemWaiting
         {$name}: But I think it would be very helpful for you.
     <<endif>>
 <<endif>>
-
 <<jump JotemWaiting>>
 
 ===
