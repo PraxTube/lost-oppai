@@ -20,7 +20,7 @@ use super::DialogueViewSystemSet;
 const DEBUG_SPEED: f32 = 1000.0;
 // The average speed over all people.
 // It's used to calculate the multiplier of the pauses caused by punctuation.
-const AVERAGE_SPEED: f32 = 22.5;
+const AVERAGE_SPEED: f32 = 20.0;
 
 #[derive(Event)]
 pub struct TypewriterFinished;
@@ -240,11 +240,14 @@ fn set_writer_speed(
             match npc {
                 NpcDialogue::Jotem => 18.0,
                 NpcDialogue::Eleonore => 20.0,
-                NpcDialogue::Joanna => 23.0,
                 NpcDialogue::Isabelle => 20.0,
                 NpcDialogue::Ionas => 16.0,
                 NpcDialogue::Antonius => 19.0,
+                NpcDialogue::Sven => 18.0,
+                NpcDialogue::Joanna => 21.0,
+                NpcDialogue::Dorothea => 19.0,
                 NpcDialogue::IonasAndAntonius => 300.0,
+                NpcDialogue::Paladins => 300.0,
             }
         } else {
             match name {

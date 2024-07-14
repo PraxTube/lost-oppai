@@ -37,14 +37,6 @@ pub struct GameAssets {
     #[asset(path = "npc/eleonore_shadow.png")]
     pub eleonore_shadow: Handle<TextureAtlas>,
 
-    #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 64.0, columns = 18, rows = 1))]
-    #[asset(path = "npc/joanna.png")]
-    pub joanna: Handle<TextureAtlas>,
-    #[asset(paths("npc/joanna.trickfilm#idle",), collection(typed))]
-    pub joanna_animatins: Vec<Handle<AnimationClip2D>>,
-    #[asset(path = "npc/joanna_shadow.png")]
-    pub joanna_shadow: Handle<Image>,
-
     #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 64.0, columns = 6, rows = 1))]
     #[asset(path = "npc/jotem.png")]
     pub jotem: Handle<TextureAtlas>,
@@ -72,6 +64,24 @@ pub struct GameAssets {
     pub ionas: Handle<TextureAtlas>,
     #[asset(paths("npc/ionas.trickfilm#idle",), collection(typed))]
     pub ionas_animations: Vec<Handle<AnimationClip2D>>,
+
+    #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 80.0, columns = 8, rows = 1))]
+    #[asset(path = "npc/sven.png")]
+    pub sven: Handle<TextureAtlas>,
+    #[asset(paths("npc/sven.trickfilm#idle",), collection(typed))]
+    pub sven_animations: Vec<Handle<AnimationClip2D>>,
+
+    #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 64.0, columns = 18, rows = 1))]
+    #[asset(path = "npc/joanna.png")]
+    pub joanna: Handle<TextureAtlas>,
+    #[asset(paths("npc/joanna.trickfilm#idle",), collection(typed))]
+    pub joanna_animatins: Vec<Handle<AnimationClip2D>>,
+
+    #[asset(texture_atlas(tile_size_x = 32.0, tile_size_y = 48.0, columns = 6, rows = 1))]
+    #[asset(path = "npc/dorothea.png")]
+    pub dorothea: Handle<TextureAtlas>,
+    #[asset(paths("npc/dorothea.trickfilm#idle",), collection(typed))]
+    pub dorothea_animations: Vec<Handle<AnimationClip2D>>,
 
     // --- MAP ---
     #[asset(path = "map/tileset.png")]

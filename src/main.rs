@@ -57,10 +57,10 @@ fn main() {
             Animation2DPlugin,
             YarnSpinnerPlugin::with_yarn_sources([
                 YarnFileSource::file("dialogue/eleonore.yarn"),
-                YarnFileSource::file("dialogue/joanna.yarn"),
                 YarnFileSource::file("dialogue/jotem.yarn"),
                 YarnFileSource::file("dialogue/isabelle.yarn"),
                 YarnFileSource::file("dialogue/ionas-and-antonius.yarn"),
+                YarnFileSource::file("dialogue/paladins.yarn"),
             ]),
             TweeningPlugin,
         ))

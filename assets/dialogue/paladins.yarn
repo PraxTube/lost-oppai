@@ -1,0 +1,12 @@
+title: Paladins
+---
+<<set $sven to "_Sven">>
+<<set $joanna to "_Joanna">>
+<<set $dorothea to "_Dorothea">>
+<<set $target_npc = "IonasAndAntonius">>
+<<set $talked_with_target_npc = false>>
+
+{$sven}: Oh hey there.
+...
+
+===

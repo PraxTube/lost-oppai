@@ -46,12 +46,6 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
                 volume: 0.5,
                 ..default()
             },
-            NpcDialogue::Joanna => PlaySound {
-                clip: assets.joanna_blip_sound.clone(),
-                rand_speed_intensity: 0.01,
-                playback_rate: 1.2,
-                ..default()
-            },
             NpcDialogue::Jotem => PlaySound {
                 clip: assets.jotem_blip_sound.clone(),
                 rand_speed_intensity: 0.01,
@@ -80,9 +74,32 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
                 volume: 0.5,
                 ..default()
             },
+            NpcDialogue::Sven => PlaySound {
+                clip: assets.jotem_blip_sound.clone(),
+                rand_speed_intensity: 0.015,
+                playback_rate: 1.6,
+                volume: 0.5,
+                ..default()
+            },
+            NpcDialogue::Joanna => PlaySound {
+                clip: assets.joanna_blip_sound.clone(),
+                rand_speed_intensity: 0.01,
+                playback_rate: 1.2,
+                ..default()
+            },
+            NpcDialogue::Dorothea => PlaySound {
+                clip: assets.eleonore_blip_sound.clone(),
+                rand_speed_intensity: 0.02,
+                playback_rate: 2.0,
+                volume: 0.5,
+                ..default()
+            },
             NpcDialogue::IonasAndAntonius => PlaySound {
                 clip: assets.jotem_blip_sound.clone(),
-                volume: 0.5,
+                ..default()
+            },
+            NpcDialogue::Paladins => PlaySound {
+                clip: assets.jotem_blip_sound.clone(),
                 ..default()
             },
         },

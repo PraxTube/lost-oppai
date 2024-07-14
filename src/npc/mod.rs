@@ -9,12 +9,15 @@ use crate::player::Player;
 #[derive(Clone, Copy, Display, PartialEq, EnumString)]
 pub enum NpcDialogue {
     Eleonore,
-    Joanna,
     Jotem,
     Isabelle,
-    IonasAndAntonius,
     Ionas,
     Antonius,
+    Sven,
+    Joanna,
+    Dorothea,
+    IonasAndAntonius,
+    Paladins,
 }
 
 pub struct NpcPlugin;

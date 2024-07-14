@@ -42,8 +42,8 @@ fn spawn_story_header_text(
         NpcDialogue::Joanna => "Pai joins Joanna",
         NpcDialogue::Isabelle => "Pai joins Isabelle",
         NpcDialogue::IonasAndAntonius => "Pai joins Ionas & Antonius",
-        NpcDialogue::Ionas => "SHOULD NEVER HAPPEN",
-        NpcDialogue::Antonius => "SHOULD NEVER HAPPEN",
+        NpcDialogue::Paladins => "Pai joins the Paladins",
+        _ => "SHOULD NEVER HAPPEN",
     };
     commands
         .spawn((
@@ -68,8 +68,8 @@ fn spawn_story_body_text(
         NpcDialogue::Joanna => "Ending: TMP",
         NpcDialogue::Isabelle => "Ending: Farm Girl",
         NpcDialogue::IonasAndAntonius => "Ending: Truth Seeker",
-        NpcDialogue::Ionas => "SHOULD NEVER HAPPEN",
-        NpcDialogue::Antonius => "SHOULD NEVER HAPPEN",
+        NpcDialogue::Paladins => "Ending: Protector",
+        _ => "SHOULD NEVER HAPPEN",
     };
     commands
         .spawn((
