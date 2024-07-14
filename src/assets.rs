@@ -168,9 +168,6 @@ pub struct GameAssets {
     #[asset(path = "audio/crickets.ogg")]
     pub cricket_sounds: Handle<AudioSource>,
 
-    #[asset(path = "audio/eleonore_flap_sound.ogg")]
-    pub eleonore_flap_sound: Handle<AudioSource>,
-
     #[asset(path = "audio/pai_blip.ogg")]
     pub pai_blip_sound: Handle<AudioSource>,
     #[asset(path = "audio/eleonore_blip.ogg")]
