@@ -16,16 +16,11 @@ fn player_movement(
         Err(_) => return,
     };
 
-    if player.state == PlayerState::Talking {
+    let direction = player_input.move_direction;
+    if player.state == PlayerState::Talking || direction == Vec2::ZERO {
         velocity.linvel = Vec2::ZERO;
         return;
     };
-
-    let direction = player_input.move_direction;
-    if direction == Vec2::default() {
-        velocity.linvel = Vec2::ZERO;
-        return;
-    }
 
     let speed = if player.state == PlayerState::Running {
         RUN_SPEED

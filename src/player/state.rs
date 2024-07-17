@@ -1,7 +1,7 @@
 use std::f32::consts::PI;
 
 use bevy::prelude::*;
-use bevy_rapier2d::dynamics::Velocity;
+use bevy_rapier2d::{dynamics::Velocity, plugin::PhysicsSet};
 use bevy_trickfilm::prelude::*;
 use bevy_yarnspinner::events::DialogueCompleteEvent;
 
@@ -21,51 +21,12 @@ pub enum PlayerState {
     Talking,
 }
 
-#[allow(dead_code)]
-#[derive(Event)]
-pub struct PlayerChangedState {
-    pub old_state: PlayerState,
-    pub new_state: PlayerState,
-}
-
-fn player_changed_state(
-    q_player: Query<&Player>,
-    mut ev_changed_state: EventWriter<PlayerChangedState>,
-    mut old_state: Local<PlayerState>,
-) {
-    let player = match q_player.get_single() {
-        Ok(p) => p,
-        Err(_) => return,
-    };
-
-    if player.state != *old_state {
-        ev_changed_state.send(PlayerChangedState {
-            old_state: *old_state,
-            new_state: player.state,
-        });
-        *old_state = player.state;
-    }
-}
-
-fn switch_away_talking(
-    mut q_player: Query<&mut Player>,
-    mut ev_dialogue_complete: EventReader<DialogueCompleteEvent>,
-    mut ev_player_stopped_chat: EventReader<PlayerStoppedChat>,
-) {
-    if ev_player_stopped_chat.is_empty() && ev_dialogue_complete.is_empty() {
-        return;
-    }
-    ev_player_stopped_chat.clear();
-    ev_dialogue_complete.clear();
-
+fn switch_to_idling_from_talking(mut q_player: Query<&mut Player>) {
     let mut player = match q_player.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
-
-    if player.state == PlayerState::Talking {
-        player.state = PlayerState::Idling;
-    }
+    player.state = PlayerState::Idling;
 }
 
 fn switch_player_move_state(
@@ -148,13 +109,15 @@ impl Plugin for PlayerStatePlugin {
         app.add_systems(
             PostUpdate,
             (
-                switch_away_talking,
+                switch_to_idling_from_talking.run_if(
+                    on_event::<PlayerStoppedChat>().or_else(on_event::<DialogueCompleteEvent>()),
+                ),
                 switch_player_move_state,
-                update_animation.after(switch_player_move_state),
-                player_changed_state.after(switch_player_move_state),
+                update_animation,
             )
+                .chain()
+                .before(PhysicsSet::Writeback)
                 .run_if(in_state(GameState::Gaming)),
-        )
-        .add_event::<PlayerChangedState>();
+        );
     }
 }

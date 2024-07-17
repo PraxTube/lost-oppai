@@ -77,14 +77,14 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
             NpcDialogue::Sven => PlaySound {
                 clip: assets.jotem_blip_sound.clone(),
                 rand_speed_intensity: 0.015,
-                playback_rate: 1.6,
+                playback_rate: 1.3,
                 volume: 0.5,
                 ..default()
             },
             NpcDialogue::Joanna => PlaySound {
                 clip: assets.joanna_blip_sound.clone(),
                 rand_speed_intensity: 0.01,
-                playback_rate: 1.2,
+                playback_rate: 1.0,
                 ..default()
             },
             NpcDialogue::Dorothea => PlaySound {
