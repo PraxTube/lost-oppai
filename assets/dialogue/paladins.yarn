@@ -7,6 +7,81 @@ title: Paladins
 <<set $talked_with_target_npc = false>>
 
 {$sven}: Oh hey there.
+{$dorothea}: Hey ya!
+-> Hello. Who are you people?
+    {$sven}: We are Paladins.
+    <<set $sven to "Sven">>
+    <<set $jonna to "Joanna">>
+    <<set $dorothea to "Dorothea">>
+    {$sven}: I am Sven and this is Joanna and Dorothea.
+    {$dorothea}: Pleasure!
+    {$joanna}: Hi. 
+    {$sven}: What are you doing out here?
+    {$sven}: You seem a little out of it.
+    -> I don't remember how I got here.
+        {$dorothea}: You don't know how you got here?
+        {$sven}: Hm, some kind of amnesia?
+        {$sven}: Perhaps you were attacked?
+        {$sven}: Good that you found us then!
+        -> Why is that?
+            {$sven}: You have to ask?
+            {$sven}: It's because Paladins help its citizens.
+            <<jump WhatPaladinsDo>>
+    
+===
+title: WhatPaladinsDo
+---
+
+{$sven}: I guess you might forgotten a bit more then just how you got here?
+{$dorothea}: Do you remember your name?
+You: Yes, my name is Pai.
+{$dorothea}: Ah! At least you know your name.
+{$dorothea}: Nice to meet you Pai!
+{$dorothea}: As Sven was saying, we Paladins swore an oath to protect and help any person in need.
+{$dorothea}: I would say you are just such a person, Pai.
+{$dorothea}: 
+
+===
+title: PaiBecomingAPaldin
+---
+
+{$sven}: So how about this then?
+{$sven}: Why don't you become a Paladin, Pai?
+{$joanna}: You think she would be cut out for this?
+{$dorothea}: I don't see a reason why not.
+{$dorothea}: You can hone your skills, but it's much harder to grow a kind heart.
+{$dorothea}: If you want to help and protect people in need, that is good enough.
+{$sven}: I agree.
+{$sven}: And it was only an idea anyways.
+{$sven}: Let's hear what Pai has to say first.
+-> Hm, I don't know. Don't you need a strong belief as a Paladin?
+    {$joanna}: That's right.
+    {$joanna}: You would not fit in.
+    {$dorothea}: Now now Joanna, don't be so hasty.
+    {$sven}: Yes, I wasn't a strong believer when I joined either.
+    {$sven}: My reason for joining was rather selfish in the first place.
+    {$sven}: I only thought of it as a good exceprience to become stronger.
+    {$sven}: Only over the years did I learn what is truly important to me.
+    {$sven}: Oh! I grew up with two friends that have opposite views on religion.
+    {$sven}: They are called Ionas and Antonius.
+    {$sven}: I have seen Ionas around here.
+    {$sven}: He said Antonius also comes by from time to time.
+    {$sven}: Perhaps you can talk with them?
+    {$sven}: I had some really interesting talks with them.
+    {$sven}: Maybe that could help you decide.
+    {$sven}: How about you chat with them first and let us know your decision afterwards.
+    {$joanna}: Not that it really matters.
+    {$dorothea}: I will talk some sense into Joanna while you are gone.
+    -> Okay, I will give it a try.
+        {$sven}: Alright, we will be waiting here for you.
+        {$sven}: Good luck.
+        <<stop_chat>>
+        <<jump PaladinsWaiting>>
+
+===
+title: PaladinsWaiting
+---
+
 ...
 
 ===

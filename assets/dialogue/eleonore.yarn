@@ -51,7 +51,7 @@ title: EleonoreIsAMage
             {$name}: Hahaha ey, that's my dream you are talking about!
             {$name}: But yes, it is.
             {$name}: However, is there a need to have some grandious and meaningful dream?
-            {$name}: I get to do what I love and help others through it.
+            {$name}: I get to do what I love and help others in my own way.
             {$name}: But it isn't easy, you know.
             {$name}: Everything worth pursuing is difficult.
             {$name}: It's important to have the right mindset.
@@ -66,8 +66,8 @@ title: EleonoreLowTimePreference
     {$name}: It's a concept from economics.
     {$name}: It indicates how much an entity is willing to sacrifice future benifits for the short term gain.
     {$name}: A high time preference indicates a high want for instanst satisfaction.
-    {$name}: And a low time preference means you are more willing to delay your satisfaction for a bigger reward.
-    {$name}: However I think it applies to much more, not just money.
+    {$name}: And a low time preference means you are more willing to delay your satisfaction for a bigger reward later.
+    {$name}: However, I think it applies to much more, not just money.
     {$name}: For example, a person deciding to workout and strengthen their body indicates a low time preference.
     {$name}: Choosing to go do hard work for delayed payoff.
     {$name}: What would you say, Pai.
@@ -86,7 +86,7 @@ title: EleonoreLowTimePreference
         {$name}: I love magic more than anybody I know, yet even I reached this point.
         {$name}: It's important to take care of your mind and body.
         {$name}: You are likely to fail if you try to rush to get to your goal.
-        {$name}: Instead think for the long run.
+        {$name}: Instead, think for the long run.
         {$name}: Slow and steady wins it all.
         -> But wouldn't that mean that you are always living in the future and never in the present?
             {$name}: Not quite.
@@ -118,8 +118,8 @@ title: EleonoreLivingInThePresent
         {$name}: Do you want to become my apprentice, Pai?
         -> Wow... that's quite sudden.
             {$name}: I suppose.
-            {$name}: Hm, how about you speak with certain a someone then?
-            {$name}: There lives a girl around here called Isabelle.
+            {$name}: Hm, how about you speak with a certain someone then?
+            {$name}: A girl called Isabelle lives around here.
             {$name}: She is a simple country girl but it's really interesting to talk with her.
             {$name}: I learned from her how to treassure the moment.
             {$name}: Why don't you talk with her, perhaps that will help you to decide?

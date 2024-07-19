@@ -36,12 +36,12 @@ title: PaiDoesntBelieve
 {$antonius}: I agree with what his religion considers good and bad.
 {$antonius}: The do's and dont's essentially.
 {$antonius}: However we see the world fundamentally different.
-{$antonius}: Different in terms of subjective or objective truth.
+{$antonius}: Different in terms of subjective and objective truth.
 -> How can truth be subjective?
     {$ionas}: Yeah it doesn't make much sense by definition.
     {$ionas}: What Antonius is talking about is whether there even is such a thing as truth.
     {$antonius}: That's right, thanks.
-    {$antonius}: I believe that there isn't such a thing as a source of truth.
+    {$antonius}: I don't believe there is a single source of truth.
     {$antonius}: At least not in the real world as we perceive it.
     {$antonius}: We cannot be sure of anything in this world.
     {$antonius}: Nothing is certain, there are no proofs for anything.
@@ -49,11 +49,11 @@ title: PaiDoesntBelieve
     {$antonius}: The only exception being mathematics, but that isn't tangible.
     {$ionas}: That one we agree on.
     {$ionas}: Mathematics is separat to our perceivable world.
-    {$ionas}: But I disagree with a subjective truths.
+    {$ionas}: But I disagree with the notion of subjective truths.
     {$ionas}: There must be a definite truth to everything.
     {$ionas}: Anything else doesn't make any sense.
-    {$antonius}: This is actually really interesting.
-    {$antonius}: Because it's the foundation of our believes.
+    {$antonius}: This is exactly where our views differ.
+    {$antonius}: And the lay the foundation of our believes.
     {$antonius}: What do you think about this Pai?
     {$antonius}: Do you believe in a subjective or objective worldivew?
     -> I think I need some more context before answering.
@@ -86,7 +86,7 @@ title: SubjectiveAndObjectiveWorldview
 {$antonius}: That's the thing, correct and incorrect, right and wrong, I think it doesn't make that much sense.
 {$antonius}: Like, okay. From his perspective, yes, he would think it's correct or okay.
 {$antonius}: But that doesn't mean that I agree with it.
-{$antonius}: It doesn't mean just because he thinks it's okay I must acknowledge it.
+{$antonius}: It doesn't mean that just because he thinks it's okay, that I must acknowledge it.
 {$antonius}: I too, have a set of rules and standards I think are correct or moral.
 {$ionas}: But then how do you know those are the correct or the right ones?
 {$ionas}: Why would you ever change your moral values if you always think they are subjectively correct?
@@ -112,7 +112,7 @@ title: SubjectiveAndObjectiveWorldview
 {$antonius}: It may come with downsides in the short term, but is a net positive in the long run.
 {$antonius}: That is also why I admire your religions dedication to forgiveness so much.
 {$antonius}: It sparks cooperation.
-{$ionas}: Hm, that is actually a pretty interesting point.
+{$ionas}: Hm, that is actually a pretty good point.
 {$ionas}: Though how does that relate to your moral standards?
 {$ionas}: I still don't see how morality makes sense in your worldview.
 {$antonius}: For me, morals are a way to set yourself rules.
@@ -153,8 +153,8 @@ title: SubjectiveAndObjectiveWorldview
         {$ionas}: But didn't you say you condemn murder?
         {$ionas}: What if somebody is happy when murdering?
         {$ionas}: Would he be correct in your view?
-        {$antonius}: The thing is that I truly believe that nobody actually enjoys hurting others.
-        {$antonius}: He may justify his actions in some twisted way, but I truly believe nobody is happy hurting others.
+        {$antonius}: I truly believe that nobody actually enjoys hurting others.
+        {$antonius}: He may justify his actions in some twisted way, but I just don't believe he is actually happy.
         {$ionas}: How do you define happy here?
         {$antonius}: Hahaha, I should have seen that coming.
         {$antonius}: That's a good question.
@@ -165,7 +165,7 @@ title: SubjectiveAndObjectiveWorldview
         {$antonius}: Somethig you can't achieve easily.
         {$antonius}: You can't be happy before being unhappy.
         {$antonius}: Oh! I had a chat with Jotem about something like this recently.
-        {$ionas}: With Jotem? Oh yeah I can imagine that.
+        {$ionas}: With Jotem? Oh yeah I can see that.
         {$antonius}: I think being happy means committing to your dream.
         {$antonius}: But the old guy can probably give a more profound perspective on the matter.
         {$antonius}: He always has some wisdom to share.
@@ -178,7 +178,7 @@ title: DoYouWantToJoinIonasAndAntonius
 {$antonius}: But man, I really love conversations like these.
 {$antonius}: It's unfortunately so rare to have those.
 {$antonius}: Especially with the city dwellers, I don't know what's up with that.
-{$antonius}: They seem so distracted by all their materialsm.
+{$antonius}: They seem so distracted by all their materialism.
 {$antonius}: Sometimes I wonder if they are really in control of the tools they use, or if it's the other way around.
 {$ionas}: That is also something I have observed over the last few years.
 {$ionas}: All these magic devices that make your life so much easier and convenient.
@@ -193,9 +193,8 @@ title: DoYouWantToJoinIonasAndAntonius
 {$ionas}: And I think it's the fact that they are never alone.
 {$antonius}: Yes, I think it's the lack of self reflection.
 {$antonius}: How do you expect to try to understand another human if you don't event try to understand yourself?
-{$antonius}: And conversations where you don't try to understand eachother are devoid of any depth.
-{$antonius}: But there is also something positive in this.
-{$antonius}: The fact that there aren't many opportunities like these to have such refreshing conversations just makes them even more precious.
+{$antonius}: And conversations where you don't try to understand one another are devoid of any depth.
+{$antonius}: But the fact that there aren't many opportunities like these to have such refreshing conversations just makes them even more precious.
 {$antonius}: Actually, that brings me to an idea.
 {$antonius}: How about we all live together?
 {$ionas}: Huh? That's quite sudden.
@@ -209,12 +208,13 @@ title: DoYouWantToJoinIonasAndAntonius
     You: Is it that obvious...
     {$antonius}: Yes!
     {$ionas}: Hahaha, yeah.
+    // TODO: Handle the case that Pai already talked with Jotem... how exactly do I want to handle that though?
     {$antonius}: Anyways, so you didn't chat with Jotem yet right?
     {$antonius}: How about you talk with him and decide afterwards?
     {$antonius}: In the meantime, I will convince Ionas to party up with me.
     {$ionas}: Ey, I am right here you know...
     {$antonius}: Sounds like a plan right?
-    {$antonius}: We will be waiting for you here!
+    {$antonius}: We will be waiting here for you!
     <<stop_chat>>
     <<jump IonasAndAntoniusWaiting>>
 
@@ -227,7 +227,20 @@ title: IonasAndAntoniusWaiting
 {$antonius}: Did you talk with the old guy?
 -> Yes
     <<jump TalkedWithJotem>>
+<<else>>
+{$antonius}: Did you talk with the old guy?
+-> No, not yet.
+-> I can't find her.
+-> Yes
+    <<if $talked_with_target_npc>>
+        <<jump TalkedWithJotem>>
+    <<else>>
+        {$antonius}: You sure? That sounded like a lie.
+        {$antonius}: No need to force yourself to talk to him.
+        {$antonius}: But it might reveal some wisdom to you.
+    <<endif>>
 <<endif>>
+<<jump IonasAndAntoniusWaiting>>
 
 ===
 title: TalkedWithJotem
