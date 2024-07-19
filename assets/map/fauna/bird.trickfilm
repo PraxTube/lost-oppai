@@ -1,23 +1,19 @@
-[
-    (
-        name: "idle",
+{
+    "idle": (
         keyframes: KeyframesRange((start: 0, end: 2)),
         duration: 0.4,
     ),
-    (
-        name: "jump",
+    "jump": (
         keyframes: KeyframesVec([3, 0]),
         keyframe_timestamps: Some([0.0, 0.3]),
         duration: 0.3,
     ),
-    (
-        name: "pick",
+    "pick": (
         keyframes: KeyframesRange((start: 5, end: 7)),
         duration: 0.3,
     ),
-    (
-        name: "fly",
+    "fly": (
         keyframes: KeyframesRange((start: 8, end: 16)),
         duration: 0.5,
     ),
-]
+}

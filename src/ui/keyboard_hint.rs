@@ -34,17 +34,31 @@ enum Icon {
     ShiftKey,
 }
 
-fn icon_to_texture(assets: &Res<GameAssets>, icon: &Icon) -> Handle<TextureAtlas> {
+fn icon_to_texture(
+    assets: &Res<GameAssets>,
+    icon: &Icon,
+) -> (Handle<Image>, Handle<TextureAtlasLayout>) {
     match icon {
-        Icon::DownKey => assets.ui_down_key.clone(),
-        Icon::DownArrow => assets.ui_down_key.clone(),
-        Icon::UpKey => assets.ui_up_key.clone(),
-        Icon::UpArrow => assets.ui_up_key.clone(),
-        Icon::LeftKey => assets.ui_left_key.clone(),
-        Icon::LeftArrow => assets.ui_left_key.clone(),
-        Icon::RightKey => assets.ui_right_key.clone(),
-        Icon::RightArrow => assets.ui_right_key.clone(),
-        Icon::ShiftKey => assets.ui_shift_key.clone(),
+        Icon::DownKey | Icon::DownArrow => (
+            assets.ui_down_key_texture.clone(),
+            assets.ui_down_key_layout.clone(),
+        ),
+        Icon::UpKey | Icon::UpArrow => (
+            assets.ui_up_key_texture.clone(),
+            assets.ui_up_key_layout.clone(),
+        ),
+        Icon::LeftKey | Icon::LeftArrow => (
+            assets.ui_left_key_texture.clone(),
+            assets.ui_left_key_layout.clone(),
+        ),
+        Icon::RightKey | Icon::RightArrow => (
+            assets.ui_right_key_texture.clone(),
+            assets.ui_right_key_layout.clone(),
+        ),
+        Icon::ShiftKey => (
+            assets.ui_shift_key_texture.clone(),
+            assets.ui_shift_key_layout.clone(),
+        ),
     }
 }
 
@@ -55,15 +69,19 @@ fn spawn_icon(
     icon: Icon,
     offset: Vec2,
 ) -> Entity {
-    let texture_atlas = icon_to_texture(assets, &icon);
+    let (texture, layout) = icon_to_texture(assets, &icon);
     let transform = Transform::from_translation(offset.extend(0.0));
 
     let icon = commands
         .spawn((
             KeyboardIcon,
-            SpriteSheetBundle {
+            SpriteBundle {
+                texture,
                 transform,
-                texture_atlas,
+                ..default()
+            },
+            TextureAtlas {
+                layout,
                 ..default()
             },
         ))

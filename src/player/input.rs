@@ -77,9 +77,9 @@ fn fetch_scroll_events(
     }
 }
 
-fn input_scroll(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
+fn input_scroll(keys: Res<ButtonInput<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
     let mut zoom = 0.0;
-    if keys.just_pressed(KeyCode::Plus) {
+    if keys.just_pressed(KeyCode::Backspace) {
         zoom -= 1.0;
     }
     if keys.just_pressed(KeyCode::Minus) {
@@ -91,66 +91,66 @@ fn input_scroll(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>
     }
 }
 
-fn player_movement(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
+fn player_movement(keys: Res<ButtonInput<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
     let mut direction = Vec2::default();
 
-    if keys.pressed(KeyCode::J) || keys.pressed(KeyCode::S) {
+    if keys.pressed(KeyCode::KeyJ) || keys.pressed(KeyCode::KeyS) {
         direction += Vec2::new(0.0, -1.0);
     }
-    if keys.pressed(KeyCode::K) || keys.pressed(KeyCode::W) {
+    if keys.pressed(KeyCode::KeyK) || keys.pressed(KeyCode::KeyW) {
         direction += Vec2::new(0.0, 1.0);
     }
-    if keys.pressed(KeyCode::F) || keys.pressed(KeyCode::D) {
+    if keys.pressed(KeyCode::KeyF) || keys.pressed(KeyCode::KeyD) {
         direction += Vec2::new(1.0, 0.0);
     }
-    if keys.pressed(KeyCode::A) {
+    if keys.pressed(KeyCode::KeyA) {
         direction += Vec2::new(-1.0, 0.0);
     }
 
     player_input.move_direction = direction.normalize_or_zero();
 }
 
-fn input_running(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
+fn input_running(keys: Res<ButtonInput<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
     player_input.running = keys.pressed(KeyCode::ShiftLeft);
 }
 
-fn input_escape(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
+fn input_escape(keys: Res<ButtonInput<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
     player_input.escape = keys.just_pressed(KeyCode::Escape);
 }
 
 fn input_dialogue(
-    keys: Res<Input<KeyCode>>,
-    mouse_buttons: Res<Input<MouseButton>>,
+    keys: Res<ButtonInput<KeyCode>>,
+    mouse_buttons: Res<ButtonInput<MouseButton>>,
     mut player_input: ResMut<PlayerInput>,
 ) {
     let mut direction = 0;
 
-    if keys.just_pressed(KeyCode::J)
-        || keys.just_pressed(KeyCode::S)
-        || keys.just_pressed(KeyCode::Down)
+    if keys.just_pressed(KeyCode::KeyJ)
+        || keys.just_pressed(KeyCode::KeyS)
+        || keys.just_pressed(KeyCode::ArrowDown)
     {
         direction -= 1;
     }
-    if keys.just_pressed(KeyCode::K)
-        || keys.just_pressed(KeyCode::W)
-        || keys.just_pressed(KeyCode::Up)
+    if keys.just_pressed(KeyCode::KeyK)
+        || keys.just_pressed(KeyCode::KeyW)
+        || keys.just_pressed(KeyCode::ArrowUp)
     {
         direction += 1;
     }
     player_input.dialogue_direction = direction;
 
-    player_input.start_dialogue = keys.just_pressed(KeyCode::E);
-    player_input.dialogue_confirm = keys.just_pressed(KeyCode::Return);
+    player_input.start_dialogue = keys.just_pressed(KeyCode::KeyE);
+    player_input.dialogue_confirm = keys.just_pressed(KeyCode::Enter);
 
     player_input.dialogue_continue =
         keys.just_pressed(KeyCode::Space) || mouse_buttons.just_pressed(MouseButton::Left);
 }
 
-fn toggle_fullscreen(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
-    player_input.toggle_fullscreen = keys.just_pressed(KeyCode::B);
+fn toggle_fullscreen(keys: Res<ButtonInput<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
+    player_input.toggle_fullscreen = keys.just_pressed(KeyCode::KeyB);
 }
 
-fn toggle_debug(keys: Res<Input<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
+fn toggle_debug(keys: Res<ButtonInput<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
     player_input.toggle_debug = keys.just_pressed(KeyCode::F3);
 }
 

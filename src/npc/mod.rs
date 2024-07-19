@@ -48,7 +48,7 @@ impl Npc {
 
 fn face_player(
     q_player: Query<&Transform, With<Player>>,
-    mut q_npcs: Query<(&Transform, &mut TextureAtlasSprite), (With<Npc>, Without<Player>)>,
+    mut q_npcs: Query<(&Transform, &mut Sprite), (With<Npc>, Without<Player>)>,
 ) {
     let player = match q_player.get_single() {
         Ok(r) => r,

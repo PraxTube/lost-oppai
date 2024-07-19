@@ -1,3 +1,4 @@
+use bevy::color::palettes::css::TOMATO;
 use bevy::input::mouse::MouseMotion;
 use bevy::prelude::*;
 use bevy_yarnspinner::{events::*, prelude::*};
@@ -152,7 +153,7 @@ fn select_option(
                 }
                 Interaction::Hovered => {
                     option_selection.current_selection = None;
-                    Color::TOMATO
+                    TOMATO.into()
                 }
                 _ => Color::WHITE,
             };
@@ -162,7 +163,7 @@ fn select_option(
         }
     } else if let Some(r) = option_selection.current_selection {
         for (i, (_, _, children)) in &mut q_buttons.iter().enumerate() {
-            let color = if r == i { Color::TOMATO } else { Color::WHITE };
+            let color = if r == i { TOMATO.into() } else { Color::WHITE };
             let text_entity = children.iter().find(|&e| q_text.contains(*e)).unwrap();
             let mut text = q_text.get_mut(*text_entity).unwrap();
             text.sections[0].style.color = color;
@@ -248,7 +249,7 @@ impl Plugin for DialogueSelectionPlugin {
                 create_options_typewriter_finished,
                 create_options,
                 show_options,
-                select_option.run_if(resource_exists::<OptionSelection>()),
+                select_option.run_if(resource_exists::<OptionSelection>),
                 relay_despawn_option,
                 reset_option_flag,
                 despawn_options,

@@ -133,7 +133,7 @@ fn spawn_dialogue_content(commands: &mut Commands, _assets: &Res<GameAssets>) ->
                 padding: UiRect::horizontal(Val::Px(TEXT_BORDER)),
                 ..default()
             },
-            background_color: Color::BLACK.with_a(0.8).into(),
+            background_color: Color::BLACK.with_alpha(0.8).into(),
             ..default()
         },))
         .push_children(&[text])
@@ -250,7 +250,7 @@ fn spawn_dialogue_options(commands: &mut Commands, _assets: &Res<GameAssets>) ->
                     position_type: PositionType::Absolute,
                     ..default()
                 },
-                background_color: Color::BLACK.with_a(0.8).into(),
+                background_color: Color::BLACK.with_alpha(0.8).into(),
                 visibility: Visibility::Hidden,
                 ..default()
             },

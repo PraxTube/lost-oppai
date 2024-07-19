@@ -22,7 +22,7 @@ use bevy_trickfilm::Animation2DPlugin;
 use bevy_tweening::*;
 use bevy_yarnspinner::prelude::*;
 
-const BACKGROUND_COLOR: Color = Color::rgb(0.95, 0.90, 0.75);
+const BACKGROUND_COLOR: Color = Color::srgb(0.95, 0.90, 0.75);
 
 #[derive(States, Clone, Eq, PartialEq, Debug, Hash, Default)]
 pub enum GameState {
@@ -34,9 +34,13 @@ pub enum GameState {
 
 fn main() {
     App::new()
-        .insert_resource(AssetMetaCheck::Never)
         .add_plugins((
             DefaultPlugins
+                .set(ImagePlugin::default_nearest())
+                .set(AssetPlugin {
+                    meta_check: AssetMetaCheck::Never,
+                    ..default()
+                })
                 .set(WindowPlugin {
                     primary_window: Some(Window {
                         present_mode: PresentMode::Fifo,
@@ -46,7 +50,6 @@ fn main() {
                     }),
                     ..default()
                 })
-                .set(ImagePlugin::default_nearest())
                 .build(),
             RapierPhysicsPlugin::<NoUserData>::default(),
             RapierDebugRenderPlugin {
@@ -61,11 +64,12 @@ fn main() {
                 YarnFileSource::file("dialogue/isabelle.yarn"),
                 YarnFileSource::file("dialogue/ionas-and-antonius.yarn"),
                 YarnFileSource::file("dialogue/paladins.yarn"),
-            ]),
+            ])
+            .with_development_file_generation(DevelopmentFileGeneration::None),
             TweeningPlugin,
         ))
         .insert_resource(Msaa::Off)
-        .add_state::<GameState>()
+        .init_state::<GameState>()
         .add_loading_state(
             LoadingState::new(GameState::AssetLoading)
                 .continue_to_state(GameState::Gaming)

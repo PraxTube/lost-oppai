@@ -14,8 +14,8 @@ use super::camera::YSort;
 const FADE_OUT_DURATION: f32 = 2.0;
 const BLACK_OUT_FADE_DURATION: f32 = 4.5;
 const BLACK_OUT_DELAY: f32 = 10.0;
-const START_COLOR: Color = Color::rgba(0.0, 0.0, 0.0, 0.0);
-const END_COLOR: Color = Color::rgba(0.0, 0.0, 0.0, 1.0);
+const START_COLOR: Color = Color::srgba(0.0, 0.0, 0.0, 0.0);
+const END_COLOR: Color = Color::srgba(0.0, 0.0, 0.0, 1.0);
 
 const BACKGROUND_SPRITE_YSORT: f32 = 40_000.0;
 const CHARACTER_YSORT: f32 = 50_000.0;

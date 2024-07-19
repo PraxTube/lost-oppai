@@ -1,62 +1,50 @@
-[
-    (
-        name: "idle-down",
+{
+    "idle-down": (
         keyframes: KeyframesRange((start: 0, end: 8)),
         duration: 0.8,
     ),
-    (
-        name: "idle-left",
+    "idle-left": (
         keyframes: KeyframesRange((start: 10, end: 18)),
         duration: 0.8,
     ),
-    (
-        name: "idle-right",
+    "idle-right": (
         keyframes: KeyframesRange((start: 20, end: 28)),
         duration: 0.8,
     ),
-    (
-        name: "idle-top",
+    "idle-top": (
         keyframes: KeyframesRange((start: 30, end: 38)),
         duration: 0.8,
     ),
-    (
-        name: "walking-down",
+    "walking-down": (
         keyframes: KeyframesRange((start: 40, end: 50)),
         duration: 1.0,
     ),
-    (
-        name: "walking-left",
+    "walking-left": (
         keyframes: KeyframesRange((start: 50, end: 60)),
         duration: 1.0,
     ),
-    (
-        name: "walking-right",
+    "walking-right": (
         keyframes: KeyframesRange((start: 60, end: 70)),
         duration: 1.0,
     ),
-    (
-        name: "walking-top",
+    "walking-top": (
         keyframes: KeyframesRange((start: 70, end: 80)),
         duration: 1.0,
     ),
-    (
-        name: "running-down",
+    "running-down": (
         keyframes: KeyframesRange((start: 80, end: 88)),
         duration: 0.8,
     ),
-    (
-        name: "running-left",
+    "running-left": (
         keyframes: KeyframesRange((start: 90, end: 98)),
         duration: 0.8,
     ),
-    (
-        name: "running-right",
+    "running-right": (
         keyframes: KeyframesRange((start: 100, end: 108)),
         duration: 0.8,
     ),
-    (
-        name: "running-top",
+    "running-top": (
         keyframes: KeyframesRange((start: 110, end: 118)),
         duration: 0.8,
     ),
-]
+}

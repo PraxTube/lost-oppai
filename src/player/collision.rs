@@ -33,7 +33,7 @@ impl Plugin for PlayerCollisionPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            (toggle_player_collision).run_if(resource_changed::<DebugActive>()),
+            (toggle_player_collision).run_if(resource_changed::<DebugActive>),
         );
     }
 }

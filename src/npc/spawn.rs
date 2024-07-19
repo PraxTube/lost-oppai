@@ -28,9 +28,13 @@ fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) 
         .spawn((
             YSortChild(-26.0),
             shadow_animator,
-            SpriteSheetBundle {
+            SpriteBundle {
+                texture: assets.eleonore_shadow_texture.clone(),
                 transform: Transform::from_translation(Vec3::new(0.0, -25.0, 0.0)),
-                texture_atlas: assets.eleonore_shadow.clone(),
+                ..default()
+            },
+            TextureAtlas {
+                layout: assets.eleonore_shadow_layout.clone(),
                 ..default()
             },
         ))
@@ -52,9 +56,13 @@ fn spawn_eleonore(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) 
             Npc::new(NpcDialogue::Eleonore),
             YSort(16.0),
             animator,
-            SpriteSheetBundle {
+            SpriteBundle {
+                texture: assets.eleonore_texture.clone(),
                 transform,
-                texture_atlas: assets.eleonore.clone(),
+                ..default()
+            },
+            TextureAtlas {
+                layout: assets.eleonore_layout.clone(),
                 ..default()
             },
         ))
@@ -65,17 +73,6 @@ fn spawn_jotem(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) {
     let transform = Transform::from_translation(pos.extend(0.0));
     let mut animator = AnimationPlayer2D::default();
     animator.play(assets.jotem_animations[0].clone()).repeat();
-
-    let shadow = commands
-        .spawn((
-            YSortChild(-19.0),
-            SpriteBundle {
-                transform: Transform::from_translation(Vec3::new(0.0, -18.0, 0.0)),
-                texture: assets.jotem_shadow.clone(),
-                ..default()
-            },
-        ))
-        .id();
 
     let collider = commands
         .spawn((
@@ -93,13 +90,17 @@ fn spawn_jotem(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) {
             Npc::new(NpcDialogue::Jotem),
             YSort(0.0),
             animator,
-            SpriteSheetBundle {
+            SpriteBundle {
+                texture: assets.jotem_texture.clone(),
                 transform,
-                texture_atlas: assets.jotem.clone(),
+                ..default()
+            },
+            TextureAtlas {
+                layout: assets.jotem_layout.clone(),
                 ..default()
             },
         ))
-        .push_children(&[collider, shadow]);
+        .push_children(&[collider]);
 }
 
 fn spawn_isabelle(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) {
@@ -125,9 +126,13 @@ fn spawn_isabelle(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) 
             Npc::new(NpcDialogue::Isabelle),
             YSort(0.0),
             animator,
-            SpriteSheetBundle {
+            SpriteBundle {
+                texture: assets.isabelle_texture.clone(),
                 transform,
-                texture_atlas: assets.isabelle.clone(),
+                ..default()
+            },
+            TextureAtlas {
+                layout: assets.isabelle_layout.clone(),
                 ..default()
             },
         ))
@@ -141,16 +146,6 @@ fn spawn_antonius(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) 
         .play(assets.antonius_animations[0].clone())
         .repeat();
 
-    let shadow = commands
-        .spawn((
-            YSortChild(-1.0),
-            SpriteBundle {
-                texture: assets.antonius_shadow.clone(),
-                ..default()
-            },
-        ))
-        .id();
-
     let collider = commands
         .spawn((
             Collider::ball(8.0),
@@ -165,13 +160,17 @@ fn spawn_antonius(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) 
     commands
         .spawn((
             animator,
-            SpriteSheetBundle {
+            SpriteBundle {
+                texture: assets.antonius_texture.clone(),
                 transform,
-                texture_atlas: assets.antonius.clone(),
+                ..default()
+            },
+            TextureAtlas {
+                layout: assets.antonius_layout.clone(),
                 ..default()
             },
         ))
-        .push_children(&[collider, shadow])
+        .push_children(&[collider])
         .id()
 }
 
@@ -180,16 +179,6 @@ fn spawn_ionas(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) -> 
     let mut animator = AnimationPlayer2D::default();
     animator.play(assets.ionas_animations[0].clone()).repeat();
 
-    let shadow = commands
-        .spawn((
-            YSortChild(-1.0),
-            SpriteBundle {
-                texture: assets.antonius_shadow.clone(),
-                ..default()
-            },
-        ))
-        .id();
-
     let collider = commands
         .spawn((
             Collider::ball(8.0),
@@ -204,17 +193,21 @@ fn spawn_ionas(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) -> 
     commands
         .spawn((
             animator,
-            SpriteSheetBundle {
+            SpriteBundle {
+                texture: assets.ionas_texture.clone(),
                 transform,
-                texture_atlas: assets.ionas.clone(),
-                sprite: TextureAtlasSprite {
+                sprite: Sprite {
                     flip_x: true,
                     ..default()
                 },
                 ..default()
             },
+            TextureAtlas {
+                layout: assets.ionas_layout.clone(),
+                ..default()
+            },
         ))
-        .push_children(&[collider, shadow])
+        .push_children(&[collider])
         .id()
 }
 
@@ -255,9 +248,13 @@ fn spawn_sven(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) -> E
         .spawn((
             YSortChild(0.0),
             animator,
-            SpriteSheetBundle {
+            SpriteBundle {
+                texture: assets.sven_texture.clone(),
                 transform,
-                texture_atlas: assets.sven.clone(),
+                ..default()
+            },
+            TextureAtlas {
+                layout: assets.sven_layout.clone(),
                 ..default()
             },
         ))
@@ -284,9 +281,13 @@ fn spawn_joanna(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) ->
     commands
         .spawn((
             animator,
-            SpriteSheetBundle {
+            SpriteBundle {
+                texture: assets.joanna_texture.clone(),
                 transform,
-                texture_atlas: assets.joanna.clone(),
+                ..default()
+            },
+            TextureAtlas {
+                layout: assets.joanna_layout.clone(),
                 ..default()
             },
         ))
@@ -316,13 +317,17 @@ fn spawn_dorothea(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) 
         .spawn((
             YSortChild(0.0),
             animator,
-            SpriteSheetBundle {
+            SpriteBundle {
+                texture: assets.dorothea_texture.clone(),
                 transform,
-                texture_atlas: assets.dorothea.clone(),
-                sprite: TextureAtlasSprite {
+                sprite: Sprite {
                     flip_x: true,
                     ..default()
                 },
+                ..default()
+            },
+            TextureAtlas {
+                layout: assets.dorothea_layout.clone(),
                 ..default()
             },
         ))

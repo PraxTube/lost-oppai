@@ -61,14 +61,14 @@ fn spawn_rock(commands: &mut Commands, assets: &Res<GameAssets>, chunk_pos: IVec
         .spawn((
             Flora::new(chunk_pos),
             YSort(-40.0),
-            SpriteSheetBundle {
+            SpriteBundle {
+                texture: assets.rocks_texture.clone(),
                 transform: Transform::from_translation(pos),
-                texture_atlas: assets.rocks.clone(),
-                sprite: TextureAtlasSprite {
-                    index: rng.gen_range(0..ROCKS_COUNT),
-                    ..default()
-                },
                 ..default()
+            },
+            TextureAtlas {
+                layout: assets.rocks_layout.clone(),
+                index: rng.gen_range(0..ROCKS_COUNT),
             },
         ))
         .push_children(&[collider]);
@@ -153,11 +153,11 @@ fn spawn_tree(commands: &mut Commands, assets: &Res<GameAssets>, chunk_pos: IVec
                 initial_speed: JitteredValue::jittered(50.0, -3.0..3.0),
                 lifetime: JitteredValue::jittered(1.0, -0.5..1.5),
                 color: ColorOverTime::Gradient(Curve::new(vec![
-                    CurvePoint::new(Color::rgba(1.0, 1.0, 1.0, 0.0), 0.0),
+                    CurvePoint::new(Color::srgba(1.0, 1.0, 1.0, 0.0), 0.0),
                     CurvePoint::new(Color::WHITE, 0.3),
                     CurvePoint::new(Color::WHITE, 0.8),
-                    CurvePoint::new(Color::rgba(1.0, 1.0, 1.0, 0.0), 0.95),
-                    CurvePoint::new(Color::rgba(1.0, 1.0, 1.0, 0.0), 1.0),
+                    CurvePoint::new(Color::srgba(1.0, 1.0, 1.0, 0.0), 0.95),
+                    CurvePoint::new(Color::srgba(1.0, 1.0, 1.0, 0.0), 1.0),
                 ])),
                 emitter_shape: EmitterShape::CircleSegment(CircleSegment {
                     opening_angle: PI / 2.0,

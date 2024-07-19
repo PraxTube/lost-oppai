@@ -4,8 +4,8 @@ use bevy_tweening::{lens::*, *};
 use crate::GameState;
 
 const FADE_OUT_DURATION: f32 = 3.0;
-const START_COLOR: Color = Color::rgba(0.0, 0.0, 0.0, 1.0);
-const END_COLOR: Color = Color::rgba(0.0, 0.0, 0.0, 0.0);
+const START_COLOR: Color = Color::srgba(0.0, 0.0, 0.0, 1.0);
+const END_COLOR: Color = Color::srgba(0.0, 0.0, 0.0, 0.0);
 
 fn fade_out_intro_screen(mut commands: Commands) {
     let tween = Tween::new(

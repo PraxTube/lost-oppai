@@ -1,18 +1,14 @@
-[
-    (
-        name: "key",
+{
+    "key": (
         keyframes: KeyframesRange((start: 0, end: 2)),
         duration: 1.0,
     ),
-    (
-        name: "arrow",
+    "arrow": (
         keyframes: KeyframesRange((start: 2, end: 3)),
         duration: 1.0,
     ),
-    (
-        name: "shift",
+    "shift": (
         keyframes: KeyframesRange((start: 0, end: 2)),
         duration: 3.5,
     ),
-]
-
+}

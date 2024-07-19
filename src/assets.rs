@@ -5,9 +5,10 @@ use bevy_trickfilm::prelude::*;
 
 #[derive(AssetCollection, Resource)]
 pub struct GameAssets {
-    #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 128.0, columns = 10, rows = 12))]
     #[asset(path = "player/player.png")]
-    pub player: Handle<TextureAtlas>,
+    pub player_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 128, columns = 10, rows = 12))]
+    pub player_layout: Handle<TextureAtlasLayout>,
     #[asset(
         paths(
             "player/player.trickfilm#idle-down",
@@ -28,58 +29,63 @@ pub struct GameAssets {
     pub player_animations: Vec<Handle<AnimationClip2D>>,
 
     // --- NPC ---
-    #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 64.0, columns = 9, rows = 1))]
     #[asset(path = "npc/eleonore.png")]
-    pub eleonore: Handle<TextureAtlas>,
+    pub eleonore_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 64, columns = 9, rows = 1))]
+    pub eleonore_layout: Handle<TextureAtlasLayout>,
     #[asset(paths("npc/eleonore.trickfilm#idle",), collection(typed))]
     pub eleonore_animations: Vec<Handle<AnimationClip2D>>,
-    #[asset(texture_atlas(tile_size_x = 32.0, tile_size_y = 32.0, columns = 9, rows = 1))]
     #[asset(path = "npc/eleonore_shadow.png")]
-    pub eleonore_shadow: Handle<TextureAtlas>,
+    pub eleonore_shadow_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 32, tile_size_y = 32, columns = 9, rows = 1))]
+    pub eleonore_shadow_layout: Handle<TextureAtlasLayout>,
 
-    #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 64.0, columns = 6, rows = 1))]
     #[asset(path = "npc/jotem.png")]
-    pub jotem: Handle<TextureAtlas>,
+    pub jotem_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 64, columns = 6, rows = 1))]
+    pub jotem_layout: Handle<TextureAtlasLayout>,
     #[asset(paths("npc/jotem.trickfilm#idle",), collection(typed))]
     pub jotem_animations: Vec<Handle<AnimationClip2D>>,
-    #[asset(path = "npc/jotem_shadow.png")]
-    pub jotem_shadow: Handle<Image>,
 
-    #[asset(texture_atlas(tile_size_x = 48.0, tile_size_y = 64.0, columns = 7, rows = 1))]
     #[asset(path = "npc/isabelle.png")]
-    pub isabelle: Handle<TextureAtlas>,
+    pub isabelle_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 48, tile_size_y = 64, columns = 7, rows = 1))]
+    pub isabelle_layout: Handle<TextureAtlasLayout>,
     #[asset(paths("npc/isabelle.trickfilm#idle",), collection(typed))]
     pub isabelle_animations: Vec<Handle<AnimationClip2D>>,
 
-    #[asset(texture_atlas(tile_size_x = 80.0, tile_size_y = 80.0, columns = 5, rows = 1))]
     #[asset(path = "npc/antonius.png")]
-    pub antonius: Handle<TextureAtlas>,
+    pub antonius_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 80, tile_size_y = 80, columns = 5, rows = 1))]
+    pub antonius_layout: Handle<TextureAtlasLayout>,
     #[asset(paths("npc/antonius.trickfilm#idle",), collection(typed))]
     pub antonius_animations: Vec<Handle<AnimationClip2D>>,
-    #[asset(path = "npc/antonius_shadow.png")]
-    pub antonius_shadow: Handle<Image>,
 
-    #[asset(texture_atlas(tile_size_x = 80.0, tile_size_y = 80.0, columns = 5, rows = 1))]
     #[asset(path = "npc/ionas.png")]
-    pub ionas: Handle<TextureAtlas>,
+    pub ionas_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 80, tile_size_y = 80, columns = 5, rows = 1))]
+    pub ionas_layout: Handle<TextureAtlasLayout>,
     #[asset(paths("npc/ionas.trickfilm#idle",), collection(typed))]
     pub ionas_animations: Vec<Handle<AnimationClip2D>>,
 
-    #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 80.0, columns = 8, rows = 1))]
     #[asset(path = "npc/sven.png")]
-    pub sven: Handle<TextureAtlas>,
+    pub sven_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 80, columns = 8, rows = 1))]
+    pub sven_layout: Handle<TextureAtlasLayout>,
     #[asset(paths("npc/sven.trickfilm#idle",), collection(typed))]
     pub sven_animations: Vec<Handle<AnimationClip2D>>,
 
-    #[asset(texture_atlas(tile_size_x = 64.0, tile_size_y = 64.0, columns = 18, rows = 1))]
     #[asset(path = "npc/joanna.png")]
-    pub joanna: Handle<TextureAtlas>,
+    pub joanna_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 64, tile_size_y = 64, columns = 18, rows = 1))]
+    pub joanna_layout: Handle<TextureAtlasLayout>,
     #[asset(paths("npc/joanna.trickfilm#idle",), collection(typed))]
     pub joanna_animatins: Vec<Handle<AnimationClip2D>>,
 
-    #[asset(texture_atlas(tile_size_x = 32.0, tile_size_y = 48.0, columns = 6, rows = 1))]
     #[asset(path = "npc/dorothea.png")]
-    pub dorothea: Handle<TextureAtlas>,
+    pub dorothea_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 32, tile_size_y = 48, columns = 6, rows = 1))]
+    pub dorothea_layout: Handle<TextureAtlasLayout>,
     #[asset(paths("npc/dorothea.trickfilm#idle",), collection(typed))]
     pub dorothea_animations: Vec<Handle<AnimationClip2D>>,
 
@@ -105,14 +111,16 @@ pub struct GameAssets {
     #[asset(path = "map/flora/bush2.png")]
     pub bush2: Handle<Image>,
 
-    #[asset(texture_atlas(tile_size_x = 16.0, tile_size_y = 16.0, columns = 3, rows = 1))]
     #[asset(path = "map/rocks.png")]
-    pub rocks: Handle<TextureAtlas>,
+    pub rocks_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 16, tile_size_y = 16, columns = 3, rows = 1))]
+    pub rocks_layout: Handle<TextureAtlasLayout>,
 
     // --- FAUNA ---
-    #[asset(texture_atlas(tile_size_x = 16.0, tile_size_y = 16.0, columns = 8, rows = 2))]
     #[asset(path = "map/fauna/bird.png")]
-    pub bird: Handle<TextureAtlas>,
+    pub bird_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 16, tile_size_y = 16, columns = 8, rows = 2))]
+    pub bird_layout: Handle<TextureAtlasLayout>,
     #[asset(
         paths(
             "map/fauna/bird.trickfilm#idle",
@@ -134,27 +142,33 @@ pub struct GameAssets {
     pub dialogue_edge: Handle<Image>,
     #[asset(path = "ui/dialogue_continue.png")]
     pub dialogue_continue: Handle<Image>,
-    #[asset(texture_atlas(tile_size_x = 32.0, tile_size_y = 32.0, columns = 2, rows = 1))]
     #[asset(path = "ui/dialogue_start_hint.png")]
-    pub dialogue_start_hint: Handle<TextureAtlas>,
+    pub dialogue_start_hint_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 32, tile_size_y = 32, columns = 2, rows = 1))]
+    pub dialogue_start_hint_layout: Handle<TextureAtlasLayout>,
     #[asset(paths("ui/dialogue_start_hint.trickfilm#main",), collection(typed))]
     pub dialogue_start_hint_animations: Vec<Handle<AnimationClip2D>>,
 
-    #[asset(texture_atlas(tile_size_x = 34.0, tile_size_y = 34.0, columns = 3, rows = 1))]
     #[asset(path = "ui/keys/down_key.png")]
-    pub ui_down_key: Handle<TextureAtlas>,
-    #[asset(texture_atlas(tile_size_x = 34.0, tile_size_y = 34.0, columns = 3, rows = 1))]
+    pub ui_down_key_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 34, tile_size_y = 34, columns = 3, rows = 1))]
+    pub ui_down_key_layout: Handle<TextureAtlasLayout>,
     #[asset(path = "ui/keys/up_key.png")]
-    pub ui_up_key: Handle<TextureAtlas>,
-    #[asset(texture_atlas(tile_size_x = 34.0, tile_size_y = 34.0, columns = 3, rows = 1))]
+    pub ui_up_key_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 34, tile_size_y = 34, columns = 3, rows = 1))]
+    pub ui_up_key_layout: Handle<TextureAtlasLayout>,
     #[asset(path = "ui/keys/left_key.png")]
-    pub ui_left_key: Handle<TextureAtlas>,
-    #[asset(texture_atlas(tile_size_x = 34.0, tile_size_y = 34.0, columns = 3, rows = 1))]
+    pub ui_left_key_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 34, tile_size_y = 34, columns = 3, rows = 1))]
+    pub ui_left_key_layout: Handle<TextureAtlasLayout>,
     #[asset(path = "ui/keys/right_key.png")]
-    pub ui_right_key: Handle<TextureAtlas>,
-    #[asset(texture_atlas(tile_size_x = 66.0, tile_size_y = 34.0, columns = 2, rows = 1))]
+    pub ui_right_key_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 34, tile_size_y = 34, columns = 3, rows = 1))]
+    pub ui_right_key_layout: Handle<TextureAtlasLayout>,
     #[asset(path = "ui/keys/shift_key.png")]
-    pub ui_shift_key: Handle<TextureAtlas>,
+    pub ui_shift_key_texture: Handle<Image>,
+    #[asset(texture_atlas(tile_size_x = 66, tile_size_y = 34, columns = 2, rows = 1))]
+    pub ui_shift_key_layout: Handle<TextureAtlasLayout>,
     #[asset(
         paths(
             "ui/keys/keys.trickfilm#key",

@@ -135,7 +135,7 @@ impl Plugin for GameSoundPlugin {
                 Update,
                 (
                     update_repeating_sounds
-                        .run_if(resource_changed::<GameAudio>())
+                        .run_if(resource_changed::<GameAudio>)
                         .before(play_sounds),
                     play_sounds,
                 )

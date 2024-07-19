@@ -243,7 +243,7 @@ impl Plugin for DialogueRunnerPlugin {
             Update,
             (activate_dialogue_runner, spawn_dialogue_runner)
                 .chain()
-                .run_if(in_state(GameState::Gaming).and_then(resource_exists::<YarnProject>())),
+                .run_if(in_state(GameState::Gaming).and_then(resource_exists::<YarnProject>)),
         )
         .add_event::<SpawnDialogueRunner>()
         .add_event::<UpdateTargetNpcs>()

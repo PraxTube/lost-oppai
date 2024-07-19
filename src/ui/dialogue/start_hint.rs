@@ -34,10 +34,14 @@ fn spawn_hint(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec3) {
         .spawn((
             animator,
             Animator::new(tween),
-            SpriteSheetBundle {
-                texture_atlas: assets.dialogue_start_hint.clone(),
+            SpriteBundle {
+                texture: assets.dialogue_start_hint_texture.clone(),
                 transform: Transform::from_translation(Vec3::new(0.0, 40.0, 0.0))
                     .with_scale(Vec3::ZERO),
+                ..default()
+            },
+            TextureAtlas {
+                layout: assets.dialogue_start_hint_layout.clone(),
                 ..default()
             },
         ))
@@ -60,7 +64,7 @@ fn spawn_hints(
     assets: Res<GameAssets>,
     q_player: Query<(&Transform, &Player)>,
     q_npcs: Query<&Transform, (With<Npc>, Without<Player>)>,
-    q_start_hints: Query<With<StartHint>>,
+    q_start_hints: Query<&StartHint>,
 ) {
     if !q_start_hints.is_empty() {
         return;

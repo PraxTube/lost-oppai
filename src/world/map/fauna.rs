@@ -83,10 +83,14 @@ fn spawn_bird(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2, move
             Bird::new(move_dir, flapping_sound_container),
             YSort(-8.0),
             animator,
-            SpriteSheetBundle {
+            SpriteBundle {
+                texture: assets.bird_texture.clone(),
                 transform: Transform::from_translation(pos.extend(0.0))
                     .with_scale(Vec3::splat(BIRD_SCALE)),
-                texture_atlas: assets.bird.clone(),
+                ..default()
+            },
+            TextureAtlas {
+                layout: assets.bird_layout.clone(),
                 ..default()
             },
         ))
@@ -205,10 +209,7 @@ fn return_to_idle_state(
     }
 }
 
-fn move_birds(
-    time: Res<Time>,
-    mut q_birds: Query<(&mut Transform, &mut TextureAtlasSprite, &Bird)>,
-) {
+fn move_birds(time: Res<Time>, mut q_birds: Query<(&mut Transform, &mut Sprite, &Bird)>) {
     for (mut transform, mut sprite, bird) in &mut q_birds {
         match bird.state {
             BirdState::Jumping => {
@@ -294,7 +295,7 @@ fn play_bird_flap_sounds(
                 volume: 2.5,
                 rand_speed_intensity: 0.2,
                 ..default()
-            })
+            });
         }
     }
 }

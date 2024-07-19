@@ -185,7 +185,7 @@ impl Plugin for ChunkManagerPlugin {
             .add_systems(
                 Update,
                 (
-                    spawn_chunks.run_if(resource_exists::<BitMap>()),
+                    spawn_chunks.run_if(resource_exists::<BitMap>),
                     despawn_chunks,
                 )
                     .run_if(in_state(GameState::Gaming)),
