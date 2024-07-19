@@ -95,7 +95,6 @@ fn update_camera_target(mut shake: ResMut<CameraShake>, q_player: Query<&Transfo
         Ok(r) => r,
         Err(_) => return,
     };
-
     shake.update_target(player_transform.translation.truncate());
 }
 
