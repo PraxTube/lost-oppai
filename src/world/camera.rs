@@ -11,7 +11,6 @@ use super::camera_shake::{update_camera, CameraShake};
 use crate::player::input::PlayerInput;
 use crate::player::Player;
 use crate::utils::DebugActive;
-use crate::GameState;
 
 // Only relevant for the backend.
 // We have to multiply each z coordinate with this value
@@ -162,29 +161,29 @@ pub struct CameraPlugin;
 
 impl Plugin for CameraPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(
-            Update,
-            (
-                #[cfg(not(target_arch = "wasm32"))]
-                toggle_full_screen,
-                #[cfg(not(target_arch = "wasm32"))]
-                take_screenshot,
-                apply_y_sort,
-                apply_y_sort_child
-                    .after(apply_y_sort)
-                    .before(apply_y_sort_static),
-                apply_y_sort_static.after(apply_y_sort),
-                apply_y_sort_static_child.after(apply_y_sort_static),
-                zoom_camera,
-            ),
-        )
-        .add_systems(OnEnter(GameState::Gaming), spawn_camera)
-        .add_systems(
-            PostUpdate,
-            update_camera_target
-                .after(PhysicsSet::Writeback)
-                .before(TransformSystem::TransformPropagate)
-                .before(update_camera),
-        );
+        app.add_systems(Startup, spawn_camera)
+            .add_systems(
+                Update,
+                (
+                    #[cfg(not(target_arch = "wasm32"))]
+                    toggle_full_screen,
+                    #[cfg(not(target_arch = "wasm32"))]
+                    take_screenshot,
+                    apply_y_sort,
+                    apply_y_sort_child
+                        .after(apply_y_sort)
+                        .before(apply_y_sort_static),
+                    apply_y_sort_static.after(apply_y_sort),
+                    apply_y_sort_static_child.after(apply_y_sort_static),
+                    zoom_camera,
+                ),
+            )
+            .add_systems(
+                PostUpdate,
+                update_camera_target
+                    .after(PhysicsSet::Writeback)
+                    .before(TransformSystem::TransformPropagate)
+                    .before(update_camera),
+            );
     }
 }

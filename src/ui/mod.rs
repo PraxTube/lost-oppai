@@ -4,6 +4,7 @@ pub mod keyboard_hint;
 mod audio_bar;
 mod ending_text;
 mod screen_fade;
+mod splash_screen;
 
 use bevy::prelude::*;
 
@@ -17,6 +18,7 @@ impl Plugin for UiPlugin {
             screen_fade::ScreenFadeUiPlugin,
             audio_bar::AudioBarPlugin,
             ending_text::EndingTextPlugin,
+            splash_screen::SplashScreenPlugin,
         ));
     }
 }

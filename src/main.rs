@@ -22,7 +22,7 @@ use bevy_trickfilm::Animation2DPlugin;
 use bevy_tweening::*;
 use bevy_yarnspinner::prelude::*;
 
-const BACKGROUND_COLOR: Color = Color::srgb(0.95, 0.90, 0.75);
+const BACKGROUND_COLOR: Color = Color::BLACK;
 
 #[derive(States, Clone, Eq, PartialEq, Debug, Hash, Default)]
 pub enum GameState {
