@@ -7,7 +7,7 @@ pub use camera::MainCamera;
 // pub use camera_shake::CameraShake;
 
 use bevy::prelude::*;
-use bevy_rapier2d::prelude::*;
+use bevy_rapier2d::{prelude::*, rapier::dynamics::IntegrationParameters};
 
 use crate::GameState;
 
@@ -25,6 +25,14 @@ impl Plugin for WorldPlugin {
     }
 }
 
-fn configure_physics(mut rapier_config: ResMut<RapierConfiguration>) {
+fn configure_physics(
+    mut rapier_config: ResMut<RapierConfiguration>,
+    mut rapier_context: ResMut<RapierContext>,
+) {
     rapier_config.gravity = Vec2::ZERO;
+    rapier_context.integration_parameters = IntegrationParameters {
+        normalized_max_corrective_velocity: f32::MAX,
+        contact_damping_ratio: 1.0,
+        ..default()
+    };
 }
