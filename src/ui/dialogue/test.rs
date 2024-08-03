@@ -69,7 +69,7 @@ fn validate_custom_commands() {
         }
 
         let mut closest_command: &str = custom_commands[0];
-        let mut closest_distance = usize::max_value();
+        let mut closest_distance = usize::MAX;
 
         let command = line.split(' ').collect::<Vec<&str>>()[0]
             .trim_start_matches("<<")

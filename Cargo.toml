@@ -23,12 +23,12 @@ codegen-units = 1
 [dependencies]
 rand = "0.8.5"
 rand_xoshiro = "0.6.0"
-chrono = "0.4.34"
+chrono = "0.4.38"
 unicode-segmentation = "1.11.0"
-strum = "0.26.2"
+strum = "0.26.3"
 strum_macros = "0.26.4"
 
-bevy = "0.14.0"
+bevy = "0.14.1"
 bevy_asset_loader = { version = "0.21.0", features = ["2d"] }
 bevy_rapier2d = "0.27.0"
 bevy_kira_audio = "0.20.0"

@@ -68,7 +68,7 @@ fn spawn_dialogue_runner(
             .add_command("target_npc_mentioned", target_npc_mentioned_command)
             .add_command("trigger_ending", trigger_ending_command);
 
-        dialogue_runner.start_node(&ev.dialogue.to_string());
+        dialogue_runner.start_node(ev.dialogue.to_string());
         commands.spawn((dialogue_runner, RunnerFlags::new(ev.dialogue)));
         ev_update_target_npcs.send(UpdateTargetNpcs);
     }
