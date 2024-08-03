@@ -45,26 +45,26 @@ title: IsabelleLifeAdvice
 {$name}: You still seem pretty young.
 {$name}: I have met people that changed their lifes for the better when they were way older.
 {$name}: It's never to late to change directions.
-{$name}: Or to find one in the first place I guess.
+{$name}: Or to find one in the first place.
 {$name}: What are you struggling with the most?
 -> Kind of... everything. What does it mean to be happy? That kind.
     {$name}: I see...
     {$name}: Some might tell you that it's following your purpose.
-    {$name}: Or that you need to have a dream that you fully commit yourself to.
+    {$name}: Or that you need to have a dream that you fully commit to.
     {$name}: And there is absolutely nothing wrong with that.
-    {$name}: In fact it can be very freeing to just commit yourself to something.
+    {$name}: In fact, it can be very freeing to just commit yourself to something.
     {$name}: For me however, happyness comes from enjoying the little things.
     {$name}: Enjoying what is, not what was or could.
     {$name}: Enjoying the here and now and time spend with others.
     -> I have heard that before. You may say that, but it's something else to actually life like it.
         {$name}: That is true of course.
-        {$name}: But let me just give you this one advice.
-        {$name}: Treasure your relationships with others.
-        {$name}: Treat the people that are dear to you with the respect and kindness they deserve.
+        {$name}: But it's something I have learned over the years.
+        {$name}: To treasure your relationships with others.
+        {$name}: Treating the people that are dear to you with the respect and kindness they deserve.
         {$name}: If you give love and kindness, it will come back to you.
         {$name}: You never know how much time you will have left with them.
         {$name}: So you better treasure the moment you have and enjoy what is.
-        {$name}: Sounds reasonable?
+        {$name}: Right?
         -> Hm, I suppose.
             {$name}: You still seem hesitant.
             {$name}: Oh yeah!
@@ -105,7 +105,13 @@ title: IsabelleWaiting
 <<else>>
 {$name}: Had a chat with old Jotem?
 -> No, not yet.
+    {$name}: Okay, well you do you.
+    {$name}: If you need more time, no worries.
+    {$name}: I will be waiting here for you.
 -> I can't find him.
+    {$name}: Oh, well he should be around somewhere.
+    {$name}: He is probably doing practice swings right now.
+    {$name}: If you stay on the path you are bound to run into him.
 -> Yes
     <<if $talked_with_target_npc>>
         <<jump IsabelleTalkedWithTarget>>

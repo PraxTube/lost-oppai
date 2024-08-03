@@ -123,7 +123,6 @@ fn show_continue_node(
     } else {
         Visibility::Inherited
     };
-    info!("setting vis of continue node to {:?}", vis);
     *visibility = vis;
 }
 

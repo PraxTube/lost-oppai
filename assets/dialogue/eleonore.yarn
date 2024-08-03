@@ -8,7 +8,7 @@ title: Eleonore
 -> Hi. Wait are you flying?
     {$name}: First time?
     {$name}: Guess there aren't that many mages around here.
-    {$name}: Yeah I am using a spell to levitate.
+    {$name}: Yeah, I am using a spell to levitate.
     {$name}: By your reaction I assume your are from some small village?
     -> I, I actually don't remember.
         {$name}: Huh? You don't remember were you are coming from?
@@ -42,15 +42,17 @@ title: EleonoreIsAMage
     {$name}: I mean to say that I dedicated an extraordinary amount of time into learnig about magic.
     {$name}: There isn't anything more fascinating than magic.
     -> What's so amazing about magic?
-        {$name}: Oh girl, what isn't?!
+        {$name}: Oh girl, what isn't!
         {$name}: The endless amounts of possibilities, the complexity and depth.
+        {$name}: The possibilities it opens, the sheer beauty of it.
+        {$name}: How you can always learn something new no matter how long you study it.
         {$name}: There is so much that you will never be able to know everything.
         {$name}: But most importanly, it's just fun.
-        {$name}: It's my dream to create the most powerful fire spell.
+        {$name}: It's my dream to create the most powerful fire spell in the entire world.
         -> Your dream is surprisingly... childish.
             {$name}: Hahaha ey, that's my dream you are talking about!
             {$name}: But yes, it is.
-            {$name}: However, is there a need to have some grandious and meaningful dream?
+            {$name}: However, is there a need to have some grandious dream?
             {$name}: I get to do what I love and help others in my own way.
             {$name}: But it isn't easy, you know.
             {$name}: Everything worth pursuing is difficult.
@@ -63,20 +65,20 @@ title: EleonoreLowTimePreference
 
 {$name}: Do you know about the concept of time preference?
 -> No, what is that?
-    {$name}: It's a concept from economics.
+    {$name}: A concept from economics.
     {$name}: It indicates how much an entity is willing to sacrifice future benifits for the short term gain.
     {$name}: A high time preference indicates a high want for instanst satisfaction.
     {$name}: And a low time preference means you are more willing to delay your satisfaction for a bigger reward later.
     {$name}: However, I think it applies to much more, not just money.
-    {$name}: For example, a person deciding to workout and strengthen their body indicates a low time preference.
-    {$name}: Choosing to go do hard work for delayed payoff.
+    {$name}: For example, deciding to train your body indicates a low time preference.
+    {$name}: Choosing to do the hard work for delayed payoff.
     {$name}: What would you say, Pai.
     {$name}: Do you have a high or low time preference?
-    -> I think I have a high time preference.
+    // -> I think I have a high time preference.
     -> I think I have a low time preference.
         {$name}: Really? That would be great.
         {$name}: Most people benifit from a lower time preference.
-        {$name}: Of course this depends on the circumstances though.
+        {$name}: Of course this depends on their circumstances.
         {$name}: But my point with this was to say the following.
         {$name}: If you want to achieve your dream, you must adopt a low time preference.
         {$name}: Any dream worth having is going to be hard to achieve!
@@ -91,7 +93,7 @@ title: EleonoreLowTimePreference
         -> But wouldn't that mean that you are always living in the future and never in the present?
             {$name}: Not quite.
             <<jump EleonoreLivingInThePresent>>
-    -> Which one is better?
+    // -> Which one is better?
 
 ===
 title: EleonoreLivingInThePresent
@@ -124,7 +126,7 @@ title: EleonoreLivingInThePresent
             {$name}: I learned from her how to treassure the moment.
             {$name}: Why don't you talk with her, perhaps that will help you to decide?
             -> Hm, I guess I can talk to her.
-                {$name}: Awesome.
+                {$name}: That's the spirit!
                 {$name}: I will be waiting here for you.
                 {$name}: See ya in a bit.
                 <<stop_chat>>
@@ -142,7 +144,12 @@ title: EleonoreWaiting
 <<else>>
 {$name}: Did you talk with Isabelle?
 -> No, not yet.
+    {$name}: I see, well take your time.
+    {$name}: I will be waiting here.
 -> I can't find her.
+    {$name}: Really?
+    {$name}: She usually takes strolls on these paths.
+    {$name}: As long as you stay on the paths you should bump into her eventually.
 -> Yes
     <<if $talked_with_target_npc>>
         <<jump TalkedWithIsabelle>>

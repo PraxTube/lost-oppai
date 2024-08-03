@@ -114,10 +114,20 @@ impl Typewriter {
         let multiplier = AVERAGE_SPEED / self.current_speed;
         if graphemes_to_take.contains('?') {
             self.elapsed -= 0.35 * multiplier;
+        } else if graphemes_to_take.contains(':') {
+            self.elapsed -= 0.3 * multiplier;
         } else if graphemes_to_take.contains('-') {
             self.elapsed -= 0.25 * multiplier;
-        } else if graphemes_to_take.contains('.') {
+        } else if graphemes_to_take.contains('!') {
             self.elapsed -= 0.2 * multiplier;
+        } else if graphemes_to_take.contains('.') {
+            if let Some(index) = graphemes_to_take.chars().rev().position(|c| c == '.') {
+                if index + 1 < graphemes_to_take.len()
+                    || !self.graphemes_left.is_empty() && !self.graphemes_left[0].starts_with('.')
+                {
+                    self.elapsed -= 0.2 * multiplier;
+                }
+            }
         } else if graphemes_to_take.contains(',') {
             self.elapsed -= 0.1 * multiplier;
         }

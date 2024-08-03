@@ -5,8 +5,6 @@ title: Jotem
 <<set $talked_with_target_npc = false>>
 
 {$name}: Howdy, young lady.
-<<trigger_ending {$name}>>
-<<jump FinalAct>>
 {$name}: Wow, didn't see a beauty like you in a while.
 -> Ey...
     {$name}: Haha sorry, I am just fooling around.
@@ -18,8 +16,8 @@ title: Jotem
     {$name}: What about you?
     -> I am Pai, nice to meet you.
         {$name}: Pai, huh? Strange name ya got there.
-        {$name}: But who am I to judge? Nice to meet ya too Pai.
-        {$name}: Say, Pai, were are ya comin from?
+        {$name}: But who am I to judge? Nice to meet ya too, Pai.
+        {$name}: Say, were are ya comin from?
         <<jump OppaiIsWeird>>
     -> I am... lost.
         {$name}: Hahaha, figures.
@@ -30,25 +28,25 @@ title: Jotem
         {$name}: But oh well, nice to meet ya Pai.
         {$name}: So anyways, what are you doing out here while bein dressed so lightly?
         <<jump OppaiIsWeird>>
--> What are you doing out here?
+// -> What are you doing out here?
 
 ===
 title: OppaiIsLost
 ---
 
-{$name}: Perhaps I can help ya out?
--> Yes, please!
+{$name}: I can help ya out if ya are lost.
+// -> Yes, please!
 -> I am actually lost in a different way...
-    {$name}: Hm? What do you mean?
+    {$name}: Hm? What do ya mean?
     -> I just don't know what to do in life.
         {$name}: Hoo... I see.
         {$name}: Well, I don't know your circumstances.
-        {$name}: But perhaps I can give you my perspective on your situation.
+        {$name}: But perhaps I can give ya my perspective on ya situation.
         <<jump OppaiIsLostInLife>>
-    -> Never mind, I don't wanna talk about it.
-        {$name}: You sure? Talking with somebody can be surprisingly helpful.
-        {$name}: But I am not going to force you to anything.
-        <<jump JotemHub>>
+    // -> Never mind, I don't wanna talk about it.
+    //     {$name}: Ya sure? Talking with somebody can be surprisingly helpful.
+    //     {$name}: But I am not gonna force ya to anything.
+    //     <<jump JotemHub>>
 
 ===
 title: OppaiIsWeird
@@ -56,7 +54,12 @@ title: OppaiIsWeird
 
 ...
 -> I don't remember. I woke up in this place without any memories of how I got here.
--> What do you care?
+    {$name}: What? Some kind of amnesia?
+    {$name}: Or perhaps ya were attacked and robbed?
+    {$name}: Though ya don't look hurt...
+    -> I feel fine, I just have no clue what is going on or were we are.
+        {$name}: Hm, yeah I bet.
+        <<jump OppaiIsLost>>
 
 ===
 title: OppaiIsLostInLife
@@ -78,7 +81,7 @@ title: OppaiIsLostInLife
         -> Hm, I don't know about that.
             {$name}: Let me tell ya a little about my past.
             <<jump PastJotem>>
-        -> What? No, that doesn't make any sense.
+        // -> What? No, that doesn't make any sense.
 
 ===
 title: PastJotem
@@ -97,9 +100,8 @@ title: PastJotem
 -> Who is *her*?
     {$name}: A person with a tremendous will.
     <<jump ThatOneEncounter>>
--> What happend?
-    {$name}: 
--> Your dream?
+// -> What happend?
+// -> Your dream?
 
 ===
 title: ThatOneEncounter
@@ -115,54 +117,53 @@ title: ThatOneEncounter
 {$name}: It's all about ya perspective.
 ...
 {$name}: Sorry, that might have been a bit much. I always get carried away when I think back.
--> That was indeed a lot.
--> I disagree with you.
-    {$name}: Is that so? Do ya mind telling me why?
-    -> What about people with mental health issues? If you chronically can't feel happyness or have depression.
-    -> You can't control external factors, yet they have a huge affect on your life.
-        {$name}: Ya certainly right about that one!
-        {$name}: But that's also missing my point.
-        {$name}: I was talking about how ya have full control of how ya *view* these things.
-        {$name}: It's up to ya whether you see an external factor as something good or bad.
-        {$name}: Ya can take every challenges and see it as an opportunity, or as a hurdle.
-        {$name}: But life is gonna be a lot easier if ya try to see challenges as an opportunity.
-    -> A
+// -> I actullay disagree with you.
+//     {$name}: Is that so? Do ya mind telling me why?
+//     -> What about people with mental health issues? If you chronically can't feel happyness or have depression.
+//     -> You can't control external factors, yet they have a huge affect on your life.
+//         {$name}: Ya certainly right about that one!
+//         {$name}: But that's also missing my point.
+//         {$name}: I was talking about how ya have full control of how ya *view* these things.
+//         {$name}: It's up to ya whether you see an external factor as something good or bad.
+//         {$name}: Ya can take every challenges and see it as an opportunity, or as a hurdle.
+//         {$name}: But life is gonna be a lot easier if ya try to see challenges as an opportunity.
 -> I have never really thought about this. Do you mind explaining a bit more?
+    {$name}: I think it's a very important subject.
+    {$name}: Of course I don't mind! I am glad you wanna talk more about it.
 -> I don't mind. Could you go into more detail?
     {$name}: Sure can!
-    {$name}: When I met her, I was at a low in my life.
-    {$name}: However, after talkin to her for just one evening, one loong evening, life seemed so much easier.
-    {$name}: Of course my habits and behaviour didn't change over night!
-    {$name}: But I was able to appreciate life as a whole much more, the good and the bad.
-    {$name}: It was like I was finally able to see all the beatiful colors in the world.
-    {$name}: Where everything was just one gray mess before, now everything was brimming with life.
-    {$name}: Agh! Ya get what I mean, right?
-    -> Yes, I think so.
-        {$name}: Okay, good.
-        {$name}: So anyways, that was my little story.
-        {$name}: After that point, I was able to enjoy fishing.
-        {$name}: In my free time I build towards my dream of becoming an adventurer.
-        {$name}: And eventually, I did!
-        -> That's awesome. Do you think I could achieve that too?
-            {$name}: Of course! In fact, you don't have anywhere to go right?
-            You: No, I wouldn't know where anyways.
-            {$name}: Right. So how about you join me?
-            {$name}: Your dream might not be to become an adventurer, but ya can work towards ya dream while making money as an adventurer.
-            -> I am not too sure...
-                {$name}: Yeh right, how about you talk with her first?
-                {$name}: I mean Eleonore, the person that helped me back then.
-                <<target_npc_mentioned {$name} {$target_npc}>>
-                {$name}: She is a witch and is borderline immortal, what a cheatcode...
-                {$name}: She should be around here somewhere.
-                {$name}: You can't really miss her, big witch-like hat and orange hair.
-                {$name}: Oh yeah and she is usuall floating in the air.
-                {$name}: So how about you go talk to her and then come back and tell me about your decision?
-                -> Okay, I will give it a try.
-                    {$name}: Alright! I will be waiting here for you.
-                    {$name}: Good luck!
-                    <<stop_chat>>
-                    <<jump JotemWaiting>>
-                -> I don't know, perhaps a different time.
+{$name}: When I met her, I was at a low in my life.
+{$name}: However, after talkin to her for just one evening, one loong evening, life seemed so much easier.
+{$name}: Of course my habits and behaviour didn't change over night!
+{$name}: But I was able to appreciate life as a whole much more, the good and the bad.
+{$name}: It was like I was finally able to see all the beatiful colors in the world.
+{$name}: Where everything was just one gray mess before, now everything was brimming with life.
+{$name}: Agh! Ya get what I mean, right?
+-> Yes, I think so.
+    {$name}: Okay, good.
+    {$name}: So anyways, that was my little story.
+    {$name}: After that point, I was able to enjoy fishing.
+    {$name}: In my free time I build towards my dream of becoming an adventurer.
+    {$name}: And eventually, I did!
+    -> That's awesome. Do you think I could achieve that too?
+        {$name}: Of course! In fact, you don't have anywhere to go right?
+        You: No, I wouldn't know where anyways.
+        {$name}: Right. So how about you join me?
+        {$name}: Your dream might not be to become an adventurer, but ya can work towards ya dream while making money as an adventurer.
+        -> I am not too sure...
+            {$name}: Yeh right, how about you talk with her first?
+            {$name}: I mean Eleonore, the person that helped me back then.
+            <<target_npc_mentioned {$name} {$target_npc}>>
+            {$name}: She is a witch and is borderline immortal, what a cheatcode...
+            {$name}: She should be around here somewhere.
+            {$name}: You can't really miss her, big witch-like hat and orange hair.
+            {$name}: Oh yeah and she is usuall floating in the air.
+            {$name}: So how about you go talk to her and then come back and tell me about your decision?
+            -> Okay, I will give it a try.
+                {$name}: Alright! I will be waiting here for you.
+                {$name}: Good luck!
+                <<stop_chat>>
+                <<jump JotemWaiting>>
 
 ===
 title: JotemHub
@@ -171,7 +172,6 @@ title: JotemHub
 {$name}: Just tell me what you want to talk about.
 -> Where are we?
 -> Who are you?
--> TMP
 
 ===
 title: JotemWaiting
@@ -185,7 +185,11 @@ title: JotemWaiting
 <<else>>
 {$name}: So, you talked with Eleonore?
 -> No, not yet.
+    {$name}: Alright, just come back once you do.
+    {$name}: I will be waiting here for you.
 -> I can't find her.
+    {$name}: Hoo... well she is a witch that is hovering in the air.
+    {$name}: No way you can miss her haha!
 -> Yes
     <<if $talked_with_target_npc>>
         <<jump TalkedWithEleonore>>
@@ -203,10 +207,10 @@ title: TalkedWithEleonore
 
 {$name}: Okay sweet. Then let's hear about ya decision.
 {$name}: You wanna join me in my adventures?
--> Before I answer, let me ask you a few questions.
+// -> Before I answer, let me ask you a few questions.
 -> Yes!
     <<jump FinalAct>>
--> Thank you for the offer, but no.
+// -> Thank you for the offer, but no.
 
 ===
 title: QandA
@@ -225,8 +229,7 @@ title: FinalAct
     {$name}: Then how about I lent ya a hand with that?
     -> Yes! *Join Jotem*
         <<trigger_ending {$name}>>
--> I wish to be more free. I think being an adventurer is very freeing.
--> Just wanna try it out.
--> A
+// -> I wish to be more free. I think being an adventurer is very freeing.
+// -> Just wanna try it out.
 
 ===

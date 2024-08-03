@@ -46,14 +46,13 @@ title: PaiDoesntBelieve
     {$antonius}: We cannot be sure of anything in this world.
     {$antonius}: Nothing is certain, there are no proofs for anything.
     {$antonius}: All there is, is evidence.
-    {$antonius}: The only exception being mathematics, but that isn't tangible.
+    {$antonius}: The only exception being mathematics, but that's a different subject altogether.
     {$ionas}: That one we agree on.
-    {$ionas}: Mathematics is separat to our perceivable world.
     {$ionas}: But I disagree with the notion of subjective truths.
     {$ionas}: There must be a definite truth to everything.
     {$ionas}: Anything else doesn't make any sense.
     {$antonius}: This is exactly where our views differ.
-    {$antonius}: And the lay the foundation of our believes.
+    {$antonius}: And the foundation of our different believes.
     {$antonius}: What do you think about this Pai?
     {$antonius}: Do you believe in a subjective or objective worldivew?
     -> I think I need some more context before answering.
@@ -75,11 +74,11 @@ title: SubjectiveAndObjectiveWorldview
 {$ionas}: This applies to everything, not just morals.
 {$ionas}: What is happyness, the purpose of life, being lucky in life, everything.
 {$ionas}: God is truth, god is love. // I don't quite understand this god is love thing, I have seen that a lot of times now but don't quite get how it works exactly
-{$ionas}: Whether something is morally correct or not is something we don't decide.
-{$ionas}: It's something god defined.
+{$ionas}: Whether something is morally correct or not is something we don't get to decide.
+{$ionas}: It's something we never could decide, only god can.
 {$ionas}: We can only try our best to get close to this truth.
 {$ionas}: ... That's about what I mean with objective worldview.
-{$antonius}: It's really interesting how I have a completely different perspective.
+{$antonius}: It's really interesting, I have a completely different perspective.
 {$antonius}: For me, the logical conclusion what is morally right or wrong must be subjective.
 {$antonius}: Whether something is considered lucky or good, must be inherently subjective.
 {$ionas}: This however means, that if somebody thinks murder is okay, then he would be correct?
@@ -95,7 +94,7 @@ title: SubjectiveAndObjectiveWorldview
 {$antonius}: Your morals are the constrains you set yourself for achieving your dream.
 {$antonius}: Knowledge and experience can influence your believes.
 {$antonius}: And believe can change a man.
--> I am not quite following
+// -> I am not quite following
 -> ... *say nothing*
 {$ionas}: But that doesn't answer the question.
 {$ionas}: Even if your morals can change, how do you even know they are changing for the better?
@@ -109,7 +108,7 @@ title: SubjectiveAndObjectiveWorldview
 {$antonius}: It may take a while, but in the long term, violence is a net negative.
 {$antonius}: Conflict in general is.
 {$antonius}: Opposite to that is cooperation.
-{$antonius}: It may come with downsides in the short term, but is a net positive in the long run.
+{$antonius}: It may come with downsides in the short term, but it's a net positive in the long run.
 {$antonius}: That is also why I admire your religions dedication to forgiveness so much.
 {$antonius}: It sparks cooperation.
 {$ionas}: Hm, that is actually a pretty good point.
@@ -139,10 +138,10 @@ title: SubjectiveAndObjectiveWorldview
     {$antonius}: Then who defined the objective truth, the morals and everything?
     -> I don't know, but it just seems to be more... right.
         {$antonius}: Hm, I suppose I get it.
-        {$antonius}: You don't believe in a god but perhaps in some other form of higher... thing?
+        {$antonius}: You don't believe in a god but perhaps in some other form of higher... power?
         {$antonius}: Like some energy connecting everything, or something along those lines?
         {$antonius}: But it's fascination.
-        {$antonius}: Three people meeting on some random path, all having their own world views.
+        {$antonius}: Three people meeting on some random path, all having their own perspective on the world.
         {$antonius}: I don't think you will ever find a person that has exactly your world view.
         {$antonius}: I don't even have the same world view as the me 2 years ago.
         {$antonius}: However, I think this is a truly wonderful thing.
@@ -158,13 +157,13 @@ title: SubjectiveAndObjectiveWorldview
         {$ionas}: How do you define happy here?
         {$antonius}: Hahaha, I should have seen that coming.
         {$antonius}: That's a good question.
-        {$antonius}: I can tell you what thirst is, what it means to be hungry or tired and how to prevent it.
+        {$antonius}: I can tell you what thirst is, what it means to be hungry or tired and how to combat it.
         {$antonius}: But how can you become happy?
         {$antonius}: I think that the answer is going to be an individual one.
         {$antonius}: Though it will always involve some kind of hard work.
         {$antonius}: Somethig you can't achieve easily.
         {$antonius}: You can't be happy before being unhappy.
-        {$antonius}: Oh! I had a chat with Jotem about something like this recently.
+        {$antonius}: Oh! I had a chat with Jotem about this the other day.
         {$ionas}: With Jotem? Oh yeah I can see that.
         {$antonius}: I think being happy means committing to your dream.
         {$antonius}: But the old guy can probably give a more profound perspective on the matter.
@@ -194,15 +193,13 @@ title: DoYouWantToJoinIonasAndAntonius
 {$antonius}: Yes, I think it's the lack of self reflection.
 {$antonius}: How do you expect to try to understand another human if you don't event try to understand yourself?
 {$antonius}: And conversations where you don't try to understand one another are devoid of any depth.
-{$antonius}: But the fact that there aren't many opportunities like these to have such refreshing conversations just makes them even more precious.
+{$antonius}: But the fact that there aren't many opportunities to have conversations like these just makes them even more precious.
 {$antonius}: Actually, that brings me to an idea.
 {$antonius}: How about we all live together?
 {$ionas}: Huh? That's quite sudden.
-{$antonius}: Yeah I know, but I really appreciate my interactions with you.
-{$antonius}: Pai, I guess it's also really sudden for you?
--> Yes, I don't really know about it.
-    {$antonius}: I figured.
-    {$antonius}: Though you don't have anywhere to go right?
+-> Yeah, very sudden.
+    {$antonius}: Yeah I know, but I really appreciate my interactions with you guys.
+    {$antonius}: And Pai, you don't have anywhere to go right?
     {$antonius}: You looked extremely lost the moment I saw you.
     {$ionas}: Oh yeah I thought the same.
     You: Is it that obvious...
@@ -230,7 +227,12 @@ title: IonasAndAntoniusWaiting
 <<else>>
 {$antonius}: Did you talk with the old guy?
 -> No, not yet.
--> I can't find her.
+    {$antonius}: I see, well just make sure to get back to us once you do.
+    {$ionas}: We will be waiting here for you.
+-> I can't find him.
+    {$antonius}: Hm, he is a veteran looking adventurer with a sword.
+    {$antonius}: Don't think you can mistake him for anybody else.
+    {$antonius}: If you walk on the path you are gonna run into him sooner or later.
 -> Yes
     <<if $talked_with_target_npc>>
         <<jump TalkedWithJotem>>
