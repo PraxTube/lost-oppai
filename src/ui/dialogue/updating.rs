@@ -1,12 +1,13 @@
 use bevy::prelude::*;
 use bevy_yarnspinner::{events::*, prelude::*};
 
+use crate::player::chat::PlayerStoppedChat;
 use crate::player::input::PlayerInput;
 
 use super::option_selection::OptionSelection;
 use super::runner::RunnerFlags;
 use super::spawn::{DialogueContinueNode, DialogueNameNode};
-use super::typewriter::{Typewriter, WriteDialogueText};
+use super::typewriter::{Typewriter, TypewriterFinished, WriteDialogueText};
 use super::DialogueViewSystemSet;
 
 fn convert_name(name: &str) -> String {
@@ -82,7 +83,11 @@ fn continue_dialogue(
 
         if !dialogue_runner.is_waiting_for_option_selection() && dialogue_runner.is_running() {
             dialogue_runner.continue_in_next_update();
-            *q_continue_visibility.single_mut() = Visibility::Hidden;
+            let mut visibility = match q_continue_visibility.get_single_mut() {
+                Ok(r) => r,
+                Err(_) => continue,
+            };
+            *visibility = Visibility::Hidden;
         }
     }
 }
@@ -104,6 +109,34 @@ fn update_dialogue_name(
     text.sections[0].value = convert_name(&typewriter.character_name.clone().unwrap_or_default());
 }
 
+fn show_continue_node(
+    typewriter: Res<Typewriter>,
+    mut q_visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
+) {
+    let mut visibility = match q_visibility.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    let vis = if typewriter.last_before_options {
+        Visibility::Hidden
+    } else {
+        Visibility::Inherited
+    };
+    info!("setting vis of continue node to {:?}", vis);
+    *visibility = vis;
+}
+
+fn hide_continue_node(
+    mut q_continue_visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
+) {
+    let mut visibility = match q_continue_visibility.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+    *visibility = Visibility::Hidden;
+}
+
 pub struct DialogueUpdatingPlugin;
 
 impl Plugin for DialogueUpdatingPlugin {
@@ -115,6 +148,12 @@ impl Plugin for DialogueUpdatingPlugin {
                 present_options.run_if(on_event::<PresentOptionsEvent>()),
                 continue_dialogue,
                 update_dialogue_name,
+                show_continue_node.run_if(
+                    on_event::<TypewriterFinished>().or_else(on_event::<WriteDialogueText>()),
+                ),
+                hide_continue_node.run_if(
+                    on_event::<DialogueCompleteEvent>().or_else(on_event::<PlayerStoppedChat>()),
+                ),
             )
                 .chain()
                 .after(YarnSpinnerSystemSet)

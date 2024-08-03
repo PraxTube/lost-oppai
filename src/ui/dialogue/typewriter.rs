@@ -13,7 +13,7 @@ use crate::{GameAssets, GameState};
 
 use super::audio::PlayBlipEvent;
 use super::option_selection::OptionSelection;
-use super::spawn::{create_dialogue_text, DialogueContent, DialogueContinueNode};
+use super::spawn::{create_dialogue_text, DialogueContent};
 use super::DialogueViewSystemSet;
 
 // Write dialogue instantly, for going through dialogue fast.
@@ -172,31 +172,6 @@ fn write_text(
     *text = create_dialogue_text(&typewriter.current_text, rest, &assets);
 }
 
-fn show_continue(
-    typewriter: Res<Typewriter>,
-    mut q_visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
-    mut ev_typewriter_finished: EventReader<TypewriterFinished>,
-    mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
-) {
-    if ev_typewriter_finished.is_empty() && ev_write_dialogue_text.is_empty() {
-        return;
-    }
-    ev_typewriter_finished.clear();
-    ev_write_dialogue_text.clear();
-
-    let mut visibility = match q_visibility.get_single_mut() {
-        Ok(r) => r,
-        Err(_) => return,
-    };
-
-    let vis = if typewriter.last_before_options {
-        Visibility::Hidden
-    } else {
-        Visibility::Inherited
-    };
-    *visibility = vis;
-}
-
 fn send_finished_event(
     mut typewriter: ResMut<Typewriter>,
     mut ev_typewriter_finished: EventWriter<TypewriterFinished>,
@@ -268,7 +243,6 @@ impl Plugin for DialogueTypewriterPlugin {
             (
                 send_finished_event,
                 write_text,
-                show_continue,
                 finish_stopped_dialoauge,
                 set_writer_speed,
             )

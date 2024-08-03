@@ -259,11 +259,11 @@ impl Plugin for DialogueRunnerPlugin {
         )
         .add_systems(
             Update,
-            hide_dialogue
-                .run_if(on_event::<DialogueCompleteEvent>().or_else(
+            hide_dialogue.run_if(
+                on_event::<DialogueCompleteEvent>().or_else(
                     on_event::<PlayerStoppedChat>().or_else(on_event::<EndingTriggered>()),
-                ))
-                .run_if(not(in_state(GameState::AssetLoading))),
+                ),
+            ),
         );
     }
 }
