@@ -37,6 +37,9 @@ const ROCK_RADIUS: f32 = 1.0;
 const NPC_FLORA_RADIUS: f32 = 64.0;
 
 #[derive(Component)]
+struct SakuraPedal;
+
+#[derive(Component)]
 struct Flora {
     chunk_pos: IVec2,
 }
@@ -145,42 +148,45 @@ fn spawn_tree(commands: &mut Commands, assets: &Res<GameAssets>, chunk_pos: IVec
         .id();
 
     let tree_pedals = commands
-        .spawn(ParticleSystemBundle {
-            particle_system: ParticleSystem {
-                max_particles: 500,
-                texture: assets.tree_pedal.clone().into(),
-                spawn_rate_per_second: 2.0.into(),
-                initial_speed: JitteredValue::jittered(50.0, -3.0..3.0),
-                lifetime: JitteredValue::jittered(1.0, -0.5..1.5),
-                color: ColorOverTime::Gradient(Curve::new(vec![
-                    CurvePoint::new(Color::srgba(1.0, 1.0, 1.0, 0.0), 0.0),
-                    CurvePoint::new(Color::WHITE, 0.3),
-                    CurvePoint::new(Color::WHITE, 0.8),
-                    CurvePoint::new(Color::srgba(1.0, 1.0, 1.0, 0.0), 0.95),
-                    CurvePoint::new(Color::srgba(1.0, 1.0, 1.0, 0.0), 1.0),
-                ])),
-                emitter_shape: EmitterShape::CircleSegment(CircleSegment {
-                    opening_angle: PI / 2.0,
-                    direction_angle: 3.0 / 2.0 * PI,
-                    radius: 0.0.into(),
-                }),
-                initial_rotation: JitteredValue::jittered(PI, -PI..PI),
-                rotation_speed: JitteredValue::jittered(PI / 2.0, -PI / 4.0..PI / 4.0),
-                velocity_modifiers: vec![
-                    VelocityModifier::Vector(VectorOverTime::Constant(
-                        7.0 * Vec3::new(3.0, -1.5, 0.0),
-                    )),
-                    VelocityModifier::Noise(Noise2D::new(0.1, 2.0, Vec2::ZERO)),
-                ],
-                scale: 0.5.into(),
-                z_value_override: Some(100.0.into()),
-                looping: true,
-                despawn_particles_with_system: true,
-                ..ParticleSystem::default()
+        .spawn((
+            SakuraPedal,
+            Playing,
+            ParticleSystemBundle {
+                particle_system: ParticleSystem {
+                    max_particles: 500,
+                    texture: assets.tree_pedal.clone().into(),
+                    spawn_rate_per_second: 2.0.into(),
+                    initial_speed: JitteredValue::jittered(50.0, -3.0..3.0),
+                    lifetime: JitteredValue::jittered(1.0, -0.5..1.5),
+                    color: ColorOverTime::Gradient(Curve::new(vec![
+                        CurvePoint::new(Color::srgba(1.0, 1.0, 1.0, 0.0), 0.0),
+                        CurvePoint::new(Color::WHITE, 0.3),
+                        CurvePoint::new(Color::WHITE, 0.8),
+                        CurvePoint::new(Color::srgba(1.0, 1.0, 1.0, 0.0), 0.95),
+                        CurvePoint::new(Color::srgba(1.0, 1.0, 1.0, 0.0), 1.0),
+                    ])),
+                    emitter_shape: EmitterShape::CircleSegment(CircleSegment {
+                        opening_angle: PI / 2.0,
+                        direction_angle: 3.0 / 2.0 * PI,
+                        radius: 0.0.into(),
+                    }),
+                    initial_rotation: JitteredValue::jittered(PI, -PI..PI),
+                    rotation_speed: JitteredValue::jittered(PI / 2.0, -PI / 4.0..PI / 4.0),
+                    velocity_modifiers: vec![
+                        VelocityModifier::Vector(VectorOverTime::Constant(
+                            7.0 * Vec3::new(3.0, -1.5, 0.0),
+                        )),
+                        VelocityModifier::Noise(Noise2D::new(0.1, 2.0, Vec2::ZERO)),
+                    ],
+                    scale: 0.5.into(),
+                    z_value_override: Some(100.0.into()),
+                    looping: true,
+                    despawn_particles_with_system: true,
+                    ..ParticleSystem::default()
+                },
+                ..ParticleSystemBundle::default()
             },
-            ..ParticleSystemBundle::default()
-        })
-        .insert(Playing)
+        ))
         .id();
 
     commands
@@ -334,6 +340,15 @@ fn despawn_flora_around_npcs(
     }
 }
 
+fn play_sakura_pedal_particles(
+    mut commands: Commands,
+    mut q_pedals: Query<&mut ParticleSystem, Added<SakuraPedal>>,
+) {
+    for mut system in &mut q_pedals {
+        system.max_particles = 100;
+    }
+}
+
 pub struct FloraPlugin;
 
 impl Plugin for FloraPlugin {
@@ -341,6 +356,7 @@ impl Plugin for FloraPlugin {
         app.add_systems(
             Update,
             (
+                play_sakura_pedal_particles.before(spawn_flora_chunks),
                 spawn_flora_chunks,
                 despawn_flora_chunks,
                 despawn_flora_around_start_hint,
