@@ -11,7 +11,7 @@ title: Paladins
 -> Hello. Who are you people?
     {$sven}: We are Paladins.
     <<set $sven to "Sven">>
-    <<set $jonna to "Joanna">>
+    <<set $joanna to "Joanna">>
     <<set $dorothea to "Dorothea">>
     {$sven}: I am Sven and this is Joanna and Dorothea.
     {$dorothea}: Pleasure!
@@ -39,7 +39,19 @@ You: Yes, my name is Pai.
 {$dorothea}: Nice to meet you Pai!
 {$dorothea}: As Sven was saying, we Paladins swore an oath to protect and help any person in need.
 {$dorothea}: I would say you are just such a person, Pai.
-{$dorothea}: 
+{$sven}: I agree, we are here for you if you need help.
+-> Thank you. Though I don't have any means to repay you.
+    {$sven}: Haha, Paladins don't take payment!
+    {$sven}: That is not the reason why we do our work.
+    {$sven}: Wait, but you don't remember anything right?
+    {$sven}: So I guess you also don't know your profession?
+    You: No...
+    {$sven}: Hm, I see.
+    {$sven}: Do you at least know where you will spend the night today?
+    You: I... don't know that either.
+    {$sven}: I see I see...
+    {$sven}: So you have nowhere to go nor any money to spend.
+    <<jump PaiBecomingAPaldin>>
 
 ===
 title: PaiBecomingAPaldin
@@ -58,11 +70,11 @@ title: PaiBecomingAPaldin
     {$joanna}: That's right.
     {$joanna}: You would not fit in.
     {$dorothea}: Now now Joanna, don't be so hasty.
-    {$sven}: Yes, I wasn't a strong believer when I joined either.
+    {$sven}: I wasn't a strong believer when I joined either.
     {$sven}: My reason for joining was rather selfish in the first place.
     {$sven}: I only thought of it as a good exceprience to become stronger.
     {$sven}: Only over the years did I learn what is truly important to me.
-    {$sven}: Oh! I grew up with two friends that have opposite views on religion.
+    {$sven}: Oh! I grew up with two friends that have both opposite views on religion.
     {$sven}: They are called Ionas and Antonius.
     {$sven}: I have seen Ionas around here.
     {$sven}: He said Antonius also comes by from time to time.
@@ -83,5 +95,36 @@ title: PaladinsWaiting
 ---
 
 ...
+<<if $talked_with_target_npc>>
+{$sven}: Did you talk with Antonius and Ionas?
+-> Yes
+    <<jump PaladinsTalkedWithTarget>>
+<<else>>
+{$sven}: Did you talk with Antonius and Ionas?
+-> No, not yet.
+    {$sven}: Okay, well you do you.
+    {$sven}: If you need more time, no worries.
+    {$sven}: I will be waiting here for you.
+-> I can't find them
+    {$sven}: Oh, I am pretty sure they are around here somewhere.
+    {$sven}: I would guess somewhere along the path.
+-> Yes
+    <<if $talked_with_target_npc>>
+        <<jump PaladinsTalkedWithTarget>>
+    <<else>>
+        {$joanna}: So you are even lying with a straight face.
+        {$dorothea}: I have to agree with Joanna here, that sounded like a lie.
+        {$sven}: Look we are not forcing you to talk with them.
+        {$sven}: I just think it would be good before you take a decision.
+    <<endif>>
+<<endif>>
+<<stop_chat>>
+<<jump PaladinsWaiting>>
+
+===
+title: PaladinsTalkedWithTarget
+---
+
+TMP
 
 ===

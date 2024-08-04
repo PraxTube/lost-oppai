@@ -209,6 +209,7 @@ fn set_writer_speed(
     mut typewriter: ResMut<Typewriter>,
     mut ev_present_line: EventReader<PresentLineEvent>,
 ) {
+    return;
     for ev in ev_present_line.read() {
         if **debug_active {
             typewriter.current_speed = DEBUG_SPEED;

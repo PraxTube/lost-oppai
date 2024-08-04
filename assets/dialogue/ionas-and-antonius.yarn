@@ -242,6 +242,7 @@ title: IonasAndAntoniusWaiting
         {$antonius}: But it might reveal some wisdom to you.
     <<endif>>
 <<endif>>
+<<stop_chat>>
 <<jump IonasAndAntoniusWaiting>>
 
 ===

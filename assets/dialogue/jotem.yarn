@@ -154,10 +154,10 @@ title: ThatOneEncounter
             {$name}: Yeh right, how about you talk with her first?
             {$name}: I mean Eleonore, the person that helped me back then.
             <<target_npc_mentioned {$name} {$target_npc}>>
-            {$name}: She is a witch and is borderline immortal, what a cheatcode...
+            {$name}: She is a witch and likes to come here to calm her mind.
             {$name}: She should be around here somewhere.
             {$name}: You can't really miss her, big witch-like hat and orange hair.
-            {$name}: Oh yeah and she is usuall floating in the air.
+            {$name}: Oh yeah and she is floating in the air.
             {$name}: So how about you go talk to her and then come back and tell me about your decision?
             -> Okay, I will give it a try.
                 {$name}: Alright! I will be waiting here for you.
@@ -199,6 +199,7 @@ title: JotemWaiting
         {$name}: But I think it would be very helpful for you.
     <<endif>>
 <<endif>>
+<<stop_chat>>
 <<jump JotemWaiting>>
 
 ===

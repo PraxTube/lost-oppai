@@ -159,6 +159,7 @@ title: EleonoreWaiting
         {$name}: But I think it could be helpful for you.
     <<endif>>
 <<endif>>
+<<stop_chat>>
 <<jump EleonoreWaiting>>
 
 ===
