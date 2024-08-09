@@ -138,6 +138,15 @@ pub struct GameAssets {
     #[asset(path = "ui/white_pixel.png")]
     pub white_pixel: Handle<Image>,
 
+    #[asset(path = "ui/button.png")]
+    pub button: Handle<Image>,
+    #[asset(path = "ui/box_button.png")]
+    pub box_button: Handle<Image>,
+    #[asset(path = "ui/tick.png")]
+    pub ui_tick: Handle<Image>,
+    #[asset(path = "ui/cross.png")]
+    pub ui_cross: Handle<Image>,
+
     #[asset(path = "ui/dialogue_edge.png")]
     pub dialogue_edge: Handle<Image>,
     #[asset(path = "ui/dialogue_continue.png")]

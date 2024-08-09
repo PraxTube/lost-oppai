@@ -364,6 +364,6 @@ pub struct NpcSpawnPlugin;
 
 impl Plugin for NpcSpawnPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnExit(GameState::AssetLoading), (spawn_npcs,));
+        app.add_systems(OnEnter(GameState::Gaming), (spawn_npcs,));
     }
 }

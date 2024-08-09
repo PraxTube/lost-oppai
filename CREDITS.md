@@ -45,6 +45,12 @@ https://cazwolf.itch.io/caz-pixel-free
 
 https://github.com/YarnSpinnerTool/YarnSpinner-Rust
 
+### Main Menu Elements (Buttons etc.)
+
+https://crusenho.itch.io/complete-ui-essential-pack by Crusenho Agus Hennihuno,
+modifications: Color tint of the buttons,
+licensed under: https://creativecommons.org/licenses/by/4.0/
+
 ---
 
 ## Audio

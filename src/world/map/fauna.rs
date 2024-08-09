@@ -349,6 +349,6 @@ impl Plugin for FaunaPlugin {
             )
                 .run_if(in_state(GameState::Gaming)),
         )
-        .add_systems(OnExit(GameState::AssetLoading), (spawn_initial_birds,));
+        .add_systems(OnEnter(GameState::Gaming), (spawn_initial_birds,));
     }
 }

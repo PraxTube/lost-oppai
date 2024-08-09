@@ -112,13 +112,13 @@ fn spawn_dialogue_top(commands: &mut Commands, assets: &Res<GameAssets>) -> Enti
         .id()
 }
 
-fn spawn_dialogue_content(commands: &mut Commands, _assets: &Res<GameAssets>) -> Entity {
+fn spawn_dialogue_content(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity {
     let text = commands
         .spawn((
             DialogueContent,
             Label,
-            TextBundle::from_section(String::new(), text_style_standard(_assets))
-                .with_style(style_standard(_assets)),
+            TextBundle::from_section(String::new(), text_style_standard(assets))
+                .with_style(style_standard(assets)),
         ))
         .id();
 
@@ -299,6 +299,42 @@ fn spawn_dialogue(mut commands: Commands, assets: Res<GameAssets>) {
         .push_children(&[dialogue_options, dialogue_root]);
 }
 
+fn spawn_dialogue_main_menu(mut commands: Commands, assets: Res<GameAssets>) {
+    let dialogue_content = spawn_dialogue_content(&mut commands, &assets);
+
+    let dialogue_root = commands
+        .spawn(NodeBundle {
+            style: Style {
+                width: Val::Percent(100.0),
+                height: Val::Percent(100.0),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                padding: UiRect::top(Val::Px(30.0)),
+                flex_direction: FlexDirection::Column,
+                top: Val::Px(-200.0),
+                ..default()
+            },
+            ..default()
+        })
+        .add_child(dialogue_content)
+        .id();
+
+    commands
+        .spawn((
+            DialogueRoot,
+            NodeBundle {
+                style: Style {
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    position_type: PositionType::Absolute,
+                    ..default()
+                },
+                ..default()
+            },
+        ))
+        .add_child(dialogue_root);
+}
+
 pub fn create_dialogue_text(
     text: impl Into<String>,
     invisible: impl Into<String>,
@@ -372,6 +408,7 @@ pub struct DialogueSpawnPlugin;
 
 impl Plugin for DialogueSpawnPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnExit(GameState::AssetLoading), spawn_dialogue);
+        app.add_systems(OnEnter(GameState::Gaming), spawn_dialogue)
+            .add_systems(OnEnter(GameState::MainMenu), spawn_dialogue_main_menu);
     }
 }

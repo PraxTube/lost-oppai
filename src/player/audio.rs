@@ -124,13 +124,13 @@ impl Plugin for PlayerAudioPlugin {
         app.add_systems(
             Update,
             (
-                update_bird_sound.run_if(not(in_state(GameState::AssetLoading))),
+                update_bird_sound.run_if(resource_exists::<BirdSound>),
                 (play_step_sounds, tick_steps_timers).run_if(in_state(GameState::Gaming)),
             ),
         )
         .init_resource::<StepsTimer>()
         .add_systems(
-            OnExit(GameState::AssetLoading),
+            OnEnter(GameState::Gaming),
             (spawn_bird_sound, spawn_cricket_sound),
         );
     }

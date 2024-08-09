@@ -262,6 +262,6 @@ pub struct KeyboardUiPlugin;
 
 impl Plugin for KeyboardUiPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnExit(GameState::AssetLoading), spawn_keyboard_ui);
+        app.add_systems(OnEnter(GameState::Gaming), spawn_keyboard_ui);
     }
 }

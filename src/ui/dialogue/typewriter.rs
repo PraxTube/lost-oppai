@@ -24,6 +24,9 @@ const AVERAGE_SPEED: f32 = 20.0;
 
 #[derive(Event)]
 pub struct TypewriterFinished;
+/// This event triggers the typewriter to write a full line instantly.
+/// It's used to set the dialuge lines whenever the player stops/starts
+/// dialogue with NPCs.
 #[derive(Event)]
 pub struct WriteDialogueText;
 
@@ -79,8 +82,6 @@ impl Typewriter {
                 .map(|s| s.to_string())
                 .collect(),
             last_before_options: line.is_last_line_before_options(),
-            // This fn can get called AFTER setting writer speed
-            current_speed: self.current_speed,
             ..default()
         };
     }
@@ -171,8 +172,11 @@ fn write_text(
     }
 
     let added_text = typewriter.update_current_text();
+    if added_text.is_empty() {
+        return;
+    }
 
-    if !added_text.is_empty() && &added_text != " " {
+    if &added_text != " " {
         ev_play_blip.send(PlayBlipEvent::new(
             &typewriter.character_name.clone().unwrap_or_default(),
         ));
@@ -260,7 +264,7 @@ impl Plugin for DialogueTypewriterPlugin {
                 .chain()
                 .after(YarnSpinnerSystemSet)
                 .in_set(DialogueViewSystemSet)
-                .run_if(in_state(GameState::Gaming)),
+                .run_if(resource_exists::<GameAssets>),
         )
         .init_resource::<Typewriter>()
         .add_event::<TypewriterFinished>()

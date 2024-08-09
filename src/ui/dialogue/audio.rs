@@ -129,7 +129,7 @@ pub struct DialogueAudioPlugin;
 
 impl Plugin for DialogueAudioPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (play_blips,).run_if(in_state(GameState::Gaming)))
+        app.add_systems(Update, (play_blips,).run_if(resource_exists::<GameAssets>))
             .add_event::<PlayBlipEvent>();
     }
 }

@@ -239,31 +239,28 @@ pub struct DialogueRunnerPlugin;
 
 impl Plugin for DialogueRunnerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(
-            Update,
-            (activate_dialogue_runner, spawn_dialogue_runner)
-                .chain()
-                .run_if(in_state(GameState::Gaming).and_then(resource_exists::<YarnProject>)),
-        )
-        .add_event::<SpawnDialogueRunner>()
-        .add_event::<UpdateTargetNpcs>()
-        .add_systems(
-            Update,
-            (
-                despawn_dialogue_runner,
-                deactivate_dialogue_runner,
-                monitor_active_runners,
-                update_target_npcs,
+        app.add_event::<SpawnDialogueRunner>()
+            .add_event::<UpdateTargetNpcs>()
+            .add_systems(
+                Update,
+                (activate_dialogue_runner, spawn_dialogue_runner)
+                    .chain()
+                    .run_if(in_state(GameState::Gaming).and_then(resource_exists::<YarnProject>)),
             )
-                .run_if(in_state(GameState::Gaming)),
-        )
-        .add_systems(
-            Update,
-            hide_dialogue.run_if(
-                on_event::<DialogueCompleteEvent>().or_else(
-                    on_event::<PlayerStoppedChat>().or_else(on_event::<EndingTriggered>()),
+            .add_systems(
+                Update,
+                (
+                    despawn_dialogue_runner,
+                    deactivate_dialogue_runner,
+                    monitor_active_runners,
+                    update_target_npcs,
                 ),
-            ),
-        );
+            )
+            .add_systems(
+                Update,
+                hide_dialogue.run_if(on_event::<DialogueCompleteEvent>().or_else(
+                    on_event::<PlayerStoppedChat>().or_else(on_event::<EndingTriggered>()),
+                )),
+            );
     }
 }

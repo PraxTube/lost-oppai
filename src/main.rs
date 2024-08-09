@@ -28,6 +28,7 @@ const BACKGROUND_COLOR: Color = Color::BLACK;
 pub enum GameState {
     #[default]
     AssetLoading,
+    MainMenu,
     Gaming,
     Ending,
 }
@@ -74,7 +75,7 @@ fn main() {
         .init_state::<GameState>()
         .add_loading_state(
             LoadingState::new(GameState::AssetLoading)
-                .continue_to_state(GameState::Gaming)
+                .continue_to_state(GameState::MainMenu)
                 .load_collection::<GameAssets>(),
         )
         .insert_resource(ClearColor(BACKGROUND_COLOR))

@@ -34,6 +34,6 @@ pub struct ScreenFadeUiPlugin;
 
 impl Plugin for ScreenFadeUiPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnExit(GameState::AssetLoading), (fade_out_intro_screen,));
+        app.add_systems(OnEnter(GameState::Gaming), (fade_out_intro_screen,));
     }
 }
