@@ -335,6 +335,15 @@ fn spawn_dialogue_main_menu(mut commands: Commands, assets: Res<GameAssets>) {
         .add_child(dialogue_root);
 }
 
+fn despawn_dialogue_main_menu(
+    mut commands: Commands,
+    q_dialogue_root: Query<Entity, With<DialogueRoot>>,
+) {
+    for entity in &q_dialogue_root {
+        commands.entity(entity).despawn_recursive();
+    }
+}
+
 pub fn create_dialogue_text(
     text: impl Into<String>,
     invisible: impl Into<String>,
@@ -408,7 +417,8 @@ pub struct DialogueSpawnPlugin;
 
 impl Plugin for DialogueSpawnPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::Gaming), spawn_dialogue)
-            .add_systems(OnEnter(GameState::MainMenu), spawn_dialogue_main_menu);
+        app.add_systems(OnEnter(GameState::MainMenu), spawn_dialogue_main_menu)
+            .add_systems(OnExit(GameState::MainMenu), despawn_dialogue_main_menu)
+            .add_systems(OnEnter(GameState::Gaming), spawn_dialogue);
     }
 }

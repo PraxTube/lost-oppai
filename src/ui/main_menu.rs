@@ -10,11 +10,16 @@ const PRESSED_BUTTON: Color = Color::srgb(0.35, 0.75, 0.35);
 
 const DIALOGUE_LINE: &str = "Example dialogue. Select speed at which to display dialogue in game. You can also disable blip sounds.";
 
-#[derive(Component)]
-struct SelectedOption;
+#[derive(Event)]
+pub struct MainMenuButtonPressed(pub ButtonAction);
 
 #[derive(Component)]
-enum ButtonAction {
+struct SelectedOption;
+#[derive(Component)]
+struct MainMenuUiRoot;
+
+#[derive(Component, Clone, Copy, PartialEq)]
+pub enum ButtonAction {
     Normal,
     Fast,
     Instant,
@@ -142,19 +147,22 @@ fn spawn_main_menu(mut commands: Commands, assets: Res<GameAssets>) {
         .id();
 
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::Center,
-                justify_content: JustifyContent::Center,
-                flex_direction: FlexDirection::Column,
-                top: Val::Px(100.0),
-                position_type: PositionType::Absolute,
+        .spawn((
+            MainMenuUiRoot,
+            NodeBundle {
+                style: Style {
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::Center,
+                    flex_direction: FlexDirection::Column,
+                    top: Val::Px(100.0),
+                    position_type: PositionType::Absolute,
+                    ..default()
+                },
                 ..default()
             },
-            ..default()
-        })
+        ))
         .push_children(&[speed_buttons, box_button, play_button]);
 }
 
@@ -174,7 +182,18 @@ fn highlight_buttons(
     }
 }
 
-fn insert_typewriter_line(mut typewriter: ResMut<Typewriter>) {
+fn trigger_button_actions(
+    interaction_query: Query<(&Interaction, &ButtonAction), (Changed<Interaction>, With<Button>)>,
+    mut ev_main_menu_button_pressed: EventWriter<MainMenuButtonPressed>,
+) {
+    for (interaction, action) in &interaction_query {
+        if *interaction == Interaction::Pressed {
+            ev_main_menu_button_pressed.send(MainMenuButtonPressed(*action));
+        }
+    }
+}
+
+fn set_typewriter(typewriter: &mut ResMut<Typewriter>) {
     typewriter.reset();
     typewriter.set_line(&LocalizedLine {
         id: LineId(String::new()),
@@ -185,15 +204,60 @@ fn insert_typewriter_line(mut typewriter: ResMut<Typewriter>) {
     });
 }
 
+fn insert_typewriter_line(mut typewriter: ResMut<Typewriter>) {
+    set_typewriter(&mut typewriter);
+}
+
+fn change_to_playing_game_state(
+    mut next_state: ResMut<NextState<GameState>>,
+    mut ev_main_menu_button_pressed: EventReader<MainMenuButtonPressed>,
+) {
+    for ev in ev_main_menu_button_pressed.read() {
+        if ev.0 == ButtonAction::Play {
+            next_state.set(GameState::Gaming);
+        }
+    }
+}
+
+fn reset_typewriter_line(
+    mut typewriter: ResMut<Typewriter>,
+    mut ev_main_menu_button_pressed: EventReader<MainMenuButtonPressed>,
+) {
+    for ev in ev_main_menu_button_pressed.read() {
+        match ev.0 {
+            ButtonAction::Normal | ButtonAction::Fast | ButtonAction::Instant => {
+                set_typewriter(&mut typewriter)
+            }
+            _ => {}
+        }
+    }
+}
+
+fn despawn_main_menu(mut commands: Commands, q_main_menu: Query<Entity, With<MainMenuUiRoot>>) {
+    for entity in &q_main_menu {
+        commands.entity(entity).despawn_recursive();
+    }
+}
+
 pub struct MainMenuPlugin;
 
 impl Plugin for MainMenuPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(OnEnter(GameState::MainMenu), (spawn_main_menu,))
-            .add_systems(OnEnter(GameState::MainMenu), insert_typewriter_line)
+        app.add_event::<MainMenuButtonPressed>()
+            .add_systems(
+                OnEnter(GameState::MainMenu),
+                (spawn_main_menu, insert_typewriter_line),
+            )
             .add_systems(
                 Update,
-                (highlight_buttons).run_if(in_state(GameState::MainMenu)),
-            );
+                (
+                    highlight_buttons,
+                    trigger_button_actions,
+                    reset_typewriter_line,
+                    change_to_playing_game_state,
+                )
+                    .run_if(in_state(GameState::MainMenu)),
+            )
+            .add_systems(OnExit(GameState::MainMenu), despawn_main_menu);
     }
 }

@@ -10,7 +10,6 @@ mod test;
 mod typewriter;
 mod updating;
 
-pub use spawn::DialogueRoot;
 pub use typewriter::Typewriter;
 
 use bevy::prelude::*;

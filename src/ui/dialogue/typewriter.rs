@@ -9,7 +9,7 @@ use bevy_yarnspinner::{events::*, prelude::*};
 use crate::npc::NpcDialogue;
 use crate::player::chat::PlayerStoppedChat;
 use crate::utils::DebugActive;
-use crate::{GameAssets, GameState};
+use crate::GameAssets;
 
 use super::audio::PlayBlipEvent;
 use super::option_selection::OptionSelection;
@@ -18,7 +18,7 @@ use super::DialogueViewSystemSet;
 
 // Write dialogue instantly, for going through dialogue fast.
 const DEBUG_SPEED: f32 = 1000.0;
-// The average speed over all people.
+// The average dialogue speed.
 // It's used to calculate the multiplier of the pauses caused by punctuation.
 const AVERAGE_SPEED: f32 = 20.0;
 
@@ -66,7 +66,6 @@ impl Typewriter {
             current_text: line.text_without_character_name(),
             last_finished: true,
             last_before_options: line.is_last_line_before_options(),
-            // This fn can get called AFTER setting writer speed
             current_speed: self.current_speed,
             ..default()
         }
@@ -213,13 +212,12 @@ fn set_writer_speed(
     mut typewriter: ResMut<Typewriter>,
     mut ev_present_line: EventReader<PresentLineEvent>,
 ) {
-    return;
-    for ev in ev_present_line.read() {
-        if **debug_active {
-            typewriter.current_speed = DEBUG_SPEED;
-            continue;
-        }
+    if **debug_active {
+        typewriter.current_speed = DEBUG_SPEED;
+        return;
+    }
 
+    for ev in ev_present_line.read() {
         let name = ev
             .line
             .character_name()
@@ -236,13 +234,15 @@ fn set_writer_speed(
                 NpcDialogue::Sven => 18.0,
                 NpcDialogue::Joanna => 21.0,
                 NpcDialogue::Dorothea => 19.0,
+                // Should never happen!
                 NpcDialogue::IonasAndAntonius => 300.0,
+                // Should never happen!
                 NpcDialogue::Paladins => 300.0,
             }
         } else {
             match name {
                 "You" => 20.0,
-                _ => 15.0,
+                _ => AVERAGE_SPEED,
             }
         };
         typewriter.current_speed = speed;

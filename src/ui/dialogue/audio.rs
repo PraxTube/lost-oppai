@@ -2,7 +2,21 @@ use std::str::FromStr;
 
 use bevy::prelude::*;
 
-use crate::{audio::PlaySound, npc::NpcDialogue, GameAssets, GameState};
+use crate::{
+    audio::PlaySound,
+    npc::NpcDialogue,
+    ui::main_menu::{ButtonAction, MainMenuButtonPressed},
+    GameAssets,
+};
+
+#[derive(Resource)]
+struct PlayBlips(bool);
+
+impl Default for PlayBlips {
+    fn default() -> Self {
+        Self(true)
+    }
+}
 
 #[derive(Event)]
 pub struct PlayBlipEvent {
@@ -22,7 +36,10 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
     // Narrator, i.e. no character name on screen.
     if character.is_empty() {
         return PlaySound {
-            volume: 0.0,
+            clip: assets.narrator_blip_sound.clone(),
+            rand_speed_intensity: 0.01,
+            playback_rate: 1.0,
+            volume: 0.3,
             ..default()
         };
     }
@@ -117,11 +134,27 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
 
 fn play_blips(
     assets: Res<GameAssets>,
+    play_blips: Res<PlayBlips>,
     mut ev_play_blip: EventReader<PlayBlipEvent>,
     mut ev_play_sound: EventWriter<PlaySound>,
 ) {
+    if !play_blips.0 {
+        return;
+    }
+
     for ev in ev_play_blip.read() {
         ev_play_sound.send(character_sound(&assets, &ev.dialogue));
+    }
+}
+
+fn toggle_play_blips(
+    mut play_blips: ResMut<PlayBlips>,
+    mut ev_main_menu_button_pressed: EventReader<MainMenuButtonPressed>,
+) {
+    for ev in ev_main_menu_button_pressed.read() {
+        if ev.0 == ButtonAction::ToggleBlips {
+            play_blips.0 = !play_blips.0;
+        }
     }
 }
 
@@ -129,7 +162,11 @@ pub struct DialogueAudioPlugin;
 
 impl Plugin for DialogueAudioPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (play_blips,).run_if(resource_exists::<GameAssets>))
-            .add_event::<PlayBlipEvent>();
+        app.init_resource::<PlayBlips>()
+            .add_event::<PlayBlipEvent>()
+            .add_systems(
+                Update,
+                (play_blips, toggle_play_blips).run_if(resource_exists::<GameAssets>),
+            );
     }
 }
