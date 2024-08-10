@@ -9,7 +9,6 @@ use bevy_yarnspinner::{events::*, prelude::*};
 use crate::npc::NpcDialogue;
 use crate::player::chat::PlayerStoppedChat;
 use crate::ui::main_menu::MainMenuButtonPressed;
-use crate::utils::DebugActive;
 use crate::{GameAssets, GameState};
 
 use super::audio::PlayBlipEvent;
@@ -17,8 +16,6 @@ use super::option_selection::OptionSelection;
 use super::spawn::{create_dialogue_text, DialogueContent};
 use super::DialogueViewSystemSet;
 
-// Write dialogue instantly, for going through dialogue fast.
-const DEBUG_SPEED: f32 = 1000.0;
 // The average dialogue speed.
 // It's used to calculate the multiplier of the pauses caused by punctuation.
 const AVERAGE_SPEED: f32 = 20.0;
@@ -215,15 +212,9 @@ fn finish_stopped_dialoauge(
 }
 
 fn set_writer_speed(
-    debug_active: Res<DebugActive>,
     mut typewriter: ResMut<Typewriter>,
     mut ev_present_line: EventReader<PresentLineEvent>,
 ) {
-    if **debug_active {
-        typewriter.current_speed = DEBUG_SPEED;
-        return;
-    }
-
     for ev in ev_present_line.read() {
         let name = ev
             .line
@@ -263,11 +254,11 @@ fn update_speed_multiplier(
     for ev in ev_main_menu_button_pressed.read() {
         let speed_multiplier = match ev.0 {
             crate::ui::main_menu::ButtonAction::Normal => 1.0,
+            crate::ui::main_menu::ButtonAction::Quick => 2.0,
             crate::ui::main_menu::ButtonAction::Fast => 10.0,
             crate::ui::main_menu::ButtonAction::Instant => 500.0,
             _ => continue,
         };
-        // info!("{}", speed_multiplier);
         typewriter.speed_multiplier = speed_multiplier;
     }
 }

@@ -11,7 +11,8 @@ const SCALE_TWEEN_TIME: f32 = 0.4;
 const NORMAL_SCALE: f32 = 1.0;
 const HOVERED_SCALE: f32 = 0.9;
 const PRESSED_SCALE: f32 = 0.8;
-const DIALOGUE_LINE: &str = "Example dialogue. Select speed at which to display dialogue in game. You can also disable blip sounds.";
+const SPAWN_DELAY: f32 = 0.5;
+const DIALOGUE_LINE: &str = "Example dialogue.\nSelect speed at which to display dialogue in game. You can also disable blip sounds.";
 
 #[derive(Event)]
 pub struct MainMenuButtonPressed(pub ButtonAction);
@@ -26,6 +27,7 @@ struct BoxMarker(bool);
 #[derive(Component, Clone, Copy, PartialEq)]
 pub enum ButtonAction {
     Normal,
+    Quick,
     Fast,
     Instant,
     Play,
@@ -145,6 +147,7 @@ fn spawn_main_menu(mut commands: Commands, assets: Res<GameAssets>) {
         .entity(entity)
         .insert((Animator::new(tween), SelectedOption))
         .id();
+    let quick_dialogue_button = spawn_button(&mut commands, &assets, ButtonAction::Quick, "Quick");
     let fast_dialogue_button = spawn_button(&mut commands, &assets, ButtonAction::Fast, "Fast");
     let instant_dialogue_button =
         spawn_button(&mut commands, &assets, ButtonAction::Instant, "Instant");
@@ -154,21 +157,32 @@ fn spawn_main_menu(mut commands: Commands, assets: Res<GameAssets>) {
     let speed_buttons = commands
         .spawn(NodeBundle {
             style: Style {
-                column_gap: Val::Px(80.0),
+                column_gap: Val::Px(50.0),
                 ..default()
             },
             ..default()
         })
         .push_children(&[
             normal_dialogue_button,
+            quick_dialogue_button,
             fast_dialogue_button,
             instant_dialogue_button,
         ])
         .id();
 
+    let tween = Tween::new(
+        EaseFunction::ExponentialIn,
+        Duration::from_secs_f32(SPAWN_DELAY),
+        TransformScaleLens {
+            start: Vec3::ZERO,
+            end: Vec3::ONE,
+        },
+    );
+
     commands
         .spawn((
             MainMenuUiRoot,
+            Animator::new(tween),
             NodeBundle {
                 style: Style {
                     width: Val::Percent(100.0),
@@ -201,7 +215,7 @@ fn highlight_buttons(
             (Interaction::Pressed, None) => {
                 ev_play_sound.send(PlaySound {
                     clip: assets.ui_button_press_sound.clone(),
-                    volume: 0.3,
+                    volume: 0.5,
                     ..default()
                 });
                 Tween::new(
@@ -216,7 +230,7 @@ fn highlight_buttons(
             (Interaction::Hovered, None) => {
                 ev_play_sound.send(PlaySound {
                     clip: assets.ui_button_hover_sound.clone(),
-                    volume: 0.3,
+                    volume: 0.5,
                     ..default()
                 });
                 Tween::new(
@@ -248,7 +262,10 @@ fn dehighlight_buttons(
 ) {
     for ev in ev_main_menu_button_pressed.read() {
         match ev.0 {
-            ButtonAction::Normal | ButtonAction::Fast | ButtonAction::Instant => {}
+            ButtonAction::Normal
+            | ButtonAction::Quick
+            | ButtonAction::Fast
+            | ButtonAction::Instant => {}
             _ => continue,
         }
 
@@ -289,7 +306,10 @@ fn trigger_button_actions(
         }
         if *interaction == Interaction::Pressed {
             match action {
-                ButtonAction::Normal | ButtonAction::Fast | ButtonAction::Instant => {
+                ButtonAction::Normal
+                | ButtonAction::Quick
+                | ButtonAction::Fast
+                | ButtonAction::Instant => {
                     commands.entity(entity).insert(SelectedOption);
                 }
                 _ => {}
@@ -333,8 +353,27 @@ fn set_typewriter(typewriter: &mut ResMut<Typewriter>) {
     });
 }
 
-fn insert_typewriter_line(mut typewriter: ResMut<Typewriter>) {
-    set_typewriter(&mut typewriter);
+fn insert_typewriter_line(
+    time: Res<Time>,
+    mut typewriter: ResMut<Typewriter>,
+    mut timer: Local<Timer>,
+    mut started: Local<bool>,
+) {
+    if timer.finished() {
+        return;
+    }
+
+    if !*started {
+        *started = true;
+        timer.set_mode(TimerMode::Once);
+        timer.set_duration(Duration::from_secs_f32(SPAWN_DELAY));
+        timer.set_elapsed(Duration::ZERO);
+    }
+
+    timer.tick(time.delta());
+    if timer.just_finished() {
+        set_typewriter(&mut typewriter);
+    }
 }
 
 fn change_to_playing_game_state(
@@ -354,9 +393,10 @@ fn reset_typewriter_line(
 ) {
     for ev in ev_main_menu_button_pressed.read() {
         match ev.0 {
-            ButtonAction::Normal | ButtonAction::Fast | ButtonAction::Instant => {
-                set_typewriter(&mut typewriter)
-            }
+            ButtonAction::Normal
+            | ButtonAction::Quick
+            | ButtonAction::Fast
+            | ButtonAction::Instant => set_typewriter(&mut typewriter),
             _ => {}
         }
     }
@@ -377,10 +417,7 @@ pub struct MainMenuPlugin;
 impl Plugin for MainMenuPlugin {
     fn build(&self, app: &mut App) {
         app.add_event::<MainMenuButtonPressed>()
-            .add_systems(
-                OnEnter(GameState::MainMenu),
-                (spawn_main_menu, insert_typewriter_line),
-            )
+            .add_systems(OnEnter(GameState::MainMenu), (spawn_main_menu,))
             .add_systems(
                 Update,
                 (
@@ -390,6 +427,7 @@ impl Plugin for MainMenuPlugin {
                     reset_typewriter_line,
                     change_to_playing_game_state,
                     update_box_marker,
+                    insert_typewriter_line,
                 )
                     .run_if(in_state(GameState::MainMenu)),
             )

@@ -1,8 +1,6 @@
 # Credits
 
-Disclaimer: I do NOT own any of these assets. All of them are licensed under a license similar to CC0 (as of writing this at least). If you want to use any of these assets yourself, follow the link to the corresponding asset and download it from there.
-
-Any assets that are in the game and not listed here are made by me (@PraxTube, unless I have forgotten to list them here, it wasn't on purpose!) and follow the same license as the the rest of the project.
+Disclaimer: All assets listed here are NOT owned by me. If you wish to use them then download them from the corresponding website and credit them.
 
 ## Pixel Art
 
@@ -69,7 +67,7 @@ https://indiesfx.itch.io/indiesfx-k002a/devlog/334792/nature-loops-released
 
 https://opengameart.org/content/crickets-ambient-noise-loopable
 
-### UI Sounds
+### UI Sounds & Various Blip Sounds
 
 https://ellr.itch.io/universal-ui-soundpack,
 Created and distributed by Nathan Gibson (https://nathangibson.myportfolio.com)

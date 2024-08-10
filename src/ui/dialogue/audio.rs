@@ -37,9 +37,9 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
     if character.is_empty() {
         return PlaySound {
             clip: assets.narrator_blip_sound.clone(),
-            rand_speed_intensity: 0.01,
+            rand_speed_intensity: 0.02,
             playback_rate: 1.0,
-            volume: 0.3,
+            volume: 0.2,
             ..default()
         };
     }
