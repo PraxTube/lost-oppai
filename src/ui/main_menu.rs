@@ -1,13 +1,16 @@
+use std::time::Duration;
+
 use bevy::prelude::*;
+use bevy_tweening::{lens::TransformScaleLens, Animator, EaseFunction, Tween};
 use bevy_yarnspinner::prelude::*;
 
 use super::dialogue::Typewriter;
 use crate::{GameAssets, GameState};
 
-const HOVERED_BUTTON: Color = Color::srgb(0.25, 0.25, 0.25);
-const HOVERED_PRESSED_BUTTON: Color = Color::srgb(0.25, 0.65, 0.25);
-const PRESSED_BUTTON: Color = Color::srgb(0.35, 0.75, 0.35);
-
+const SCALE_TWEEN_TIME: f32 = 0.4;
+const NORMAL_SCALE: f32 = 1.0;
+const HOVERED_SCALE: f32 = 0.9;
+const PRESSED_SCALE: f32 = 0.8;
 const DIALOGUE_LINE: &str = "Example dialogue. Select speed at which to display dialogue in game. You can also disable blip sounds.";
 
 #[derive(Event)]
@@ -44,8 +47,8 @@ fn spawn_button(
         ..default()
     };
     let button_text_style = TextStyle {
-        font_size: 23.0,
         color: Color::WHITE,
+        font_size: 23.0,
         font: assets.pixel_font.clone(),
     };
 
@@ -71,8 +74,8 @@ fn spawn_button(
 
 fn spawn_box_button(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity {
     let button_text_style = TextStyle {
-        font_size: 23.0,
         color: Color::WHITE,
+        font_size: 23.0,
         font: assets.pixel_font.clone(),
     };
 
@@ -119,6 +122,7 @@ fn spawn_box_button(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity
             style: Style {
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
+                margin: UiRect::bottom(Val::Px(40.0)),
                 ..default()
             },
             ..default()
@@ -128,8 +132,19 @@ fn spawn_box_button(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity
 }
 
 fn spawn_main_menu(mut commands: Commands, assets: Res<GameAssets>) {
-    let normal_dialogue_button =
-        spawn_button(&mut commands, &assets, ButtonAction::Normal, "Normal");
+    let entity = spawn_button(&mut commands, &assets, ButtonAction::Normal, "Normal");
+    let tween = Tween::new(
+        EaseFunction::ExponentialOut,
+        Duration::from_secs_f32(SCALE_TWEEN_TIME),
+        TransformScaleLens {
+            start: Vec3::splat(HOVERED_SCALE),
+            end: Vec3::splat(PRESSED_SCALE),
+        },
+    );
+    let normal_dialogue_button = commands
+        .entity(entity)
+        .insert((Animator::new(tween), SelectedOption))
+        .id();
     let fast_dialogue_button = spawn_button(&mut commands, &assets, ButtonAction::Fast, "Fast");
     let instant_dialogue_button =
         spawn_button(&mut commands, &assets, ButtonAction::Instant, "Instant");
@@ -139,7 +154,7 @@ fn spawn_main_menu(mut commands: Commands, assets: Res<GameAssets>) {
     let speed_buttons = commands
         .spawn(NodeBundle {
             style: Style {
-                column_gap: Val::Px(100.0),
+                column_gap: Val::Px(80.0),
                 ..default()
             },
             ..default()
@@ -161,7 +176,7 @@ fn spawn_main_menu(mut commands: Commands, assets: Res<GameAssets>) {
                     align_items: AlignItems::Center,
                     justify_content: JustifyContent::Center,
                     flex_direction: FlexDirection::Column,
-                    top: Val::Px(100.0),
+                    top: Val::Px(130.0),
                     position_type: PositionType::Absolute,
                     ..default()
                 },
@@ -172,27 +187,97 @@ fn spawn_main_menu(mut commands: Commands, assets: Res<GameAssets>) {
 }
 
 fn highlight_buttons(
+    mut commands: Commands,
     mut interaction_query: Query<
-        (&Interaction, &mut UiImage, Option<&SelectedOption>),
+        (Entity, &Interaction, Option<&SelectedOption>),
         (Changed<Interaction>, With<Button>),
     >,
 ) {
-    for (interaction, mut image, selected) in &mut interaction_query {
-        image.color = match (*interaction, selected) {
-            (Interaction::Pressed, _) | (Interaction::None, Some(_)) => PRESSED_BUTTON,
-            (Interaction::Hovered, Some(_)) => HOVERED_PRESSED_BUTTON,
-            (Interaction::Hovered, None) => HOVERED_BUTTON,
-            (Interaction::None, None) => Color::WHITE,
+    for (entity, interaction, selected) in &mut interaction_query {
+        let tween = match (*interaction, selected) {
+            (_, Some(_)) => continue,
+            (Interaction::Pressed, None) => Tween::new(
+                EaseFunction::ExponentialOut,
+                Duration::from_secs_f32(SCALE_TWEEN_TIME),
+                TransformScaleLens {
+                    start: Vec3::splat(HOVERED_SCALE),
+                    end: Vec3::splat(PRESSED_SCALE),
+                },
+            ),
+            (Interaction::Hovered, None) => Tween::new(
+                EaseFunction::ExponentialOut,
+                Duration::from_secs_f32(SCALE_TWEEN_TIME),
+                TransformScaleLens {
+                    start: Vec3::splat(NORMAL_SCALE),
+                    end: Vec3::splat(HOVERED_SCALE),
+                },
+            ),
+            (Interaction::None, None) => Tween::new(
+                EaseFunction::ExponentialOut,
+                Duration::from_secs_f32(SCALE_TWEEN_TIME),
+                TransformScaleLens {
+                    start: Vec3::splat(HOVERED_SCALE),
+                    end: Vec3::splat(NORMAL_SCALE),
+                },
+            ),
+        };
+        commands.entity(entity).insert(Animator::new(tween));
+    }
+}
+
+fn dehighlight_buttons(
+    mut commands: Commands,
+    q_buttons: Query<(Entity, &ButtonAction, Option<&SelectedOption>), With<Button>>,
+    mut ev_main_menu_button_pressed: EventReader<MainMenuButtonPressed>,
+) {
+    for ev in ev_main_menu_button_pressed.read() {
+        match ev.0 {
+            ButtonAction::Normal | ButtonAction::Fast | ButtonAction::Instant => {}
+            _ => continue,
+        }
+
+        for (entity, action, selected) in &q_buttons {
+            if selected.is_none() {
+                continue;
+            }
+
+            if *action != ev.0 {
+                let tween = Tween::new(
+                    EaseFunction::ExponentialOut,
+                    Duration::from_secs_f32(SCALE_TWEEN_TIME),
+                    TransformScaleLens {
+                        start: Vec3::splat(PRESSED_SCALE),
+                        end: Vec3::splat(NORMAL_SCALE),
+                    },
+                );
+                commands
+                    .entity(entity)
+                    .remove::<SelectedOption>()
+                    .insert(Animator::new(tween));
+            }
         }
     }
 }
 
 fn trigger_button_actions(
-    interaction_query: Query<(&Interaction, &ButtonAction), (Changed<Interaction>, With<Button>)>,
+    mut commands: Commands,
+    interaction_query: Query<
+        (Entity, &Interaction, &ButtonAction, Option<&SelectedOption>),
+        (Changed<Interaction>, With<Button>),
+    >,
     mut ev_main_menu_button_pressed: EventWriter<MainMenuButtonPressed>,
 ) {
-    for (interaction, action) in &interaction_query {
+    for (entity, interaction, action, selected) in &interaction_query {
+        if selected.is_some() {
+            continue;
+        }
         if *interaction == Interaction::Pressed {
+            match action {
+                ButtonAction::Normal | ButtonAction::Fast | ButtonAction::Instant => {
+                    commands.entity(entity).insert(SelectedOption);
+                }
+                _ => {}
+            }
             ev_main_menu_button_pressed.send(MainMenuButtonPressed(*action));
         }
     }
@@ -284,6 +369,7 @@ impl Plugin for MainMenuPlugin {
                 Update,
                 (
                     highlight_buttons,
+                    dehighlight_buttons,
                     trigger_button_actions,
                     reset_typewriter_line,
                     change_to_playing_game_state,
