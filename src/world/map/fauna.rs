@@ -28,7 +28,7 @@ const PLAYER_JUMP_DISTANCE: f32 = 54.0;
 const FLYING_AWAY_DISTANCE: f32 = 100.0;
 
 const DESPAWN_DISTANCE: f32 = 400.0;
-const SPAWN_DISTANCE: f32 = 210.0;
+const SPAWN_DISTANCE: f32 = 250.0;
 const RANDOM_OFFSET_DISTANCE: f32 = 20.0;
 
 #[derive(Component)]
