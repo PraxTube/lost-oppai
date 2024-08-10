@@ -9,7 +9,7 @@ use bevy_kira_audio::prelude::*;
 #[allow(unused_imports)]
 pub use sound::PlaySound;
 
-use crate::{player::input::PlayerInput, world::ending::EndingTriggered};
+use crate::{player::input::PlayerInput, world::ending::EndingTriggered, GameState};
 
 const MAIN_VOLUME_DELTA: f64 = 0.05;
 const FADE_IN_TIME: f32 = 3.0;
@@ -23,9 +23,14 @@ impl Plugin for GameAudioPlugin {
         app.add_plugins(AudioPlugin)
             .add_plugins((spacial::SpacialAudioPlugin, sound::GameSoundPlugin))
             .init_resource::<GameAudio>()
+            .add_systems(OnExit(GameState::MainMenu), reset_main_volume)
             .add_systems(
                 Update,
-                (update_main_volume, fade_in_volume, fade_out_volume),
+                (
+                    update_main_volume,
+                    fade_in_volume.run_if(in_state(GameState::Gaming)),
+                    fade_out_volume,
+                ),
             );
     }
 }
@@ -117,4 +122,8 @@ fn fade_out_volume(
         game_audio.main_volume = 0.0;
         *is_finished = true;
     }
+}
+
+fn reset_main_volume(mut game_audio: ResMut<GameAudio>) {
+    game_audio.update(0.0);
 }
