@@ -11,7 +11,7 @@ use crate::{
 use super::{
     command::{stop_chat_command, target_npc_mentioned_command, trigger_ending_command},
     option_selection::{CreateOptions, OptionSelection},
-    spawn::DialogueRoot,
+    spawn::{DialogueContent, DialogueRoot},
     typewriter::{Typewriter, WriteDialogueText},
 };
 
@@ -79,6 +79,7 @@ fn activate_dialogue_runner(
     mut typewriter: ResMut<Typewriter>,
     mut q_runner_flags: Query<&mut RunnerFlags>,
     mut q_dialogue: Query<&mut Visibility, With<DialogueRoot>>,
+    mut q_dialogue_content: Query<&mut Text, With<DialogueContent>>,
     mut ev_player_started_chat: EventReader<PlayerStartedChat>,
     mut ev_show_options: EventWriter<CreateOptions>,
     mut ev_write_dialogue_text: EventWriter<WriteDialogueText>,
@@ -108,6 +109,9 @@ fn activate_dialogue_runner(
             }
         }
         if !cached {
+            if let Ok(mut dialogue_content) = q_dialogue_content.get_single_mut() {
+                *dialogue_content = Text::default();
+            }
             ev_spawn_dialogue_runner.send(SpawnDialogueRunner {
                 dialogue: ev.dialogue,
             });
