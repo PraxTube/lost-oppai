@@ -14,9 +14,11 @@ const DIALOGUE_LINE: &str = "Example dialogue. Select speed at which to display 
 pub struct MainMenuButtonPressed(pub ButtonAction);
 
 #[derive(Component)]
+struct MainMenuUiRoot;
+#[derive(Component)]
 struct SelectedOption;
 #[derive(Component)]
-struct MainMenuUiRoot;
+struct BoxMarker(bool);
 
 #[derive(Component, Clone, Copy, PartialEq)]
 pub enum ButtonAction {
@@ -76,7 +78,7 @@ fn spawn_box_button(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity
 
     let text = commands
         .spawn(
-            TextBundle::from_section("Enable Blips", button_text_style).with_style(Style {
+            TextBundle::from_section("Blip Sounds", button_text_style).with_style(Style {
                 margin: UiRect::right(Val::Px(30.0)),
                 ..default()
             }),
@@ -99,13 +101,16 @@ fn spawn_box_button(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity
             ButtonAction::ToggleBlips,
         ))
         .with_children(|parent| {
-            parent.spawn(ImageBundle {
-                image: UiImage {
-                    texture: assets.ui_tick.clone(),
+            parent.spawn((
+                BoxMarker(true),
+                ImageBundle {
+                    image: UiImage {
+                        texture: assets.ui_tick.clone(),
+                        ..default()
+                    },
                     ..default()
                 },
-                ..default()
-            });
+            ));
         })
         .id();
 
@@ -193,6 +198,29 @@ fn trigger_button_actions(
     }
 }
 
+fn update_box_marker(
+    assets: Res<GameAssets>,
+    mut q_box_marker: Query<(&mut UiImage, &mut BoxMarker)>,
+    mut ev_main_menu_button_pressed: EventReader<MainMenuButtonPressed>,
+) {
+    let Ok((mut image, mut box_marker)) = q_box_marker.get_single_mut() else {
+        return;
+    };
+
+    for ev in ev_main_menu_button_pressed.read() {
+        if ev.0 != ButtonAction::ToggleBlips {
+            continue;
+        }
+
+        if box_marker.0 {
+            image.texture = assets.ui_cross.clone();
+        } else {
+            image.texture = assets.ui_tick.clone();
+        }
+        box_marker.0 = !box_marker.0;
+    }
+}
+
 fn set_typewriter(typewriter: &mut ResMut<Typewriter>) {
     typewriter.reset();
     typewriter.set_line(&LocalizedLine {
@@ -259,6 +287,7 @@ impl Plugin for MainMenuPlugin {
                     trigger_button_actions,
                     reset_typewriter_line,
                     change_to_playing_game_state,
+                    update_box_marker,
                 )
                     .run_if(in_state(GameState::MainMenu)),
             )
