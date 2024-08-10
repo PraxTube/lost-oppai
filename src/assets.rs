@@ -212,6 +212,11 @@ pub struct GameAssets {
     #[asset(path = "audio/narrator_blip.ogg")]
     pub narrator_blip_sound: Handle<AudioSource>,
 
+    #[asset(path = "audio/ui/button_hover.ogg")]
+    pub ui_button_hover_sound: Handle<AudioSource>,
+    #[asset(path = "audio/ui/button_press.ogg")]
+    pub ui_button_press_sound: Handle<AudioSource>,
+
     // --- FONT ---
     #[asset(path = "fonts/PressStart2P.ttf")]
     pub pixel_font: Handle<Font>,

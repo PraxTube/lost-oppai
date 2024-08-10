@@ -5,7 +5,7 @@ use bevy_tweening::{lens::TransformScaleLens, Animator, EaseFunction, Tween};
 use bevy_yarnspinner::prelude::*;
 
 use super::dialogue::Typewriter;
-use crate::{GameAssets, GameState};
+use crate::{audio::PlaySound, GameAssets, GameState};
 
 const SCALE_TWEEN_TIME: f32 = 0.4;
 const NORMAL_SCALE: f32 = 1.0;
@@ -188,30 +188,46 @@ fn spawn_main_menu(mut commands: Commands, assets: Res<GameAssets>) {
 
 fn highlight_buttons(
     mut commands: Commands,
+    assets: Res<GameAssets>,
     mut interaction_query: Query<
         (Entity, &Interaction, Option<&SelectedOption>),
         (Changed<Interaction>, With<Button>),
     >,
+    mut ev_play_sound: EventWriter<PlaySound>,
 ) {
     for (entity, interaction, selected) in &mut interaction_query {
         let tween = match (*interaction, selected) {
             (_, Some(_)) => continue,
-            (Interaction::Pressed, None) => Tween::new(
-                EaseFunction::ExponentialOut,
-                Duration::from_secs_f32(SCALE_TWEEN_TIME),
-                TransformScaleLens {
-                    start: Vec3::splat(HOVERED_SCALE),
-                    end: Vec3::splat(PRESSED_SCALE),
-                },
-            ),
-            (Interaction::Hovered, None) => Tween::new(
-                EaseFunction::ExponentialOut,
-                Duration::from_secs_f32(SCALE_TWEEN_TIME),
-                TransformScaleLens {
-                    start: Vec3::splat(NORMAL_SCALE),
-                    end: Vec3::splat(HOVERED_SCALE),
-                },
-            ),
+            (Interaction::Pressed, None) => {
+                ev_play_sound.send(PlaySound {
+                    clip: assets.ui_button_press_sound.clone(),
+                    volume: 0.3,
+                    ..default()
+                });
+                Tween::new(
+                    EaseFunction::ExponentialOut,
+                    Duration::from_secs_f32(SCALE_TWEEN_TIME),
+                    TransformScaleLens {
+                        start: Vec3::splat(HOVERED_SCALE),
+                        end: Vec3::splat(PRESSED_SCALE),
+                    },
+                )
+            }
+            (Interaction::Hovered, None) => {
+                ev_play_sound.send(PlaySound {
+                    clip: assets.ui_button_hover_sound.clone(),
+                    volume: 0.3,
+                    ..default()
+                });
+                Tween::new(
+                    EaseFunction::ExponentialOut,
+                    Duration::from_secs_f32(SCALE_TWEEN_TIME),
+                    TransformScaleLens {
+                        start: Vec3::splat(NORMAL_SCALE),
+                        end: Vec3::splat(HOVERED_SCALE),
+                    },
+                )
+            }
             (Interaction::None, None) => Tween::new(
                 EaseFunction::ExponentialOut,
                 Duration::from_secs_f32(SCALE_TWEEN_TIME),
