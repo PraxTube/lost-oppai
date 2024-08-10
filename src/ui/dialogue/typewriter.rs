@@ -8,8 +8,9 @@ use bevy_yarnspinner::{events::*, prelude::*};
 
 use crate::npc::NpcDialogue;
 use crate::player::chat::PlayerStoppedChat;
+use crate::ui::main_menu::MainMenuButtonPressed;
 use crate::utils::DebugActive;
-use crate::GameAssets;
+use crate::{GameAssets, GameState};
 
 use super::audio::PlayBlipEvent;
 use super::option_selection::OptionSelection;
@@ -40,6 +41,7 @@ pub struct Typewriter {
     start: Instant,
     last_finished: bool,
     current_speed: f32,
+    speed_multiplier: f32,
 }
 
 impl Default for Typewriter {
@@ -52,9 +54,8 @@ impl Default for Typewriter {
             elapsed: default(),
             start: Instant::now(),
             last_finished: default(),
-            // We set this high so we can see when things go wrong.
-            // The speed in game should never be this number!
-            current_speed: 100.0,
+            current_speed: AVERAGE_SPEED,
+            speed_multiplier: 1.0,
         }
     }
 }
@@ -67,6 +68,7 @@ impl Typewriter {
             last_finished: true,
             last_before_options: line.is_last_line_before_options(),
             current_speed: self.current_speed,
+            speed_multiplier: self.speed_multiplier,
             ..default()
         }
     }
@@ -81,12 +83,15 @@ impl Typewriter {
                 .map(|s| s.to_string())
                 .collect(),
             last_before_options: line.is_last_line_before_options(),
+            speed_multiplier: self.speed_multiplier,
             ..default()
         };
     }
 
     pub fn reset(&mut self) {
+        let speed_multiplier = self.speed_multiplier;
         *self = Self::default();
+        self.speed_multiplier = speed_multiplier;
     }
 
     pub fn is_finished(&self) -> bool {
@@ -100,18 +105,20 @@ impl Typewriter {
         self.elapsed += self.start.elapsed().as_secs_f32();
         self.start = Instant::now();
 
-        let calculated_graphemes = (self.current_speed * self.elapsed).floor() as usize;
+        let speed = self.current_speed * self.speed_multiplier;
+
+        let calculated_graphemes = (speed * self.elapsed).floor() as usize;
         let graphemes_left = self.graphemes_left.len();
         let grapheme_length_to_take = (calculated_graphemes).min(graphemes_left);
 
-        self.elapsed -= grapheme_length_to_take as f32 / self.current_speed;
+        self.elapsed -= grapheme_length_to_take as f32 / speed;
         let graphemes_to_take = self
             .graphemes_left
             .drain(..grapheme_length_to_take)
             .collect::<Vec<String>>()
             .concat();
 
-        let multiplier = AVERAGE_SPEED / self.current_speed;
+        let multiplier = AVERAGE_SPEED / speed;
         if graphemes_to_take.contains('?') {
             self.elapsed -= 0.35 * multiplier;
         } else if graphemes_to_take.contains(':') {
@@ -249,25 +256,45 @@ fn set_writer_speed(
     }
 }
 
+fn update_speed_multiplier(
+    mut typewriter: ResMut<Typewriter>,
+    mut ev_main_menu_button_pressed: EventReader<MainMenuButtonPressed>,
+) {
+    for ev in ev_main_menu_button_pressed.read() {
+        let speed_multiplier = match ev.0 {
+            crate::ui::main_menu::ButtonAction::Normal => 1.0,
+            crate::ui::main_menu::ButtonAction::Fast => 10.0,
+            crate::ui::main_menu::ButtonAction::Instant => 500.0,
+            _ => continue,
+        };
+        // info!("{}", speed_multiplier);
+        typewriter.speed_multiplier = speed_multiplier;
+    }
+}
+
 pub struct DialogueTypewriterPlugin;
 
 impl Plugin for DialogueTypewriterPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(
-            Update,
-            (
-                send_finished_event,
-                write_text,
-                finish_stopped_dialoauge,
-                set_writer_speed,
+        app.init_resource::<Typewriter>()
+            .add_event::<TypewriterFinished>()
+            .add_event::<WriteDialogueText>()
+            .add_systems(
+                Update,
+                update_speed_multiplier.run_if(in_state(GameState::MainMenu)),
             )
-                .chain()
-                .after(YarnSpinnerSystemSet)
-                .in_set(DialogueViewSystemSet)
-                .run_if(resource_exists::<GameAssets>),
-        )
-        .init_resource::<Typewriter>()
-        .add_event::<TypewriterFinished>()
-        .add_event::<WriteDialogueText>();
+            .add_systems(
+                Update,
+                (
+                    send_finished_event,
+                    write_text,
+                    finish_stopped_dialoauge,
+                    set_writer_speed,
+                )
+                    .chain()
+                    .after(YarnSpinnerSystemSet)
+                    .in_set(DialogueViewSystemSet)
+                    .run_if(resource_exists::<GameAssets>),
+            );
     }
 }

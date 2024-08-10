@@ -239,6 +239,10 @@ fn despawn_main_menu(mut commands: Commands, q_main_menu: Query<Entity, With<Mai
     }
 }
 
+fn reset_typewriter(mut typewriter: ResMut<Typewriter>) {
+    typewriter.reset();
+}
+
 pub struct MainMenuPlugin;
 
 impl Plugin for MainMenuPlugin {
@@ -258,6 +262,9 @@ impl Plugin for MainMenuPlugin {
                 )
                     .run_if(in_state(GameState::MainMenu)),
             )
-            .add_systems(OnExit(GameState::MainMenu), despawn_main_menu);
+            .add_systems(
+                OnExit(GameState::MainMenu),
+                (despawn_main_menu, reset_typewriter),
+            );
     }
 }
