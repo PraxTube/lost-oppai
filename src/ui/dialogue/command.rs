@@ -1,23 +1,21 @@
 use std::str::FromStr;
 
 use bevy::prelude::*;
+use bevy_yarnspinner::prelude::*;
 
 use crate::{
     npc::{Npc, NpcDialogue},
     player::{chat::PlayerStoppedChat, Player, PlayerState},
     world::ending::EndingTriggered,
-    GameState,
 };
 
-const DELAY_FRAMES_PLAYER_STOPPED_CHAT: usize = 3;
-
-#[derive(Event)]
-pub struct DelayedPlayerStoppedChat;
+use super::runner::RunnerFlags;
 
 pub fn stop_chat_command(
     In(_): In<()>,
     q_player: Query<&Player>,
-    mut ev_delayed_player_stopped_chat: EventWriter<DelayedPlayerStoppedChat>,
+    mut q_runner_flags: Query<&mut RunnerFlags>,
+    mut ev_player_stopped_chat: EventWriter<PlayerStoppedChat>,
 ) {
     let player = match q_player.get_single() {
         Ok(r) => r,
@@ -25,10 +23,30 @@ pub fn stop_chat_command(
     };
 
     if player.state != PlayerState::Talking {
+        error!("Got 'stop_chat_command' but player is not currently talking! Should never happend");
         return;
     }
 
-    ev_delayed_player_stopped_chat.send(DelayedPlayerStoppedChat);
+    for mut flags in &mut q_runner_flags {
+        if flags.active {
+            // We are setting the line to `...` because you are always
+            // supposed to follow a <<stop_chat>> with a `...`.
+            // The reason we have to set this explicitely is because
+            // the `PresentLineEvent` doesn't fire quickly enough
+            // and doesn't update the `flags.line` automatically.
+            // This results in a problem with the displayed lines
+            // (see `https://github.com/PraxTube/lost-oppai/issues/14`).
+            flags.line = Some(LocalizedLine {
+                id: LineId(String::new()),
+                text: "...".to_string(),
+                attributes: Vec::new(),
+                metadata: Vec::new(),
+                assets: LineAssets::new(),
+            });
+        }
+    }
+
+    ev_player_stopped_chat.send(PlayerStoppedChat);
 }
 
 pub fn target_npc_mentioned_command(
@@ -70,34 +88,4 @@ pub fn trigger_ending_command(
         }
     };
     ev_ending_triggered.send(EndingTriggered { dialogue });
-}
-
-fn relay_player_stopped_chat_event(
-    mut ev_delayed_player_stopped_chat: EventReader<DelayedPlayerStoppedChat>,
-    mut ev_player_stopped_chat: EventWriter<PlayerStoppedChat>,
-    mut started: Local<bool>,
-    mut frames: Local<usize>,
-) {
-    for _ev in ev_delayed_player_stopped_chat.read() {
-        *started = true;
-    }
-
-    if *started {
-        if *frames >= DELAY_FRAMES_PLAYER_STOPPED_CHAT {
-            *started = false;
-            ev_player_stopped_chat.send(PlayerStoppedChat);
-        }
-        *frames += 1;
-    }
-}
-
-pub struct DialogueCommandPlugin;
-
-impl Plugin for DialogueCommandPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_event::<DelayedPlayerStoppedChat>().add_systems(
-            Update,
-            (relay_player_stopped_chat_event,).run_if(in_state(GameState::Gaming)),
-        );
-    }
 }

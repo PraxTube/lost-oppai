@@ -36,6 +36,7 @@ fn present_line(
         for mut flags in &mut q_runner_flags {
             if flags.active {
                 flags.line = Some(event.line.clone());
+                info!("setting line to: {}", event.line.text);
             }
         }
     }
@@ -143,7 +144,7 @@ impl Plugin for DialogueUpdatingPlugin {
         app.add_systems(
             Update,
             (
-                present_line.run_if(on_event::<PresentLineEvent>()),
+                present_line,
                 present_options.run_if(on_event::<PresentOptionsEvent>()),
                 continue_dialogue,
                 update_dialogue_name,

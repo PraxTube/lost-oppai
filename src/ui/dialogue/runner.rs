@@ -211,15 +211,7 @@ fn despawn_dialogue_runner(
     }
 }
 
-fn deactivate_dialogue_runner(
-    mut q_runner_flags: Query<&mut RunnerFlags>,
-    mut ev_player_stopped_chat: EventReader<PlayerStoppedChat>,
-) {
-    if ev_player_stopped_chat.is_empty() {
-        return;
-    }
-    ev_player_stopped_chat.clear();
-
+fn deactivate_dialogue_runner(mut q_runner_flags: Query<&mut RunnerFlags>) {
     for mut flags in &mut q_runner_flags {
         flags.active = false;
     }
@@ -255,7 +247,7 @@ impl Plugin for DialogueRunnerPlugin {
                 Update,
                 (
                     despawn_dialogue_runner,
-                    deactivate_dialogue_runner,
+                    deactivate_dialogue_runner.run_if(on_event::<PlayerStoppedChat>()),
                     monitor_active_runners,
                     update_target_npcs,
                 ),
