@@ -158,6 +158,8 @@ pub struct GameAssets {
     #[asset(paths("ui/dialogue_start_hint.trickfilm#main",), collection(typed))]
     pub dialogue_start_hint_animations: Vec<Handle<AnimationClip2D>>,
 
+    #[asset(path = "ui/keys/arrows.png")]
+    pub ui_arrows_key: Handle<Image>,
     #[asset(path = "ui/keys/down_key.png")]
     pub ui_down_key_texture: Handle<Image>,
     #[asset(texture_atlas(tile_size_x = 34, tile_size_y = 34, columns = 3, rows = 1))]
@@ -176,14 +178,10 @@ pub struct GameAssets {
     pub ui_right_key_layout: Handle<TextureAtlasLayout>,
     #[asset(path = "ui/keys/shift_key.png")]
     pub ui_shift_key_texture: Handle<Image>,
-    #[asset(texture_atlas(tile_size_x = 66, tile_size_y = 34, columns = 2, rows = 1))]
+    #[asset(texture_atlas(tile_size_x = 34, tile_size_y = 34, columns = 2, rows = 1))]
     pub ui_shift_key_layout: Handle<TextureAtlasLayout>,
     #[asset(
-        paths(
-            "ui/keys/keys.trickfilm#key",
-            "ui/keys/keys.trickfilm#arrow",
-            "ui/keys/keys.trickfilm#shift"
-        ),
+        paths("ui/keys/keys.trickfilm#key", "ui/keys/keys.trickfilm#shift"),
         collection(typed)
     )]
     pub ui_keys_animations: Vec<Handle<AnimationClip2D>>,

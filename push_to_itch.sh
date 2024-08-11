@@ -20,3 +20,5 @@ butler push \
   --userversion=$tag \
   $binary.zip \
   $itch_target:wasm
+
+rm -rf tmp_wasm

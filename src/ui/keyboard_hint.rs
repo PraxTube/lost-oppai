@@ -9,10 +9,9 @@ use crate::{
     GameAssets, GameState,
 };
 
-const ANCHOR_DIS: f32 = 120.0;
-const BUTTON_DIS: f32 = 40.0;
-const ARROW_DIS: f32 = 80.0;
-const SHIFT_DIS: f32 = 60.0;
+const ANCHOR_DIS: f32 = 90.0;
+const BUTTON_DIS: f32 = 35.0;
+const SHIFT_DIS: f32 = 35.0;
 const ICON_SIZE: f32 = 0.5;
 
 pub const KEYBOARD_ICON_RADIUS: f32 = 100.0;
@@ -23,15 +22,11 @@ struct KeyboardIcon;
 pub struct KeyboardHint;
 
 enum Icon {
-    DownKey,
-    UpKey,
-    LeftKey,
-    RightKey,
-    LeftArrow,
-    RightArrow,
-    UpArrow,
-    DownArrow,
-    ShiftKey,
+    Down,
+    Up,
+    Left,
+    Right,
+    Shift,
 }
 
 fn icon_to_texture(
@@ -39,23 +34,23 @@ fn icon_to_texture(
     icon: &Icon,
 ) -> (Handle<Image>, Handle<TextureAtlasLayout>) {
     match icon {
-        Icon::DownKey | Icon::DownArrow => (
+        Icon::Down => (
             assets.ui_down_key_texture.clone(),
             assets.ui_down_key_layout.clone(),
         ),
-        Icon::UpKey | Icon::UpArrow => (
+        Icon::Up => (
             assets.ui_up_key_texture.clone(),
             assets.ui_up_key_layout.clone(),
         ),
-        Icon::LeftKey | Icon::LeftArrow => (
+        Icon::Left => (
             assets.ui_left_key_texture.clone(),
             assets.ui_left_key_layout.clone(),
         ),
-        Icon::RightKey | Icon::RightArrow => (
+        Icon::Right => (
             assets.ui_right_key_texture.clone(),
             assets.ui_right_key_layout.clone(),
         ),
-        Icon::ShiftKey => (
+        Icon::Shift => (
             assets.ui_shift_key_texture.clone(),
             assets.ui_shift_key_layout.clone(),
         ),
@@ -90,7 +85,7 @@ fn spawn_icon(
     icon
 }
 
-fn spawn_animated_icon(
+fn spawn_key_buttons(
     commands: &mut Commands,
     assets: &Res<GameAssets>,
     root: Entity,
@@ -107,19 +102,19 @@ fn spawn_animated_icon(
         .insert((Collider::cuboid(16.0, 16.0), animator));
 }
 
-fn spawn_unanimated_icon(
-    commands: &mut Commands,
-    assets: &Res<GameAssets>,
-    root: Entity,
-    icon: Icon,
-    offset: Vec2,
-) {
-    let entity = spawn_icon(commands, assets, root, icon, offset);
+fn spawn_arrows_icon(commands: &mut Commands, assets: &Res<GameAssets>, root: Entity) {
+    let icon = commands
+        .spawn((
+            KeyboardIcon,
+            SpriteBundle {
+                texture: assets.ui_arrows_key.clone(),
+                transform: Transform::from_scale(Vec3::splat(1.0)),
+                ..default()
+            },
+        ))
+        .id();
 
-    let mut animator = AnimationPlayer2D::default();
-    animator.play(assets.ui_keys_animations[1].clone()).repeat();
-
-    commands.entity(entity).insert(animator);
+    commands.entity(root).add_child(icon);
 }
 
 fn spawn_shift_icon(
@@ -132,11 +127,11 @@ fn spawn_shift_icon(
     let entity = spawn_icon(commands, assets, root, icon, offset);
 
     let mut animator = AnimationPlayer2D::default();
-    animator.play(assets.ui_keys_animations[2].clone()).repeat();
+    animator.play(assets.ui_keys_animations[1].clone()).repeat();
 
     commands
         .entity(entity)
-        .insert((Collider::cuboid(32.0, 16.0), animator));
+        .insert((Collider::cuboid(16.0, 16.0), animator));
 }
 
 fn calculate_dir(vecs: &Vec<Vec2>) -> Vec2 {
@@ -193,67 +188,40 @@ fn spawn_keyboard_ui(mut commands: Commands, assets: Res<GameAssets>, bitmap: Re
         ))
         .id();
 
-    spawn_animated_icon(
+    spawn_key_buttons(
         &mut commands,
         &assets,
         root,
-        Icon::DownKey,
+        Icon::Down,
         Vec2::new(0.0, -BUTTON_DIS),
     );
-    spawn_unanimated_icon(
+    spawn_key_buttons(
         &mut commands,
         &assets,
         root,
-        Icon::DownArrow,
-        Vec2::new(0.0, -ARROW_DIS),
-    );
-    spawn_animated_icon(
-        &mut commands,
-        &assets,
-        root,
-        Icon::UpKey,
+        Icon::Up,
         Vec2::new(0.0, BUTTON_DIS),
     );
-    spawn_unanimated_icon(
+    spawn_key_buttons(
         &mut commands,
         &assets,
         root,
-        Icon::UpArrow,
-        Vec2::new(0.0, ARROW_DIS),
-    );
-    spawn_animated_icon(
-        &mut commands,
-        &assets,
-        root,
-        Icon::LeftKey,
+        Icon::Left,
         Vec2::new(-BUTTON_DIS, 0.0),
     );
-    spawn_unanimated_icon(
+    spawn_key_buttons(
         &mut commands,
         &assets,
         root,
-        Icon::LeftArrow,
-        Vec2::new(-ARROW_DIS, 0.0),
-    );
-    spawn_animated_icon(
-        &mut commands,
-        &assets,
-        root,
-        Icon::RightKey,
+        Icon::Right,
         Vec2::new(BUTTON_DIS, 0.0),
     );
-    spawn_unanimated_icon(
-        &mut commands,
-        &assets,
-        root,
-        Icon::RightArrow,
-        Vec2::new(ARROW_DIS, 0.0),
-    );
+    spawn_arrows_icon(&mut commands, &assets, root);
     spawn_shift_icon(
         &mut commands,
         &assets,
         root,
-        Icon::ShiftKey,
+        Icon::Shift,
         Vec2::new(SHIFT_DIS, SHIFT_DIS),
     );
 }

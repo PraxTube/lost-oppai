@@ -36,7 +36,6 @@ fn present_line(
         for mut flags in &mut q_runner_flags {
             if flags.active {
                 flags.line = Some(event.line.clone());
-                info!("setting line to: {}", event.line.text);
             }
         }
     }

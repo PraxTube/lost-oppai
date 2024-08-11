@@ -353,11 +353,18 @@ fn spawn_paladins(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) 
 }
 
 fn spawn_npcs(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets>) {
-    spawn_eleonore(&mut commands, &assets, Vec2::new(-200.0, -200.0));
-    spawn_jotem(&mut commands, &assets, Vec2::ZERO);
-    spawn_isabelle(&mut commands, &assets, bitmap.get_hotspot(2));
-    spawn_antonius_and_ionas(&mut commands, &assets, Vec2::new(200.0, 200.0));
-    spawn_paladins(&mut commands, &assets, Vec2::new(-200.0, 200.0));
+    let hotspots = bitmap.get_furthest_hotspots(5);
+    let npcs = [
+        spawn_eleonore,
+        spawn_jotem,
+        spawn_isabelle,
+        spawn_antonius_and_ionas,
+        spawn_paladins,
+    ];
+
+    for i in 0..hotspots.len() {
+        npcs[i](&mut commands, &assets, hotspots[i]);
+    }
 }
 
 pub struct NpcSpawnPlugin;

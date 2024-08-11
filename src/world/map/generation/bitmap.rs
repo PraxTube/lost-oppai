@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy::utils::HashSet;
+use chrono::{Timelike, Utc};
 use noisy_bevy::simplex_noise_2d_seeded;
 
 use crate::world::map::TILE_SIZE;
@@ -34,7 +35,7 @@ impl Default for BitMap {
     fn default() -> Self {
         let length = CHUNK_SIZE as usize * RENDERED_CHUNKS_RADIUS as usize;
         Self {
-            seed: 611.0,
+            seed: Utc::now().nanosecond() as f32,
             vertices: Vec::new(),
             edges: HashSet::new(),
 
@@ -380,12 +381,16 @@ impl BitMap {
         self.seed
     }
 
-    pub fn get_hotspot(&self, index: usize) -> Vec2 {
-        if index >= self.vertices.len() {
-            return Vec2::ZERO;
+    pub fn get_furthest_hotspots(&self, number_of_hotspots: usize) -> Vec<Vec2> {
+        if number_of_hotspots >= self.vertices.len() {
+            error!("Requesting more hotspots than exist in the bitmap! This should never happen. It means that you world proc gen isn't working properly");
+            return self.vertices.clone();
         }
 
-        self.vertices[index]
+        let mut hotspots = self.vertices.clone();
+        hotspots.sort_by(|a, b| a.length_squared().partial_cmp(&b.length_squared()).unwrap());
+        let range = hotspots.len() - number_of_hotspots..hotspots.len();
+        hotspots[range].to_vec()
     }
 
     pub fn set_vertices(&mut self, vertices: &Vec<Vec2>) {
