@@ -46,9 +46,9 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
 
     if character == "You" {
         return PlaySound {
-            clip: assets.pai_blip_sound.clone(),
+            clip: assets.eleonore_blip_sound.clone(),
             rand_speed_intensity: 0.02,
-            playback_rate: 1.2,
+            playback_rate: 2.7,
             volume: 0.5,
             ..default()
         };
@@ -99,9 +99,10 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
                 ..default()
             },
             NpcDialogue::Joanna => PlaySound {
-                clip: assets.joanna_blip_sound.clone(),
+                clip: assets.eleonore_blip_sound.clone(),
                 rand_speed_intensity: 0.01,
-                playback_rate: 1.0,
+                playback_rate: 2.5,
+                volume: 0.5,
                 ..default()
             },
             NpcDialogue::Dorothea => PlaySound {
