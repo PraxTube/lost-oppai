@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use bevy::prelude::*;
+use bevy::{prelude::*, time::common_conditions::once_after_delay};
 use bevy_tweening::{lens::TransformScaleLens, Animator, EaseFunction, Tween};
 use bevy_yarnspinner::prelude::*;
 
@@ -353,27 +353,8 @@ fn set_typewriter(typewriter: &mut ResMut<Typewriter>) {
     });
 }
 
-fn insert_typewriter_line(
-    time: Res<Time>,
-    mut typewriter: ResMut<Typewriter>,
-    mut timer: Local<Timer>,
-    mut started: Local<bool>,
-) {
-    if timer.finished() {
-        return;
-    }
-
-    if !*started {
-        *started = true;
-        timer.set_mode(TimerMode::Once);
-        timer.set_duration(Duration::from_secs_f32(SPAWN_DELAY));
-        timer.set_elapsed(Duration::ZERO);
-    }
-
-    timer.tick(time.delta());
-    if timer.just_finished() {
-        set_typewriter(&mut typewriter);
-    }
+fn insert_typewriter_line(mut typewriter: ResMut<Typewriter>) {
+    set_typewriter(&mut typewriter);
 }
 
 fn change_to_playing_game_state(
@@ -427,7 +408,8 @@ impl Plugin for MainMenuPlugin {
                     reset_typewriter_line,
                     change_to_playing_game_state,
                     update_box_marker,
-                    insert_typewriter_line,
+                    insert_typewriter_line
+                        .run_if(once_after_delay(Duration::from_secs_f32(SPAWN_DELAY))),
                 )
                     .run_if(in_state(GameState::MainMenu)),
             )
