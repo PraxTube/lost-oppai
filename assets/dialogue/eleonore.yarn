@@ -26,6 +26,7 @@ title: Eleonore
                 {$name}: Oh that.
                 {$name}: Yeah I guess you wouldn't know given your state.
                 <<jump EleonoreIsAMage>>
+
 ===
 title: EleonoreIsAMage
 ---

@@ -5,15 +5,15 @@ title: Jotem
 <<set $talked_with_target_npc = false>>
 
 {$name}: Howdy, young lady.
-{$name}: Wow, didn't see a beauty like you in a while.
+{$name}: Wow, didn't see a beauty like ya in a while.
 -> Ey...
     {$name}: Haha sorry, I am just fooling around.
-    {$name}: Though why are you dressed so lightly?
+    {$name}: Though why are ya dressed so lightly?
     <<jump OppaiIsWeird>>
 -> Who are you?
     <<set $name to "Jotem">>
     {$name}: I am Jotem, an adventurer.
-    {$name}: What about you?
+    {$name}: What about ya?
     -> I am Pai, nice to meet you.
         {$name}: Pai, huh? Strange name ya got there.
         {$name}: But who am I to judge? Nice to meet ya too, Pai.
@@ -23,10 +23,10 @@ title: Jotem
         {$name}: Hahaha, figures.
         <<jump OppaiIsLost>>
     -> Jotem? That's quite a strange name. I am Pai by the way.
-        {$name}: Hahahaha, like you are the one to talk.
+        {$name}: Hahahaha, like ya are the one to talk.
         {$name}: Never heard of someone with a name like that.
         {$name}: But oh well, nice to meet ya Pai.
-        {$name}: So anyways, what are you doing out here while bein dressed so lightly?
+        {$name}: So anyways, what are ya doing out here while bein dressed so lightly?
         <<jump OppaiIsWeird>>
 // -> What are you doing out here?
 
@@ -40,11 +40,11 @@ title: OppaiIsLost
     {$name}: Hm? What do ya mean?
     -> I just don't know what to do in life.
         {$name}: Hoo... I see.
-        {$name}: Well, I don't know your circumstances.
+        {$name}: Well, I don't know yer circumstances.
         {$name}: But perhaps I can give ya my perspective on ya situation.
         <<jump OppaiIsLostInLife>>
     // -> Never mind, I don't wanna talk about it.
-    //     {$name}: Ya sure? Talking with somebody can be surprisingly helpful.
+    //     {$name}: You sure? Talking with somebody can be surprisingly helpful.
     //     {$name}: But I am not gonna force ya to anything.
     //     <<jump JotemHub>>
 
@@ -68,14 +68,14 @@ title: OppaiIsLostInLife
 ...
 -> How do I become happy? My life feels so shallow.
     {$name}: Sounds like ya missing meaning in ya life?
-    {$name}: Do you have a dream that you are trying to achieve?
+    {$name}: Do ya have a dream that ya are trying to achieve?
     You: A dream?
     {$name}: Yeh, like a goal.
-    {$name}: Ya have something like that? Or when ya were little?
+    {$name}: You have something like that? Or when ya were little?
     -> Yes... Yes I actually did have a dream.
         {$name}: Good! Then all ya need to do is try ya best to achieve it.
         {$name}: Life ain't that deep. If ya feel like ya found ya purpose, then ya gotta fulfill it.
-        {$name}: Ya can only feel truly happy when doing work that feels meaningful.
+        {$name}: You can only feel truly happy when doing work that feels meaningful.
         {$name}: And ya know what? Only hard work feels meaningful.
         {$name}: So ya first gotta be unhappy before ya can be happy! Hahaha
         -> Hm, I don't know about that.
@@ -121,15 +121,15 @@ title: ThatOneEncounter
 //     {$name}: Is that so? Do ya mind telling me why?
 //     -> What about people with mental health issues? If you chronically can't feel happyness or have depression.
 //     -> You can't control external factors, yet they have a huge affect on your life.
-//         {$name}: Ya certainly right about that one!
+//         {$name}: You certainly right about that one!
 //         {$name}: But that's also missing my point.
 //         {$name}: I was talking about how ya have full control of how ya *view* these things.
-//         {$name}: It's up to ya whether you see an external factor as something good or bad.
-//         {$name}: Ya can take every challenges and see it as an opportunity, or as a hurdle.
+//         {$name}: It's up to ya whether ya see an external factor as something good or bad.
+//         {$name}: You can take every challenges and see it as an opportunity, or as a hurdle.
 //         {$name}: But life is gonna be a lot easier if ya try to see challenges as an opportunity.
 -> I have never really thought about this. Do you mind explaining a bit more?
     {$name}: I think it's a very important subject.
-    {$name}: Of course I don't mind! I am glad you wanna talk more about it.
+    {$name}: Of course I don't mind! I am glad ya wanna talk more about it.
 -> I don't mind. Could you go into more detail?
     {$name}: Sure can!
 {$name}: When I met her, I was at a low in my life.
@@ -138,7 +138,7 @@ title: ThatOneEncounter
 {$name}: But I was able to appreciate life as a whole much more, the good and the bad.
 {$name}: It was like I was finally able to see all the beatiful colors in the world.
 {$name}: Where everything was just one gray mess before, now everything was brimming with life.
-{$name}: Agh! Ya get what I mean, right?
+{$name}: Agh! You get what I mean, right?
 -> Yes, I think so.
     {$name}: Okay, good.
     {$name}: So anyways, that was my little story.
@@ -146,21 +146,21 @@ title: ThatOneEncounter
     {$name}: In my free time I build towards my dream of becoming an adventurer.
     {$name}: And eventually, I did!
     -> That's awesome. Do you think I could achieve that too?
-        {$name}: Of course! In fact, you don't have anywhere to go right?
+        {$name}: Of course! In fact, ya don't have anywhere to go right?
         You: No, I wouldn't know where anyways.
-        {$name}: Right. So how about you join me?
+        {$name}: Right. So how about ya join me?
         {$name}: Your dream might not be to become an adventurer, but ya can work towards ya dream while making money as an adventurer.
         -> I am not too sure...
-            {$name}: Yeh right, how about you talk with her first?
+            {$name}: Yeh right, how about ya talk with her first?
             {$name}: I mean Eleonore, the person that helped me back then.
             <<target_npc_mentioned {$name} {$target_npc}>>
             {$name}: She is a witch and likes to come here to calm her mind.
             {$name}: She should be around here somewhere.
             {$name}: You can't really miss her, big witch-like hat and orange hair.
             {$name}: Oh yeah and she is floating in the air.
-            {$name}: So how about you go talk to her and then come back and tell me about your decision?
+            {$name}: So how about ya go talk to her and then come back and tell me about yer decision?
             -> Okay, I will give it a try.
-                {$name}: Alright! I will be waiting here for you.
+                {$name}: Alright! I will be waiting here for ya.
                 {$name}: Good luck!
                 <<stop_chat>>
                 <<jump JotemWaiting>>
@@ -169,7 +169,7 @@ title: ThatOneEncounter
 title: JotemHub
 ---
 
-{$name}: Just tell me what you want to talk about.
+{$name}: Just tell me what ya want to talk about.
 -> Where are we?
 -> Who are you?
 
@@ -179,24 +179,24 @@ title: JotemWaiting
 
 ...
 <<if $talked_with_target_npc>>
-{$name}: So, you talked with Eleonore?
+{$name}: So, ya talked with Eleonore?
 -> Yep
     <<jump TalkedWithEleonore>>
 <<else>>
-{$name}: So, you talked with Eleonore?
+{$name}: So, ya talked with Eleonore?
 -> No, not yet.
-    {$name}: Alright, just come back once you do.
-    {$name}: I will be waiting here for you.
+    {$name}: Alright, just come back once ya do.
+    {$name}: I will be waiting here for ya.
 -> I can't find her.
     {$name}: Hoo... well she is a witch that is hovering in the air.
-    {$name}: No way you can miss her haha!
+    {$name}: No way ya can miss her haha!
 -> Yes
     <<if $talked_with_target_npc>>
         <<jump TalkedWithEleonore>>
     <<else>>
         {$name}: Hm, that seems like a lie.
-        {$name}: I am not forcing you to talk to her.
-        {$name}: But I think it would be very helpful for you.
+        {$name}: I am not forcing ya to talk to her.
+        {$name}: But I think it might be helpful for ya.
     <<endif>>
 <<endif>>
 <<stop_chat>>
@@ -224,7 +224,7 @@ title: FinalAct
 ---
 
 {$name}: Awesome!
-{$name}: I would like to know though, what was your reason for deciding to join?
+{$name}: I would like to know though, what was yer reason for deciding to join?
 -> I want to achieve my dream, just like you.
     {$name}: Haha! Very well then.
     {$name}: Then how about I lent ya a hand with that?

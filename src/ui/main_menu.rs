@@ -12,7 +12,7 @@ const NORMAL_SCALE: f32 = 1.0;
 const HOVERED_SCALE: f32 = 0.9;
 const PRESSED_SCALE: f32 = 0.8;
 const SPAWN_DELAY: f32 = 0.5;
-const DIALOGUE_LINE: &str = "Example dialogue.\nSelect speed at which to display dialogue in game. You can also disable blip sounds.";
+const DIALOGUE_LINE: &str = "Example dialogue. Select speed at which to display dialogue in game. You can also disable dialogue blip sounds.";
 
 #[derive(Event)]
 pub struct MainMenuButtonPressed(pub ButtonAction);
@@ -83,7 +83,7 @@ fn spawn_box_button(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity
 
     let text = commands
         .spawn(
-            TextBundle::from_section("Blip Sounds", button_text_style).with_style(Style {
+            TextBundle::from_section("Dialogue Blip Sounds", button_text_style).with_style(Style {
                 margin: UiRect::right(Val::Px(30.0)),
                 ..default()
             }),

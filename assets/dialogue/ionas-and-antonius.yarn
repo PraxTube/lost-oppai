@@ -107,9 +107,23 @@ title: SubjectiveAndObjectiveWorldview
 {$antonius}: But I firmly believe that violence always sparks more violence.
 {$antonius}: It may take a while, but in the long term, violence is a net negative.
 {$antonius}: Conflict in general is.
-{$antonius}: Opposite to that is cooperation.
+{$ionas}: But you are assigning a value here.
+{$ionas}: Who is to say whether the outcome is positive or negative?
+{$antonius}: Right, I consider it negative if another person does something against my will.
+{$antonius}: Essentially acting without my consent.
+{$antonius}: It's about the difference between a sparring session and a street fight.
+{$antonius}: The former requiring cooperation.
+{$ionas}: So you define cooperation as having consent?
+{$antonius}: Yes essentially.
+{$antonius}: Working together under some shared agreement.
 {$antonius}: It may come with downsides in the short term, but it's a net positive in the long run.
-{$antonius}: That is also why I admire your religions dedication to forgiveness so much.
+{$antonius}: With positive meaning the other party acting in your interest, whatever that may be.
+{$antonius}: And of course this is not guaranteed, but it's much more likely.
+{$antonius}: Your cooperative nature and good will can be exploited.
+{$antonius}: But I thinkg it's much more common to meet kindness.
+{$antonius}: Give and you shall receive, right?
+{$antonius}: I think it works in both ways, whether you give good or bad.
+{$antonius}: That is exactly why I admire your religion's dedication to forgiveness so much.
 {$antonius}: It sparks cooperation.
 {$ionas}: Hm, that is actually a pretty good point.
 {$ionas}: Though how does that relate to your moral standards?
@@ -122,17 +136,17 @@ title: SubjectiveAndObjectiveWorldview
 {$antonius}: I did regret hurting others though.
 {$antonius}: And again, I don't think that you should never change your morals.
 {$antonius}: It's something you learn through experience.
-{$antonius}: We could also look at this from the perspective of evolution.
-{$antonius}: Those people without morals might have it easier at first.
-{$antonius}: But it will come back to bite them later.
-{$antonius}: They are more likely to get into trouble and have a harder time to build a family.
-{$antonius}: Which means they have less offspring to teach their morals to.
-{$antonius}: So over time, morals get more cooperative.
-{$antonius}: Though I know that evolution is another huge topic, we don't need to go into that one.
-{$ionas}: I was about to say...
-{$ionas}: Though I think I understand what you mean.
+// {$antonius}: We could also look at this from the perspective of evolution.
+// {$antonius}: Those people without morals might have it easier at first.
+// {$antonius}: But it will come back to bite them later.
+// {$antonius}: They are more likely to get into trouble and have a harder time to build a family.
+// {$antonius}: Which means they have less offspring to teach their morals to.
+// {$antonius}: So over time, morals get more cooperative.
+// {$antonius}: Though I know that evolution is another huge topic, we don't need to go into that one.
+// {$ionas}: I was about to say...
+{$ionas}: Hm, I think I understand what you mean, even if I disagree.
 {$ionas}: Ultimately, it seems like we just see this differently on a fundamental level.
-{$antonius}: Yeah. So anyways Pai, how you do see this?
+{$antonius}: Yeah I think so too. So Pai, how you do see this?
 -> I am not sure. I think I would agree more with Ionas.
     {$antonius}: I thought so. Though you don't believe in a god right?
     {$antonius}: Then who defined the objective truth, the morals and everything?
@@ -205,11 +219,13 @@ title: DoYouWantToJoinIonasAndAntonius
     You: Is it that obvious...
     {$antonius}: Yes!
     {$ionas}: Hahaha, yeah.
-    // TODO: Handle the case that Pai already talked with Jotem... how exactly do I want to handle that though?
     {$antonius}: Anyways, so you didn't chat with Jotem yet right?
+    <<if $talked_with_target_npc>>
+        You: Actually, I did.
+        {$ionas}: Huh really?
+        <<jump TalkedWithJotem>>
+    <<endif>>
     {$antonius}: How about you talk with him and decide afterwards?
-    {$antonius}: In the meantime, I will convince Ionas to party up with me.
-    {$ionas}: Ey, I am right here you know...
     {$antonius}: Sounds like a plan right?
     {$antonius}: We will be waiting here for you!
     <<stop_chat>>

@@ -25,7 +25,7 @@ title: Paladins
         {$sven}: Good that you found us then!
         -> Why is that?
             {$sven}: You have to ask?
-            {$sven}: It's because Paladins help its citizens.
+            {$sven}: It's because Paladins help their citizens.
             <<jump WhatPaladinsDo>>
     
 ===
@@ -40,45 +40,53 @@ You: Yes, my name is Pai.
 {$dorothea}: As Sven was saying, we Paladins swore an oath to protect and help any person in need.
 {$dorothea}: I would say you are just such a person, Pai.
 {$sven}: I agree, we are here for you if you need help.
--> Thank you. Though I don't have any means to repay you.
-    {$sven}: Haha, Paladins don't take payment!
-    {$sven}: That is not the reason why we do our work.
-    {$sven}: Wait, but you don't remember anything right?
-    {$sven}: So I guess you also don't know your profession?
-    You: No...
-    {$sven}: Hm, I see.
-    {$sven}: Do you at least know where you will spend the night today?
-    You: I... don't know that either.
-    {$sven}: I see I see...
-    {$sven}: So you have nowhere to go nor any money to spend.
-    <<jump PaiBecomingAPaldin>>
+-> You protect the people? Are you working for the military?
+    {$sven}: Haha! We certainly aren't!
+    {$joanna}: We serve for the goddess and the goddess only.
+    {$dorothea}: Technically that is correct, but we also help out anybody in need.
+    {$dorothea}: We would be nothing more than heretics if we didn't.
+    {$sven}: Exactly, we live by our religious code, helping people within our reach is a must.
+    -> How did you guys become Paladins?
+        {$dorothea}: Getting straight to the point huh?
+        {$dorothea}: For me it was a pretty simple decision.
+        {$dorothea}: Dwarfs typically become either miners, artisans or warriors.
+        {$dorothea}: Since I despise the mines and lack skill with my hands I choose to pick up the sword.
+        {$dorothea}: However I wanted to help people rather than strike them down, so I became a Paladin.
+        {$sven}: It was somewhat similar for me, though I had a more selfish reason.
+        {$sven}: I only thought of becoming a Paladin as a good exceprience to get stronger.
+        {$sven}: Only over the years did I learn what is truly important to me.
+        {$sven}: So I stayed with the Paladins every since.
+        {$joanna}: ...
+        {$dorothea}: Joanna's story is a bit more complicated though...
+        {$dorothea}: Perhaps we should talk about a different subject.
+        {$dorothea}: Oh yeah Pai, what is your profession? I guess you forgot that too?
+        You: Yes...
+        {$dorothea}: Hmm, then you also have nowhere to go?
+        You: ...Yes.
+        <<jump PaiBecomingAPaldin>>
 
 ===
 title: PaiBecomingAPaldin
 ---
 
-{$sven}: So how about this then?
-{$sven}: Why don't you become a Paladin, Pai?
+{$dorothea}: So how about this then?
+{$dorothea}: Pai, why don't you become a Paladin?
 {$joanna}: You think she would be cut out for this?
-{$dorothea}: I don't see a reason why not.
+{$sven}: I don't see a reason why not.
 {$dorothea}: You can hone your skills, but it's much harder to grow a kind heart.
 {$dorothea}: If you want to help and protect people in need, that is good enough.
 {$sven}: I agree.
-{$sven}: And it was only an idea anyways.
+{$dorothea}: And it was only an idea anyways.
 {$sven}: Let's hear what Pai has to say first.
 -> Hm, I don't know. Don't you need a strong belief as a Paladin?
     {$joanna}: That's right.
     {$joanna}: You would not fit in.
     {$dorothea}: Now now Joanna, don't be so hasty.
     {$sven}: I wasn't a strong believer when I joined either.
-    {$sven}: My reason for joining was rather selfish in the first place.
-    {$sven}: I only thought of it as a good exceprience to become stronger.
-    {$sven}: Only over the years did I learn what is truly important to me.
-    {$sven}: Oh! I grew up with two friends that have both opposite views on religion.
+    {$sven}: I grew up with two friends that have both opposite views on religion.
     {$sven}: They are called Ionas and Antonius.
-    {$sven}: I have seen Ionas around here.
-    {$sven}: He said Antonius also comes by from time to time.
-    {$sven}: Perhaps you can talk with them?
+    {$sven}: I have seen them around here.
+    {$sven}: Perhaps you can have a chat with them?
     {$sven}: I had some really interesting talks with them.
     {$sven}: Maybe that could help you decide.
     {$sven}: How about you chat with them first and let us know your decision afterwards.
@@ -104,7 +112,7 @@ title: PaladinsWaiting
 -> No, not yet.
     {$sven}: Okay, well you do you.
     {$sven}: If you need more time, no worries.
-    {$sven}: I will be waiting here for you.
+    {$sven}: We will be waiting here for you.
 -> I can't find them
     {$sven}: Oh, I am pretty sure they are around here somewhere.
     {$sven}: I would guess somewhere along the path.
