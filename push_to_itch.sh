@@ -8,12 +8,14 @@ tag=$(git describe --tags --abbrev=0)
 rm -rf tmp_wasm
 cp -r wasm tmp_wasm
 
-cargo build --target wasm32-unknown-unknown --profile wasm
+cargo build --target wasm32-unknown-unknown
 wasm-bindgen --no-typescript --out-name bevy_game --out-dir tmp_wasm --target web target/wasm32-unknown-unknown/wasm/$binary.wasm
 
 cp -r assets tmp_wasm/
 cd tmp_wasm
-zip --recurse-paths $binary.zip .
+zip --recurse-paths ../$binary.zip .
+cd ..
+rm -rf tmp_wasm
 
 butler push \
   --fix-permissions \
@@ -21,4 +23,4 @@ butler push \
   $binary.zip \
   $itch_target:wasm
 
-rm -rf tmp_wasm
+rm $binary.zip
