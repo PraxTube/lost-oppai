@@ -25,9 +25,9 @@ pub struct OptionsText;
 #[derive(Component)]
 pub struct OptionButton(pub OptionId);
 
-const DIALOG_WIDTH: f32 = 800.0 * 0.8;
-const OPTIONS_WIDTH: f32 = 420.0;
-const TEXT_BORDER: f32 = 120.0;
+const DIALOG_WIDTH: f32 = 800.0;
+const OPTIONS_WIDTH: f32 = 500.0;
+const TEXT_BORDER: f32 = 80.0;
 const OPTIONS_TEXT_BORDER: f32 = 10.0;
 
 const CONTINUE_BOTTOM: f32 = -5.0;

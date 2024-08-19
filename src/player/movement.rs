@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
+use crate::utils::DebugActive;
 use crate::GameState;
 
 use super::chat::PlayerStartedChat;
@@ -9,6 +10,7 @@ use super::{Player, PlayerState, RUN_SPEED, WALK_SPEED};
 
 fn player_movement(
     player_input: Res<PlayerInput>,
+    debug_active: Res<DebugActive>,
     mut q_player: Query<(&mut Velocity, &mut Player)>,
 ) {
     let (mut velocity, mut player) = match q_player.get_single_mut() {
@@ -26,6 +28,11 @@ fn player_movement(
         RUN_SPEED
     } else {
         WALK_SPEED
+    };
+    let speed = if **debug_active {
+        RUN_SPEED * 5.0
+    } else {
+        speed
     };
 
     player.current_direction = direction;
