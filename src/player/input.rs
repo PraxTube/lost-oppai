@@ -140,10 +140,14 @@ fn input_dialogue(
     player_input.dialogue_direction = direction;
 
     player_input.start_dialogue = keys.just_pressed(KeyCode::KeyE);
-    player_input.dialogue_confirm = keys.just_pressed(KeyCode::Enter);
+    player_input.dialogue_confirm = keys.just_pressed(KeyCode::Space)
+        || keys.just_pressed(KeyCode::Enter)
+        || keys.just_pressed(KeyCode::KeyE);
 
-    player_input.dialogue_continue =
-        keys.just_pressed(KeyCode::Space) || mouse_buttons.just_pressed(MouseButton::Left);
+    player_input.dialogue_continue = keys.just_pressed(KeyCode::Space)
+        || keys.just_pressed(KeyCode::Enter)
+        || keys.just_pressed(KeyCode::KeyE)
+        || mouse_buttons.just_pressed(MouseButton::Left);
 }
 
 fn toggle_fullscreen(keys: Res<ButtonInput<KeyCode>>, mut player_input: ResMut<PlayerInput>) {

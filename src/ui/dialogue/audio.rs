@@ -10,11 +10,17 @@ use crate::{
 };
 
 #[derive(Resource)]
-struct PlayBlips(bool);
+struct BlipManager {
+    play_blips: bool,
+    volume_multiplier: f64,
+}
 
-impl Default for PlayBlips {
+impl Default for BlipManager {
     fn default() -> Self {
-        Self(true)
+        Self {
+            play_blips: true,
+            volume_multiplier: 1.0,
+        }
     }
 }
 
@@ -135,27 +141,45 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
 
 fn play_blips(
     assets: Res<GameAssets>,
-    play_blips: Res<PlayBlips>,
+    blip_manager: Res<BlipManager>,
     mut ev_play_blip: EventReader<PlayBlipEvent>,
     mut ev_play_sound: EventWriter<PlaySound>,
 ) {
-    if !play_blips.0 {
+    if !blip_manager.play_blips {
         return;
     }
 
     for ev in ev_play_blip.read() {
-        ev_play_sound.send(character_sound(&assets, &ev.dialogue));
+        let mut play_sound = character_sound(&assets, &ev.dialogue);
+        play_sound.volume *= blip_manager.volume_multiplier;
+        ev_play_sound.send(play_sound);
     }
 }
 
 fn toggle_play_blips(
-    mut play_blips: ResMut<PlayBlips>,
+    mut blip_manager: ResMut<BlipManager>,
     mut ev_main_menu_button_pressed: EventReader<MainMenuButtonPressed>,
 ) {
     for ev in ev_main_menu_button_pressed.read() {
         if ev.0 == ButtonAction::ToggleBlips {
-            play_blips.0 = !play_blips.0;
+            blip_manager.play_blips = !blip_manager.play_blips;
         }
+    }
+}
+
+fn update_volume_multiplier(
+    mut blip_manager: ResMut<BlipManager>,
+    mut ev_main_menu_button_pressed: EventReader<MainMenuButtonPressed>,
+) {
+    for ev in ev_main_menu_button_pressed.read() {
+        let volume_multiplier = match ev.0 {
+            ButtonAction::Normal => 1.0,
+            ButtonAction::Quick => 0.6,
+            ButtonAction::Fast => 0.4,
+            ButtonAction::Instant => 1.0,
+            _ => continue,
+        };
+        blip_manager.volume_multiplier = volume_multiplier;
     }
 }
 
@@ -163,11 +187,15 @@ pub struct DialogueAudioPlugin;
 
 impl Plugin for DialogueAudioPlugin {
     fn build(&self, app: &mut App) {
-        app.init_resource::<PlayBlips>()
+        app.init_resource::<BlipManager>()
             .add_event::<PlayBlipEvent>()
             .add_systems(
                 Update,
-                (play_blips, toggle_play_blips).run_if(resource_exists::<GameAssets>),
+                (
+                    play_blips.run_if(resource_exists::<GameAssets>),
+                    toggle_play_blips,
+                    update_volume_multiplier,
+                ),
             );
     }
 }

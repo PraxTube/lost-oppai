@@ -8,7 +8,7 @@ use bevy_yarnspinner::{events::*, prelude::*};
 
 use crate::npc::NpcDialogue;
 use crate::player::chat::PlayerStoppedChat;
-use crate::ui::main_menu::MainMenuButtonPressed;
+use crate::ui::main_menu::{ButtonAction, MainMenuButtonPressed};
 use crate::{GameAssets, GameState};
 
 use super::audio::PlayBlipEvent;
@@ -253,10 +253,10 @@ fn update_speed_multiplier(
 ) {
     for ev in ev_main_menu_button_pressed.read() {
         let speed_multiplier = match ev.0 {
-            crate::ui::main_menu::ButtonAction::Normal => 1.0,
-            crate::ui::main_menu::ButtonAction::Quick => 2.0,
-            crate::ui::main_menu::ButtonAction::Fast => 10.0,
-            crate::ui::main_menu::ButtonAction::Instant => 500.0,
+            ButtonAction::Normal => 1.0,
+            ButtonAction::Quick => 2.0,
+            ButtonAction::Fast => 10.0,
+            ButtonAction::Instant => 500.0,
             _ => continue,
         };
         typewriter.speed_multiplier = speed_multiplier;
