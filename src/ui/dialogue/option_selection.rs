@@ -49,18 +49,12 @@ impl OptionSelection {
     }
 }
 
-fn create_options_typewriter_finished(
+fn signal_create_options(
     option_selection: Option<Res<OptionSelection>>,
-    mut typewriter_finished_event: EventReader<TypewriterFinished>,
-    mut show_options: EventWriter<CreateOptions>,
+    mut create_options: EventWriter<CreateOptions>,
 ) {
-    if typewriter_finished_event.is_empty() {
-        return;
-    }
-    typewriter_finished_event.clear();
-
     if let Some(op_sel) = option_selection {
-        show_options.send(CreateOptions(op_sel.clone()));
+        create_options.send(CreateOptions(op_sel.clone()));
     }
 }
 
@@ -68,14 +62,14 @@ fn create_options(
     mut commands: Commands,
     assets: Res<GameAssets>,
     q_options_node: Query<Entity, With<OptionsNode>>,
-    mut ev_show_options: EventReader<CreateOptions>,
+    mut ev_create_options: EventReader<CreateOptions>,
 ) {
     let entity = match q_options_node.get_single() {
         Ok(r) => r,
         Err(_) => return,
     };
 
-    for ev in ev_show_options.read() {
+    for ev in ev_create_options.read() {
         spawn_options(&mut commands, &assets, &ev.0, entity);
     }
 }
@@ -246,7 +240,7 @@ impl Plugin for DialogueSelectionPlugin {
         app.add_systems(
             Update,
             (
-                create_options_typewriter_finished,
+                signal_create_options.run_if(on_event::<TypewriterFinished>()),
                 create_options,
                 show_options,
                 select_option.run_if(resource_exists::<OptionSelection>),

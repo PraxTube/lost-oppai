@@ -81,7 +81,7 @@ fn activate_dialogue_runner(
     mut q_dialogue: Query<&mut Visibility, With<DialogueRoot>>,
     mut q_dialogue_content: Query<&mut Text, With<DialogueContent>>,
     mut ev_player_started_chat: EventReader<PlayerStartedChat>,
-    mut ev_show_options: EventWriter<CreateOptions>,
+    mut ev_create_options: EventWriter<CreateOptions>,
     mut ev_write_dialogue_text: EventWriter<WriteDialogueText>,
     mut ev_spawn_dialogue_runner: EventWriter<SpawnDialogueRunner>,
 ) {
@@ -99,7 +99,7 @@ fn activate_dialogue_runner(
                 cached = true;
                 flags.active = true;
                 if let Some(option_selection) = &flags.options {
-                    ev_show_options.send(CreateOptions(option_selection.clone()));
+                    ev_create_options.send(CreateOptions(option_selection.clone()));
                     commands.insert_resource(option_selection.clone());
                 }
                 if let Some(line) = &flags.line {
