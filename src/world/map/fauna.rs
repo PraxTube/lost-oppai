@@ -5,6 +5,7 @@ use std::{
 
 use bevy::prelude::*;
 use bevy_kira_audio::prelude::*;
+use bevy_rapier2d::prelude::*;
 use bevy_trickfilm::animation::AnimationPlayer2D;
 use rand::{thread_rng, Rng};
 
@@ -15,9 +16,9 @@ use crate::{
     GameAssets, GameState,
 };
 
-use super::generation::BitMap;
+use super::{flora::TreeCollider, generation::BitMap};
 
-const MAX_BIRD_COUNT: usize = 5;
+const MAX_BIRD_COUNT: usize = 10000;
 const BIRD_SCALE: f32 = 1.0;
 
 const JUMP_SPEED: f32 = 60.0;
@@ -81,6 +82,10 @@ fn spawn_bird(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2, move
     commands
         .spawn((
             Bird::new(move_dir, flapping_sound_container),
+            RigidBody::Dynamic,
+            LockedAxes::ROTATION_LOCKED,
+            Velocity::zero(),
+            Ccd::enabled(),
             YSort(-8.0),
             animator,
             SpriteBundle {
@@ -219,26 +224,25 @@ fn return_to_idle_state(
     }
 }
 
-fn move_birds(time: Res<Time>, mut q_birds: Query<(&mut Transform, &mut Sprite, &Bird)>) {
-    for (mut transform, mut sprite, bird) in &mut q_birds {
-        match bird.state {
-            BirdState::Jumping => {
-                transform.translation +=
-                    bird.move_dir.extend(0.0) * JUMP_SPEED * time.delta_seconds();
-                sprite.flip_x = bird.move_dir.x > 0.0;
-            }
-            BirdState::Flying => {
-                transform.translation +=
-                    bird.move_dir.extend(0.0) * FLYING_SPEED * time.delta_seconds();
-                sprite.flip_x = bird.move_dir.x > 0.0;
-            }
-            _ => {}
+fn move_birds(mut q_birds: Query<(&mut Velocity, &mut Sprite, &Bird)>) {
+    for (mut velocity, mut sprite, bird) in &mut q_birds {
+        let speed = match bird.state {
+            BirdState::Jumping => JUMP_SPEED,
+            BirdState::Flying => FLYING_SPEED,
+            _ => 0.0,
         };
+
+        velocity.linvel = bird.move_dir * speed;
+        if bird.move_dir.x != 0.0 {
+            sprite.flip_x = bird.move_dir.x > 0.0;
+        }
     }
 }
 
 fn check_player_bird_distances(
+    rapier_context: Res<RapierContext>,
     q_player: Query<&Transform, (With<Player>, Without<Bird>)>,
+    q_tree_colliders: Query<&TreeCollider>,
     mut q_birds: Query<(&Transform, &mut Bird)>,
 ) {
     let player_transform = match q_player.get_single() {
@@ -262,14 +266,40 @@ fn check_player_bird_distances(
 
         let dir = (transform.translation - player_transform.translation)
             .truncate()
-            .normalize_or_zero();
-        bird.move_dir = if dir == Vec2::ZERO { Vec2::X } else { dir };
+            .normalize_or(Vec2::X);
 
-        if dis < MIN_PLAYER_DISTANCE.powi(2) {
-            bird.state = BirdState::Flying;
-        } else if bird.state != BirdState::Jumping {
-            bird.state = BirdState::Jumping;
+        let (state, max_toi) = if dis < MIN_PLAYER_DISTANCE.powi(2) {
+            (BirdState::Flying, FLYING_SPEED * 2.0)
+        } else {
+            (BirdState::Jumping, JUMP_SPEED * 1.0)
+        };
+        bird.state = state;
+
+        let ray_pos = transform.translation.truncate();
+        let filter = QueryFilter::default();
+        let mut biggest_toi = 0.0;
+        let mut final_dir = dir;
+
+        for dir in [
+            dir,
+            Vec2::from_angle(dir.to_angle() + PI / 4.0),
+            Vec2::from_angle(dir.to_angle() - PI / 4.0),
+        ] {
+            if let Some((entity, toi)) =
+                rapier_context.cast_ray(ray_pos, dir, max_toi, true, filter)
+            {
+                if q_tree_colliders.get(entity).is_ok() {
+                    if toi > biggest_toi {
+                        biggest_toi = toi;
+                        final_dir = dir;
+                    }
+                }
+            } else {
+                biggest_toi = f32::MAX;
+                final_dir = dir;
+            }
         }
+        bird.move_dir = final_dir;
     }
 }
 

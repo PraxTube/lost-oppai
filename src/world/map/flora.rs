@@ -38,6 +38,8 @@ const NPC_FLORA_RADIUS: f32 = 64.0;
 
 #[derive(Component)]
 struct SakuraPedal;
+#[derive(Component)]
+pub struct TreeCollider;
 
 #[derive(Component)]
 struct Flora {
@@ -140,6 +142,7 @@ fn spawn_tree(commands: &mut Commands, assets: &Res<GameAssets>, chunk_pos: IVec
 
     let collider = commands
         .spawn((
+            TreeCollider,
             Collider::cuboid(16.0, 8.0),
             TransformBundle::from_transform(Transform::from_translation(Vec3::new(
                 0.0, -48.0, 0.0,
