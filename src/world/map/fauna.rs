@@ -152,11 +152,21 @@ fn play_bird_animations(
     }
 }
 
-fn pick_random_actions(time: Res<Time>, mut q_birds: Query<&mut Bird>) {
+fn pick_random_actions(
+    time: Res<Time>,
+    mut bitmap: ResMut<BitMap>,
+    mut q_birds: Query<(&Transform, &mut Bird)>,
+) {
     let mut rng = thread_rng();
 
-    for mut bird in &mut q_birds {
+    for (transform, mut bird) in &mut q_birds {
         if bird.state != BirdState::Idling {
+            continue;
+        }
+
+        if bitmap.is_position_water(transform.translation.truncate()) {
+            bird.state = BirdState::Flying;
+            bird.move_dir = Vec2::from_angle(rng.gen_range(0.0..TAU));
             continue;
         }
 
