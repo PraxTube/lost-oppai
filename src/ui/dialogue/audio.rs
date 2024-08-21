@@ -52,7 +52,7 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
 
     if character == "You" {
         return PlaySound {
-            clip: assets.eleonore_blip_sound.clone(),
+            clip: assets.npc_blip_sound.clone(),
             rand_speed_intensity: 0.02,
             playback_rate: 2.7,
             volume: 0.5,
@@ -63,67 +63,67 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
     match NpcDialogue::from_str(character) {
         Ok(r) => match r {
             NpcDialogue::Eleonore => PlaySound {
-                clip: assets.eleonore_blip_sound.clone(),
-                rand_speed_intensity: 0.05,
-                playback_rate: 3.0,
+                clip: assets.npc_blip_sound.clone(),
+                rand_speed_intensity: 0.03,
+                playback_rate: 2.9,
                 volume: 0.5,
                 ..default()
             },
             NpcDialogue::Jotem => PlaySound {
-                clip: assets.jotem_blip_sound.clone(),
+                clip: assets.npc_blip_sound.clone(),
                 rand_speed_intensity: 0.01,
                 playback_rate: 1.0,
                 volume: 0.5,
                 ..default()
             },
             NpcDialogue::Isabelle => PlaySound {
-                clip: assets.eleonore_blip_sound.clone(),
-                rand_speed_intensity: 0.05,
+                clip: assets.npc_blip_sound.clone(),
+                rand_speed_intensity: 0.04,
                 playback_rate: 3.5,
                 volume: 0.45,
                 ..default()
             },
             NpcDialogue::Ionas => PlaySound {
-                clip: assets.jotem_blip_sound.clone(),
+                clip: assets.npc_blip_sound.clone(),
                 rand_speed_intensity: 0.012,
                 playback_rate: 2.0,
                 volume: 0.5,
                 ..default()
             },
             NpcDialogue::Antonius => PlaySound {
-                clip: assets.jotem_blip_sound.clone(),
+                clip: assets.npc_blip_sound.clone(),
                 rand_speed_intensity: 0.02,
                 playback_rate: 2.2,
                 volume: 0.5,
                 ..default()
             },
             NpcDialogue::Sven => PlaySound {
-                clip: assets.jotem_blip_sound.clone(),
+                clip: assets.npc_blip_sound.clone(),
                 rand_speed_intensity: 0.015,
                 playback_rate: 1.3,
                 volume: 0.5,
                 ..default()
             },
             NpcDialogue::Joanna => PlaySound {
-                clip: assets.eleonore_blip_sound.clone(),
+                clip: assets.npc_blip_sound.clone(),
                 rand_speed_intensity: 0.01,
                 playback_rate: 2.5,
                 volume: 0.5,
                 ..default()
             },
             NpcDialogue::Dorothea => PlaySound {
-                clip: assets.eleonore_blip_sound.clone(),
+                clip: assets.npc_blip_sound.clone(),
                 rand_speed_intensity: 0.02,
                 playback_rate: 2.0,
                 volume: 0.5,
                 ..default()
             },
             NpcDialogue::IonasAndAntonius => PlaySound {
-                clip: assets.jotem_blip_sound.clone(),
+                clip: assets.npc_blip_sound.clone(),
                 ..default()
             },
             NpcDialogue::Paladins => PlaySound {
-                clip: assets.jotem_blip_sound.clone(),
+                clip: assets.npc_blip_sound.clone(),
                 ..default()
             },
         },
@@ -132,7 +132,7 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
                 error!("You should never hardcode character name: '???' in dialogues!");
             }
             PlaySound {
-                clip: assets.eleonore_blip_sound.clone(),
+                clip: assets.npc_blip_sound.clone(),
                 ..default()
             }
         }

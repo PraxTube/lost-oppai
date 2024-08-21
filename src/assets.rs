@@ -199,14 +199,8 @@ pub struct GameAssets {
     #[asset(path = "audio/crickets.ogg")]
     pub cricket_sounds: Handle<AudioSource>,
 
-    #[asset(path = "audio/pai_blip.ogg")]
-    pub pai_blip_sound: Handle<AudioSource>,
-    #[asset(path = "audio/eleonore_blip.ogg")]
-    pub eleonore_blip_sound: Handle<AudioSource>,
-    #[asset(path = "audio/joanna_blip.ogg")]
-    pub joanna_blip_sound: Handle<AudioSource>,
-    #[asset(path = "audio/jotem_blip.ogg")]
-    pub jotem_blip_sound: Handle<AudioSource>,
+    #[asset(path = "audio/blip.ogg")]
+    pub npc_blip_sound: Handle<AudioSource>,
     #[asset(path = "audio/narrator_blip.ogg")]
     pub narrator_blip_sound: Handle<AudioSource>,
 
