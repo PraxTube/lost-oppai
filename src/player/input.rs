@@ -175,7 +175,7 @@ impl Plugin for InputPlugin {
                 toggle_fullscreen,
                 toggle_debug,
             )
-                .run_if(in_state(GameState::Gaming))
+                .run_if(not(in_state(GameState::AssetLoading)))
                 .after(InputSystem),
         )
         .init_resource::<PlayerInput>()

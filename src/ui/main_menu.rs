@@ -5,7 +5,7 @@ use bevy_tweening::{lens::TransformScaleLens, Animator, EaseFunction, Tween};
 use bevy_yarnspinner::prelude::*;
 
 use super::dialogue::Typewriter;
-use crate::{audio::PlaySound, GameAssets, GameState};
+use crate::{audio::PlaySound, player::input::PlayerInput, GameAssets, GameState};
 
 const SCALE_TWEEN_TIME: f32 = 0.4;
 const NORMAL_SCALE: f32 = 1.0;
@@ -383,14 +383,23 @@ fn reset_typewriter_line(
     }
 }
 
-fn despawn_main_menu(mut commands: Commands, q_main_menu: Query<Entity, With<MainMenuUiRoot>>) {
-    for entity in &q_main_menu {
-        commands.entity(entity).despawn_recursive();
+fn confirm_main_menu(
+    player_input: Res<PlayerInput>,
+    mut ev_main_menu_button_pressed: EventWriter<MainMenuButtonPressed>,
+) {
+    if player_input.dialogue_confirm {
+        ev_main_menu_button_pressed.send(MainMenuButtonPressed(ButtonAction::Play));
     }
 }
 
 fn reset_typewriter(mut typewriter: ResMut<Typewriter>) {
     typewriter.reset();
+}
+
+fn despawn_main_menu(mut commands: Commands, q_main_menu: Query<Entity, With<MainMenuUiRoot>>) {
+    for entity in &q_main_menu {
+        commands.entity(entity).despawn_recursive();
+    }
 }
 
 pub struct MainMenuPlugin;
@@ -410,6 +419,7 @@ impl Plugin for MainMenuPlugin {
                     update_box_marker,
                     insert_typewriter_line
                         .run_if(once_after_delay(Duration::from_secs_f32(SPAWN_DELAY))),
+                    confirm_main_menu,
                 )
                     .run_if(in_state(GameState::MainMenu)),
             )
