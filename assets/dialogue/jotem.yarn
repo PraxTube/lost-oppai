@@ -34,19 +34,15 @@ title: Jotem
 title: OppaiIsLost
 ---
 
-{$name}: I can help ya out if ya are lost.
+{$name}: I can help ya out if yer lost.
 // -> Yes, please!
 -> I am actually lost in a different way...
     {$name}: Hm? What do ya mean?
     -> I just don't know what to do in life.
         {$name}: Hoo... I see.
         {$name}: Well, I don't know yer circumstances.
-        {$name}: But perhaps I can give ya my perspective on ya situation.
+        {$name}: But perhaps I can give ya my perspective on yer situation.
         <<jump OppaiIsLostInLife>>
-    // -> Never mind, I don't wanna talk about it.
-    //     {$name}: You sure? Talking with somebody can be surprisingly helpful.
-    //     {$name}: But I am not gonna force ya to anything.
-    //     <<jump JotemHub>>
 
 ===
 title: OppaiIsWeird
@@ -152,8 +148,8 @@ title: ThatOneEncounter
         {$name}: Your dream might not be to become an adventurer, but ya can work towards ya dream while making money as an adventurer.
         -> I am not too sure...
             {$name}: Yeh right, how about ya talk with her first?
-            {$name}: I mean Eleonore, the person that helped me back then.
             <<target_npc_mentioned {$name} {$target_npc}>>
+            {$name}: I mean Eleonore, the person that helped me back then.
             {$name}: She is a witch and likes to come here to calm her mind.
             {$name}: She should be around here somewhere.
             {$name}: You can't really miss her, big witch-like hat and orange hair.
@@ -164,14 +160,6 @@ title: ThatOneEncounter
                 {$name}: Good luck!
                 <<stop_chat>>
                 <<jump JotemWaiting>>
-
-===
-title: JotemHub
----
-
-{$name}: Just tell me what ya want to talk about.
--> Where are we?
--> Who are you?
 
 ===
 title: JotemWaiting

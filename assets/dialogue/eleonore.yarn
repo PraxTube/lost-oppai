@@ -3,29 +3,43 @@ title: Eleonore
 <<set $name to "_Eleonore">>
 <<set $target_npc = "Isabelle">>
 <<set $talked_with_target_npc = false>>
+<<set $mentioned_by_Jotem = false>>
 
+...
 {$name}: Oh hey there.
 -> Hi. Wait are you flying?
     {$name}: First time?
     {$name}: Guess there aren't that many mages around here.
     {$name}: Yeah, I am using a spell to levitate.
     {$name}: By your reaction I assume your are from some small village?
-    -> I, I actually don't remember.
-        {$name}: Huh? You don't remember were you are coming from?
-        {$name}: Then how did you get here?
-        You: I don't remember either.
-        You: I just woke up in the middle of the road.
-        {$name}: Hm... could be the doing of a spell.
-        <<set $name to "Eleonore">>
-        {$name}: I am Eleonore by the way.
-        {$name}: Do you at least remember your name?
-        -> Yes, I am Pai, nice to meet you.
-            {$name}: Oh, it also seems like you didn't forget your manners!
-            {$name}: Nice to meet you too, Pai.
-            -> You said something about mages? What do you mean by that?
-                {$name}: Oh that.
-                {$name}: Yeah I guess you wouldn't know given your state.
-                <<jump EleonoreIsAMage>>
+    You: I- I actually don't remember.
+    {$name}: Huh? You don't remember were you are coming from?
+    {$name}: Then how did you get here?
+    You: I don't remember either.
+    You: I just woke up in the middle of the road.
+    {$name}: Hm... could be the doing of a spell.
+    <<set $name to "Eleonore">>
+    {$name}: I am Eleonore by the way.
+    {$name}: Do you at least remember your name?
+    -> Yes, I am Pai, nice to meet you.
+        {$name}: Oh, it also seems like you didn't forget your manners!
+        {$name}: Nice to meet you too, Pai.
+        <<jump AfterGreeting>>
+    -> I am Pai.
+        {$name}: Pai? You got a strange name.
+        <<jump AfterGreeting>>
+-> Hey, what are you doing out here?
+-> Hi, are you Eleonore? <<if $mentioned_by_Jotem>>
+
+===
+title: AfterGreeting
+---
+
+...
+-> You said something about mages? What do you mean by that?
+    {$name}: Oh that.
+    {$name}: Yeah I guess you wouldn't know given your state.
+    <<jump EleonoreIsAMage>>
 
 ===
 title: EleonoreIsAMage
@@ -58,43 +72,97 @@ title: EleonoreIsAMage
             {$name}: But it isn't easy, you know.
             {$name}: Everything worth pursuing is difficult.
             {$name}: It's important to have the right mindset.
-            <<jump EleonoreLowTimePreference>>
+            <<jump EleonoreTimePreference>>
+        -> The most powerful fire spell? Why?
+            {$name}: Hm, no particular reason really.
+            {$name}: I just really like fire spells and there simply doesn't exist one to satisfy me yet.
+            {$name}: So I set out to create it myself.
+            {$name}: That's about it.
+            -> So you don't really have a reason behind your dream?
+                {$name}: That's a misconception I hear a lot.
+                {$name}: Why do people think there much be a reason for everything?
+                {$name}: I guess it's part of humans nature.
+                {$name}: But no, I don't, and I think that's perfectly fine.
+                <<jump EleonoreTypesOfDreams>>
+            -> Is it difficult?
+                {$name}: Well, any dream is, right?
+                <<jump EleonoreTimePreference>>
+        -> How close are you to that goal?
+            {$name}: It's going pretty well.
+            {$name}: Though I am not too obsessed with reaching it.
+            {$name}: Of course I want to create the most powerful fire spell.
+            {$name}: But I am also wondering what I would do once I achieved it.
+            {$name}: Have you ever worked on something for so long that you never though of what comes after?
+            {$name}: And when you finally get to that point, you just have no clue what to do?
+            {$name}: I don't really know what I would do after I achieved my dream.
+            {$name}: To me it seems far worse to have achieved my dream and not know what to do then.
+            {$name}: Instead of committing myself to achieving it.
+            {$name}: Enjoying the journey is very important.
+            {$name}: If you are only thinking about the end goal, then what happens when you reach it?
+            {$name}: You will just set the next goal and mindlessly work until you reach that.
+            {$name}: Resulting in you never being happy or fulfilled.
+            {$name}: I much rather be working towards my dream steadily and enjoying every last second of it.
+            -> So you didn't create that spell yet?
+                ...
+                {$name}: ... No.
+                -> Is there a reason for that? Or is it just very time consuming?
+                    {$name}: 
+                -> Because you are a bad mage?
+                    {$name}: Hey, don't get cheeky now.
+                    {$name}: 
 
 ===
-title: EleonoreLowTimePreference
+title: EleonoreTimePreference
 ---
 
-{$name}: Do you know about the concept of time preference?
--> No, what is that?
-    {$name}: A concept from economics.
-    {$name}: It indicates how much an entity is willing to sacrifice future benifits for the short term gain.
-    {$name}: A high time preference indicates a high want for instanst satisfaction.
-    {$name}: And a low time preference means you are more willing to delay your satisfaction for a bigger reward later.
-    {$name}: However, I think it applies to much more, not just money.
-    {$name}: For example, deciding to train your body indicates a low time preference.
-    {$name}: Choosing to do the hard work for delayed payoff.
-    {$name}: What would you say, Pai.
-    {$name}: Do you have a high or low time preference?
-    // -> I think I have a high time preference.
-    -> I think I have a low time preference.
-        {$name}: Really? That would be great.
-        {$name}: Most people benifit from a lower time preference.
-        {$name}: Of course this depends on their circumstances.
-        {$name}: But my point with this was to say the following.
-        {$name}: If you want to achieve your dream, you must adopt a low time preference.
-        {$name}: Any dream worth having is going to be hard to achieve!
-        {$name}: You will inevitably hit a wall.
-        {$name}: And no matter how motivated you are, no matter how much you love your craft.
-        {$name}: The time will come were this fire will burn out.
-        {$name}: I love magic more than anybody I know, yet even I reached this point.
-        {$name}: It's important to take care of your mind and body.
-        {$name}: You are likely to fail if you try to rush to get to your goal.
-        {$name}: Instead, think for the long run.
-        {$name}: Slow and steady wins it all.
-        -> But wouldn't that mean that you are always living in the future and never in the present?
-            {$name}: Not quite.
-            <<jump EleonoreLivingInThePresent>>
-    // -> Which one is better?
+{$name}: In order to achieve any dream a person needs to be able to do the following.
+{$name}: They need to be able to sacrifice instant gratification for future reward.
+{$name}: Choosing to do the hard work for delayed payoff essentially.
+{$name}: For example, deciding to train your body instant of eating some cake.
+{$name}: Of course instant gratification has it's place too.
+{$name}: But it's far too easy to induldge in the latter.
+{$name}: So, what would you say, Pai.
+{$name}: Are you a person that works hard?
+-> Yes, I would say I am.
+    {$name}: Really? That would be great then.
+    {$name}: Most people benifit from such a mindset.
+    {$name}: But my point with this was to say the following.
+    {$name}: If you want to achieve your dream, you must adopt this kind of mindset.
+    {$name}: Any dream worth having is going to be hard to achieve!
+    {$name}: You will inevitably hit a wall.
+    {$name}: If you are not prepared, you are just going to go after the next easy thing.
+    {$name}: The next stimulation.
+    {$name}: And no matter how motivated you are, no matter how much you love your craft.
+    {$name}: The time will come were this fire will burn out.
+    {$name}: I love magic more than anybody I know, yet even I reached this point.
+    {$name}: It's important to take care of your mind and body.
+    {$name}: You are likely to fail if you try to rush to get to your goal.
+    {$name}: Instead, think for the long run.
+    {$name}: Slow and steady wins it all.
+    -> But wouldn't that mean that you are always living in the future and never in the present?
+        {$name}: Not quite.
+        <<jump EleonoreLivingInThePresent>>
+    -> This doesn't really sound like you are enjoying life though.
+        {$name}: Oh? You mean it's not fun to chase after your dream?
+        {$name}: To persue what you always wanted to do?
+        {$name}: I get that it sounds tough to always push yourself.
+        {$name}: But that's also what's so fun about it.
+        {$name}: The easy path is only rewarding for a split second.
+        {$name}: Once the rush wears off you will feel crap.
+        {$name}: It's the exact opposite with hard work.
+        {$name}: It may feel challenging in the moment, but great once you have overcome it.
+        {$name}: And for me, even the most challenging aspects of magic are enjoyable.
+        {$name}: That's what it should feel like when you do the thing you love.
+        -> How do you find the thing you love?
+            {$name}: That's actually not such a trivial thing.
+            {$name}: Or well it depends.
+            <<jump EleonoreFindTheThingYouLove>>
+        -> Hm, though 
+        <<jump EleonoreEnjoyingLife>>
+    -> How does living in a city affect this?
+    -> I agree with you.
+        {$name}: Really? Then let me ask you this.
+        <<jump EleonorePaiFascination>>
 
 ===
 title: EleonoreLivingInThePresent
@@ -105,33 +173,162 @@ title: EleonoreLivingInThePresent
 {$name}: I think of it like planting seeds for a future harvest.
 {$name}: You still need to tend to them daily, living fully in the present while also preparing for a fulfilling future.
 {$name}: It helps me treassure my love for magic even more.
-{$name}: What about you Pai, do you have anything that deeply fascinates you?
+{$name}: What about you Pai.
+<<jump EleonorePaiFascination>>
+
+===
+title: EleonorePaiFascination
+---
+
+{$name}: Do you have anything that deeply fascinates you?
 -> Hm, yes, I actually do.
-    {$name}: Oh really? I expected you to not remember.
-    {$name}: But that is great.
-    {$name}: I think every human should have something like this.
-    {$name}: So are you acting on this fascination?
-    {$name}: Are you following this drive?
-    -> ... Not really.
-        {$name}: That's a shame. I know it's hard.
-        {$name}: I would not be were I am now without the help of my mentor.
-        {$name}: Oh! What about this then?
-        {$name}: How about I become your mentor?
-        {$name}: Show you how to live with a low time preference and to foster your ambitions.
-        {$name}: Do you want to become my apprentice, Pai?
-        -> Wow... that's quite sudden.
-            {$name}: I suppose.
-            {$name}: Hm, how about you speak with a certain someone then?
-            {$name}: A girl called Isabelle lives around here.
-            {$name}: She is a simple country girl but it's really interesting to talk with her.
-            {$name}: I learned from her how to treassure the moment.
-            {$name}: Why don't you talk with her, perhaps that will help you to decide?
-            -> Hm, I guess I can talk to her.
-                {$name}: That's the spirit!
-                {$name}: I will be waiting here for you.
-                {$name}: See ya in a bit.
-                <<stop_chat>>
-                <<jump EleonoreWaiting>>
+    <<jump EleonorePaiFascinationPositive>>
+-> No, not really.
+    <<jump EleonorePaiFascinationNegative>>
+-> What do you mean with 'fascinates you'?
+    {$name}: Like, something you are passionate about.
+    {$name}: Something you really like to do.
+    {$name}: Doesn't need to be your job or anything like that.
+    {$name}: It can be a past time of yours or whatever.
+    {$name}: Just something you really like.
+    {$name}: You have something like that?
+    -> Yes, I would say I do.
+        <<jump EleonorePaiFascinationPositive>>
+    -> No I don't.
+        <<jump EleonorePaiFascinationNegative>>
+
+===
+title: EleonorePaiFascinationPositive
+---
+
+{$name}: Oh really? I expected you to not remember.
+{$name}: But that is great.
+{$name}: I think every human should have something like this.
+{$name}: So are you acting on this fascination?
+{$name}: Are you following this drive?
+-> ... Not really.
+    {$name}: That's a shame. I know it's hard.
+    {$name}: I would not be were I am now without the help of my mentor.
+    {$name}: Oh! What about this then?
+    <<jump EleonorePaiApprentice>>
+
+===
+title: EleonorePaiFascinationNegative
+---
+
+{$name}: I see. That's a shame.
+{$name}: I believe every human should have 
+
+===
+title: EleonoreEnjoyingLife
+---
+
+HERE
+
+===
+title: EleonoreFindTheThingYouLove
+---
+
+{$name}: I have always liked magic.
+{$name}: Ever since I was a little kid I dreamed of creating my own spells.
+{$name}: But I didn't become a mage right away, I tried a bunch of other things before that.
+{$name}: It can be tricky to know what you love to do.
+{$name}: However, it's very easy to spot things you hate to do.
+{$name}: And so if you aren't sure what your dream is, then try out a bunch of stuff.
+{$name}: Of course you do need to commit a decent amount of time to it.
+{$name}: I struggled a lot with my study of magic.
+{$name}: It took me years until I realized that I wanted to pursue magic with all my heart.
+{$name}: Even though I had this dream as a kid!
+{$name}: So I encourage you to try out things.
+{$name}: You will quickly realize whether you hate it.
+{$name}: And if you enjoy doing it, well I think you should stick with it.
+{$name}: At least for a little bit.
+{$name}: I think any person can become really good at pretty much anything.
+{$name}: And you generally tend to enjoy things more when you are better at it.
+{$name}: What about you Pai.
+<<jump EleonorePaiFascination>>
+
+===
+title: EleonoreTypesOfDreams
+---
+
+{$name}: I believe it doesn't matter to much what exactly your dream is.
+{$name}: It can be whatever fascinates you.
+{$name}: As long as you don't harm or inconvience others in the process.
+{$name}: At first I though my dream is silly.
+{$name}: That other people will laugh at me or shun me for it.
+{$name}: But who are they to judge?
+{$name}: Why should I make myself fit into their way of thinking?
+{$name}: I think you lose as soon as you cut your dream short because of others.
+-> But wouldn't that mean if my dream was to commit mass murder then I should persue that?
+    {$name}: ... No, obviously not.
+    {$name}: As I was saying, this only goes for dreams that don't harm or inconvience others.
+    {$name}: That type of dream obviously violates this.
+    {$name}: And besides, I honestly don't think that it's in the human nature to harm or hurt.
+    {$name}: You would only develop such tendencies if you are raised in an environment that fosters it.
+    {$name}: I believe it's the human nature to build and invent.
+    {$name}: To create rather than to destroy.
+    {$name}: It's also way harder to create something than it is to destroy something.
+    {$name}: And the harder a task is, the more satisfying it is to accomplish it.
+    -> Is that always the case though?
+        {$name}: Okay, I can't prove to you rigorously that this is the case, but think for yourself.
+        {$name}: Firstly, the easier the task, the faster you are done with it.
+        {$name}: If you do a lot of the same thing, eventually, it will get boring.
+        {$name}: Accomplishing a difficult task is something that doesn't happen often.
+        {$name}: Relateive to accomplishing easy tasks that is.
+        {$name}: Because it happens more rarely, it stays something special.
+        {$name}: If you eat too much of the same cake, it will eventually become boring and dull.
+        {$name}: If you repeat the same workout too much, it will eventually become boring and dull.
+        {$name}: However, the later is a lot harder to overdue, simply because it's more challenging.
+        {$name}: So it's less likely that you will reach that point compared to the former.
+        -> But what about your claim of humans being more creative than destructive?
+            {$name}: I don't have any hard proof for that either, just my personal experience.
+            {$name}: Did people in your life seem more destructive than constructive?
+            {$name}: They certainly didn't in mine.
+            {$name}: Of course this depends on you environment.
+            {$name}: Different types of environments will foster different types of mindsets and behaviours.
+            {$name}: Hm, perhaps think of this in terms of achieving your dream.
+            <<jump EleonoreTimePreference>>
+        -> I don't quite agree. Easy tasks don't have to be less meaningful than more difficult tasks.
+            {$name}: Yes, that's true.
+            {$name}: But I wasn't quite talking about the value of a task on its own.
+            {$name}: Which is very subjective anyways.
+            {$name}: Rather, I was talking about the fact that all tasks become more normal to you the more you do them.
+            {$name}: For example, breathing is very important.
+            {$name}: Yet you rarely think about the fact that you are constantly breathing in and out.
+            {$name}: Though I guess you are thinking about it right now ^-^
+            {$name}: My point is that you do so often that it has become absolutely normal.
+            {$name}: And I state that this happens with anything you do.
+            {$name}: For me casting spells is natural at this point, I rarely actively think about it.
+            {$name}: The easier the task the faster you will reach this point of feeling natural.
+            {$name}: However, any task can reach that point I think, no matter how difficult.
+            {$name}: It's just that harder tasks are, well, harder to repeat that often.
+            -> Okay, let's leave it at that, I get your point. But what does that have to do with your dream?
+                {$name}: ... You do know that you asked me about this, yes?
+                {$name}: Hmpf. So anyways, what I mean to say is that dreams are gonna be hard to achieve.
+                {$name}: If they wouldn't, then they wouldn't be dreams.
+                <<jump EleonoreTimePreference>>
+
+===
+title: EleonorePaiApprentice
+---
+
+{$name}: How about I become your mentor?
+{$name}: Show you how to live with a low time preference and to foster your ambitions.
+{$name}: Do you want to become my apprentice, Pai?
+-> Wow... that's quite sudden.
+    {$name}: I suppose.
+    {$name}: Hm, how about you speak with a certain someone then?
+    {$name}: A girl called Isabelle lives around here.
+    {$name}: She is a simple country girl but it's really interesting to talk with her.
+    {$name}: I learned from her how to treassure the moment.
+    {$name}: Why don't you talk with her, perhaps that will help you to decide?
+    -> Hm, I guess I can talk to her.
+        {$name}: That's the spirit!
+        {$name}: I will be waiting here for you.
+        {$name}: See ya in a bit.
+        <<stop_chat>>
+        <<jump EleonoreWaiting>>
 
 ===
 title: EleonoreWaiting

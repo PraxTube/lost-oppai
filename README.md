@@ -1,6 +1,12 @@
 # Lost Oppai
 
-## Dev Notes
+## Developer Notes
+
+### Yarn
+
+Due to _reasons_ (look into `was_mentioned_by_*`), I have to start every dialogue with **two lines before any player option**.
+
+Due to _reasons_, I have to start every jump with a non player option, this is the reason there are some weirdly placed `...` from time to time.
 
 ### Dialogue Graph
 

@@ -4,11 +4,12 @@ title: Isabelle
 <<set $target_npc = "Jotem">>
 <<set $talked_with_target_npc = false>>
 
-{$name}: Hello, stranger. You look like you have had quite a day.
+{$name}: Hello, stranger.
+{$name}: You look like you have had quite a day.
 -> Hello, yes sort of.
     {$name}: What are you doing out here? Are you lost?
     -> Yes...
-    <<jump IsabelleHelpsPai>>
+        <<jump IsabelleHelpsPai>>
 
 ===
 title: IsabelleHelpsPai

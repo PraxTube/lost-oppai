@@ -31,8 +31,21 @@ impl Plugin for NpcPlugin {
 
 #[derive(Component)]
 pub struct Npc {
+    /// The dialogue of the NPC.
+    /// This essentially marks which NPC this is.
     pub dialogue: NpcDialogue,
+    /// Whether or not this NPC was talked to by the player.
+    /// This is used in order to know whether or not to set the flag
+    /// on NPCs that want the player to talk to this NPC.
+    /// For example, when Jotem wants the player to talk to Eleonore,
+    /// we set this flag to true on Eleonore when the player talks to her
+    /// and then Jotem knows that the player talked to Eleonore.
     pub was_talked_to: bool,
+    /// All the NPCs that mentioned this NPC in a conversation.
+    /// For example, when Jotem talks with the player about Eleonore,
+    /// then we add Jotem to this Vec on Eleonore.
+    /// This way, we can have different dialogue options based on whether the
+    /// player already knows about the NPCs or not.
     pub was_mentioned_by: Vec<NpcDialogue>,
 }
 
