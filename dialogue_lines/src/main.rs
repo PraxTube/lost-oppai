@@ -1,9 +1,8 @@
 use std::{
+    collections::HashMap,
     fs::{self, DirEntry},
     io::Error,
 };
-
-use bevy::utils::HashMap;
 
 const PATH_TO_DIR: &str = "assets/dialogue";
 const MAX_NPC_DISPLAY_NAME: usize = 16;

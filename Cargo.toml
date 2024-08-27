@@ -42,3 +42,7 @@ bevy_yarnspinner = "0.3.1"
 
 [dev-dependencies]
 strsim = "0.11.1"
+
+[workspace]
+
+members = [ "dialogue_lines" ]

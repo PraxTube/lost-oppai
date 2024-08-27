@@ -41,7 +41,7 @@ jobs:
       - name: Run tests
         run: cargo test
       - name: Print dialogue lines
-        run: cargo run --bin dialogue_lines
+        run: cargo run -p dialogue_lines
 
   clippy_check:
     name: Clippy
