@@ -1843,6 +1843,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e8566979429cf69b49a5c740c60791108e86440e8be149bbea4fe54d2c32d6e2"
 
 [[package]]
+name = "dialogue_graph"
+version = "0.1.0"
+dependencies = [
+ "petgraph",
+ "petgraph-evcxr",
+]
+
+[[package]]
 name = "dialogue_lines"
 version = "0.1.0"
 
@@ -3570,6 +3578,16 @@ dependencies = [
  "indexmap",
  "serde",
  "serde_derive",
+]
+
+[[package]]
+name = "petgraph-evcxr"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4c164f0ab4e02b69ff6172de80d9c1a31a9dd21c15c7b728b632442a19c9fd96"
+dependencies = [
+ "base64 0.22.1",
+ "petgraph",
 ]
 
 [[package]]

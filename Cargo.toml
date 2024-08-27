@@ -45,4 +45,4 @@ strsim = "0.11.1"
 
 [workspace]
 
-members = [ "dialogue_lines" ]
+members = [ "dialogue_graph", "dialogue_lines" ]
