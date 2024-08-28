@@ -157,8 +157,8 @@ title: EleonoreTimePreference
             {$name}: That's actually not such a trivial thing.
             {$name}: Or well it depends.
             <<jump EleonoreFindTheThingYouLove>>
-        -> Hm, though 
-        <<jump EleonoreEnjoyingLife>>
+        -> Hm, though that doesn't sould like you are enjoying life.
+            <<jump EleonoreEnjoyingLife>>
     -> How does living in a city affect this?
     -> I agree with you.
         {$name}: Really? Then let me ask you this.
@@ -217,7 +217,8 @@ title: EleonorePaiFascinationNegative
 ---
 
 {$name}: I see. That's a shame.
-{$name}: I believe every human should have 
+{$name}: Life is easier when you have a passion.
+{$name}: 
 
 ===
 title: EleonoreEnjoyingLife
