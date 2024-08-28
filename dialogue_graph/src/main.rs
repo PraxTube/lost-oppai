@@ -1,12 +1,22 @@
+use core::panic;
 use std::{
     collections::HashMap,
-    fs::{self, DirEntry},
-    io::Error,
+    fs::{self, create_dir, remove_dir_all, DirEntry, File},
+    io::{Error, Write},
+    path::Path,
 };
 
 use petgraph::{dot::Dot, prelude::*};
 
 const PATH_TO_DIR: &str = "assets/dialogue";
+const OUPUT_PATH: &str = "graphs";
+
+struct Container {
+    title: NodeIndex,
+    player_options: [Option<NodeIndex>; 10],
+    graph: Graph<String, usize, Directed>,
+    title_indices: HashMap<String, NodeIndex>,
+}
 
 fn try_read_yarn_contents(entry: Result<DirEntry, Error>) -> Option<(String, String)> {
     let entry = entry.expect("Can't get entry in current dir");
@@ -47,94 +57,125 @@ fn count_whitespaces(line: &str) -> usize {
     count
 }
 
-fn get_latest_player_option(player_options: [Option<NodeIndex>; 10]) -> Option<NodeIndex> {
-    for i in 0..player_options.len() {
-        let option = player_options[player_options.len() - 1 - i];
-        if option.is_some() {
-            return option;
-        }
-    }
-    return None;
+fn index_from_whitespaces(line: &str) -> usize {
+    let whitespaces = count_whitespaces(line);
+    assert!(
+        whitespaces % 4 == 0,
+        "Whitespaces should always be 4 chars long"
+    );
+    whitespaces / 4
 }
 
-fn construct_graph(contents: String, _npc_file_name: String) -> Graph<String, usize, Directed> {
-    let dialogue_lines = contents.lines();
-    let mut graph: Graph<String, usize, Directed> = Graph::default();
+fn handle_player_option(container: &mut Container, line: &str) {
+    let index = index_from_whitespaces(line);
 
-    let mut title_indices = HashMap::new();
+    let n = container.graph.add_node(line.trim().to_string());
+    if index == 0 {
+        container.graph.update_edge(container.title, n, index);
+    } else {
+        let parent = container.player_options[index - 1].expect("Player option should be set");
+        container.graph.update_edge(parent, n, index);
+    }
+    container.player_options[index] = Some(n);
+}
+
+fn handle_jump_command(container: &mut Container, line: &str) {
+    let title: &str = &format!(
+        "title: {}",
+        line.trim().split(" ").collect::<Vec<&str>>()[1]
+            .strip_suffix(">>")
+            .expect("Jump commands should always end on '>>'"),
+    );
+    let title_node = *container
+        .title_indices
+        .get(title)
+        .expect("Titles should all be set");
+
+    let weight = index_from_whitespaces(line);
+
+    if weight == 0 {
+        container
+            .graph
+            .update_edge(container.title, title_node, weight);
+        return;
+    }
+
+    fn get_option(player_options: [Option<NodeIndex>; 10], weight: usize) -> NodeIndex {
+        if weight == 0 {
+            panic!("current_player_options is empty but it's supposed to have at least one non-empty value");
+        }
+
+        match player_options[weight - 1] {
+            Some(r) => r,
+            None => get_option(player_options, weight - 1),
+        }
+    }
+
+    let option_node = get_option(container.player_options, weight);
+    container.graph.update_edge(option_node, title_node, weight);
+}
+
+fn clear_player_options(container: &mut Container, line: &str) {
+    let index = index_from_whitespaces(line);
+    for i in (index..container.player_options.len()).rev() {
+        container.player_options[i] = None;
+    }
+}
+
+fn construct_graph(contents: String, _npc_file_name: &str) -> Graph<String, usize, Directed> {
+    let dialogue_lines = contents.lines();
+
+    let mut container = Container {
+        title: NodeIndex::new(0),
+        player_options: [None; 10],
+        graph: Graph::default(),
+        title_indices: HashMap::new(),
+    };
+
     for title in dialogue_lines
         .clone()
         .filter(|l| l.trim().starts_with("title: "))
     {
-        let index = graph.add_node(title.trim().to_string());
+        let index = container.graph.add_node(title.trim().to_string());
         assert!(
-            title_indices.insert(title.trim(), index).is_none(),
+            container.title_indices.insert(title.trim().to_string(), index).is_none(),
             "There are two titles with the same name. The tests should cover this, are the tests passing?"
         );
     }
 
-    let mut current_title = NodeIndex::new(0);
-    let mut current_player_options = [None; 10];
-
     for line in dialogue_lines {
+        clear_player_options(&mut container, line);
         if line.trim().starts_with("title: ") {
-            current_title = *title_indices.get(&line).unwrap();
-            // Clear the player options
-            current_player_options = [None; 10];
+            container.title = *container.title_indices.get(line).unwrap();
         } else if line.trim().starts_with("-> ") {
-            let whitespaces = count_whitespaces(line);
-            assert!(
-                whitespaces % 4 == 0,
-                "Whitespaces should always be 4 chars long"
-            );
-            let whitespaces = whitespaces / 4;
-
-            let n = graph.add_node(line.trim().to_string());
-            if whitespaces == 0 {
-                graph.update_edge(current_title, n, whitespaces);
-            } else {
-                let parent =
-                    current_player_options[whitespaces - 1].expect("Player option should be set");
-                graph.update_edge(parent, n, whitespaces);
-            }
-            current_player_options[whitespaces] = Some(n);
+            handle_player_option(&mut container, line);
         } else if line.trim().starts_with("<<jump") {
-            let title: &str = &format!(
-                "title: {}",
-                line.trim().split(" ").collect::<Vec<&str>>()[1]
-                    .strip_suffix(">>")
-                    .expect("Jump commands should always end on '>>'"),
-            );
-            let title_node = *title_indices.get(title).expect("Titles should all be set");
-
-            let weight = count_whitespaces(line);
-            assert!(
-                weight % 4 == 0,
-                "Whitespaces should always be 4 chars long."
-            );
-            let weight = weight / 4;
-
-            if weight == 0 {
-                graph.update_edge(title_node, title_node, weight);
-            } else {
-                let option_node = get_latest_player_option(current_player_options)
-                    .expect("Player option should be set");
-                graph.update_edge(option_node, title_node, weight);
-            }
+            handle_jump_command(&mut container, line);
         }
     }
-    graph
+    container.graph
 }
 
 fn main() {
+    if Path::new(OUPUT_PATH).exists() {
+        remove_dir_all(OUPUT_PATH).expect("Couldn't hard remove graph output dir");
+        create_dir(OUPUT_PATH).expect("Couldn't create graph output dir");
+    }
+
     for entry in fs::read_dir(PATH_TO_DIR).expect("Can't read entries in current dir") {
         let (contents, npc_file_name) = match try_read_yarn_contents(entry) {
             Some(r) => r,
             None => continue,
         };
 
-        let graph = construct_graph(contents, npc_file_name);
-        println!("{:?}", Dot::new(&graph));
-        break;
+        let path = &format!("{}/{}.dot", OUPUT_PATH, npc_file_name);
+        let mut file = match File::create(path) {
+            Ok(r) => r,
+            Err(err) => panic!("Can't create/open file: '{}', {}", path, err),
+        };
+
+        let graph = construct_graph(contents, &npc_file_name);
+        file.write(Dot::new(&graph).to_string().as_bytes())
+            .expect(&format!("Couldn't write to file: '{}'", path));
     }
 }
