@@ -1,0 +1,80 @@
+title: DUMMY
+---
+
+-> 1
+    -> 1.1
+        -> 1.1.1
+            <<jump A>>
+        <<jump A>>
+        -> 1.1.2
+        -> 1.1.3
+    -> 1.2
+    -> 1.3
+-> 2
+-> 3
+    -> 3.1
+    -> 3.2
+    Some Text
+    <<if true>>
+        <<jump A>>
+    <<endif>>
+    <<jump B>>
+
+===
+title: A
+---
+
+<<jump B>>
+
+===
+title: B
+---
+
+-> B.1
+-> B.2
+    <<trigger_ending BLA>>
+    -> B.2.1
+-> B.3
+    -> B.3.1
+    -> B.3.2
+    <<trigger_ending BLA>>
+
+===
+title: Recursion
+---
+
+-> R.1
+<<jump SameOptions>>
+-> R.2
+    <<jump A>>
+<<jump Recursion>>
+
+===
+title: SameOptions
+---
+
+-> 1
+    -> 1.1
+-> 2
+-> 3
+
+===
+title: NestedOption
+---
+
+<<if true>>
+    <<if true>>
+        <<if true>>
+            <<if true>>
+                <<if true>>
+                    -> Go to A
+                        <<jump A>>
+                    -> Nothing
+                    <<jump B>>
+                <<endif>>
+            <<endif>>
+        <<endif>>
+    <<endif>>
+<<endif>>
+
+===
