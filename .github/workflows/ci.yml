@@ -39,7 +39,7 @@ jobs:
           cargo clippy -V
           cargo fmt -- -V
       - name: Run tests
-        run: cargo test
+        run: cargo test --workspace
       - name: Print dialogue lines
         run: cargo run -p dialogue_lines
 

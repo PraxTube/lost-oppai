@@ -1,3 +1,6 @@
+#[cfg(test)]
+mod test;
+
 use core::panic;
 use std::{
     collections::HashMap,
@@ -69,14 +72,14 @@ fn index_from_whitespaces(line: &str) -> usize {
 fn handle_player_option(container: &mut Container, line: &str) {
     let index = index_from_whitespaces(line);
 
-    let n = container.graph.add_node(line.trim().to_string());
-    if index == 0 {
-        container.graph.update_edge(container.title, n, index);
+    let end = container.graph.add_node(line.trim().to_string());
+    let start = if index == 0 {
+        container.title
     } else {
-        let parent = container.player_options[index - 1].expect("Player option should be set");
-        container.graph.update_edge(parent, n, index);
-    }
-    container.player_options[index] = Some(n);
+        container.player_options[index - 1].unwrap_or(container.title)
+    };
+    container.graph.update_edge(start, end, index);
+    container.player_options[index] = Some(end);
 }
 
 fn handle_jump_command(container: &mut Container, line: &str) {
@@ -91,14 +94,30 @@ fn handle_jump_command(container: &mut Container, line: &str) {
         .get(title)
         .expect("Titles should all be set");
 
+    fn get_option(player_options: [Option<NodeIndex>; 10], index: usize) -> Option<NodeIndex> {
+        if index == 0 {
+            return None;
+        }
+
+        match player_options[index - 1] {
+            Some(r) => Some(r),
+            None => get_option(player_options, index - 1),
+        }
+    }
+
+    let index = index_from_whitespaces(line);
+    let option_node = get_option(container.player_options, index).unwrap_or(container.title);
+    container.graph.update_edge(option_node, title_node, index);
+}
+
+fn handle_ending_command(container: &mut Container, line: &str) {
     let weight = index_from_whitespaces(line);
 
-    if weight == 0 {
-        container
-            .graph
-            .update_edge(container.title, title_node, weight);
-        return;
-    }
+    let start = if weight == 0 {
+        container.title
+    } else {
+        get_option(container.player_options, weight)
+    };
 
     fn get_option(player_options: [Option<NodeIndex>; 10], weight: usize) -> NodeIndex {
         if weight == 0 {
@@ -111,8 +130,8 @@ fn handle_jump_command(container: &mut Container, line: &str) {
         }
     }
 
-    let option_node = get_option(container.player_options, weight);
-    container.graph.update_edge(option_node, title_node, weight);
+    let end = container.graph.add_node("Fin".to_string());
+    container.graph.update_edge(start, end, weight);
 }
 
 fn clear_player_options(container: &mut Container, line: &str) {
@@ -122,7 +141,7 @@ fn clear_player_options(container: &mut Container, line: &str) {
     }
 }
 
-fn construct_graph(contents: String, _npc_file_name: &str) -> Graph<String, usize, Directed> {
+fn construct_graph(contents: String) -> Graph<String, usize, Directed> {
     let dialogue_lines = contents.lines();
 
     let mut container = Container {
@@ -149,8 +168,10 @@ fn construct_graph(contents: String, _npc_file_name: &str) -> Graph<String, usiz
             container.title = *container.title_indices.get(line).unwrap();
         } else if line.trim().starts_with("-> ") {
             handle_player_option(&mut container, line);
-        } else if line.trim().starts_with("<<jump") {
+        } else if line.trim().starts_with("<<jump ") {
             handle_jump_command(&mut container, line);
+        } else if line.trim().starts_with("<<trigger_ending ") {
+            handle_ending_command(&mut container, line);
         }
     }
     container.graph
@@ -174,7 +195,7 @@ fn main() {
             Err(err) => panic!("Can't create/open file: '{}', {}", path, err),
         };
 
-        let graph = construct_graph(contents, &npc_file_name);
+        let graph = construct_graph(contents);
         file.write(Dot::new(&graph).to_string().as_bytes())
             .expect(&format!("Couldn't write to file: '{}'", path));
     }

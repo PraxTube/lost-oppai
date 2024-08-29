@@ -145,6 +145,6 @@ title: IsabelleFinalAct
     {$name}: Well said!
     {$name}: In that case, how about we get going?
     -> Let's go *Join Isabelle*
-    <<trigger_ending {$name}>>
+        <<trigger_ending {$name}>>
 
 ===
