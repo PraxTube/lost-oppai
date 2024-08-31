@@ -92,24 +92,121 @@ title: EleonoreIsAMage
             {$name}: Though I am not too obsessed with reaching it.
             {$name}: Of course I want to create the most powerful fire spell.
             {$name}: But I am also wondering what I would do once I achieved it.
-            {$name}: Have you ever worked on something for so long that you never though of what comes after?
-            {$name}: And when you finally get to that point, you just have no clue what to do?
-            {$name}: I don't really know what I would do after I achieved my dream.
-            {$name}: To me it seems far worse to have achieved my dream and not know what to do then.
-            {$name}: Instead of committing myself to achieving it.
-            {$name}: Enjoying the journey is very important.
-            {$name}: If you are only thinking about the end goal, then what happens when you reach it?
-            {$name}: You will just set the next goal and mindlessly work until you reach that.
-            {$name}: Resulting in you never being happy or fulfilled.
-            {$name}: I much rather be working towards my dream steadily and enjoying every last second of it.
-            -> So you didn't create that spell yet?
-                ...
-                {$name}: ... No.
-                -> Is there a reason for that? Or is it just very time consuming?
-                    {$name}: 
-                -> Because you are a bad mage?
-                    {$name}: Hey, don't get cheeky now.
-                    {$name}: 
+            <<jump EleonoreTimeplan>>
+
+===
+title: EleonoreTimeplan
+---
+
+{$name}: Have you ever worked on something for so long that you never though of what comes after?
+{$name}: And when you finally get to that point, you just have no clue what to do?
+{$name}: I don't really know what I would do after I achieved my dream.
+{$name}: To me it seems far worse to have achieved my dream and not know what to do then.
+{$name}: Instead of committing myself to achieving it.
+{$name}: Enjoying the journey is very important.
+{$name}: If you are only thinking about the end goal, then what happens when you reach it?
+{$name}: You will just set the next goal and mindlessly work until you reach that.
+{$name}: Resulting in you never being happy or fulfilled.
+{$name}: I much rather be working towards my dream steadily and enjoying every last second of it.
+-> So you didn't create that spell yet?
+    ...
+    {$name}: ... No.
+    -> Is there a reason for that? Or is it just very time consuming?
+        {$name}: Any hugely ambitious goal takes a lot of time.
+        {$name}: In particular when you want to create something of high quality.
+        {$name}: You might want to get straight into creating your dream spell.
+        {$name}: However, this will most likely just fail completely.
+        {$name}: Instead, you should try to create really small spells.
+        {$name}: Which that seem almost trivial to make.
+        {$name}: But creating a spell, any spell, is very difficult.
+        {$name}: Of course you will need to eventually start to work on you dream spell.
+        {$name}: I am just saying that you shouldn't expect to create your Magnum Opus right away.
+        {$name}: In fact it could even ruin it for you.
+        {$name}: To begin with, if it's you dream to create something big, then it means it's important to you.
+        {$name}: So why would you start to work on that right away?
+        {$name}: When you skills are the lowest.
+        {$name}: When your experience is practically zero.
+        {$name}: When you haven't failed enough times to know how to succeed.
+        {$name}: The more ambitious your dream, the stronger the foundation of your skills has to be to achieve it.
+        -> What with people that don't have the time though?
+            {$name}: Yeah, this isn't a rule.
+            {$name}: There is a certain type of people that can just work like that.
+            {$name}: Also, not all people have the time necessary to achieve their dreams.
+            {$name}: I don't see this idealistically.
+            {$name}: It's simply a pattern I have observed from myself and quite a few others.
+            {$name}: But whatever will get you get you to your goal works.
+            {$name}: For me it's about practicality.
+            {$name}: Though there is one thing I believe is required to achieve your dream.
+            {$name}: Regardless of any other qualities.
+            <<jump EleonoreTimePreference>>
+        -> Essentially, master the basics before anything else?
+            {$name}: Hm, not quite I think.
+            {$name}: While it's absolutely important to master the basics,
+            {$name}: It's even more important to continuously improve.
+            {$name}: You will not improve much if you do the same thing over and over.
+            {$name}: And usually this is what people do when they think of 'master the basics'.
+            {$name}: Instead, build things.
+            {$name}: Whatever it is that your craft makes.
+            {$name}: Just, create.
+            {$name}: I am saying to start very small.
+            {$name}: And to gradually increase the size and scope.
+            {$name}: You will practice the basics with every time you create something new.
+            {$name}: But you will also improve as you will face new challenges.
+            {$name}: These are just techniques though.
+            {$name}: Little tips and tricks that may make it easier to achieve your dream.
+            {$name}: They can only help you though, they are not the necessary component.
+            <<jump EleonoreTimePreference>>
+        -> I don't know, I don't think it's applicable to every craft.
+            {$name}: Yeah that is very likely not the case.
+            {$name}: But I don't mean this as a strict rule.
+            {$name}: I do wonder in which cases this would not hold though.
+            {$name}: I think this depends even more on the person than it does on the craft.
+            {$name}: While I haven't seen any craft were this rule generally doesn't hold,
+            {$name}: I have seen people that can work regardless of this.
+            {$name}: So this is a at best a rule of thumb if anything.
+            {$name}: But I think there is one characteristic that isn't optional.
+            <<jump EleonoreTimePreference>>
+    -> Because you are a bad mage?
+        {$name}: Hey, don't get cheeky now.
+        {$name}: It's just that it's a difficult task.
+        {$name}: I wouldn't claim that I am a great mage though, even for a witch.
+        {$name}: But what do you think does it take to achieve your dream?
+        {$name}: Motivation? Passion?
+        {$name}: Discipline. A lot of discipline.
+        {$name}: And a strong mind.
+        {$name}: I like to think of it this way.
+        <<jump EleonoreTimePreference>>
+-> Though will you not be happy once you achieve your dream? Isn't that the point of it all?
+-> I understand that you are in no rush to reach your goal, but what with people that have less time?
+    {$name}: That is an interesting point.
+    {$name}: I am not too sure.
+    {$name}: If you have little time, then you don't need to worry about what comes after achieving your dream.
+    {$name}: They *can't* worry about it even.
+    {$name}: I mean I am not too worried about achieving my dream.
+    {$name}: It's simply that I am enjoying my life as it is right now.
+    {$name}: I know how it feels to lack a purporse in life.
+    {$name}: The meaninglessness it brings.
+    {$name}: What if that is the state you will find yourself once you achieve your dream?
+    {$name}: Wouldn't it be better to have limited time but work on something with passion?
+    {$name}: Instead of having all the time in the world but no purporse to commit to.
+    {$name}: I don't know, I am happy with the way things are right now.
+    {$name}: If I knew I had less time, maybe I would act differently.
+    {$name}: But that opens another question.
+    {$name}: Should you act like today is your last day? Everyday?
+    {$name}: If you would live that way, then the only difference between how much time you have left is your planning.
+    {$name}: And in the first place, the future is uncertain, there is no way to know exactly how much time you have.
+    {$name}: What do you think, should you act like every day is, or perhaps could be, your last?
+    -> Hm, no, I think it's a bad way to live your life. You need to think in the long run.
+        {$name}: I agree that one shouldn't disregard planning and thinking of the future.
+        {$name}: Though I am also not sure if that is what the statement is getting at necessarily.
+        {$name}: Of course there is not much you can plan for if you had truly only a single day left.
+        {$name}: If you have kids or other family members then maybe you could make a point for planning for them.
+        {$name}: Regardless, I think the statement isn't making a point about planning and instead more about living a fulfilling live.
+        {$name}: Time is just about the most scarce resource for any living thing.
+        {$name}: However we tend to forget this very easily as we don't seem very aware of this in the moment.
+        {$name}: So if you were to treat every day like it's your last, you are essentially reminding yourself of that.
+        {$name}: Think of it this way.
+        <<jump EleonoreTimePreference>>
 
 ===
 title: EleonoreTimePreference
@@ -157,12 +254,17 @@ title: EleonoreTimePreference
             {$name}: That's actually not such a trivial thing.
             {$name}: Or well it depends.
             <<jump EleonoreFindTheThingYouLove>>
-        -> Hm, though that doesn't sould like you are enjoying life.
+        -> Again, it seems more that you are coping instead of actually enjoying it.
+            {$name}: You mean because it sounds like I am pushing myself and working hard?
             <<jump EleonoreEnjoyingLife>>
-    -> How does living in a city affect this?
+    -> This wouldn't work in nature though, only in a man-made society.
+        {$name}: You think? I am no so sure about that.
+        {$name}: 
     -> I agree with you.
         {$name}: Really? Then let me ask you this.
         <<jump EleonorePaiFascination>>
+-> No, if I am being honest not really.
+-> 
 
 ===
 title: EleonoreLivingInThePresent
@@ -224,7 +326,70 @@ title: EleonorePaiFascinationNegative
 title: EleonoreEnjoyingLife
 ---
 
-HERE
+{$name}: Is enjoying life and being happy the same? I am not quite sure.
+{$name}: They certainly aren't mutually exclusive.
+{$name}: But what does it mean to enjoy life in the first place?
+{$name}: It's not to enduldge in endless hedonistic pleasure.
+{$name}: Instead I would say it means to fulfill your purpose.
+{$name}: And at least in my experience, that leads to happiness.
+{$name}: This actually reminds me of a discovery I made not too long ago.
+{$name}: It's related to this in the regard that quite a lot of people see my life and think it's a struggle.
+{$name}: But really it's just them projecting their subjective world view onto me.
+<<jump EleonoreOptimizingEnvironment>>
+
+===
+title: EleonoreOptimizingEnvironment
+---
+
+{$name}: There is a scale on how serious you can be about any given task.
+{$name}: It's a spectrum, so it's not just either serious or non-serious, it's something inbetween.
+{$name}: When doing tasks related to your work you are more serious about them.
+{$name}: Or at least that should be the case, if it isn't, then you luckily dislike your job.
+{$name}: The more serious you are about a given task, the more you will want to optimize it.
+{$name}: If the task is direclty linked to your dream, then you are probably gonna be very serious about it.
+{$name}: And so optimizing it doesn't sound too crazy, even just a few percent will make a significant difference.
+{$name}: Say you work 4 hours each day on that task, an improvement of just 1% would make a massive difference over time.
+{$name}: This will result in compounding effects which will add up a lot.
+{$name}: But anyways, my point is this.
+{$name}: When you are more serious about a task than the people around you, it's gonna suck.
+{$name}: Even if you are doing completely separate things.
+{$name}: Their presence alone will decrease your performance.
+{$name}: And again, I know this may sound like I am exaggerating.
+{$name}: But compound effects are extremely difficult for us humans to understand.
+{$name}: Any non-linear behaviour is.
+{$name}: And so it's not that I am not enjoying life or overly worried.
+{$name}: It's simple that I care about this so much that I am willing to go to this length.
+{$name}: This is just difficult to understand for people that don't think this way.
+{$name}: It may similar to how chaotic people are incompatible with lawful people.
+{$name}: I am not sure if there is a link here, but it's something similar I reckon.
+{$name}: It's like how you may find it okay as a kid to leave your room in a mess.
+{$name}: You aren't gonna struggle to find a shirt to wear, so there isn't a particular need to tidy it up.
+{$name}: But if I were to keep such a mess in my study chamber it wouldn't work at all.
+{$name}: With hundreds of papers and dozens of books all over the place.
+{$name}: I would waste all my time just trying to find anything.
+{$name}: So at some point it becomes necessary to become more orderly.
+{$name}: Maybe it's similarly necessary to become more serious in that regard.
+-> So you just seclude yourself from others?
+-> What do you mean with non-linear?
+-> That analogy to the chaotic-lawful didn't make much sense.
+-> You can change your behaviour over time then? How lawful and serious you are?
+    {$name}: Yes, I mean why shouldn't you?
+    {$name}: 'Humans don't change', is that what you mean?
+    {$name}: I guess it would make somewhat sense from that perspective.
+    {$name}: I am not quite sure where I stand on.
+    {$name}: Humans can most definitely change certain aspects.
+    {$name}: They can become more orderly or more chaotic over time.
+    {$name}: Same with how serious they are about certain tasks.
+    {$name}: But the nature of a human?
+    {$name}: I don't know, I believed they could for a long time.
+    {$name}: However, I just never saw that in anybody.
+    {$name}: Not even in myself. For better or for worse.
+    {$name}: It just seems like there is a certain part of us set by nature.
+    {$name}: And while we can change the direction partially through nurturing specific parts, it's never completely separate.
+    {$name}: But when talking specifically about lawfulness and seriousness, yes definitely.
+    {$name}: In the first place, you don't just have one level of how lawful you are.
+    {$name}: It depends on the tasks, and that can definitely change over time.
+    TODO
 
 ===
 title: EleonoreFindTheThingYouLove
