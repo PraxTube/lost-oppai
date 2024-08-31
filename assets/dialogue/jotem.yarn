@@ -80,6 +80,46 @@ title: OppaiIsLostInLife
         // -> What? No, that doesn't make any sense.
 
 ===
+title: JotemInnateDream
+---
+
+{$name}: I think every person gotta have a dream.
+{$name}: Not just about being happy and all that.
+{$name}: I tell ya, you will go nuts without one.
+{$name}: You either have something to commit to or something to distract you.
+{$name}: If ya got neither... well ya mind gonna go little wonky.
+{$name}: This didn't used to be the case.
+{$name}: Back when there was no society and humans were still playing survival of the fittest.
+{$name}: Ya simply didn't have the time to dream.
+{$name}: What's the next meal?
+{$name}: Where will I sleep tonight?
+{$name}: How can I keep my genes alive?
+{$name}: Ain't no way ya could think about any longer future than that.
+{$name}: But now?
+{$name}: People got it easier, a lot easier.
+{$name}: The peeps in the city got it too easy even.
+{$name}: Tell me, if yer happy when ya do the hard work, but ya life doesn't require hard work, what happens?
+-> What do you mean?
+-> You get unhappy.
+    {$name}: Hexactly.
+    {$name}: So ya either find something yer passionate about, or ya distract yerself somehow.
+    {$name}: If ya do neither, ya gonna loose ya mind.
+    -> Are you talking from experience?
+    -> Distraction doesn't sound very positive.
+        {$name}: Yeh, though I don't exactly mean to say they are bad.
+        {$name}: Is the wild cat distracted by food, or is it its purpose to hunt?
+        {$name}: TODO
+    -> Though hold on. How you even differentiate between passion and distraction?
+        {$name}: Haha smart garl aren't ya?
+        {$name}: You can't.
+        {$name}: At least not completely.
+        {$name}: What I see as a passion and my purpose now may seem like a ridicioulus and foolish distraction in the future.
+        {$name}: So how do you differentiate between them? Only through time.
+        {$name}: You will never know with certainty whether yer truly commiting to yer dream or if it's just another distraction.
+        {$name}: But if it's hard to do and ya like to do it despite it, nay, precicely because of it, then ya on the right track.
+        TODO
+
+===
 title: PastJotem
 ---
 
@@ -123,43 +163,40 @@ title: ThatOneEncounter
 //         {$name}: It's up to ya whether ya see an external factor as something good or bad.
 //         {$name}: You can take every challenges and see it as an opportunity, or as a hurdle.
 //         {$name}: But life is gonna be a lot easier if ya try to see challenges as an opportunity.
--> I have never really thought about this. Do you mind explaining a bit more?
-    {$name}: I think it's a very important subject.
-    {$name}: Of course I don't mind! I am glad ya wanna talk more about it.
 -> I don't mind. Could you go into more detail?
     {$name}: Sure can!
-{$name}: When I met her, I was at a low in my life.
-{$name}: However, after talkin to her for just one evening, one loong evening, life seemed so much easier.
-{$name}: Of course my habits and behaviour didn't change over night!
-{$name}: But I was able to appreciate life as a whole much more, the good and the bad.
-{$name}: It was like I was finally able to see all the beatiful colors in the world.
-{$name}: Where everything was just one gray mess before, now everything was brimming with life.
-{$name}: Agh! You get what I mean, right?
--> Yes, I think so.
-    {$name}: Okay, good.
-    {$name}: So anyways, that was my little story.
-    {$name}: After that point, I was able to enjoy fishing.
-    {$name}: In my free time I build towards my dream of becoming an adventurer.
-    {$name}: And eventually, I did!
-    -> That's awesome. Do you think I could achieve that too?
-        {$name}: Of course! In fact, ya don't have anywhere to go right?
-        You: No, I wouldn't know where anyways.
-        {$name}: Right. So how about ya join me?
-        {$name}: Your dream might not be to become an adventurer, but ya can work towards ya dream while making money as an adventurer.
-        -> I am not too sure...
-            {$name}: Yeh right, how about ya talk with her first?
-            <<target_npc_mentioned {$name} {$target_npc}>>
-            {$name}: I mean Eleonore, the person that helped me back then.
-            {$name}: She is a witch and likes to come here to calm her mind.
-            {$name}: She should be around here somewhere.
-            {$name}: You can't really miss her, big witch-like hat and orange hair.
-            {$name}: Oh yeah and she is floating in the air.
-            {$name}: So how about ya go talk to her and then come back and tell me about yer decision?
-            -> Okay, I will give it a try.
-                {$name}: Alright! I will be waiting here for ya.
-                {$name}: Good luck!
-                <<stop_chat>>
-                <<jump JotemWaiting>>
+    {$name}: When I met her, I was at a low in my life.
+    {$name}: However, after talkin to her for just one evening, one loong evening, life seemed so much easier.
+    {$name}: Of course my habits and behaviour didn't change over night!
+    {$name}: But I was able to appreciate life as a whole much more, the good and the bad.
+    {$name}: It was like I was finally able to see all the beatiful colors in the world.
+    {$name}: Where everything was just one gray mess before, now everything was brimming with life.
+    {$name}: Agh! You get what I mean, right?
+    -> Yes, I think so.
+        {$name}: Okay, good.
+        {$name}: So anyways, that was my little story.
+        {$name}: After that point, I was able to enjoy fishing.
+        {$name}: In my free time I build towards my dream of becoming an adventurer.
+        {$name}: And eventually, I did!
+        -> That's awesome. Do you think I could achieve that too?
+            {$name}: Of course! In fact, ya don't have anywhere to go right?
+            You: No, I wouldn't know where anyways.
+            {$name}: Right. So how about ya join me?
+            {$name}: Your dream might not be to become an adventurer, but ya can work towards ya dream while making money as an adventurer.
+            -> I am not too sure...
+                {$name}: Yeh right, how about ya talk with her first?
+                <<target_npc_mentioned {$name} {$target_npc}>>
+                {$name}: I mean Eleonore, the person that helped me back then.
+                {$name}: She is a witch and likes to come here to calm her mind.
+                {$name}: She should be around here somewhere.
+                {$name}: You can't really miss her, big witch-like hat and orange hair.
+                {$name}: Oh yeah and she is floating in the air.
+                {$name}: So how about ya go talk to her and then come back and tell me about yer decision?
+                -> Okay, I will give it a try.
+                    {$name}: Alright! I will be waiting here for ya.
+                    {$name}: Good luck!
+                    <<stop_chat>>
+                    <<jump JotemWaiting>>
 
 ===
 title: JotemWaiting
@@ -200,12 +237,6 @@ title: TalkedWithEleonore
 -> Yes!
     <<jump FinalAct>>
 // -> Thank you for the offer, but no.
-
-===
-title: QandA
----
-
-
 
 ===
 title: FinalAct
