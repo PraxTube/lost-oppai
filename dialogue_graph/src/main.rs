@@ -5,7 +5,7 @@ use core::panic;
 use std::{
     collections::HashMap,
     fs::{self, create_dir, remove_dir_all, DirEntry, File},
-    io::{Error, Write},
+    io::{Error, Read, Write},
     path::Path,
 };
 
@@ -13,6 +13,9 @@ use petgraph::{dot::Dot, prelude::*};
 
 const PATH_TO_DIR: &str = "assets/dialogue";
 const OUPUT_PATH: &str = "graphs";
+
+const ATTR_DELIMETER: &str = "|BREAK|";
+const LEAF_NODE_COLOR: &str = "red";
 
 struct Container {
     title: NodeIndex,
@@ -141,6 +144,88 @@ fn clear_player_options(container: &mut Container, line: &str) {
     }
 }
 
+fn label_graph_with_attributes(container: &mut Container) {
+    let leaf_nodes: Vec<NodeIndex> = container
+        .graph
+        .node_indices()
+        .filter(|i| container.graph.edges(*i).count() == 0)
+        .collect();
+
+    for index in leaf_nodes {
+        *container.graph.node_weight_mut(index).unwrap() +=
+            &format!("{}color={}", ATTR_DELIMETER, LEAF_NODE_COLOR);
+    }
+}
+
+fn parse_labels_dot_file(path: &str) {
+    fn read_file_content(buf: &mut String, path: &str) {
+        let mut file =
+            File::open(path).unwrap_or_else(|_| panic!("Can't open file, '{}', to read", path));
+        file.read_to_string(buf)
+            .unwrap_or_else(|_| panic!("Can't read content of file, '{}'", path));
+    }
+
+    let mut content = String::new();
+    read_file_content(&mut content, path);
+    let mut output_content = String::new();
+
+    for line in content.split("\n") {
+        if !line.contains(ATTR_DELIMETER) {
+            output_content += &(line.to_string() + "\n");
+            continue;
+        }
+
+        let parts: Vec<&str> = line.split("\"").collect();
+        assert_eq!(parts.len(), 3);
+        let label = parts[1];
+
+        assert!(label.contains(ATTR_DELIMETER));
+        let attr_parts: Vec<&str> = label.split(ATTR_DELIMETER).collect();
+        let true_label = &format!("\"{}\"", attr_parts[0]);
+
+        let mut appendix = String::new();
+
+        for attr_part in attr_parts.iter().skip(1) {
+            appendix += &format!(" [ {} ]", attr_part);
+        }
+
+        let final_line = parts[0].to_string() + true_label + parts[2] + &appendix;
+        output_content += &(final_line + "\n");
+    }
+
+    let mut file =
+        File::create(path).unwrap_or_else(|_| panic!("Can't open file, '{}', to read", path));
+    file.write_all(output_content.as_bytes())
+        .unwrap_or_else(|_| panic!("Couldn't write to file: '{}'", path));
+}
+
+fn write_meta_data(path: &str, graph: Graph<String, usize>) {
+    fn read_file_content(buf: &mut String, path: &str) {
+        let mut file =
+            File::open(path).unwrap_or_else(|_| panic!("Can't open file, '{}', to read", path));
+        file.read_to_string(buf)
+            .unwrap_or_else(|_| panic!("Can't read content of file, '{}'", path));
+    }
+
+    let leaf_node_count = graph
+        .node_indices()
+        .filter(|i| graph.edges(*i).count() == 0)
+        .count();
+
+    let mut output_content = String::new();
+    output_content += "/*\n";
+    output_content += "--- START METADATA ---\n";
+    output_content += &format!("Leaf Nodes: {}\n", leaf_node_count);
+    output_content += "--- END   METADATA ---\n";
+    output_content += "*/\n\n";
+    read_file_content(&mut output_content, path);
+
+    let mut file =
+        File::create(path).unwrap_or_else(|_| panic!("Can't open file, '{}', to read", path));
+    file.write_all(output_content.as_bytes())
+        .unwrap_or_else(|_| panic!("Couldn't write to file: '{}'", path));
+}
+
 fn construct_graph(contents: String) -> Graph<String, usize, Directed> {
     let dialogue_lines = contents.lines();
 
@@ -174,6 +259,8 @@ fn construct_graph(contents: String) -> Graph<String, usize, Directed> {
             handle_ending_command(&mut container, line);
         }
     }
+
+    label_graph_with_attributes(&mut container);
     container.graph
 }
 
@@ -196,7 +283,9 @@ fn main() {
         };
 
         let graph = construct_graph(contents);
-        file.write(Dot::new(&graph).to_string().as_bytes())
-            .expect(&format!("Couldn't write to file: '{}'", path));
+        file.write_all(Dot::new(&graph).to_string().as_bytes())
+            .unwrap_or_else(|_| panic!("Couldn't write to file: '{}'", path));
+        parse_labels_dot_file(path);
+        write_meta_data(path, graph);
     }
 }

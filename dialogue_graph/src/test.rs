@@ -10,10 +10,10 @@ const PATH_TO_DOT: &str = "./DUMMY.dot";
 
 #[test]
 fn graph_construction() {
-    let contents =
-        read_to_string(PATH_TO_YARN).expect(&format!("Can't read file: '{}'", PATH_TO_YARN));
-    let dot_contents =
-        read_to_string(PATH_TO_DOT).expect(&format!("Can't read file: '{}'", PATH_TO_DOT));
+    let contents = read_to_string(PATH_TO_YARN)
+        .unwrap_or_else(|_| panic!("Can't read file: '{}'", PATH_TO_YARN));
+    let dot_contents = read_to_string(PATH_TO_DOT)
+        .unwrap_or_else(|_| panic!("Can't read file: '{}'", PATH_TO_DOT));
 
     let graph = construct_graph(contents);
     let dot = Dot::new(&graph);
