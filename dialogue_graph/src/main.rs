@@ -16,6 +16,8 @@ const OUPUT_PATH: &str = "graphs";
 
 const ATTR_DELIMETER: &str = "|BREAK|";
 const LEAF_NODE_COLOR: &str = "red";
+const TITLE_NODE_STYLE: &str = "bold";
+const TITLE_NODE_SHAPE: &str = "diamond";
 
 struct Container {
     title: NodeIndex,
@@ -151,9 +153,28 @@ fn label_graph_with_attributes(container: &mut Container) {
         .filter(|i| container.graph.edges(*i).count() == 0)
         .collect();
 
+    let title_nodes: Vec<NodeIndex> = container
+        .graph
+        .node_indices()
+        .filter(|i| {
+            container
+                .graph
+                .node_weight(*i)
+                .unwrap()
+                .starts_with("title: ")
+        })
+        .collect();
+
     for index in leaf_nodes {
         *container.graph.node_weight_mut(index).unwrap() +=
             &format!("{}color={}", ATTR_DELIMETER, LEAF_NODE_COLOR);
+    }
+
+    for index in title_nodes {
+        *container.graph.node_weight_mut(index).unwrap() += &format!(
+            "{}style={}{}shape={}",
+            ATTR_DELIMETER, TITLE_NODE_STYLE, ATTR_DELIMETER, TITLE_NODE_SHAPE
+        );
     }
 }
 
