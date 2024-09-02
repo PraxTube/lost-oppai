@@ -3,12 +3,17 @@ title: Jotem
 <<set $name to "_Jotem">>
 <<set $target_npc = "Eleonore">>
 <<set $talked_with_target_npc = false>>
+<<set $mentioned_by_IonasAndAntonius = false>>
 
 {$name}: Howdy, young lady.
 {$name}: Wow, didn't see a beauty like ya in a while.
 -> Ey...
     {$name}: Haha sorry, I am just fooling around.
-    {$name}: Though why are ya dressed so lightly?
+    <<set $name to "Jotem">>
+    {$name}: I am Jotem, and you are?
+    You: I am Pai.
+    {$name}: Pai, huh?
+    {$name}: Say Pai, why are ya dressed so lightly?
     <<jump OppaiIsWeird>>
 -> Who are you?
     <<set $name to "Jotem">>
@@ -78,13 +83,17 @@ title: OppaiIsLostInLife
             {$name}: Let me tell ya a little about my past.
             <<jump PastJotem>>
         // -> What? No, that doesn't make any sense.
+    -> No, I don't.
+        {$name}: I see.
+        {$name}: That's a shame.
+        <<jump JotemInnateDream>>
 
 ===
 title: JotemInnateDream
 ---
 
 {$name}: I think every person gotta have a dream.
-{$name}: Not just about being happy and all that.
+{$name}: Not just for being happy and all that.
 {$name}: I tell ya, you will go nuts without one.
 {$name}: You either have something to commit to or something to distract you.
 {$name}: If ya got neither... well ya mind gonna go little wonky.
@@ -108,7 +117,14 @@ title: JotemInnateDream
     -> Distraction doesn't sound very positive.
         {$name}: Yeh, though I don't exactly mean to say they are bad.
         {$name}: Is the wild cat distracted by food, or is it its purpose to hunt?
-        {$name}: TODO
+        {$name}: It's difficult to tell.
+        {$name}: What feels like yer purpose may seem like a waste of time down the line.
+        {$name}: But a distraction can also be something ya look forward to.
+        {$name}: Something that gets ya through the day, when the tasks ain't fun.
+        {$name}: As always, it's in how you use them that determines their value.
+        {$name}: You know, I didnt't use to think this way.
+        {$name}: It's something I learned from somebody a long time ago.
+        <<jump PastJotem>>
     -> Though hold on. How you even differentiate between passion and distraction?
         {$name}: Haha smart garl aren't ya?
         {$name}: You can't.
@@ -117,7 +133,24 @@ title: JotemInnateDream
         {$name}: So how do you differentiate between them? Only through time.
         {$name}: You will never know with certainty whether yer truly commiting to yer dream or if it's just another distraction.
         {$name}: But if it's hard to do and ya like to do it despite it, nay, precicely because of it, then ya on the right track.
-        TODO
+-> Objection! If you are only happy when following your dream, what happens when you are physically unable to continue your dream?
+    {$name}: Yeh mean like if I were unable to continue adventuring for example?
+    {$name}: Well I would just find a different way to continue my dream!
+    {$name}: Teach kids how to become an adventurer.
+    {$name}: Or perhaps help in the gild or parties as a support.
+    {$name}: Maybe I would even write my own book! Hahaha
+    -> Yeah, no the last one is definitely not going to happen.
+        {$name}: Haha, ouch. Guess ya got some jokes of yer own.
+        {$name}: But worrying about all this purpose of life stuff...
+        {$name}: Life ain't that long, ya know?
+        {$name}: Instead of worrying about what could happen, enjoy the things that are happening.
+        {$name}: When bad shit happens, I will figure it out.
+        {$name}: Don't worry about tomorrow's problems, as today has enough problems already.
+        -> But that would disregard planning. Thinking for the future is important.
+            {$name}: That's right. But I am not saying to not think and plan ahead.
+            {$name}: There is a difference between planning and worrying.
+            {$name}: The former will get ya closer to yer dream, the latter will make ya miserable.
+            {$name}: 
 
 ===
 title: PastJotem
@@ -179,24 +212,43 @@ title: ThatOneEncounter
         {$name}: In my free time I build towards my dream of becoming an adventurer.
         {$name}: And eventually, I did!
         -> That's awesome. Do you think I could achieve that too?
-            {$name}: Of course! In fact, ya don't have anywhere to go right?
-            You: No, I wouldn't know where anyways.
-            {$name}: Right. So how about ya join me?
-            {$name}: Your dream might not be to become an adventurer, but ya can work towards ya dream while making money as an adventurer.
-            -> I am not too sure...
-                {$name}: Yeh right, how about ya talk with her first?
-                <<target_npc_mentioned {$name} {$target_npc}>>
-                {$name}: I mean Eleonore, the person that helped me back then.
-                {$name}: She is a witch and likes to come here to calm her mind.
-                {$name}: She should be around here somewhere.
-                {$name}: You can't really miss her, big witch-like hat and orange hair.
-                {$name}: Oh yeah and she is floating in the air.
-                {$name}: So how about ya go talk to her and then come back and tell me about yer decision?
-                -> Okay, I will give it a try.
-                    {$name}: Alright! I will be waiting here for ya.
-                    {$name}: Good luck!
-                    <<stop_chat>>
-                    <<jump JotemWaiting>>
+            {$name}: Of course! Unless there are physical limitations, I believe anybody can achieve about pretty much anything.
+            <<jump JotemPaiAchievingHerOwnDream>>
+
+===
+title: JotemPaiAchievingHerOwnDream
+---
+
+{$name}: Most people worry too much about whether or not they can do something.
+{$name}: They forget to just do the actual thing.
+{$name}: Thinking is great'n all, but nothing beats doing.
+{$name}: So anyways, ya don't have anywhere to go right now, right?
+You: No, I wouldn't know where anyways.
+{$name}: Right. So how about ya join me?
+{$name}: Your dream might not be to become an adventurer, but ya can work towards ya dream while making money as an adventurer.
+-> I am not too sure...
+    {$name}: Yeh right, how about ya talk with her first?
+    <<target_npc_mentioned {$name} {$target_npc}>>
+    {$name}: I mean Eleonore, the person that helped me back then.
+    {$name}: She is a witch and likes to come here to calm her mind.
+    {$name}: She should be around here somewhere.
+    {$name}: You can't really miss her, big hat and orange hair.
+    {$name}: Oh yeah and she is floating in the air.
+    {$name}: So how about ya go talk to her and then come back and tell me about yer decision?
+    -> Okay, I will give it a try.
+        {$name}: Alright! I will be waiting here for ya.
+        {$name}: Good luck!
+        <<stop_chat>>
+        <<jump JotemWaiting>>
+    -> No, I will pass.
+        {$name}: I see. Well, I will be around for a little longer.
+        {$name}: So if ya change yer mind feel free to come to me.
+        {$name}: Though I will not take ya with me unless ya talk with Eleonore.
+        <<stop_chat>>
+        <<jump JotemWaiting>>
+    -> Actually, I already talked with Eleonore. <<if $talked_with_target_npc>>
+        {$name}: Oh really?
+        <<jump TalkedWithEleonore>>
 
 ===
 title: JotemWaiting
@@ -231,7 +283,8 @@ title: JotemWaiting
 title: TalkedWithEleonore
 ---
 
-{$name}: Okay sweet. Then let's hear about ya decision.
+{$name}: Alright then.
+{$name}: In that case I assume you have maid up your mind.
 {$name}: You wanna join me in my adventures?
 // -> Before I answer, let me ask you a few questions.
 -> Yes!

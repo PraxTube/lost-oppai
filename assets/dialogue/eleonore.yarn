@@ -7,7 +7,7 @@ title: Eleonore
 
 ...
 {$name}: Oh hey there.
--> Hi. Wait are you flying?
+-> Hi. Wait, are you flying?
     {$name}: First time?
     {$name}: Guess there aren't that many mages around here.
     {$name}: Yeah, I am using a spell to levitate.
@@ -29,7 +29,40 @@ title: Eleonore
         {$name}: Pai? You got a strange name.
         <<jump AfterGreeting>>
 -> Hey, what are you doing out here?
+    {$name}: I am calming my mind and taking a break from my studies of the arcane.
+    {$name}: Studying magic can become very complicated and you can loose yourself very easily.
+    {$name}: Especially for a mage.
+    {$name}: I find it very important to not get lost in one's work.
+    <<set $name to "Eleonore">>
+    {$name}: I am Eleonore by the way, and you are?
+    You: I am Pai, nice to meet you.
+    {$name}: Likewise.
+    <<jump AfterGreeting>>
 -> Hi, are you Eleonore? <<if $mentioned_by_Jotem>>
+    <<set $name to "Eleonore">>
+    {$name}: Oh? How do you know?
+    You: Ah so you are Eleonore.
+    You: I takled with Jotem and he told me to talk with you.
+    You: I am Pai by the way.
+    {$name}: I see.
+    {$name}: What did you two talk about? There must be a reason he wanted you to talk to me.
+    You: Yes, he told me about his dream and how he was able to achieve it after meeting you.
+    You: He invited me to join him in his adventures.
+    {$name}: Oh? And let me guess, you said you aren't too sure.
+    {$name}: To which he replied to talk with me first?
+    You: Yes! That is exactly it.
+    {$name}: Alright, I think I get it then.
+    {$name}: In that case I want to ask you a question.
+    {$name}: Do you know what a mage is?
+    -> Yes, of course.
+        {$name}: Okay good, that will make things quicker.
+        {$name}: You may have already realized that I am a mage.
+        {$name}: To be more precise, I am a witch.
+        {$name}: And magic is the single most fascinating thing in the entire world to me.
+        <<jump EleonoreLovesMagic>>
+    -> No, not really.
+        {$name}: In that case allow me to explain.
+        <<jump EleonoreIsAMage>>
 
 ===
 title: AfterGreeting
@@ -45,7 +78,7 @@ title: AfterGreeting
 title: EleonoreIsAMage
 ---
 
-{$name}: So mages are people that can manipulate mana.
+{$name}: Mages are people that can manipulate mana.
 {$name}: Either their own or that of the environment.
 {$name}: It's what allows me to hover like this.
 {$name}: To me, magic is the most beatiful thing in the world.
@@ -58,48 +91,127 @@ title: EleonoreIsAMage
     {$name}: There isn't anything more fascinating than magic.
     -> What's so amazing about magic?
         {$name}: Oh girl, what isn't!
-        {$name}: The endless amounts of possibilities, the complexity and depth.
-        {$name}: The possibilities it opens, the sheer beauty of it.
-        {$name}: How you can always learn something new no matter how long you study it.
-        {$name}: There is so much that you will never be able to know everything.
-        {$name}: But most importanly, it's just fun.
-        {$name}: It's my dream to create the most powerful fire spell in the entire world.
-        -> Your dream is surprisingly... childish.
-            {$name}: Hahaha ey, that's my dream you are talking about!
-            {$name}: But yes, it is.
-            {$name}: However, is there a need to have some grandious dream?
-            {$name}: I get to do what I love and help others in my own way.
-            {$name}: But it isn't easy, you know.
-            {$name}: Everything worth pursuing is difficult.
-            {$name}: It's important to have the right mindset.
-            <<jump EleonoreTimePreference>>
-        -> The most powerful fire spell? Why?
-            {$name}: Hm, no particular reason really.
-            {$name}: I just really like fire spells and there simply doesn't exist one to satisfy me yet.
-            {$name}: So I set out to create it myself.
-            {$name}: That's about it.
-            -> So you don't really have a reason behind your dream?
-                {$name}: That's a misconception I hear a lot.
-                {$name}: Why do people think there much be a reason for everything?
-                {$name}: I guess it's part of humans nature.
-                {$name}: But no, I don't, and I think that's perfectly fine.
-                <<jump EleonoreTypesOfDreams>>
-            -> Is it difficult?
-                {$name}: Well, any dream is, right?
-                <<jump EleonoreTimePreference>>
-        -> How close are you to that goal?
-            {$name}: It's going pretty well.
-            {$name}: Though I am not too obsessed with reaching it.
-            {$name}: Of course I want to create the most powerful fire spell.
-            {$name}: But I am also wondering what I would do once I achieved it.
-            <<jump EleonoreTimeplan>>
+        <<jump EleonoreLovesMagic>>
+    -> That makes it sound like you are quite the old hag.
+        {$name}: Oi watch your mouth you little brat.
+        {$name}: That better?
+        {$name}: But yes, time flows a little differently for me then it does for you.
+        {$name}: Though I don't think it matters too much how much time you have.
+        {$name}: It's important to know that it's limited and that you should spend it with care.
+        {$name}: If you want to achieve something great, then there is no time for you to slack.
+        {$name}: Though that doesn't mean you should spend your whole day practicing your craft.
+        <<jump EleonoreProcrastinationPerfection>>
+-> How old are you? You don't look much older then me.
+    {$name}: 
+
+===
+title: EleonoreLovesMagic
+---
+
+{$name}: The endless amounts of possibilities, the complexity and depth.
+{$name}: The possibilities it opens, the sheer beauty of it.
+{$name}: How you can always learn something new no matter how long you study it.
+{$name}: There is so much that you will never be able to know everything.
+{$name}: But most importanly, it's just fun.
+{$name}: It's my dream to create the most powerful fire spell in the entire world.
+-> Your dream is surprisingly... childish.
+    {$name}: Hahaha ey, that's my dream you are talking about!
+    {$name}: But yes, it is.
+    {$name}: However, is there a need to have some grandious dream?
+    {$name}: I get to do what I love and help others in my own way.
+    {$name}: But it isn't easy, you know.
+    {$name}: Everything worth pursuing is difficult.
+    {$name}: It's important to have the right mindset.
+    <<jump EleonoreCorrectMindset>>
+-> The most powerful fire spell? Why?
+    {$name}: Hm, no particular reason really.
+    {$name}: I just really like fire spells and there simply doesn't exist one to satisfy me yet.
+    {$name}: So I set out to create it myself.
+    {$name}: That's about it.
+    -> So you don't really have a reason behind your dream?
+        {$name}: That's a misconception I hear a lot.
+        {$name}: Why do people think there much be a reason for everything?
+        {$name}: I guess it's part of humans nature.
+        {$name}: But no, I don't, and I think that's perfectly fine.
+        <<jump EleonoreTypesOfDreams>>
+    -> Is it difficult?
+        {$name}: Well, any dream is, right?
+        <<jump EleonoreCorrectMindset>>
+-> How close are you to that goal?
+    {$name}: It's going pretty well.
+    {$name}: Though I am not too obsessed with reaching it.
+    {$name}: Of course I want to create the most powerful fire spell.
+    {$name}: But I am also wondering what I would do once I achieved it.
+    <<jump EleonoreTimeplan>>
+
+===
+title: EleonoreProcrastinationPerfection
+---
+
+{$name}: I believe you need to live a balanced life.
+{$name}: Meaning to work not work on the same thing the whole day.
+{$name}: Instead spreading your focus on multiple subjects.
+{$name}: Let me convince you of the following claim.
+{$name}: Procrastination, by the original definition, isn't something bad.
+{$name}: It simply states 'putting something off to a future time'.
+{$name}: The modern definition is heavily negatively connotated.
+{$name}: But I don't mean that here.
+{$name}: By the original definition, we simply delay the execution of a task.
+{$name}: Why should we do that? Why not complete the task right away?
+{$name}: Because it often times doesn't make sense to do so.
+{$name}: When I work on a new spell and I eventually get stuck, is it smart to force myself to continue?
+{$name}: It is not. Once you have built your discipline, the natural procrastination you will feel is good.
+{$name}: It's a signal telling you to stop and do something else.
+{$name}: Take a stroll, workout your body, talk with people, do *anything* else that is not your current task.
+{$name}: It's your body and mind telling you that you need a break from the current thing.
+{$name}: That you are not as efficient as you could be when you are refreshed.
+{$name}: Instead, people should be more concerned about perfectionism.
+-> Perfectionism? Why is that?
+-> Procrastination is supposed to be good for you?
+-> Okay, let's assume that is true, what is the actionable step?
+    {$name}: Oh, very pragmatic.
+    {$name}: The message is to work on the things you want to work on.
+    {$name}: When you don't want to do something, don't.
+    {$name}: Come back to it at a later point.
+    {$name}: If you don't want to do a task at all, well don't do it.
+    {$name}: I know there are exceptions, but they are surprisingly rare.
+    {$name}: Only in the city, in the modern life, are there many tasks you want to avoid.
+    {$name}: However, in the more simple life there aren't really many tasks you never want to do.
+    {$name}: Compared to the obligations you have in the city, the natural life is full of variation.
+    {$name}: And there are quite a few tasks you can postpone.
+    {$name}: Especially the more intellectual, albeit less natural, ones.
+    -> That seems very wishy washy.
+        {$name}: I will give you an example.
+        {$name}: When I am developing a spell, I need to apply a lot of logic in the construction.
+        {$name}: If I mess up, there will be unintended side effects.
+        {$name}: They usually just cause the spell to not work at all, but they can be more devistating.
+        {$name}: It can take hours if not days to figure out how to fix such an issue.
+        {$name}: Even spotting the issue itself can be quite a lot of work.
+        {$name}: Because in these cases especially, your subcauncious will work on these in the background.
+        {$name}: It will try to figure out the root cause and try to fix it.
+        {$name}: Often times when I am taking a stroll even.
+        {$name}: If I were to try and brute force a solution it would often times fail.
+        {$name}: Not only would I spend a lot of time and energy for naught, but it would also be frustrating.
+        {$name}: By mindfully procrastinting I am actually more efficient and also live more healthily.
+        {$name}: The mindset of things being 'Good Enough' can help here as well.
+        {$name}: It's easier to postpone things when you know that you aren't aiming for perfection.
+        {$name}: In fact, perfection is the enemy of good.
+        {$name}: That is why I think perfectionism is a curse, not a blessing.
+        {$name}: People that boast about being perfectionists are completely ignorant to this fact.
+        {$name}: The whole notion of something being 'perfect' is nonsensical.
+        {$name}: Perfection just does not exist, and can never exist.
+        {$name}: The more time your spend on trying to achieve it the more frustrated you will become.
+        -> Okay fair, I can see that. But you still need to aim to improve yourself.
+    -> But wouldn't you still be better off to dedicate most of your time to your craft?
 
 ===
 title: EleonoreTimeplan
 ---
 
-{$name}: Have you ever worked on something for so long that you never though of what comes after?
-{$name}: And when you finally get to that point, you just have no clue what to do?
+{$name}: Have you ever worked on something for so long that you never thought of what comes after?
+You: Do I look like it?
+{$name}: Fair, though I was speaking figuratively...
+{$name}: Anyways, when you finally get to that point, you just have no clue what to do.
 {$name}: I don't really know what I would do after I achieved my dream.
 {$name}: To me it seems far worse to have achieved my dream and not know what to do then.
 {$name}: Instead of committing myself to achieving it.
@@ -138,7 +250,7 @@ title: EleonoreTimeplan
             {$name}: For me it's about practicality.
             {$name}: Though there is one thing I believe is required to achieve your dream.
             {$name}: Regardless of any other qualities.
-            <<jump EleonoreTimePreference>>
+            <<jump EleonoreCorrectMindset>>
         -> Essentially, master the basics before anything else?
             {$name}: Hm, not quite I think.
             {$name}: While it's absolutely important to master the basics,
@@ -155,7 +267,7 @@ title: EleonoreTimeplan
             {$name}: These are just techniques though.
             {$name}: Little tips and tricks that may make it easier to achieve your dream.
             {$name}: They can only help you though, they are not the necessary component.
-            <<jump EleonoreTimePreference>>
+            <<jump EleonoreCorrectMindset>>
         -> I don't know, I don't think it's applicable to every craft.
             {$name}: Yeah that is very likely not the case.
             {$name}: But I don't mean this as a strict rule.
@@ -165,7 +277,7 @@ title: EleonoreTimeplan
             {$name}: I have seen people that can work regardless of this.
             {$name}: So this is a at best a rule of thumb if anything.
             {$name}: But I think there is one characteristic that isn't optional.
-            <<jump EleonoreTimePreference>>
+            <<jump EleonoreCorrectMindset>>
     -> Because you are a bad mage?
         {$name}: Hey, don't get cheeky now.
         {$name}: It's just that it's a difficult task.
@@ -175,8 +287,27 @@ title: EleonoreTimeplan
         {$name}: Discipline. A lot of discipline.
         {$name}: And a strong mind.
         {$name}: I like to think of it this way.
-        <<jump EleonoreTimePreference>>
+        <<jump EleonoreCorrectMindset>>
 -> Though will you not be happy once you achieve your dream? Isn't that the point of it all?
+    {$name}: Oh no, it's not that simple at all.
+    {$name}: Firstly, think about what actually happens in that case.
+    {$name}: You achieve your dream, you are gonna be happy for a split second, and then what?
+    {$name}: Then you will either feel a feeling of extreme emptyness or a new dream will pop up in your head.
+    {$name}: Either way, you will not achieve true happiness
+    {$name}: Secondly, the feeling of anticipation is usually stronger then the actual thing.
+    {$name}: This goes for both positive and negative feelings.
+    {$name}: The more you *think* you want something, the less you happy you will feel once you actually get it.
+    {$name}: Same with fears, the more you fear something.
+    {$name}: The more you fear something the worse it gets in your head.
+    {$name}: But when you actually face it, it is usually less bad then you imagined.
+    {$name}: This is why expecting the worst can be a powerful tool.
+    {$name}: But to get back to the question.
+    {$name}: The more you want to achieve something, the more disappointed you will be once you actually achieve it.
+    {$name}: That is why instead of wanting to achieve me dream, I want to be achieving my dream.
+    {$name}: I am most happy when I am working on my spell, when I am in the action.
+    {$name}: I don't derive my happiness from the end result, rather from the actions I take every moment.
+    {$name}: There is a story of a man.
+    <<jump EleonoreSisyphus>>
 -> I understand that you are in no rush to reach your goal, but what with people that have less time?
     {$name}: That is an interesting point.
     {$name}: I am not too sure.
@@ -184,11 +315,11 @@ title: EleonoreTimeplan
     {$name}: They *can't* worry about it even.
     {$name}: I mean I am not too worried about achieving my dream.
     {$name}: It's simply that I am enjoying my life as it is right now.
-    {$name}: I know how it feels to lack a purporse in life.
+    {$name}: I know how it feels to lack a purpose in life.
     {$name}: The meaninglessness it brings.
     {$name}: What if that is the state you will find yourself once you achieve your dream?
     {$name}: Wouldn't it be better to have limited time but work on something with passion?
-    {$name}: Instead of having all the time in the world but no purporse to commit to.
+    {$name}: Instead of having all the time in the world but no purpose to commit to.
     {$name}: I don't know, I am happy with the way things are right now.
     {$name}: If I knew I had less time, maybe I would act differently.
     {$name}: But that opens another question.
@@ -206,13 +337,32 @@ title: EleonoreTimeplan
         {$name}: However we tend to forget this very easily as we don't seem very aware of this in the moment.
         {$name}: So if you were to treat every day like it's your last, you are essentially reminding yourself of that.
         {$name}: Think of it this way.
-        <<jump EleonoreTimePreference>>
+        <<jump EleonoreCorrectMindset>>
 
 ===
-title: EleonoreTimePreference
+title: EleonoreSisyphus
 ---
 
-{$name}: In order to achieve any dream a person needs to be able to do the following.
+{$name}: Sisyphus the Ancient.
+{$name}: A man tasked with rolling up a boulder on a mountain for all of eternity.
+{$name}: Do you know that story?
+-> Yes, I am familiar.
+    {$name}: Okay good.
+    {$name}: What do you think, is Sisyphus happy?
+    -> What? No way.
+    -> Yes, I imagine him to be.
+        {$name}: So do I.
+        {$name}: In that case you should get my point.
+        {$name}: I think it is exactly this mentality that is crucial to have.
+        {$name}: Though I think there is a little more to it.
+        <<jump EleonoreCorrectMindset>>
+-> No I don't.
+
+===
+title: EleonoreCorrectMindset
+---
+
+{$name}: In order to achieve any dream, a person needs to be able to do the following.
 {$name}: They need to be able to sacrifice instant gratification for future reward.
 {$name}: Choosing to do the hard work for delayed payoff essentially.
 {$name}: For example, deciding to train your body instant of eating some cake.
@@ -264,7 +414,17 @@ title: EleonoreTimePreference
         {$name}: Really? Then let me ask you this.
         <<jump EleonorePaiFascination>>
 -> No, if I am being honest not really.
--> 
+    {$name}: Oh, well at least you are honest about it.
+    {$name}: Though what do you think is the reason for that?
+    {$name}: Is it just that you don't need to work hard?
+    {$name}: Perhaps a lack of passion for anything?
+    -> Why would you need to work hard? I don't see it as something bad.
+        {$name}: Ah. So hard work doesn't necessarily make you happy, enjoying the moment is what is important?
+        <<jump EleonoreEnjoyingLife>>
+    -> I think it's a lack of necesassity.
+    -> I mean I do have things I like, but I guess not that much?
+        {$name}: Hm, let me ask it differently then.
+        <<jump EleonorePaiFascination>>
 
 ===
 title: EleonoreLivingInThePresent
@@ -370,6 +530,51 @@ title: EleonoreOptimizingEnvironment
 {$name}: So at some point it becomes necessary to become more orderly.
 {$name}: Maybe it's similarly necessary to become more serious in that regard.
 -> So you just seclude yourself from others?
+    {$name}: Somewhat. It's just really hard to find people that are similar to me.
+    {$name}: Being together with chaotic people just drives me insane.
+    {$name}: Besides, I prefer freedom and the responibility it entails over comfort every time.
+    {$name}: It's why I dislike the city so much.
+    {$name}: And that's also the reason why I am out here.
+    {$name}: The more I can do myself the easier live is for me.
+    {$name}: It seems a little paradox at first, but it's just comforting to know that I am responsible for everything.
+    {$name}: Because this means that I am also the one that fixes anything if it's broken.
+    {$name}: Or that can deem it not important to fix.
+    {$name}: Of course this is only possible due to the technological advancement in magic.
+    {$name}: Otherwise it would be significantly harder to live the way I do right now.
+    {$name}: Though one big drawback of living like this is that achieving my dream also gets harder.
+    {$name}: It also gets easier in a lot of ways, but there are always trade-offs.
+    {$name}: One being that I don't have any colleaques around.
+    {$name}: What might take me months of trial and error could be resolved within one chat at lunch.
+    {$name}: Talking with other people that have expertise on a similar or above level as you.
+    {$name}: That is extremely powerful, and well it's obviously not going to happen out here.
+    -> You really seem to dislike cities a lot, but they also have their purpose.
+        {$name}: Yes of course, especially when you look at the reason why the formed in the first place.
+        {$name}: But I grew up in a large city, so I also know of their shortcomings.
+        {$name}: And there are a lot of shortcomings.
+        {$name}: Though I won't deny that they still bring benifits.
+        {$name}: However, they all come at the cost of your own freedom.
+        {$name}: I don't mean to say that you are imprisioned in the city.
+        {$name}: But you are naturally giving up certain freedoms in order to live with others.
+        {$name}: You must, otherwise living with so many different kinds of people would be impossible.
+        {$name}: There is a certain ruleset you must subscribe to or else you will get punished.
+        {$name}: It makes sense, it wouldn't work otherwise.
+        {$name}: But it nonetheless takes away some of your freedom.
+        {$name}: And there is this great saying I once heard:
+        {$name}: 'People that sacrifice freedom for safety deserve neither.'
+        {$name}: TODO
+    -> In that case, why don't you just live in a remote location with like-minded people?
+        {$name}: Hahaha, yes, why don't I just do that?
+        {$name}: Well it's because it's firstly really hard to find like-minded poeple.
+        {$name}: And secondly, it's not that everybody wants to live their way like that.
+        {$name}: Even if I managed to find people that share similar values with the study of magic as their main focus.
+        {$name}: Not all of them would want to live in a remote location far away from most others.
+        {$name}: In fact, most of them actually like living in the city.
+        {$name}: But I would definitely live with people that share my interests.
+        {$name}: Actually, Pai you don't have anywhere to go right?
+        You: No... what are you getting at?
+        {$name}: Right, so I have a feeling we would get along.
+        {$name}: So what do you think?
+        <<jump EleonorePaiApprentice>>
 -> What do you mean with non-linear?
 -> That analogy to the chaotic-lawful didn't make much sense.
 -> You can change your behaviour over time then? How lawful and serious you are?
@@ -389,7 +594,8 @@ title: EleonoreOptimizingEnvironment
     {$name}: But when talking specifically about lawfulness and seriousness, yes definitely.
     {$name}: In the first place, you don't just have one level of how lawful you are.
     {$name}: It depends on the tasks, and that can definitely change over time.
-    TODO
+    {$name}: You know what, why don't I show you?
+    <<jump EleonorePaiApprentice>>
 
 ===
 title: EleonoreFindTheThingYouLove
@@ -454,7 +660,7 @@ title: EleonoreTypesOfDreams
             {$name}: Of course this depends on you environment.
             {$name}: Different types of environments will foster different types of mindsets and behaviours.
             {$name}: Hm, perhaps think of this in terms of achieving your dream.
-            <<jump EleonoreTimePreference>>
+            <<jump EleonoreCorrectMindset>>
         -> I don't quite agree. Easy tasks don't have to be less meaningful than more difficult tasks.
             {$name}: Yes, that's true.
             {$name}: But I wasn't quite talking about the value of a task on its own.
@@ -473,18 +679,19 @@ title: EleonoreTypesOfDreams
                 {$name}: ... You do know that you asked me about this, yes?
                 {$name}: Hmpf. So anyways, what I mean to say is that dreams are gonna be hard to achieve.
                 {$name}: If they wouldn't, then they wouldn't be dreams.
-                <<jump EleonoreTimePreference>>
+                <<jump EleonoreCorrectMindset>>
 
 ===
 title: EleonorePaiApprentice
 ---
 
 {$name}: How about I become your mentor?
-{$name}: Show you how to live with a low time preference and to foster your ambitions.
+{$name}: Teach you how to live a purposeful live, build a strong mind and to foster your ambitions.
 {$name}: Do you want to become my apprentice, Pai?
 -> Wow... that's quite sudden.
     {$name}: I suppose.
     {$name}: Hm, how about you speak with a certain someone then?
+    <<target_npc_mentioned {$name} {$target_npc}>>
     {$name}: A girl called Isabelle lives around here.
     {$name}: She is a simple country girl but it's really interesting to talk with her.
     {$name}: I learned from her how to treassure the moment.
@@ -510,10 +717,14 @@ title: EleonoreWaiting
 -> No, not yet.
     {$name}: I see, well take your time.
     {$name}: I will be waiting here.
+    <<stop_chat>>
+    <<jump EleonoreWaiting>>
 -> I can't find her.
     {$name}: Really?
     {$name}: She usually takes strolls on these paths.
     {$name}: As long as you stay on the paths you should bump into her eventually.
+    <<stop_chat>>
+    <<jump EleonoreWaiting>>
 -> Yes
     <<if $talked_with_target_npc>>
         <<jump TalkedWithIsabelle>>
@@ -521,10 +732,10 @@ title: EleonoreWaiting
         {$name}: Hm, really? Your mana is telling me that is a lie.
         {$name}: I am not forcing you.
         {$name}: But I think it could be helpful for you.
+        <<stop_chat>>
+        <<jump EleonoreWaiting>>
     <<endif>>
 <<endif>>
-<<stop_chat>>
-<<jump EleonoreWaiting>>
 
 ===
 title: TalkedWithIsabelle
