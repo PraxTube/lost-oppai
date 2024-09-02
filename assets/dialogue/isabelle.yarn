@@ -1,8 +1,9 @@
 title: Isabelle
 ---
 <<set $name = "_Isabelle">>
-<<set $target_npc = "Jotem">>
+<<set $target_npc = "IonasAndAntonius">>
 <<set $talked_with_target_npc = false>>
+<<set $mentioned_by_Eleonore = false>>
 
 {$name}: Hello, stranger.
 {$name}: You look like you have had quite a day.
@@ -71,23 +72,35 @@ title: IsabelleLifeAdvice
             {$name}: Oh yeah!
             {$name}: How about this then?
             <<jump IsabelleProposal>>
+    -> Enjoying your time with others is a good point.
+        {$name}: Yes, it's very important to treasure your relationships.
+        {$name}: This can be harder then you might think however.
+        {$name}: The problem is that people tend to spend too much time with eachother.
+        {$name}: Which might streem strange to be an issue at first glance.
+        {$name}: The reason for this is that you need distance in every relationship.
+        {$name}: Whether with your friends or your lover.
+        {$name}: It's important to be alone and spend time with yourself.
+        {$name}: Otherwise you get physically and mentally dependent on the other.
+        {$name}: 
 
 ===
 title: IsabelleProposal
 ---
 
-{$name}: You can life with me for a while.
+{$name}: You can live with me for a while.
 {$name}: My husband and I started a family not too long ago.
 {$name}: It's still quite chaotic with the kids, so I could use a helping hand.
 {$name}: How about you life with us?
 {$name}: You help us out with chores and I will show you how to enjoy the simple life.
 -> I don't know, seems very sudden.
     {$name}: Right, of course.
-    {$name}: In that case, why don't you talk with an old acquaintance of mine.
-    {$name}: He goes by the name of Jotem and is and adventurer.
-    {$name}: I meet him often on my strolls as he likes to train in this area.
-    {$name}: He should be around here somewhere.
-    {$name}: Why don't you talk to him and tell me about your decision after?
+    {$name}: In that case, why don't you talk with some old acquaintances of mine.
+    <<target_npc_mentioned {$name} {$target_npc}>>
+    {$name}: They are called Ionas and Antonius.
+    {$name}: I meet them regularly on my strolls.
+    {$name}: The two have differing world views which tends to create interesting conversations.
+    {$name}: They are gonna be around here somehwere.
+    {$name}: Why don't you talk with them and tell me about your decision after?
     -> Okay, I will give it a try.
         {$name}: Awesome! I will be waiting here for you then.
         {$name}: Safe trip! And don't get lost ^_^
@@ -100,30 +113,33 @@ title: IsabelleWaiting
 
 ...
 <<if $talked_with_target_npc>>
-{$name}: Had a chat with old Jotem?
+{$name}: Had a chat with the two?
 -> Yep
     <<jump IsabelleTalkedWithTarget>>
 <<else>>
-{$name}: Had a chat with old Jotem?
+{$name}: Had a chat with the two?
 -> No, not yet.
     {$name}: Okay, well you do you.
-    {$name}: If you need more time, no worries.
     {$name}: I will be waiting here for you.
--> I can't find him.
-    {$name}: Oh, well he should be around somewhere.
-    {$name}: He is probably doing practice swings right now.
+    <<stop_chat>>
+    <<jump IsabelleWaiting>>
+-> I can't find them.
+    {$name}: Oh, well they should be around somewhere.
+    {$name}: Probably talking about the purpose of life or something similar.
     {$name}: If you stay on the path you are bound to run into him.
+    <<stop_chat>>
+    <<jump IsabelleWaiting>>
 -> Yes
     <<if $talked_with_target_npc>>
         <<jump IsabelleTalkedWithTarget>>
     <<else>>
         {$name}: Really? That didn't sound very confident.
-        {$name}: If you don't want to talk to him that's fine.
+        {$name}: If you don't want to talk to them that's fine.
         {$name}: But I think it could give you another perspective.
+        <<stop_chat>>
+        <<jump IsabelleWaiting>>
     <<endif>>
 <<endif>>
-<<stop_chat>>
-<<jump IsabelleWaiting>>
 
 ===
 title: IsabelleTalkedWithTarget
@@ -131,7 +147,7 @@ title: IsabelleTalkedWithTarget
 
 {$name}: Oh really? Did you manage to decide?
 {$name}: Are you going to come life with me and my family?
-{$name}: And try to find peace and happyness in living in the moment.
+{$name}: And try to find peace and happiness in living in the moment.
 -> Yes, I will come with you.
     <<jump IsabelleFinalAct>>
 

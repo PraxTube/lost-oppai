@@ -13,7 +13,7 @@ const PATH_TO_DIR: &str = "assets/dialogue";
 
 const MAX_SIMILARITY_DISTANCE: usize = 4;
 
-const REQUIRED_VARIABLES: [&str; 2] = ["target_npc", "talked_with_target_npc"];
+const REQUIRED_VARIABLES: [&str; 3] = ["name", "target_npc", "talked_with_target_npc"];
 
 fn try_read_yarn_contents(entry: Result<DirEntry, Error>) -> Option<(String, String)> {
     let entry = entry.expect("Can't get entry in current dir");
@@ -217,7 +217,7 @@ fn match_names_with_files() {
             );
 
             let npc_name = parts[1].trim_start_matches('_');
-            if npc_name.to_lowercase() != npc_file_name {
+            if npc_name.to_lowercase() != npc_file_name.replace("-", "") {
                 panic!(
                     "Name of npc is {} in yarn file, but yarn file is named {}",
                     npc_name, npc_file_name

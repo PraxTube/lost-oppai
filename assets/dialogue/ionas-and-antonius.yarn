@@ -1,9 +1,11 @@
 title: IonasAndAntonius
 ---
+<<set $name to "_IonasAndAntonius">>
 <<set $ionas to "_Ionas">>
 <<set $antonius to "_Antonius">>
 <<set $target_npc = "Jotem">>
 <<set $talked_with_target_npc = false>>
+<<set $mentioned_by_Isabelle = false>>
 
 {$antonius}: and that's where I see it differently.
 {$ionas}: Hm, yes I think I- oh, hey there.
@@ -23,6 +25,12 @@ title: IonasAndAntonius
             {$antonius}: Hahaha, yeah perhaps from your view.
             {$antonius}: We have been talking about this for hours.
             <<jump PaiDoesntBelieve>>
+-> Are you two Ionas and Antonius? <<if $mentioned_by_Isabelle>>
+    <<set $ionas to "Ionas">>
+    <<set $antonius to "Antonius">>
+    {$antonius}: Yeah, how do you know?
+    You: I talked with Isabelle about you two.
+    You: She told me to talk with you.
 
 
 ===
@@ -94,8 +102,6 @@ title: SubjectiveAndObjectiveWorldview
 {$antonius}: Your morals are the constrains you set yourself for achieving your dream.
 {$antonius}: Knowledge and experience can influence your believes.
 {$antonius}: And believe can change a man.
-// -> I am not quite following
--> ... *say nothing*
 {$ionas}: But that doesn't answer the question.
 {$ionas}: Even if your morals can change, how do you even know they are changing for the better?
 {$antonius}: I think you evaluate it based on how it affects your life.
@@ -136,15 +142,7 @@ title: SubjectiveAndObjectiveWorldview
 {$antonius}: I did regret hurting others though.
 {$antonius}: And again, I don't think that you should never change your morals.
 {$antonius}: It's something you learn through experience.
-// {$antonius}: We could also look at this from the perspective of evolution.
-// {$antonius}: Those people without morals might have it easier at first.
-// {$antonius}: But it will come back to bite them later.
-// {$antonius}: They are more likely to get into trouble and have a harder time to build a family.
-// {$antonius}: Which means they have less offspring to teach their morals to.
-// {$antonius}: So over time, morals get more cooperative.
-// {$antonius}: Though I know that evolution is another huge topic, we don't need to go into that one.
-// {$ionas}: I was about to say...
-{$ionas}: Hm, I think I understand what you mean, even if I disagree.
+{$ionas}: Hm, I think I understand what you mean, even though I disagree.
 {$ionas}: Ultimately, it seems like we just see this differently on a fundamental level.
 {$antonius}: Yeah I think so too. So Pai, how you do see this?
 -> I am not sure. I think I would agree more with Ionas.
@@ -177,12 +175,145 @@ title: SubjectiveAndObjectiveWorldview
         {$antonius}: Though it will always involve some kind of hard work.
         {$antonius}: Somethig you can't achieve easily.
         {$antonius}: You can't be happy before being unhappy.
+        <<target_npc_mentioned {$name} {$target_npc}>>
         {$antonius}: Oh! I had a chat with Jotem about this the other day.
         {$ionas}: With Jotem? Oh yeah I can see that.
         {$antonius}: I think being happy means committing to your dream.
         {$antonius}: But the old guy can probably give a more profound perspective on the matter.
         {$antonius}: He always has some wisdom to share.
         <<jump DoYouWantToJoinIonasAndAntonius>>
+
+===
+title: AntoniusLifePurpose
+---
+
+{$ionas}: Though if you are happy when committing to your dream, what would you say your life purpose is?
+{$antonius}: Your purpose in life is to commit to your dream.
+{$antonius}: And I believe that every person has an innate dream they want to follow.
+{$ionas}: But isn't that a little of a contradiction?
+{$ionas}: Say your dream is to become the fastest sprinter in the entire world.
+{$ionas}: If you loose your legs through some accident, then you physically can't commit your dream anymore.
+{$ionas}: And if you can't commit to your dream, then will not be able to fulfill your purpose in life by your definition.
+{$ionas}: You will also be forever unhappy by your definition.
+{$ionas}: I think you can't loose your purpose in life, otherwise it can't be your purpose.
+{$ionas}: So you purpose in life must be something that you can do regardless of your physical condition.
+{$ionas}: For me that is finding god, regardless of my physical conditions, as long as I can think, I can still pursue this.
+{$ionas}: And I think this must be this way.
+{$ionas}: If you can loose your purpose in life, then it was never your purpose to begin with.
+{$antonius}: ...
+{$antonius}: Oh shit.
+{$antonius}: That is an extremely good point.
+{$antonius}: I will have to think about this one for a bit.
+{$antonius}: I mean this doesn't 'disprove' atheism.
+{$antonius}: We already established that you simply can't prove or disprove anything in the real world.
+{$antonius}: But it does raise the question, is it impossible for aetheists to have a purpose in life?
+{$antonius}: Because I do believe there is one.
+{$antonius}: But can that even be, can there exist a purpose in life in a subjective world?
+...
+{$antonius}: Oh, perhaps I got it backwards.
+{$antonius}: Your purpose is not to commit to your dream.
+{$antonius}: It's more broad, it's simply to commit yourself to life as a whole.
+{$antonius}: To not just live and be, but to actively experience and to seek meaning.
+{$antonius}: And this also means that when you have a dream that you should commit yourself to achieving it.
+{$antonius}: But it doesn't mean that your dream is your whole purpose.
+{$antonius}: It also doesn't mean you only have that one dream.
+{$antonius}: Though I wonder if that also means that you don't have an innate dream.
+{$antonius}: Because I believe you do.
+{$antonius}: But perhaps it's not quite that, maybe it's that every person has an innate drive to commit to life.
+{$antonius}: And a dream you want to achieve is just a very tangible expression of that.
+{$ionas}: So your purpose in life is to live life whole heartedly?
+{$antonius}: That's another way of putting it.
+{$ionas}: That sounds more plausible.
+{$ionas}: Though what you did right there is quite... interesting.
+{$ionas}: You have found a logical error in your worldview and simply modified the definitions to resolve them.
+{$ionas}: This is very different from religion.
+{$ionas}: When you read a passage in a scripture and there is a statement then this statement is considered true.
+{$ionas}: Because you believe that the scriptures are true.
+{$ionas}: If you didn't, you would be a heritic.
+{$ionas}: The problem is that some statements can be very unintuitive, so you need to spend a lot of time understanding them.
+{$antonius}: I see, yeah that makes sense.
+{$antonius}: Though there is always some freedom of interpretation, some wiggle room.
+{$antonius}: No matter how precise a statement is defined, you will always need to interpret parts at some point.
+{$antonius}: Again stemming from the fact that there are no proofs only evidence.
+{$antonius}: But yes, I just redifined part of my worldview.
+{$antonius}: However, I don't see anything about that as problematic.
+{$antonius}: I see it similar to how you learn about your environment as a kid.
+{$antonius}: You learn that things fall to the ground.
+{$antonius}: You also learn that different things will tend to fall at different speeds.
+{$antonius}: This leads you to create a certain framework in your mind to view the world.
+{$antonius}: If you were to find something that doesn't fall to the ground, you would have to update this framework.
+-> Hold on, you don't see a problem with just redifining the definitions?
+    {$ionas}: I do, but it's not that I myself do it.
+    {$antonius}: Yeah, and I personally don't see why that is a problem.
+    {$antonius}: I suppose you could argue that if you define the purpose of life, then change it, that this creates some issues.
+    {$antonius}: But you could similarly define the purpose of life to be to find the purpose of life.
+    {$ionas}: What? That seems very paradox.
+    {$antonius}: Yeah it probably is.
+    {$antonius}: But my point is that you can define things to be consistent again, why would that be a problem?
+    {$antonius}: It's like you have a theory of how physics works, then you test your theory, and it fails at some point.
+    {$antonius}: Then it's back to the drawing board and you try a different theory, an improved but most certainly still incorrect theory.
+    {$antonius}: Why is a 'theory of life' any different?
+    {$ionas}: I think that the purpose of life by definition cannot change.
+    {$ionas}: You cannot just revise it like you do with any other theory.
+    {$antonius}: But why is that the case?
+    {$antonius}: A theory is known to only be an assumption of how things work.
+    {$ionas}: And I think that is exactly the problem.
+    {$ionas}: You cannot have a theory of your purpose.
+    {$ionas}: 
+-> So you guys are very convinced that your world views are correct?
+    <<jump IonasAndAntoniusCorrectWorldViews>>
+
+===
+title: IonasAndAntoniusCorrectWorldViews
+---
+
+{$ionas}: I believe there is no argumentation that will ever change my mind.
+{$ionas}: This is because the contact with the super-natural is just so overhelmingly different.
+{$ionas}: It's something I have never felt anywhere else.
+{$ionas}: And so no matter what kind of argument you would tell me, this experience will outweight it.
+-> How did you find to your believe and what was that super-natural encounter?
+-> What about you Antonius? It seems like your world view is based on argumentation alone.
+    {$antonius}: Hm, yes, that's a good point.
+    <<jump IonasAndAntoniusWorldViewInconsistencies>>
+
+===
+title: IonasAndAntoniusWorldViewInconsistencies
+---
+
+{$antonius}: I am essentially acting on 'lack of evidence'.
+{$antonius}: While Ionas is acting on 'existence of evidence'.
+{$antonius}: 'Because I didn't encounter the super-natural, I don't believe.'
+{$antonius}: 'Because I encountered the super-natural, I believe.'
+{$antonius}: The latter being arguably the stronger of the two.
+{$antonius}: This actually made me realize something rather... frustrating.
+{$antonius}: If your world view is based on argumentation and argumentation alone, then it only takes a single argument to change it completely.
+{$antonius}: And that feeling of your world view kinda crumbling a little or collapsing entirely is very unpleasant.
+{$antonius}: You would not really want to have that.
+{$antonius}: The problem is, and that is what I realized recently, that as an atheist, that is what will always be the case.
+{$antonius}: You will never find a point were you just 'finished' your world view.
+{$antonius}: Of course the more you think and reflect on your world view, the less likely it will be to collapse.
+{$antonius}: Because the most essential aspect is that your world view is consistent.
+{$antonius}: If you have logical errors in your world view, then it will collapse sooner or later.
+{$ionas}: I definitely agree.
+{$ionas}: I am not sure if it's the most important aspect, but it's absolutely vital to live without contradictions.
+{$antonius}: Yeah, it opens you up to so much misery.
+{$antonius}: And the problem is that it will be more difficult to change the longer you clinch to that faulty world view.
+{$ionas}: Absolutely. It's also a lot easier to show that something is false then it is to prove it's correctness.
+{$ionas}: It only takes one logical error for you world view to be faulty in some way.
+{$antonius}: Which is precisely why I think you should talk with people that have different opinions to your own.
+{$antonius}: You don't even have to ask why they think you are wrong, they will tell you.
+{$antonius}: And that is a good thing.
+{$antonius}: Because you learn the most from those kinds of conversations.
+{$antonius}: Though talking with people with similar world views as your own, particularly when you are stuck, can also be great.
+{$antonius}: Man, conversations in general are awsome.
+{$antonius}: Why don't people do this more?
+{$ionas}: They really are fascinating.
+{$ionas}: Trying to understand your own thoughts is already such a weird concept, thinking about thinking.
+{$ionas}: But explaining to another person your thoughts and having him try to understand your own thoughts is something else.
+{$antonius}: Huh, that's an interesting way of putting it.
+{$antonius}: It's like you are syncing to one another.
+{$antonius}: Also how the more time you spend with somebody the more you understand how they think.
+<<jump DoYouWantToJoinIonasAndAntonius>>
 
 ===
 title: DoYouWantToJoinIonasAndAntonius
@@ -219,7 +350,7 @@ title: DoYouWantToJoinIonasAndAntonius
     You: Is it that obvious...
     {$antonius}: Yes!
     {$ionas}: Hahaha, yeah.
-    {$antonius}: Anyways, so you didn't chat with Jotem yet right?
+    {$antonius}: So Anyways, Pai you didn't chat with Jotem yet right?
     <<if $talked_with_target_npc>>
         You: Actually, I did.
         {$ionas}: Huh really?
