@@ -94,16 +94,23 @@ fn input_scroll(keys: Res<ButtonInput<KeyCode>>, mut player_input: ResMut<Player
 fn player_movement(keys: Res<ButtonInput<KeyCode>>, mut player_input: ResMut<PlayerInput>) {
     let mut direction = Vec2::default();
 
-    if keys.pressed(KeyCode::KeyJ) || keys.pressed(KeyCode::KeyS) {
+    if keys.pressed(KeyCode::KeyJ)
+        || keys.pressed(KeyCode::KeyS)
+        || keys.pressed(KeyCode::ArrowDown)
+    {
         direction += Vec2::new(0.0, -1.0);
     }
-    if keys.pressed(KeyCode::KeyK) || keys.pressed(KeyCode::KeyW) {
+    if keys.pressed(KeyCode::KeyK) || keys.pressed(KeyCode::KeyW) || keys.pressed(KeyCode::ArrowUp)
+    {
         direction += Vec2::new(0.0, 1.0);
     }
-    if keys.pressed(KeyCode::KeyF) || keys.pressed(KeyCode::KeyD) {
+    if keys.pressed(KeyCode::KeyF)
+        || keys.pressed(KeyCode::KeyD)
+        || keys.pressed(KeyCode::ArrowRight)
+    {
         direction += Vec2::new(1.0, 0.0);
     }
-    if keys.pressed(KeyCode::KeyA) {
+    if keys.pressed(KeyCode::KeyA) || keys.pressed(KeyCode::ArrowLeft) {
         direction += Vec2::new(-1.0, 0.0);
     }
 
