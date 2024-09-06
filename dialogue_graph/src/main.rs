@@ -19,6 +19,8 @@ const LEAF_NODE_COLOR: &str = "red";
 const TITLE_NODE_STYLE: &str = "bold";
 const TITLE_NODE_SHAPE: &str = "diamond";
 
+const FIN_NODE_LABEL: &str = "FIN";
+
 struct Container {
     title: NodeIndex,
     player_options: [Option<NodeIndex>; 10],
@@ -135,7 +137,7 @@ fn handle_ending_command(container: &mut Container, line: &str) {
         }
     }
 
-    let end = container.graph.add_node("Fin".to_string());
+    let end = container.graph.add_node(FIN_NODE_LABEL.to_string());
     container.graph.update_edge(start, end, weight);
 }
 
@@ -150,7 +152,10 @@ fn label_graph_with_attributes(container: &mut Container) {
     let leaf_nodes: Vec<NodeIndex> = container
         .graph
         .node_indices()
-        .filter(|i| container.graph.edges(*i).count() == 0)
+        .filter(|i| {
+            container.graph.edges(*i).count() == 0
+                && container.graph.node_weight(*i).unwrap_or(&String::new()) != FIN_NODE_LABEL
+        })
         .collect();
 
     let title_nodes: Vec<NodeIndex> = container
