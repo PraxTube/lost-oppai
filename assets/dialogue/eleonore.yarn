@@ -73,6 +73,16 @@ title: AfterGreeting
     {$name}: Oh that.
     {$name}: Yeah I guess you wouldn't know given your state.
     <<jump EleonoreIsAMage>>
+-> So how exactly can you fly like that?
+    {$name}: Haha, you curious?
+    {$name}: It's actually not quite trivial to explain.
+    {$name}: But to oversimplify, I continuously cast a spell that pushes me off the ground.
+    {$name}: This force isn't much, but by casting it over and over I reach an equilibrium.
+    {$name}: It sounds a lot easier then it actually is to implement though.
+    {$name}: Though it's funny, people call it magic but humanity has a pretty good understanding of the mechanics now.
+    {$name}: Although there are still quite a few open questions.
+    {$name}: But that is exactly why I love the study of magic so much.
+    <<jump EleonoreLovesMagic>>
 
 ===
 title: EleonoreIsAMage
@@ -102,14 +112,20 @@ title: EleonoreIsAMage
         {$name}: Though that doesn't mean you should spend your whole day practicing your craft.
         <<jump EleonoreProcrastinationPerfection>>
 -> How old are you? You don't look much older then me.
-    {$name}: 
+    {$name}: How rude, don't you know better then to ask a women her age?
+    You: I am also a women...
+    {$name}: Let's just say I am older than my looks suggest.
+    {$name}: But my point wasn't to say that I am old.
+    {$name}: Rather that I have spend most of my life with the study of magic.
+    {$name}: Simply because to me, there is nothing more fascinating in the world.
+    <<jump EleonoreLovesMagic>>
+
 
 ===
 title: EleonoreLovesMagic
 ---
 
 {$name}: The endless amounts of possibilities, the complexity and depth.
-{$name}: The possibilities it opens, the sheer beauty of it.
 {$name}: How you can always learn something new no matter how long you study it.
 {$name}: There is so much that you will never be able to know everything.
 {$name}: But most importanly, it's just fun.
@@ -167,42 +183,157 @@ title: EleonoreProcrastinationPerfection
 {$name}: That you are not as efficient as you could be when you are refreshed.
 {$name}: Instead, people should be more concerned about perfectionism.
 -> Perfectionism? Why is that?
+    <<jump EleonoreBewarePerfectionism>>
 -> Procrastination is supposed to be good for you?
+    {$name}: Yes, but only once you have build the correct mindset.
+    {$name}: It's similar to eating.
+    {$name}: If you are eating healthy, then it's wise to listen to your bodies reaction to food.
+    {$name}: You will notice what type of food your body wants and it will be the healthy ones.
+    {$name}: Unhealthy food will make you feel bad if you otherwise eat healthy.
+    {$name}: Same with procrastination.
+    {$name}: If you have a strong and trained mindset, then procrastination is a positive signal.
+    {$name}: But if you have a weak mindset and trained your mind and body to be a mess, then it's negative noise.
+    {$name}: I think this might be a much more general phenomena.
+    {$name}: I claim that there aren't any good or bad things in nature.
+    {$name}: They are all just signals.
+    {$name}: But through modernity, especially in the cities, these have been turned into noise.
+    {$name}: Though I need to think about this myself more.
+    {$name}: So take this as perhaps food for thought if anything.
+    {$name}: But I do have some more thoughts on the whole notion of the right mindset.
+    <<jump EleonoreCorrectMindset>>
 -> Okay, let's assume that is true, what is the actionable step?
     {$name}: Oh, very pragmatic.
     {$name}: The message is to work on the things you want to work on.
-    {$name}: When you don't want to do something, don't.
-    {$name}: Come back to it at a later point.
-    {$name}: If you don't want to do a task at all, well don't do it.
-    {$name}: I know there are exceptions, but they are surprisingly rare.
-    {$name}: Only in the city, in the modern life, are there many tasks you want to avoid.
-    {$name}: However, in the more simple life there aren't really many tasks you never want to do.
-    {$name}: Compared to the obligations you have in the city, the natural life is full of variation.
-    {$name}: And there are quite a few tasks you can postpone.
-    {$name}: Especially the more intellectual, albeit less natural, ones.
-    -> That seems very wishy washy.
-        {$name}: I will give you an example.
-        {$name}: When I am developing a spell, I need to apply a lot of logic in the construction.
-        {$name}: If I mess up, there will be unintended side effects.
-        {$name}: They usually just cause the spell to not work at all, but they can be more devistating.
-        {$name}: It can take hours if not days to figure out how to fix such an issue.
-        {$name}: Even spotting the issue itself can be quite a lot of work.
-        {$name}: Because in these cases especially, your subcauncious will work on these in the background.
-        {$name}: It will try to figure out the root cause and try to fix it.
-        {$name}: Often times when I am taking a stroll even.
-        {$name}: If I were to try and brute force a solution it would often times fail.
-        {$name}: Not only would I spend a lot of time and energy for naught, but it would also be frustrating.
-        {$name}: By mindfully procrastinting I am actually more efficient and also live more healthily.
-        {$name}: The mindset of things being 'Good Enough' can help here as well.
-        {$name}: It's easier to postpone things when you know that you aren't aiming for perfection.
-        {$name}: In fact, perfection is the enemy of good.
-        {$name}: That is why I think perfectionism is a curse, not a blessing.
-        {$name}: People that boast about being perfectionists are completely ignorant to this fact.
-        {$name}: The whole notion of something being 'perfect' is nonsensical.
-        {$name}: Perfection just does not exist, and can never exist.
-        {$name}: The more time your spend on trying to achieve it the more frustrated you will become.
-        -> Okay fair, I can see that. But you still need to aim to improve yourself.
-    -> But wouldn't you still be better off to dedicate most of your time to your craft?
+    <<jump EleonoreActionableStepProcrastination>>
+    
+
+===
+title: EleonoreActionableStepProcrastination
+---
+
+{$name}: When you don't want to do something, don't.
+{$name}: Come back to it at a later point.
+{$name}: If you don't want to do a task at all, well don't do it.
+{$name}: I know there are exceptions, but they are surprisingly rare.
+{$name}: Only in the city, in the modern life, are there many tasks you want to avoid.
+{$name}: However, in the more simple life there aren't really many tasks you never want to do.
+{$name}: Compared to the obligations you have in the city, the natural life is full of variation.
+{$name}: And there are quite a few tasks you can postpone.
+{$name}: Especially the more intellectual, albeit less natural, ones.
+-> That seems very wishy washy.
+    {$name}: I will give you an example.
+    {$name}: When I am developing a spell, I need to apply a lot of logic in the construction.
+    {$name}: If I mess up, there will be unintended side effects.
+    {$name}: They usually just cause the spell to not work at all, but they can be more devistating.
+    {$name}: It can take hours if not days to figure out how to fix such an issue.
+    {$name}: Even spotting the issue itself can be quite a lot of work.
+    {$name}: Because in these cases especially, your subcauncious will work on these in the background.
+    {$name}: It will try to figure out the root cause and try to fix it.
+    {$name}: Often times when I am taking a stroll even.
+    {$name}: If I were to try and brute force a solution it would often times fail.
+    {$name}: Not only would I spend a lot of time and energy for naught, but it would also be frustrating.
+    {$name}: By mindfully procrastinting I am actually more efficient and also live more healthily.
+    {$name}: The mindset of things being 'Good Enough' can help here as well.
+    {$name}: It's easier to postpone things when you know that you aren't aiming for perfection.
+    {$name}: In fact, perfection is the enemy of good.
+    {$name}: That is why I think perfectionism is a curse, not a blessing.
+    {$name}: People that boast about being perfectionists are completely ignorant to this fact.
+    {$name}: The whole notion of something being 'perfect' is nonsensical.
+    {$name}: Perfection just does not exist, and can never exist.
+    {$name}: The more time your spend on trying to achieve it, the more frustrated you will become.
+    -> Okay fair, I can see that. But you still need to aim to improve yourself.
+        {$name}: Absolutely, though I never said to not do that.
+        {$name}: 'Good enough' doesn't exclude improvement.
+        {$name}: On the contrary, if you want to make something good you will often have to step outside your comfort zone.
+        {$name}: I would actually argue that perfectionism often doesn't involve you stepping outside your comfort zone.
+        {$name}: That is because if you want to make something perfect, then you will do the same thing over and over.
+        {$name}: But rarely in a matter that will teach you new things.
+        {$name}: So accepting the reality of 'good enough' and moving forward allows you to learn more and learn faster.
+        {$name}: And, in my experience, you enjoy the process as a whole much more.
+        {$name}: I believe there is a little more nuance here.
+        <<jump EleonoreCorrectMindset>>
+    -> I disagree, perfect is subjective, so it can very well exist.
+        {$name}: You are arguing along the lines of beauty is in the eye of the beholder?
+        {$name}: I certainly agree with that, and also that the definition of perfect is subjective.
+        {$name}: But that still doesn't really make it attainable.
+        {$name}: You will always find something to improve.
+        {$name}: Even if you were to define your state of perfect as something imperfect.
+        {$name}: The very fact that you are trying to model reality towards what you have in your head is the problem.
+        {$name}: Does your definition of perfection change?
+        {$name}: Yes it does.
+        {$name}: Based on what?
+        {$name}: Based on your experience and your perception of the world.
+        {$name}: What you might have considered perfect in the past doesn't cut in the present.
+        {$name}: So you can never achieve true perfection.
+        {$name}: You could even argue this point philosophically.
+        {$name}: How can you even be sure that what you perceive is real?
+        {$name}: You can't, so reality is inherently non perfect.
+        {$name}: And the more you try to attain the unattainable, the more distracted you will become.
+        {$name}: I think this plays into a very similar subject.
+        <<jump EleonoreCorrectMindset>>
+    -> I don't think you will always become frustrated the more you try to achieve something.
+        {$name}: I think it depends on your sense of progress.
+        {$name}: Perfectionism leads to a sense of waste of time.
+        {$name}: Because instead of progressing with your subject, you are distracted by small details.
+        {$name}: In a way you don't have the bigger picture in view.
+        {$name}: If you did, you would realize that most details aren't that important.
+        {$name}: It's a problem of priority.
+        {$name}: And I think the underlying issue is your mindset.
+        <<jump EleonoreCorrectMindset>>
+-> But wouldn't you still be better off to dedicate most of your time to your craft?
+    {$name}: I think you will hit diminishing returns at some point.
+    {$name}: Even eating food.
+    {$name}: There are certain foods that you should eat a lot of and others you should avoid.
+    {$name}: But you can eat too much of anything and it will be bad for you.
+    {$name}: Not only will it not benifit you, it will actively harm you.
+    {$name}: I think it's the same with everything else in life.
+    -> Though this would also mean that spending all of your time in nature is bad?
+        {$name}: Because it is.
+        {$name}: Well, it depends how you define bad.
+        {$name}: When you spend most of your time away from others, then you are more susceptible to diseases.
+        {$name}: Simply because your body is constantly fighting small portions of these while you are around others.
+        {$name}: This builds strength and resistance towards those diseases.
+        {$name}: But if you aren't around others at all, then you are most prone to get a really bad case if you get sick.
+        {$name}: Of course, this only matters if you ever need to go near others.
+        {$name}: But because you simply can't know when or if you are going to be around others, this makes you more fragile.
+        {$name}: More fragile towards randomness.
+        {$name}: Because the random event is that you come in contact with another person.
+        {$name}: Which is generally not good for you.
+        {$name}: You also loose on the benifit of learning from others.
+        {$name}: As always, there are positives and negatives.
+        {$name}: And as with anything, there are no solutions, only trade-offs.
+        {$name}: I can also put it this way.
+        <<jump EleonoreCorrectMindset>>
+    -> Hm, assuming that's true, then you are saying to live a balanced life?
+        {$name}: Yes, at the very least when we are talking about efficiency.
+        {$name}: A balanced life might make the most sense from a practical standpoint.
+        {$name}: But if you are simply the most happy when following your passion, then this might not make that much sense.
+        {$name}: Though 'balanced' is also very broad and I think can vary from person to peron.
+        {$name}: Actually, I have another thought to this.
+        <<jump EleonoreCorrectMindset>>
+
+===
+title: EleonoreBewarePerfectionism
+---
+
+{$name}: Firstly, when I say perfectionism, I mean the following.
+{$name}: A tendency to be dissatisfied with anything non optimal or that meets ridiculously high standards.
+{$name}: Which in turn leads to an obsession over the most minuscule details that are insignificant.
+{$name}: But seem important to the perfectionist.
+{$name}: The problem is that this is completely stupid and doesn't make any sense.
+{$name}: Firstly, achieving a state of 'perfect' just simply doesn't exist in reality.
+{$name}: It's something unattainable.
+{$name}: Secondly, say you just have extremely high standards, not to reach 'perfection'.
+{$name}: Then this is also stupid, because you will not reach those standards by obsessing about minor details.
+{$name}: It will slow down your learning.
+{$name}: Focusing on improving your skills and eventually being able to perform based to your high standards.
+{$name}: Instead you will waste your time over things you will rarely learn much from.
+{$name}: That doesn't mean that non-perfectionists are sloppy or slacking off.
+{$name}: In fact, you know the saying 'perfect is the enemy of good'?
+{$name}: Well guess why?
+{$name}: Because the more you try to achieve the 'perfect', the more distracted you will be.
+{$name}: In a way, it's a problem of priority.
+<<jump EleonoreCorrectMindset>>
 
 ===
 title: EleonoreTimeplan
@@ -327,6 +458,12 @@ You: Do I look like it?
     {$name}: If you would live that way, then the only difference between how much time you have left is your planning.
     {$name}: And in the first place, the future is uncertain, there is no way to know exactly how much time you have.
     {$name}: What do you think, should you act like every day is, or perhaps could be, your last?
+    -> I think it has merit to it.
+        {$name}: I see, in that case we agree.
+        {$name}: I believe this is a great way to live with less regrets.
+        {$name}: Or even to learn to live with none at all.
+        {$name}: But I think it's a lot harder to put into practice then it is to talk about it.
+        <<jump EleonoreCorrectMindset>>
     -> Hm, no, I think it's a bad way to live your life. You need to think in the long run.
         {$name}: I agree that one shouldn't disregard planning and thinking of the future.
         {$name}: Though I am also not sure if that is what the statement is getting at necessarily.
@@ -345,18 +482,53 @@ title: EleonoreSisyphus
 
 {$name}: Sisyphus the Ancient.
 {$name}: A man tasked with rolling up a boulder on a mountain for all of eternity.
-{$name}: Do you know that story?
--> Yes, I am familiar.
+{$name}: Are you familiar with the story?
+-> Yes, I am.
     {$name}: Okay good.
-    {$name}: What do you think, is Sisyphus happy?
-    -> What? No way.
-    -> Yes, I imagine him to be.
-        {$name}: So do I.
-        {$name}: In that case you should get my point.
-        {$name}: I think it is exactly this mentality that is crucial to have.
-        {$name}: Though I think there is a little more to it.
-        <<jump EleonoreCorrectMindset>>
--> No I don't.
+    <<jump EleonoreSisyphusHappy>>
+-> No, I don't know it.
+    {$name}: I see.
+    {$name}: To make it brief, he was a human living in ancient times.
+    {$name}: He was a violant tyrant killing people to display his power.
+    {$name}: He was also somewhat of a trickster, cheating death multiple times.
+    {$name}: Legends have it that the gods became so enraged with him that they gave them the following task.
+    {$name}: To roll a boulder up a mountain for all of eternity.
+    {$name}: The boulder would never actually reach to the top.
+    {$name}: Everytime it neared the top it would roll back down.
+    {$name}: A task that is laborious and seemingly futile.
+    <<jump EleonoreSisyphusHappy>>
+
+===
+title: EleonoreSisyphusHappy
+---
+
+{$name}: What do you think, is Sisyphus happy?
+-> What? No way.
+    {$name}: Haha, yes that's the general reception of the story.
+    {$name}: Though I don't think this has to be.
+    {$name}: To me, the only reason why he should be unhappy is because he is trapped for all eternity.
+    {$name}: Doing anything for all of eternity seems like the worst possible punishment.
+    {$name}: Any hedonistic pleasure you can think of.
+    {$name}: Any possible dream you could want to achieve.
+    {$name}: They all seem so pointless in eternity.
+    {$name}: Eternity and infinity don't make any sense in the first place.
+    {$name}: They are incomprehensible concepts.
+    {$name}: I think that is what most people miss from this story.
+    {$name}: Because who gets to decide that he is unhappy because of his task?
+    {$name}: Only if he were to define happy as 'roll up the boulder on top of the mountain' would that be the case.
+    {$name}: But what about 'to be rolling up the boulder on top of the mountain'?
+    {$name}: If you derive happiness from action you aren't bound to the outcome.
+    {$name}: I think the mind plays a huge role in this.
+    <<jump EleonoreCorrectMindset>>
+-> Yes, I imagine him to be.
+    {$name}: So did I in the past.
+    {$name}: But recently I have been thinking more about the concept of eternity.
+    {$name}: And I don't see how you can be happy in an eternal state.
+    {$name}: But I think he can absolutely be happy about his task, because that is within his control.
+    {$name}: Though I think you get my point.
+    {$name}: It is exactly this mentality that is crucial to have.
+    {$name}: And I think there is a little more to it.
+    <<jump EleonoreCorrectMindset>>
 
 ===
 title: EleonoreCorrectMindset
@@ -368,7 +540,7 @@ title: EleonoreCorrectMindset
 {$name}: For example, deciding to train your body instant of eating some cake.
 {$name}: Of course instant gratification has it's place too.
 {$name}: But it's far too easy to induldge in the latter.
-{$name}: So, what would you say, Pai.
+{$name}: So, what would you say.
 {$name}: Are you a person that works hard?
 -> Yes, I would say I am.
     {$name}: Really? That would be great then.
@@ -407,9 +579,6 @@ title: EleonoreCorrectMindset
         -> Again, it seems more that you are coping instead of actually enjoying it.
             {$name}: You mean because it sounds like I am pushing myself and working hard?
             <<jump EleonoreEnjoyingLife>>
-    -> This wouldn't work in nature though, only in a man-made society.
-        {$name}: You think? I am no so sure about that.
-        {$name}: 
     -> I agree with you.
         {$name}: Really? Then let me ask you this.
         <<jump EleonorePaiFascination>>
@@ -435,7 +604,7 @@ title: EleonoreLivingInThePresent
 {$name}: I think of it like planting seeds for a future harvest.
 {$name}: You still need to tend to them daily, living fully in the present while also preparing for a fulfilling future.
 {$name}: It helps me treassure my love for magic even more.
-{$name}: What about you Pai.
+{$name}: What about you?
 <<jump EleonorePaiFascination>>
 
 ===
@@ -570,7 +739,7 @@ title: EleonoreOptimizingEnvironment
         {$name}: Not all of them would want to live in a remote location far away from most others.
         {$name}: In fact, most of them actually like living in the city.
         {$name}: But I would definitely live with people that share my interests.
-        {$name}: Actually, Pai you don't have anywhere to go right?
+        {$name}: Actually, you don't have anywhere to go right?
         You: No... what are you getting at?
         {$name}: Right, so I have a feeling we would get along.
         {$name}: So what do you think?
@@ -617,17 +786,17 @@ title: EleonoreFindTheThingYouLove
 {$name}: At least for a little bit.
 {$name}: I think any person can become really good at pretty much anything.
 {$name}: And you generally tend to enjoy things more when you are better at it.
-{$name}: What about you Pai.
+{$name}: What about you?
 <<jump EleonorePaiFascination>>
 
 ===
 title: EleonoreTypesOfDreams
 ---
 
-{$name}: I believe it doesn't matter to much what exactly your dream is.
+{$name}: I believe it doesn't matter too much what exactly your dream is.
 {$name}: It can be whatever fascinates you.
 {$name}: As long as you don't harm or inconvience others in the process.
-{$name}: At first I though my dream is silly.
+{$name}: At first I thought my dream is silly.
 {$name}: That other people will laugh at me or shun me for it.
 {$name}: But who are they to judge?
 {$name}: Why should I make myself fit into their way of thinking?
@@ -640,46 +809,66 @@ title: EleonoreTypesOfDreams
     {$name}: You would only develop such tendencies if you are raised in an environment that fosters it.
     {$name}: I believe it's the human nature to build and invent.
     {$name}: To create rather than to destroy.
-    {$name}: It's also way harder to create something than it is to destroy something.
+    {$name}: It's more difficult to create something than it is to destroy something.
     {$name}: And the harder a task is, the more satisfying it is to accomplish it.
-    -> Is that always the case though?
-        {$name}: Okay, I can't prove to you rigorously that this is the case, but think for yourself.
-        {$name}: Firstly, the easier the task, the faster you are done with it.
-        {$name}: If you do a lot of the same thing, eventually, it will get boring.
-        {$name}: Accomplishing a difficult task is something that doesn't happen often.
-        {$name}: Relateive to accomplishing easy tasks that is.
-        {$name}: Because it happens more rarely, it stays something special.
-        {$name}: If you eat too much of the same cake, it will eventually become boring and dull.
-        {$name}: If you repeat the same workout too much, it will eventually become boring and dull.
-        {$name}: However, the later is a lot harder to overdue, simply because it's more challenging.
-        {$name}: So it's less likely that you will reach that point compared to the former.
-        -> But what about your claim of humans being more creative than destructive?
-            {$name}: I don't have any hard proof for that either, just my personal experience.
-            {$name}: Did people in your life seem more destructive than constructive?
-            {$name}: They certainly didn't in mine.
-            {$name}: Of course this depends on you environment.
-            {$name}: Different types of environments will foster different types of mindsets and behaviours.
-            {$name}: Hm, perhaps think of this in terms of achieving your dream.
+    You: Is that always the case though?
+    {$name}: Okay, I can't prove to you rigorously that this is the case, but think for yourself.
+    {$name}: Firstly, the easier the task, the faster you are done with it.
+    {$name}: If you do a lot of the same thing, eventually, it will get boring.
+    {$name}: Accomplishing a difficult task is something that doesn't happen often.
+    {$name}: Relateive to accomplishing easy tasks that is.
+    {$name}: Because it happens more rarely, it stays something special.
+    {$name}: If you eat too much of the same cake, it will eventually become boring and dull.
+    {$name}: If you repeat the same workout too much, it will eventually become boring and dull.
+    {$name}: However, the later is a lot harder to overdue, simply because it's more challenging.
+    {$name}: So it's less likely that you will reach that point compared to the former.
+    -> But what about your claim of humans being more creative than destructive?
+        {$name}: I don't have any hard proof for that either, just my personal experience.
+        {$name}: Did people in your life seem more destructive than constructive?
+        {$name}: They certainly didn't in mine.
+        {$name}: Of course this depends on you environment.
+        {$name}: Different types of environments will foster different types of mindsets and behaviours.
+        {$name}: Hm, perhaps think of this in terms of achieving your dream.
+        <<jump EleonoreCorrectMindset>>
+    -> I don't quite agree. Easy tasks don't have to be less meaningful than more difficult tasks.
+        {$name}: Yes, that's true.
+        {$name}: But I wasn't quite talking about the value of a task on its own.
+        {$name}: Which is very subjective anyways.
+        {$name}: Rather, I was talking about the fact that all tasks become more normal to you the more you do them.
+        {$name}: For example, breathing is very important.
+        {$name}: Yet you rarely think about the fact that you are constantly breathing in and out.
+        {$name}: Though I guess you are thinking about it right now ^-^
+        {$name}: My point is that you do so often that it has become absolutely normal.
+        {$name}: And I state that this happens with anything you do.
+        {$name}: For me casting spells is natural at this point, I rarely actively think about it.
+        {$name}: The easier the task the faster you will reach this point of feeling natural.
+        {$name}: However, any task can reach that point I think, no matter how difficult.
+        {$name}: It's just that harder tasks are, well, harder to repeat that often.
+        -> I think I get it.
+            {$name}: Alright cool.
+            {$name}: Then let me get finally close the bow and get back to our original topic.
             <<jump EleonoreCorrectMindset>>
-        -> I don't quite agree. Easy tasks don't have to be less meaningful than more difficult tasks.
-            {$name}: Yes, that's true.
-            {$name}: But I wasn't quite talking about the value of a task on its own.
-            {$name}: Which is very subjective anyways.
-            {$name}: Rather, I was talking about the fact that all tasks become more normal to you the more you do them.
-            {$name}: For example, breathing is very important.
-            {$name}: Yet you rarely think about the fact that you are constantly breathing in and out.
-            {$name}: Though I guess you are thinking about it right now ^-^
-            {$name}: My point is that you do so often that it has become absolutely normal.
-            {$name}: And I state that this happens with anything you do.
-            {$name}: For me casting spells is natural at this point, I rarely actively think about it.
-            {$name}: The easier the task the faster you will reach this point of feeling natural.
-            {$name}: However, any task can reach that point I think, no matter how difficult.
-            {$name}: It's just that harder tasks are, well, harder to repeat that often.
-            -> Okay, let's leave it at that, I get your point. But what does that have to do with your dream?
-                {$name}: ... You do know that you asked me about this, yes?
-                {$name}: Hmpf. So anyways, what I mean to say is that dreams are gonna be hard to achieve.
-                {$name}: If they wouldn't, then they wouldn't be dreams.
-                <<jump EleonoreCorrectMindset>>
+        -> Okay, let's leave it at that, I get your point. But what does that have to do with your dream?
+            {$name}: ... You do know that you asked me about this, yes?
+            {$name}: Hmpf. So anyways, what I mean to say is that dreams are gonna be hard to achieve.
+            {$name}: If they wouldn't, then they wouldn't be dreams.
+            <<jump EleonoreCorrectMindset>>
+        -> I still disagree.
+            {$name}: Oh well, I don't know how else to explain it.
+            {$name}: Perhaps if I bring it back to what we talked about in the first place.
+            <<jump EleonoreCorrectMindset>>
+-> Hm, that makes me wonder what you would consider as the purpose of life?
+    {$name}: Oh coming with the big questions now huh?
+    {$name}: I think it's to live a comitted live without any regret.
+    {$name}: Which is why I think you must act on your passion.
+    {$name}: Otherwise, when you have such a strong passion and urge to create, you are bound to regret to not acting on it.
+    {$name}: I think you also should live a happy life.
+    {$name}: So perhaps you can define the purpose of live by living the most happy live you can.
+    {$name}: But then how do you define happy?
+    {$name}: And how would you differentiate between hedonistic pleasure and happiness stemming from hard work?
+    {$name}: For me I found the answer in living a committed live, which means to act on your passion.
+    {$name}: Which brings with it its own challenges.
+    <<jump EleonoreCorrectMindset>>
 
 ===
 title: EleonorePaiApprentice
@@ -687,7 +876,7 @@ title: EleonorePaiApprentice
 
 {$name}: How about I become your mentor?
 {$name}: Teach you how to live a purposeful live, build a strong mind and to foster your ambitions.
-{$name}: Do you want to become my apprentice, Pai?
+{$name}: Do you want to become my apprentice?
 -> Wow... that's quite sudden.
     {$name}: I suppose.
     {$name}: Hm, how about you speak with a certain someone then?

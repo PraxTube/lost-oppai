@@ -69,6 +69,8 @@ title: PaiDoesntBelieve
         {$antonius}: You are better at this than I am.
         {$ionas}: Okay sure.
         <<jump SubjectiveAndObjectiveWorldview>>
+-> Subjective truths? Wouldn't that be subjective believes then?
+    {$antonius}: Huh, yeah I think so.
 
 ===
 title: SubjectiveAndObjectiveWorldview
@@ -80,7 +82,7 @@ title: SubjectiveAndObjectiveWorldview
 {$ionas}: To me, the only logical answer is god. The one who created us decides this.
 {$ionas}: So god is the objective truth, he defines what is true and what false.
 {$ionas}: This applies to everything, not just morals.
-{$ionas}: What is happyness, the purpose of life, being lucky in life, everything.
+{$ionas}: What is happiness, the purpose of life, being lucky in life, everything.
 {$ionas}: God is truth, god is love. // I don't quite understand this god is love thing, I have seen that a lot of times now but don't quite get how it works exactly
 {$ionas}: Whether something is morally correct or not is something we don't get to decide.
 {$ionas}: It's something we never could decide, only god can.
@@ -159,29 +161,62 @@ title: SubjectiveAndObjectiveWorldview
         {$antonius}: However, I think this is a truly wonderful thing.
         {$antonius}: There is always something you can learn, something you can take with you, from every single encounter.
         {$antonius}: I also don't think that you guys are wrong in your views.
-        {$antonius}: If they allow you to live happy lives, then it's the right world view for you.
-        {$antonius}: Whichever religion you have, or if you are an atheist, to me everyone is correct in their own way.
-        {$ionas}: But didn't you say you condemn murder?
-        {$ionas}: What if somebody is happy when murdering?
-        {$ionas}: Would he be correct in your view?
-        {$antonius}: I truly believe that nobody actually enjoys hurting others.
-        {$antonius}: He may justify his actions in some twisted way, but I just don't believe he is actually happy.
-        {$ionas}: How do you define happy here?
-        {$antonius}: Hahaha, I should have seen that coming.
-        {$antonius}: That's a good question.
-        {$antonius}: I can tell you what thirst is, what it means to be hungry or tired and how to combat it.
-        {$antonius}: But how can you become happy?
-        {$antonius}: I think that the answer is going to be an individual one.
-        {$antonius}: Though it will always involve some kind of hard work.
-        {$antonius}: Somethig you can't achieve easily.
-        {$antonius}: You can't be happy before being unhappy.
-        <<target_npc_mentioned {$name} {$target_npc}>>
-        {$antonius}: Oh! I had a chat with Jotem about this the other day.
-        {$ionas}: With Jotem? Oh yeah I can see that.
-        {$antonius}: I think being happy means committing to your dream.
-        {$antonius}: But the old guy can probably give a more profound perspective on the matter.
-        {$antonius}: He always has some wisdom to share.
-        <<jump DoYouWantToJoinIonasAndAntonius>>
+        -> How so? Isn't that a major inconsistency in your world view?
+            {$antonius}: That's exactly it, I don't think it is.
+            {$antonius}: A subjective world view can also mean that you believe in objective truths.
+            {$antonius}: Because everything is relative, there is no right or wrong in the first place.
+            {$ionas}: But wouldn't that mean that the fact whether or not the world is subjective or objective must also be subjective?
+            {$ionas}: In a subjective world view.
+            {$antonius}: Yes, that is exactly the point.
+            {$antonius}: Both believes can be valid in a subjective world view.
+            {$antonius}: As there is no wrong in the same sense it exists in an objective world view.
+            {$antonius}: You might consider this pointless, but I find it liberating.
+            {$antonius}: Because another problem with an objective world view is that only a single religion can be correct.
+            {$antonius}: All others must be, by definition, wrong.
+            {$antonius}: Which implies that all people of the 'wrong' religion must be living not truly happy lives.
+            {$antonius}: Only the people that have exactly your religion live truly happy lives.
+            {$antonius}: Even religions that split off from yours at some point are by definition 'wrong'.
+            {$antonius}: So that means that a huge amount of people are supposed to live in not 'true happiness'.
+            {$antonius}: That is in stark contrast with a subjective world view.
+            {$antonius}: Which doesn't care so much about right or wrong.
+            {$antonius}: If they allow you to live happy lives, then it's the right world view for you.
+            {$antonius}: Whichever religion you have, or if you are an atheist, to me everyone is correct in their own way.
+            {$ionas}: But didn't you say you condemn murder?
+            {$ionas}: What if somebody is happy when murdering?
+            {$ionas}: Would he be correct in your view?
+            {$antonius}: I truly believe that nobody actually enjoys hurting others.
+            {$antonius}: He may justify his actions in some twisted way, but I just don't believe he is actually happy.
+            {$ionas}: How do you define happy here?
+            {$antonius}: Hahaha, I should have seen that coming.
+            {$antonius}: That's a good question.
+            {$antonius}: I can tell you what thirst is, what it means to be hungry or tired and how to combat it.
+            {$antonius}: But how can you become happy?
+            {$antonius}: I think that the answer is going to be an individual one.
+            {$antonius}: Though it will always involve some kind of hard work.
+            {$antonius}: Somethig you can't achieve easily.
+            {$antonius}: You can't be happy before being unhappy.
+            <<target_npc_mentioned {$name} {$target_npc}>>
+            {$antonius}: Oh! I had a chat with Jotem about this the other day.
+            {$ionas}: With Jotem? Oh yeah I can see that.
+            {$antonius}: I think being happy means committing to your dream.
+            {$antonius}: But the old guy can probably give a more profound perspective on the matter.
+            {$antonius}: He always has some wisdom to share.
+            <<jump DoYouWantToJoinIonasAndAntonius>>
+        -> The point of you being different from your past self is interesting. Though do you think it's a good thing?
+            {$antonius}: Oh yes, I think it's absolutely important.
+            {$ionas}: I agree.
+            {$ionas}: If you don't change over time, then it means you aren't learning and growing as a person.
+            {$antonius}: Yeah, it doesn't mean that you will change your whole world view and believes.
+            {$antonius}: Usually just adjusting your values based, again, on your experience.
+            {$antonius}: Wait, does this make sense in an objective world view?
+            {$antonius}: I mean I get that you only approximate the truth, the more you think the closer you will get.
+            {$antonius}: But then you will by definition never be able to truly know the answer.
+            {$ionas}: Yes, you cannot know gods plans.
+            {$ionas}: Though it's not a contradiction at all.
+            {$ionas}: I also don't see it as an inconvenience or a problem.
+            {$ionas}: It means that I will always have something to ponder on.
+            {$ionas}: The fact that I can always drill deeper on the question of what it means to live is in my opinion liberating.
+            {$antonius}: That... is a fair point.
 
 ===
 title: AntoniusLifePurpose
@@ -376,10 +411,14 @@ title: IonasAndAntoniusWaiting
 -> No, not yet.
     {$antonius}: I see, well just make sure to get back to us once you do.
     {$ionas}: We will be waiting here for you.
+    <<stop_chat>>
+    <<jump IonasAndAntoniusWaiting>>
 -> I can't find him.
     {$antonius}: Hm, he is a veteran looking adventurer with a sword.
     {$antonius}: Don't think you can mistake him for anybody else.
     {$antonius}: If you walk on the path you are gonna run into him sooner or later.
+    <<stop_chat>>
+    <<jump IonasAndAntoniusWaiting>>
 -> Yes
     <<if $talked_with_target_npc>>
         <<jump TalkedWithJotem>>
@@ -387,10 +426,10 @@ title: IonasAndAntoniusWaiting
         {$antonius}: You sure? That sounded like a lie.
         {$antonius}: No need to force yourself to talk to him.
         {$antonius}: But it might reveal some wisdom to you.
+        <<stop_chat>>
+        <<jump IonasAndAntoniusWaiting>>
     <<endif>>
 <<endif>>
-<<stop_chat>>
-<<jump IonasAndAntoniusWaiting>>
 
 ===
 title: TalkedWithJotem
