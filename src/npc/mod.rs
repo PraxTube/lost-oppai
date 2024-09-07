@@ -13,11 +13,7 @@ pub enum NpcDialogue {
     Isabelle,
     Ionas,
     Antonius,
-    Sven,
-    Joanna,
-    Dorothea,
     IonasAndAntonius,
-    Paladins,
 }
 
 pub struct NpcPlugin;

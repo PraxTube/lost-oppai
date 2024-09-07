@@ -39,10 +39,8 @@ fn spawn_story_header_text(
     let text = match dialogue {
         NpcDialogue::Jotem => "Pai joins Jotem",
         NpcDialogue::Eleonore => "Pai joins Eleonore",
-        NpcDialogue::Joanna => "Pai joins Joanna",
         NpcDialogue::Isabelle => "Pai joins Isabelle",
         NpcDialogue::IonasAndAntonius => "Pai joins Ionas & Antonius",
-        NpcDialogue::Paladins => "Pai joins the Paladins",
         _ => "SHOULD NEVER HAPPEN",
     };
     commands
@@ -65,10 +63,8 @@ fn spawn_story_body_text(
     let text = match dialogue {
         NpcDialogue::Jotem => "Ending: Adventurer",
         NpcDialogue::Eleonore => "Ending: Witch's Apprentice",
-        NpcDialogue::Joanna => "Ending: TMP",
         NpcDialogue::Isabelle => "Ending: Farm Girl",
         NpcDialogue::IonasAndAntonius => "Ending: Truth Seeker",
-        NpcDialogue::Paladins => "Ending: Protector",
         _ => "SHOULD NEVER HAPPEN",
     };
     commands

@@ -1,6 +1,0 @@
-{
-    "idle": (
-        keyframes: KeyframesRange((start: 0, end: 18)),
-        duration: 2.1,
-    ),
-}

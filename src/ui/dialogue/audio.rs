@@ -97,32 +97,7 @@ fn character_sound(assets: &Res<GameAssets>, character: &str) -> PlaySound {
                 volume: 0.5,
                 ..default()
             },
-            NpcDialogue::Sven => PlaySound {
-                clip: assets.npc_blip_sound.clone(),
-                rand_speed_intensity: 0.015,
-                playback_rate: 1.3,
-                volume: 0.5,
-                ..default()
-            },
-            NpcDialogue::Joanna => PlaySound {
-                clip: assets.npc_blip_sound.clone(),
-                rand_speed_intensity: 0.01,
-                playback_rate: 2.5,
-                volume: 0.5,
-                ..default()
-            },
-            NpcDialogue::Dorothea => PlaySound {
-                clip: assets.npc_blip_sound.clone(),
-                rand_speed_intensity: 0.02,
-                playback_rate: 2.0,
-                volume: 0.5,
-                ..default()
-            },
             NpcDialogue::IonasAndAntonius => PlaySound {
-                clip: assets.npc_blip_sound.clone(),
-                ..default()
-            },
-            NpcDialogue::Paladins => PlaySound {
                 clip: assets.npc_blip_sound.clone(),
                 ..default()
             },

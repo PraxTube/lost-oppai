@@ -22,10 +22,6 @@ https://seliel-the-shaper.itch.io/spring-forest
     - https://ansimuz.itch.io/gothicvania-town
 - Ionas & Antonius
     - https://gandalfhardcore.itch.io/free-pixel-art
-- Paldins
-    - https://sventhole.itch.io/hero-knight
-    - https://clembod.itch.io/warrior-free-animation-set
-    - https://otsoga.itch.io/free-medieval-npcs-witch-and-swordswoman
 
 ### Bird
 
