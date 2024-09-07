@@ -71,7 +71,6 @@ fn main() {
                 YarnFileSource::file("dialogue/jotem.yarn"),
                 YarnFileSource::file("dialogue/isabelle.yarn"),
                 YarnFileSource::file("dialogue/ionas-and-antonius.yarn"),
-                YarnFileSource::file("dialogue/paladins.yarn"),
             ])
             .with_development_file_generation(DevelopmentFileGeneration::None),
             TweeningPlugin,

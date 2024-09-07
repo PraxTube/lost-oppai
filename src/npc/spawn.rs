@@ -228,138 +228,13 @@ fn spawn_antonius_and_ionas(commands: &mut Commands, assets: &Res<GameAssets>, p
         .push_children(&[antonius, ionas]);
 }
 
-fn spawn_sven(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) -> Entity {
-    let transform = Transform::from_translation(pos.extend(0.0));
-    let mut animator = AnimationPlayer2D::default();
-    animator.play(assets.sven_animations[0].clone()).repeat();
-
-    let collider = commands
-        .spawn((
-            Collider::ball(8.0),
-            ActiveEvents::COLLISION_EVENTS,
-            CollisionGroups::default(),
-            TransformBundle::from_transform(Transform::from_translation(Vec3::new(
-                -pos.x, -16.0, 0.0,
-            ))),
-        ))
-        .id();
-
-    commands
-        .spawn((
-            YSortChild(0.0),
-            animator,
-            SpriteBundle {
-                texture: assets.sven_texture.clone(),
-                transform,
-                ..default()
-            },
-            TextureAtlas {
-                layout: assets.sven_layout.clone(),
-                ..default()
-            },
-        ))
-        .push_children(&[collider])
-        .id()
-}
-
-fn spawn_joanna(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) -> Entity {
-    let transform = Transform::from_translation(pos.extend(0.0));
-    let mut animator = AnimationPlayer2D::default();
-    animator.play(assets.joanna_animatins[0].clone()).repeat();
-
-    let collider = commands
-        .spawn((
-            Collider::ball(8.0),
-            ActiveEvents::COLLISION_EVENTS,
-            CollisionGroups::default(),
-            TransformBundle::from_transform(Transform::from_translation(Vec3::new(
-                0.0, -16.0, 0.0,
-            ))),
-        ))
-        .id();
-
-    commands
-        .spawn((
-            animator,
-            SpriteBundle {
-                texture: assets.joanna_texture.clone(),
-                transform,
-                ..default()
-            },
-            TextureAtlas {
-                layout: assets.joanna_layout.clone(),
-                ..default()
-            },
-        ))
-        .push_children(&[collider])
-        .id()
-}
-
-fn spawn_dorothea(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) -> Entity {
-    let transform = Transform::from_translation(pos.extend(0.0));
-    let mut animator = AnimationPlayer2D::default();
-    animator
-        .play(assets.dorothea_animations[0].clone())
-        .repeat();
-
-    let collider = commands
-        .spawn((
-            Collider::ball(8.0),
-            ActiveEvents::COLLISION_EVENTS,
-            CollisionGroups::default(),
-            TransformBundle::from_transform(Transform::from_translation(Vec3::new(
-                4.0, -16.0, 0.0,
-            ))),
-        ))
-        .id();
-
-    commands
-        .spawn((
-            YSortChild(0.0),
-            animator,
-            SpriteBundle {
-                texture: assets.dorothea_texture.clone(),
-                transform,
-                sprite: Sprite {
-                    flip_x: true,
-                    ..default()
-                },
-                ..default()
-            },
-            TextureAtlas {
-                layout: assets.dorothea_layout.clone(),
-                ..default()
-            },
-        ))
-        .push_children(&[collider])
-        .id()
-}
-
-fn spawn_paladins(commands: &mut Commands, assets: &Res<GameAssets>, pos: Vec2) {
-    let sven = spawn_sven(commands, assets, Vec2::new(-8.0, 32.0));
-    let joanna = spawn_joanna(commands, assets, Vec2::new(-24.0, 0.0));
-    let dorothea = spawn_dorothea(commands, assets, Vec2::new(24.0, 0.0));
-
-    commands
-        .spawn((
-            YSort(0.0),
-            Npc::new(NpcDialogue::Paladins),
-            SpatialBundle {
-                transform: Transform::from_translation(pos.extend(0.0)),
-                ..default()
-            },
-        ))
-        .push_children(&[sven, joanna, dorothea]);
-}
-
 fn spawn_npcs(mut commands: Commands, bitmap: Res<BitMap>, assets: Res<GameAssets>) {
-    let hotspots = bitmap.get_furthest_hotspots(5);
+    let hotspots = bitmap.get_furthest_hotspots(4);
     let npcs = [
         spawn_eleonore,
         spawn_jotem,
         spawn_isabelle,
         spawn_antonius_and_ionas,
-        spawn_paladins,
     ];
 
     for i in 0..hotspots.len() {
