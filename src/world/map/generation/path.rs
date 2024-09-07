@@ -20,7 +20,7 @@ const MAX_RADIUS_GRASS: i32 = MIN_RADIUS_GRASS + 3;
 
 const DISK_RADIUS: f32 = 35.0;
 const SAMPLE_RATE: usize = 3 * DISK_RADIUS as usize;
-const REGION_SIZE: Vec2 = Vec2::new(150.0, 150.0);
+const REGION_SIZE: Vec2 = Vec2::new(120.0, 120.0);
 const POISSON_REJECTION_ITER: usize = 20;
 
 // Use bezier curve to compute the points along
