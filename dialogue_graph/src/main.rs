@@ -16,6 +16,7 @@ const OUPUT_PATH: &str = "graphs";
 
 const ATTR_DELIMETER: &str = "|BREAK|";
 const LEAF_NODE_COLOR: &str = "red";
+const SINGLE_OPTION_NODE_COLOR: &str = "blue";
 const TITLE_NODE_STYLE: &str = "bold";
 const TITLE_NODE_SHAPE: &str = "diamond";
 
@@ -148,38 +149,56 @@ fn clear_player_options(container: &mut Container, line: &str) {
     }
 }
 
+fn get_leaf_nodes(graph: &Graph<String, usize>) -> Vec<NodeIndex> {
+    graph
+        .node_indices()
+        .filter(|i| {
+            graph.edges(*i).count() == 0
+                && graph.node_weight(*i).unwrap_or(&String::new()) != FIN_NODE_LABEL
+        })
+        .collect()
+}
+
+fn get_single_option_nodes(graph: &Graph<String, usize>) -> Vec<NodeIndex> {
+    graph
+        .node_indices()
+        .filter(|i| {
+            if graph.edges(*i).count() != 1 {
+                return false;
+            }
+
+            let target_index = graph.edges(*i).next().unwrap().target();
+            graph.node_weight(target_index).unwrap().starts_with("-> ")
+        })
+        .collect()
+}
+
+fn get_title_nodes(graph: &Graph<String, usize>) -> Vec<NodeIndex> {
+    graph
+        .node_indices()
+        .filter(|i| graph.node_weight(*i).unwrap().starts_with("title: "))
+        .collect()
+}
+
 fn label_graph_with_attributes(container: &mut Container) {
-    let leaf_nodes: Vec<NodeIndex> = container
-        .graph
-        .node_indices()
-        .filter(|i| {
-            container.graph.edges(*i).count() == 0
-                && container.graph.node_weight(*i).unwrap_or(&String::new()) != FIN_NODE_LABEL
-        })
-        .collect();
-
-    let title_nodes: Vec<NodeIndex> = container
-        .graph
-        .node_indices()
-        .filter(|i| {
-            container
-                .graph
-                .node_weight(*i)
-                .unwrap()
-                .starts_with("title: ")
-        })
-        .collect();
-
+    let leaf_nodes = get_leaf_nodes(&container.graph);
     for index in leaf_nodes {
         *container.graph.node_weight_mut(index).unwrap() +=
             &format!("{}color={}", ATTR_DELIMETER, LEAF_NODE_COLOR);
     }
 
+    let title_nodes = get_title_nodes(&container.graph);
     for index in title_nodes {
         *container.graph.node_weight_mut(index).unwrap() += &format!(
             "{}style={}{}shape={}",
             ATTR_DELIMETER, TITLE_NODE_STYLE, ATTR_DELIMETER, TITLE_NODE_SHAPE
         );
+    }
+
+    let single_option_nodes = get_single_option_nodes(&container.graph);
+    for index in single_option_nodes {
+        *container.graph.node_weight_mut(index).unwrap() +=
+            &format!("{}color={}", ATTR_DELIMETER, SINGLE_OPTION_NODE_COLOR);
     }
 }
 
@@ -233,15 +252,14 @@ fn write_meta_data(path: &str, graph: Graph<String, usize>) {
             .unwrap_or_else(|_| panic!("Can't read content of file, '{}'", path));
     }
 
-    let leaf_node_count = graph
-        .node_indices()
-        .filter(|i| graph.edges(*i).count() == 0)
-        .count();
+    let leaf_node_count = get_leaf_nodes(&graph).len();
+    let single_option_node_count = get_single_option_nodes(&graph).len();
 
     let mut output_content = String::new();
     output_content += "/*\n";
     output_content += "--- START METADATA ---\n";
     output_content += &format!("Leaf Nodes: {}\n", leaf_node_count);
+    output_content += &format!("Single Option Nodes: {}\n", single_option_node_count);
     output_content += "--- END   METADATA ---\n";
     output_content += "*/\n\n";
     read_file_content(&mut output_content, path);
