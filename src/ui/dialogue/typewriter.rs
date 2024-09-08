@@ -121,7 +121,9 @@ impl Typewriter {
         } else if graphemes_to_take.contains(':') {
             self.elapsed -= 0.3 * multiplier;
         } else if graphemes_to_take.contains('-') {
-            self.elapsed -= 0.25 * multiplier;
+            if !self.graphemes_left.is_empty() && self.graphemes_left[0].starts_with(' ') {
+                self.elapsed -= 0.25 * multiplier;
+            }
         } else if graphemes_to_take.contains('!') {
             self.elapsed -= 0.2 * multiplier;
         } else if graphemes_to_take.contains('.') {
