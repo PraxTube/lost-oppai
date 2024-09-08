@@ -591,9 +591,120 @@ title: EleonoreCorrectMindset
         {$name}: Ah. So hard work doesn't necessarily make you happy, enjoying the moment is what is important?
         <<jump EleonoreEnjoyingLife>>
     -> I think it's a lack of necesassity.
+        {$name}: I see, I would think this is the most common reason.
+        <<jump EleonorePaiLacksNecesassity>>
     -> I mean I do have things I like, but I guess not that much?
         {$name}: Hm, let me ask it differently then.
         <<jump EleonorePaiFascination>>
+
+===
+title: EleonorePaiLacksNecesassity
+---
+
+{$name}: We humans try our best to make our lives as comfortable as possible.
+{$name}: Which results in too comfortable lives if aren't careful.
+{$name}: The easy and the trivial aren't really satisfying in the long term.
+{$name}: So you get unhappy when your live is too comfortable.
+{$name}: But it's so paradoxical.
+{$name}: I mean why not just make it more difficult then?
+{$name}: Though why would humans try to make live more comfortable in the first place?
+{$name}: It's truly bizarre.
+{$name}: I think the root cause lies in the fact that humans need stressors.
+{$name}: Take your muscles, if you don't give them regular stress in the form of movement or exercise, they will deteriorate.
+{$name}: I think it's the same with your mind.
+{$name}: You need regular challenges, otherwise you will forgot how to properly use your mind and body.
+-> Okay, then what if your environment is too comfortable and doesn't provide these challenges?
+    {$name}: Well, as I see it you have two options.
+    {$name}: You either change your environment and make it more challengeing.
+    {$name}: Or you build a strong enough mindset to work hard regardless of your circumstances.
+    {$name}: The later being arguably a lot harder to achieve.
+    {$name}: I think you should always change your environment to change you towards the person you want to become.
+    {$name}: Because everything else will be like fighting against the flow.
+    {$name}: Not impossible, but it requires a lot of energy.
+    {$name}: But making your environment purposefully more difficult seems very counterintuitive.
+    {$name}: However, I am a firm believer that everything has positives and negatives.
+    {$name}: That there exist only trade-offs, no solutions.
+    {$name}: So that means there are also going to be positive side effects with a more difficult livestyle.
+    {$name}: For example, you could choose to grow your own food.
+    {$name}: It's certainly harder then buying food.
+    {$name}: But you also get more control over how your food is grown and what kind of variety.
+    {$name}: I think this is a general trend.
+    <<jump EleonoreFreedomResponsibility>>
+-> Too much isn't good either though.
+    {$name}: Yes of course, too much stress will be harmful.
+    {$name}: Just like too much physical stress will rip your muscles.
+    {$name}: So will too much mental stress drive you insane.
+    {$name}: But the point is that you grow from this stress.
+    {$name}: It's essentially stepping outside your comfort-zone and gradually increasing it.
+    {$name}: You don't want step out too much, but you do need to step outside of it to grow.
+    {$name}: I also think that this is required to live a happy life.
+    -> But how would you do that? Stepping outside your comfort-zone is by definition not easy.
+        {$name}: I agree.
+        {$name}: But I think there are steps you can take to make it easier.
+        {$name}: And that is to increase your freedom.
+        <<jump EleonoreFreedomResponsibility>>
+    -> Though that would mean that you constantly face challenges in life.
+        {$name}: Yes exactly.
+        {$name}: You mean to say that this is not enjoying life?
+        <<jump EleonoreEnjoyingLife>>
+
+===
+title: EleonoreFreedomResponsibility
+---
+
+{$name}: The more freedom you have in any given area, the more responsibility you bear.
+{$name}: And the more responsibility you bear, the more meaningful your decisions become.
+{$name}: It also increases your workload and in a way your hardship.
+{$name}: But I think it does so in a good way.
+{$name}: I think this becomes more clear when you look at the opposite.
+{$name}: That is, no freedom and thus no responsibilities.
+{$name}: Meaning your decisions don't have much meaning, as they bear barely any consequences.
+{$name}: Of course you could argue that you have more time for other meaningful tasks.
+{$name}: But how can that be the case, when you lack freedom to do so?
+{$name}: And I think that is were the problem of comfort originates from.
+{$name}: Think about an apex predator in the wild and one trapped in a cage.
+{$name}: The former needs to hunt for himself and owns his mistakes.
+{$name}: He needs to be fit in order to survive, so he is forced to work hard by the rules of nature.
+{$name}: Compared to the later, which gets fed on a regular schedule and isn't exposed to any real danger.
+{$name}: The former is free and responsible for his own life, while the other is trapped and deprived of any responsibility.
+{$name}: The one that is trapped certainly has a more comfortable live.
+{$name}: He gets to sleep all day and doesn't have a worry in the world.
+{$name}: But he also has a meaningless life.
+-> But escaping your prison and fighting against it is meaningful. You still have the freedom to do that.
+    {$name}: Yes that is exactly it.
+    {$name}: However that requires a lot of mental energy.
+    {$name}: If your live is comfortable, what incentive do you have to change it?
+    {$name}: The longer you live such a life the more your mind and body will change for the worse.
+    {$name}: And it will become harder and harder to fight against it.
+    {$name}: It's a downwards spiral.
+    {$name}: So you have the choice wants you realize this.
+    {$name}: Do you change your environment, or do you bet on your willpower?
+    {$name}: I would always pick the former, because time will play in your favor.
+    {$name}: Because what does it even mean for the trapped one to fight against his prison?
+    {$name}: It means to break free and live in freedom.
+    {$name}: So his goal is to change his environment!
+    {$name}: Oh that brings me to an idea.
+    {$name}: From what I heard from you so far, you seem fairly... lost.
+    {$name}: Maybe it's time for you to change your environment.
+    <<jump EleonorePaiApprentice>>
+-> Responsibility is not all good though. It means you have less time for other things.
+    {$name}: True, but the more technological advance humanity makes the more freedom people can obtain.
+    {$name}: But it seems like people are just giving up more and more freedom.
+    {$name}: So what are they spending there newly found time on?
+    {$name}: In my experience, it's spend on pointless hedonistic pleasures.
+    {$name}: Which again, I think is simply due to the fact that it is bound to happen.
+    {$name}: Because once you have too little freedom, and thus too little responsibility, your live is too comfortable.
+    {$name}: And if you don't change that yourself then there will likely come the point where outside circumstances will do that for you.
+    {$name}: In which case you will not be ready for it.
+    {$name}: Like if you had to life a really heavy weight.
+    {$name}: If your live is too comfortable, you won't work out.
+    {$name}: And so once the time comes were you must lift this heavy weight, you can't.
+    {$name}: So if your life is too easy, you must make it more difficult.
+    {$name}: Which I know is not easy.
+    {$name}: The best way to achieve is that by changing your environment.
+    {$name}: Oh, why don't you do that?
+    {$name}: Why don't you join me?
+    <<jump EleonorePaiApprentice>>
 
 ===
 title: EleonoreLivingInThePresent
@@ -642,6 +753,13 @@ title: EleonorePaiFascinationPositive
     {$name}: I would not be were I am now without the help of my mentor.
     {$name}: Oh! What about this then?
     <<jump EleonorePaiApprentice>>
+-> Yes I am!
+    {$name}: Oh, that's awesome.
+    {$name}: It's becoming increasingly rare to find individuals that like this.
+    {$name}: Actually, that brings me to an idea.
+    {$name}: I really enjoy having like-minded people around.
+    {$name}: And I kinda like you.
+    <<jump EleonorePaiApprentice>>
 
 ===
 title: EleonorePaiFascinationNegative
@@ -649,7 +767,16 @@ title: EleonorePaiFascinationNegative
 
 {$name}: I see. That's a shame.
 {$name}: Life is easier when you have a passion.
-{$name}: 
+{$name}: I would actually go as far as to say that your purpose of life depends on it.
+{$name}: If you don't have a passion, can you even live a comitted life?
+{$name}: And if you don't live a comitted live then you aren't living a purposeful life.
+{$name}: So I think a passion, some kind of dream you are trying to achieve, is necessary.
+{$name}: But I also think that anything can become your dream.
+{$name}: We humans usually like things because we just have some intrinsic interest or because we are good in it.
+{$name}: The latter can be fostered.
+{$name}: Oh, how about I just show you?
+<<jump EleonorePaiApprentice>>
+
 
 ===
 title: EleonoreEnjoyingLife
@@ -701,7 +828,7 @@ title: EleonoreOptimizingEnvironment
 -> So you just seclude yourself from others?
     {$name}: Somewhat. It's just really hard to find people that are similar to me.
     {$name}: Being together with chaotic people just drives me insane.
-    {$name}: Besides, I prefer freedom and the responibility it entails over comfort every time.
+    {$name}: Besides, I prefer freedom and the responsibility it entails over comfort every time.
     {$name}: It's why I dislike the city so much.
     {$name}: And that's also the reason why I am out here.
     {$name}: The more I can do myself the easier live is for me.
@@ -730,7 +857,10 @@ title: EleonoreOptimizingEnvironment
         {$name}: But it nonetheless takes away some of your freedom.
         {$name}: And there is this great saying I once heard:
         {$name}: 'People that sacrifice freedom for safety deserve neither.'
-        {$name}: TODO
+        {$name}: I think it's easiest to see for yourself though.
+        {$name}: Nothing beats experiencing things yourself.
+        {$name}: Oh, then what about this.
+        <<jump EleonorePaiApprentice>>
     -> In that case, why don't you just live in a remote location with like-minded people?
         {$name}: Hahaha, yes, why don't I just do that?
         {$name}: Well it's because it's firstly really hard to find like-minded poeple.
@@ -745,7 +875,20 @@ title: EleonoreOptimizingEnvironment
         {$name}: So what do you think?
         <<jump EleonorePaiApprentice>>
 -> What do you mean with non-linear?
--> That analogy to the chaotic-lawful didn't make much sense.
+    {$name}: Anything that doesn't have a constant growth or decline is non-linear.
+    {$name}: When you throw a ball for example.
+    {$name}: It's trajectory will not be linear.
+    {$name}: Instead it accelerates towards the ground, the speed is non-linear.
+    {$name}: And we humans are exceptionally bad at understanding anything non-linear.
+    {$name}: I think the reason is that anything can be approximated linearly if you zoom in enough.
+    {$name}: Again take the ball example.
+    {$name}: If you look at two very close points in time then the speed will appear linear.
+    {$name}: And for most things in life this is sufficient.
+    {$name}: At least in nature.
+    {$name}: Now in the modern time we get very different scaling behaviour.
+    {$name}: You seem very eager to learn about these topics.
+    {$name}: Why don't you spend some more time with me?
+    <<jump EleonorePaiApprentice>>
 -> You can change your behaviour over time then? How lawful and serious you are?
     {$name}: Yes, I mean why shouldn't you?
     {$name}: 'Humans don't change', is that what you mean?
@@ -885,12 +1028,40 @@ title: EleonorePaiApprentice
     {$name}: She is a simple country girl but it's really interesting to talk with her.
     {$name}: I learned from her how to treassure the moment.
     {$name}: Why don't you talk with her, perhaps that will help you to decide?
-    -> Hm, I guess I can talk to her.
-        {$name}: That's the spirit!
-        {$name}: I will be waiting here for you.
-        {$name}: See ya in a bit.
-        <<stop_chat>>
-        <<jump EleonoreWaiting>>
+    You: Hm, I guess I can talk to her.
+    {$name}: That's the spirit!
+    {$name}: I will be waiting here for you.
+    {$name}: See ya in a bit.
+    <<stop_chat>>
+    <<jump EleonoreWaiting>>
+-> Hm, yeah why not.
+    {$name}: You seem less surprised then I expected.
+    {$name}: But that's good to hear.
+    {$name}: I would advice you to talk with a certain girl that lives around here first though.
+    <<target_npc_mentioned {$name} {$target_npc}>>
+    {$name}: Her name is Isabelle.
+    {$name}: She is a simple country girl but it's really interesting to talk with her.
+    {$name}: I learned from her how to treassure the moment.
+    {$name}: I would like you to talk with her first before joining me.
+    {$name}: It will give you a chance to evaluate your decision more.
+    You: Sounds reasonable. I will talk with her.
+    {$name}: Alright, I will be waiting here for you.
+    {$name}: See ya.
+    <<stop_chat>>
+    <<jump EleonoreWaiting>>
+-> No I think I will pass.
+    {$name}: I see. Yeah it is a quite sudden question.
+    {$name}: Though I would like you to talk with somebody.
+    <<target_npc_mentioned {$name} {$target_npc}>>
+    {$name}: A girl called Isabelle that lives around here.
+    {$name}: She taught me how to treasure the moment and how important it is to live a balanced life.
+    {$name}: I think you could learn something from talking to her.
+    {$name}: I don't have to join me, but know that you still have the chance to should you change your mind after talking to her.
+    You: Okay, well I can at least talk to her.
+    {$name}: Yes. Feel free to tell me your chat.
+    {$name}: Until then.
+    <<stop_chat>>
+    <<jump EleonoreWaiting>>
 
 ===
 title: EleonoreWaiting
@@ -934,14 +1105,44 @@ title: TalkedWithIsabelle
 {$name}: Did you learn something, were you able to decide?
 -> Yes, I will become your apprentice.
     {$name}: Really? Awesome!
-    {$name}: I would like to know though, what was the final reason for you to join me?
-    -> It's not just one thing. But I guess I simply don't want to regret not joining you. I think this is a rare opportunity.
-        {$name}: Hahaha, well that much is certain.
-        {$name}: There aren't many witches who would just take in an apprentice like that.
-        {$name}: But I feel like you are special.
-        {$name}: Alright then, shall we?
-        {$name}: I will show you all I know about magic and how to live your life so you will not have any regrets.
-        -> Yes please! *Join Eleonore*
-            <<trigger_ending {$name}>>
+    {$name}: There aren't many witches how would take in an apprentice just like that you know.
+    {$name}: But I feel like you are special.
+    {$name}: Alright then, shall we?
+    {$name}: I will show you all I know about magic and how to live your life so you will not have any regrets.
+    <<jump EleonoreEnding>>
+-> Yes, I appreciate the offer, but I won't join you.
+    <<jump EleonorePaiWontJoin>>
+
+===
+title: EleonorePaiWontJoin
+---
+
+{$name}: I see.
+{$name}: Well it's your decision and I respect it.
+{$name}: Though I will stay a little longer.
+{$name}: If you change your mind, feel free to come back.
+<<stop_chat>>
+<<jump EleonoreEndingNegative>>
+
+===
+title: EleonoreEnding
+---
+
+...
+-> Yes please! *Join Eleonore*
+    <<trigger_ending {$name}>>
+-> Actually, I am not quite sure.
+    {$name}: Really now?
+    {$name}: Okay... well just come back to me once you have decided.
+    <<stop_chat>>
+    <<jump EleonoreEndingNegative>>
+    
+
+===
+title: EleonoreEndingNegative
+---
+
+{$name}: Hey, so did you change your mind?
+<<jump EleonoreEnding>>
 
 ===
