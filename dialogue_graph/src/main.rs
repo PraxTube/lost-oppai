@@ -11,8 +11,8 @@ use std::{
 
 use petgraph::{dot::Dot, prelude::*};
 
-const PATH_TO_DIR: &str = "assets/dialogue";
-const OUPUT_PATH: &str = "graphs";
+const PATH_TO_DIALOGUES: &str = "assets/dialogue";
+const DOT_FILES_OUTPUT_PATH: &str = "graphs";
 
 const ATTR_DELIMETER: &str = "|BREAK|";
 const LEAF_NODE_COLOR: &str = "red";
@@ -309,18 +309,18 @@ fn construct_graph(contents: String) -> Graph<String, usize, Directed> {
 }
 
 fn main() {
-    if Path::new(OUPUT_PATH).exists() {
-        remove_dir_all(OUPUT_PATH).expect("Couldn't hard remove graph output dir");
-        create_dir(OUPUT_PATH).expect("Couldn't create graph output dir");
+    if Path::new(DOT_FILES_OUTPUT_PATH).exists() {
+        remove_dir_all(DOT_FILES_OUTPUT_PATH).expect("Couldn't hard remove graph output dir");
+        create_dir(DOT_FILES_OUTPUT_PATH).expect("Couldn't create graph output dir");
     }
 
-    for entry in fs::read_dir(PATH_TO_DIR).expect("Can't read entries in current dir") {
+    for entry in fs::read_dir(PATH_TO_DIALOGUES).expect("Can't read entries in current dir") {
         let (contents, npc_file_name) = match try_read_yarn_contents(entry) {
             Some(r) => r,
             None => continue,
         };
 
-        let path = &format!("{}/{}.dot", OUPUT_PATH, npc_file_name);
+        let path = &format!("{}/{}.dot", DOT_FILES_OUTPUT_PATH, npc_file_name);
         let mut file = match File::create(path) {
             Ok(r) => r,
             Err(err) => panic!("Can't create/open file: '{}', {}", path, err),
