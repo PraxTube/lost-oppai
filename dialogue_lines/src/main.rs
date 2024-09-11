@@ -5,7 +5,7 @@ use std::{
 };
 
 const PATH_TO_DIR: &str = "assets/dialogue";
-const MAX_NPC_DISPLAY_NAME: usize = 16;
+const MAX_NPC_DISPLAY_NAME: usize = 12;
 
 fn try_read_yarn_contents(entry: Result<DirEntry, Error>) -> Option<(String, String)> {
     let entry = entry.expect("Can't get entry in current dir");

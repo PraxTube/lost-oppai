@@ -81,7 +81,6 @@ title: IsabelleLifeAdvice
         {$name}: Whether with your friends or your lover.
         {$name}: It's important to be alone and spend time with yourself.
         {$name}: Otherwise you get physically and mentally dependent on the other.
-        {$name}: 
 
 ===
 title: IsabelleProposal
@@ -149,18 +148,46 @@ title: IsabelleTalkedWithTarget
 {$name}: Are you going to come life with me and my family?
 {$name}: And try to find peace and happiness in living in the moment.
 -> Yes, I will come with you.
-    <<jump IsabelleFinalAct>>
-
-===
-title: IsabelleFinalAct
----
-
-{$name}: Great!
-{$name}: What was your final reason to decide to come with me?
--> I think what you said makes sense. I want to try to life more in the moment and appreciate the small things more.
+    {$name}: Great!
+    {$name}: What was your final reason to decide to come with me?
+    You: I think what you said makes sense.
+    You: I want to try to life more in the moment and appreciate the small things more.
     {$name}: Well said!
     {$name}: In that case, how about we get going?
-    -> Let's go *Join Isabelle*
-        <<trigger_ending {$name}>>
+    <<jump IsabelleEnding>>
+-> No, I won't.
+    <<jump IsabellePaiWontJoin>>
+
+===
+title: IsabellePaiWontJoin
+---
+
+{$name}: Hm, yes I understand.
+{$name}: It's of course your decision and I respect it.
+{$name}: I will be around for a little bit.
+{$name}: So if you change your mind feel free to come back.
+<<stop_chat>>
+<<jump IsabelleEndingNegative>>
+
+===
+title: IsabelleEnding
+---
+
+...
+-> Yes. *Join Isabelle*
+    <<trigger_ending {$name}>>
+-> Actually, I am not quite sure.
+    {$name}: Oh, well if you need more time to think that's fine.
+    {$name}: Come back to me once you have decided.
+    <<stop_chat>>
+    <<jump IsabelleEndingNegative>>
+
+===
+title: IsabelleEndingNegative
+---
+
+{$name}: Hey, did you change your mind?
+{$name}: Do you want to come and live with me?
+<<jump IsabelleEnding>>
 
 ===

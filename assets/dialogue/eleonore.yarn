@@ -1028,6 +1028,11 @@ title: EleonorePaiApprentice
     {$name}: She is a simple country girl but it's really interesting to talk with her.
     {$name}: I learned from her how to treassure the moment.
     {$name}: Why don't you talk with her, perhaps that will help you to decide?
+    <<if $talked_with_target_npc>>
+        You: I already talked with Isabelle.
+        {$name}: Oh really?
+        <<jump TalkedWithIsabelle>>
+    <<endif>>
     You: Hm, I guess I can talk to her.
     {$name}: That's the spirit!
     {$name}: I will be waiting here for you.
@@ -1043,6 +1048,11 @@ title: EleonorePaiApprentice
     {$name}: She is a simple country girl but it's really interesting to talk with her.
     {$name}: I learned from her how to treassure the moment.
     {$name}: I would like you to talk with her first before joining me.
+    <<if $talked_with_target_npc>>
+        You: I actually already talked with her.
+        {$name}: Oh really?
+        <<jump TalkedWithIsabelle>>
+    <<endif>>
     {$name}: It will give you a chance to evaluate your decision more.
     You: Sounds reasonable. I will talk with her.
     {$name}: Alright, I will be waiting here for you.
@@ -1056,7 +1066,12 @@ title: EleonorePaiApprentice
     {$name}: A girl called Isabelle that lives around here.
     {$name}: She taught me how to treasure the moment and how important it is to live a balanced life.
     {$name}: I think you could learn something from talking to her.
-    {$name}: I don't have to join me, but know that you still have the chance to should you change your mind after talking to her.
+    <<if $talked_with_target_npc>>
+        You: I actually already talked with Isabelle.
+        {$name}: Oh really?
+        <<jump TalkedWithIsabelle>>
+    <<endif>>
+    {$name}: You don't have to join me, but know that you still have the chance to should you change your mind after talking to her.
     You: Okay, well I can at least talk to her.
     {$name}: Yes. Feel free to tell me your chat.
     {$name}: Until then.
@@ -1102,7 +1117,7 @@ title: TalkedWithIsabelle
 ---
 
 {$name}: Cool. How did it go?
-{$name}: Did you learn something, were you able to decide?
+{$name}: Did you learn something, did you decide if you want to join me?
 -> Yes, I will become your apprentice.
     {$name}: Really? Awesome!
     {$name}: There aren't many witches how would take in an apprentice just like that you know.
@@ -1120,7 +1135,7 @@ title: EleonorePaiWontJoin
 {$name}: I see.
 {$name}: Well it's your decision and I respect it.
 {$name}: Though I will stay a little longer.
-{$name}: If you change your mind, feel free to come back.
+{$name}: If you change your mind feel free to come back.
 <<stop_chat>>
 <<jump EleonoreEndingNegative>>
 
@@ -1136,13 +1151,13 @@ title: EleonoreEnding
     {$name}: Okay... well just come back to me once you have decided.
     <<stop_chat>>
     <<jump EleonoreEndingNegative>>
-    
 
 ===
 title: EleonoreEndingNegative
 ---
 
 {$name}: Hey, so did you change your mind?
+{$name}: Are you gonna join me?
 <<jump EleonoreEnding>>
 
 ===

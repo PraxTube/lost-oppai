@@ -113,23 +113,7 @@ fn validate_stop_chat_command() {
 fn validate_trigger_ending() {
     validate_lines(|line, _| {
         if line.starts_with("<<trigger_ending") {
-            let name = line.split(' ').collect::<Vec<&str>>()[1].trim_end_matches(">>");
-
-            if name.starts_with('"') {
-                assert!(
-                    NpcDialogue::from_str(
-                        name.strip_prefix('"')
-                            .unwrap_or_else(|| panic!("Not a string in, {}", line))
-                            .strip_suffix('"')
-                            .unwrap_or_else(|| panic!("Not a string in, {}", line))
-                    )
-                    .is_ok(),
-                    "Given name is not in NpcDialogue, {}",
-                    line
-                );
-            } else {
-                assert!(line == "<<trigger_ending {$name}>>");
-            }
+            assert!(line == "<<trigger_ending {$name}>>", "{}", line);
         }
     })
 }

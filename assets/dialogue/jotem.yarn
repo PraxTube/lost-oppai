@@ -234,7 +234,12 @@ You: No, I wouldn't know where anyways.
     {$name}: She should be around here somewhere.
     {$name}: You can't really miss her, big hat and orange hair.
     {$name}: Oh yeah and she is floating in the air.
-    {$name}: So how about ya go talk to her and then come back and tell me about yer decision?
+    {$name}: So how about ya go talk to her?
+    <<if $talked_with_target_npc>>
+        {$name}: Oh really?
+        <<jump TalkedWithEleonore>>
+    <<endif>>
+    {$name}: I think it would help ya make a decision.
     -> Okay, I will give it a try.
         {$name}: Alright! I will be waiting here for ya.
         {$name}: Good luck!
@@ -246,9 +251,6 @@ You: No, I wouldn't know where anyways.
         {$name}: Though I will not take ya with me unless ya talk with Eleonore.
         <<stop_chat>>
         <<jump JotemWaiting>>
-    -> Actually, I already talked with Eleonore. <<if $talked_with_target_npc>>
-        {$name}: Oh really?
-        <<jump TalkedWithEleonore>>
 
 ===
 title: JotemWaiting
@@ -264,9 +266,13 @@ title: JotemWaiting
 -> No, not yet.
     {$name}: Alright, just come back once ya do.
     {$name}: I will be waiting here for ya.
+    <<stop_chat>>
+    <<jump JotemWaiting>>
 -> I can't find her.
     {$name}: Hoo... well she is a witch that is hovering in the air.
     {$name}: No way ya can miss her haha!
+    <<stop_chat>>
+    <<jump JotemWaiting>>
 -> Yes
     <<if $talked_with_target_npc>>
         <<jump TalkedWithEleonore>>
@@ -274,10 +280,10 @@ title: JotemWaiting
         {$name}: Hm, that seems like a lie.
         {$name}: I am not forcing ya to talk to her.
         {$name}: But I think it might be helpful for ya.
+        <<stop_chat>>
+        <<jump JotemWaiting>>
     <<endif>>
 <<endif>>
-<<stop_chat>>
-<<jump JotemWaiting>>
 
 ===
 title: TalkedWithEleonore
@@ -286,23 +292,56 @@ title: TalkedWithEleonore
 {$name}: Alright then.
 {$name}: In that case I assume you have maid up your mind.
 {$name}: You wanna join me in my adventures?
-// -> Before I answer, let me ask you a few questions.
 -> Yes!
-    <<jump FinalAct>>
-// -> Thank you for the offer, but no.
+    {$name}: Awesome!
+    {$name}: I would like to know though, what was yer reason for deciding to join?
+    -> I want to achieve my dream, just like you.
+        {$name}: Haha! Very well then.
+        {$name}: Then how about I lent ya a hand with that?
+        <<jump JotemEnding>>
+    -> I wish to be more free. I think being an adventurer is very freeing.
+        {$name}: Well said.
+        {$name}: Freedom is one of the most important aspects of life.
+        {$name}: Then how about we get going?
+        <<jump JotemEnding>>
+    -> Just wanna try it out.
+        {$name}: I see.
+        {$name}: Well ya don't need a great reason to start doing something.
+        {$name}: You can oftem see a deeper reason after a while.
+        {$name}: Alright then, shall we?
+        <<jump JotemEnding>>
+-> Thank you for the offer, but no, I won't.
+    <<jump JotemPaiWontJoin>>
 
 ===
-title: FinalAct
+title: JotemPaiWontJoin
 ---
 
-{$name}: Awesome!
-{$name}: I would like to know though, what was yer reason for deciding to join?
--> I want to achieve my dream, just like you.
-    {$name}: Haha! Very well then.
-    {$name}: Then how about I lent ya a hand with that?
-    -> Yes! *Join Jotem*
-        <<trigger_ending {$name}>>
-// -> I wish to be more free. I think being an adventurer is very freeing.
-// -> Just wanna try it out.
+{$name}: Hm, I see.
+{$name}: Well it's yer decision.
+{$name}: Though I will be around for a little longer.
+{$name}: Feel free to come back if ya change yer mind.
+<<stop_chat>>
+<<jump JotemEndingNegative>>
+
+===
+title: JotemEnding
+---
+
+...
+-> Yes, let's go! *Join Jotem*
+    <<trigger_ending {$name}>>
+-> Actually, I am not quite sure.
+    {$name}: Ya kidding right?
+    {$name}: Anyways, just get back to me once ya sure.
+    <<stop_chat>>
+    <<jump JotemEndingNegative>>
+
+===
+title: JotemEndingNegative
+---
+
+{$name}: So ya had a change of heart?
+<<jump JotemEnding>>
 
 ===
