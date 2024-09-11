@@ -72,7 +72,8 @@ fn index_from_whitespaces(line: &str) -> usize {
     let whitespaces = count_whitespaces(line);
     assert!(
         whitespaces % 4 == 0,
-        "Whitespaces should always be 4 chars long"
+        "Whitespaces should always be 4 chars long, {}",
+        line
     );
     whitespaces / 4
 }

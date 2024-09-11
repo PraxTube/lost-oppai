@@ -71,6 +71,9 @@ title: PaiDoesntBelieve
         <<jump SubjectiveAndObjectiveWorldview>>
 -> Subjective truths? Wouldn't that be subjective believes then?
     {$antonius}: Huh, yeah I think so.
+-> But what is your life purpose in a subjective worldview?
+    {$ionas}: That's a good question.
+    <<jump AntoniusLifePurpose>>
 
 ===
 title: SubjectiveAndObjectiveWorldview
@@ -222,13 +225,12 @@ title: SubjectiveAndObjectiveWorldview
 title: AntoniusLifePurpose
 ---
 
-{$ionas}: Though if you are happy when committing to your dream, what would you say your life purpose is?
 {$antonius}: Your purpose in life is to commit to your dream.
 {$antonius}: And I believe that every person has an innate dream they want to follow.
-{$ionas}: But isn't that a little of a contradiction?
+{$ionas}: But isn't that a contradiction?
 {$ionas}: Say your dream is to become the fastest sprinter in the entire world.
 {$ionas}: If you loose your legs through some accident, then you physically can't commit your dream anymore.
-{$ionas}: And if you can't commit to your dream, then will not be able to fulfill your purpose in life by your definition.
+{$ionas}: And if you can't commit to your dream, then you will not be able to fulfill your purpose in life by your definition.
 {$ionas}: You will also be forever unhappy by your definition.
 {$ionas}: I think you can't loose your purpose in life, otherwise it can't be your purpose.
 {$ionas}: So you purpose in life must be something that you can do regardless of your physical condition.
@@ -437,10 +439,45 @@ title: TalkedWithJotem
 
 {$antonius}: Oh nice!
 {$antonius}: How did it go? I bet he had some profound wisdom for you.
--> Yes, it was really interesting to hear about his story.
-    {$antonius}: I bet.
-    {$antonius}: So then, did you decide if you wanna join us?
-    -> I will you join, yes. *Join Ionas & Antonius*
-        <<trigger_ending "IonasAndAntonius">>
+You: Yes, it was really interesting to hear about his story.
+{$antonius}: I bet.
+{$antonius}: So then, did you decide if you wanna join us?
+-> Yes, I think so.
+    {$antonius}: Okay cool.
+    {$antonius}: Are you going to join us then?
+    <<jump IonasAndAntoniusEnding>>
+-> I will not join you.
+    <<jump IonasAndAntoniusPaiWontJoin>>
+
+===
+title: IonasAndAntoniusPaiWontJoin
+---
+
+{$antonius}: I see.
+{$antonius}: Well I understand that it's quite sudden.
+{$antonius}: Though we will probably stay a little longer.
+{$antonius}: So if you change your mind feel free to come back.
+<<stop_chat>>
+<<jump IonasAndAntoniusEndingNegative>>
+
+===
+title: IonasAndAntoniusEnding
+---
+
+...
+-> I will you join, yes. *Join Ionas & Antonius*
+    <<trigger_ending {$name}>>
+-> I appreciate the offer, but I won't join you two.
+    {$antonius}: Really now?
+    {$antonius}: Okay... well just come back to me once you have decided.
+    <<stop_chat>>
+    <<jump IonasAndAntoniusEndingNegative>>
+
+===
+title: IonasAndAntoniusEndingNegative
+---
+
+{$antonius}: Hey, so did you change your mind?
+<<jump IonasAndAntoniusEnding>>
 
 ===
