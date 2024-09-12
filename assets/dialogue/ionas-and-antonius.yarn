@@ -246,7 +246,7 @@ title: AntoniusLifePurpose
 {$antonius}: But it does raise the question, is it impossible for aetheists to have a purpose in life?
 {$antonius}: Because I do believe there is one.
 {$antonius}: But can that even be, can there exist a purpose in life in a subjective world?
-...
+{$antonius}: ...
 {$antonius}: Oh, perhaps I got it backwards.
 {$antonius}: Your purpose is not to commit to your dream.
 {$antonius}: It's more broad, it's simply to commit yourself to life as a whole.
@@ -403,7 +403,7 @@ title: DoYouWantToJoinIonasAndAntonius
 title: IonasAndAntoniusWaiting
 ---
 
-...
+{$antonius}: ...
 <<if $talked_with_target_npc>>
 {$antonius}: Did you talk with the old guy?
 -> Yes
@@ -464,7 +464,7 @@ title: IonasAndAntoniusPaiWontJoin
 title: IonasAndAntoniusEnding
 ---
 
-...
+{$antonius}: ...
 -> I will you join, yes. *Join Ionas & Antonius*
     <<trigger_ending {$name}>>
 -> I appreciate the offer, but I won't join you two.

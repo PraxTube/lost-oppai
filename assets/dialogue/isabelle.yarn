@@ -110,7 +110,7 @@ title: IsabelleProposal
 title: IsabelleWaiting
 ---
 
-...
+{$name}: ...
 <<if $talked_with_target_npc>>
 {$name}: Had a chat with the two?
 -> Yep
@@ -173,7 +173,7 @@ title: IsabellePaiWontJoin
 title: IsabelleEnding
 ---
 
-...
+{$name}: ...
 -> Yes. *Join Isabelle*
     <<trigger_ending {$name}>>
 -> Actually, I am not quite sure.

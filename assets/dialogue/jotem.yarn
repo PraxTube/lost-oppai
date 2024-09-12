@@ -53,7 +53,7 @@ title: OppaiIsLost
 title: OppaiIsWeird
 ---
 
-...
+{$name}: ...
 -> I don't remember. I woke up in this place without any memories of how I got here.
     {$name}: What? Some kind of amnesia?
     {$name}: Or perhaps ya were attacked and robbed?
@@ -66,7 +66,7 @@ title: OppaiIsWeird
 title: OppaiIsLostInLife
 ---
 
-...
+{$name}: ...
 -> How do I become happy? My life feels so shallow.
     {$name}: Sounds like ya missing meaning in ya life?
     {$name}: Do ya have a dream that ya are trying to achieve?
@@ -184,7 +184,7 @@ title: ThatOneEncounter
 {$name}: Viewing my life and seeing myself as the victim is far too easy.
 {$name}: I learned that if ya want to achieve anything, ya have to put in the work.
 {$name}: It's all about ya perspective.
-...
+{$name}: ...
 {$name}: Sorry, that might have been a bit much. I always get carried away when I think back.
 // -> I actullay disagree with you.
 //     {$name}: Is that so? Do ya mind telling me why?
@@ -256,7 +256,7 @@ You: No, I wouldn't know where anyways.
 title: JotemWaiting
 ---
 
-...
+{$name}: ...
 <<if $talked_with_target_npc>>
 {$name}: So, ya talked with Eleonore?
 -> Yep
@@ -328,7 +328,7 @@ title: JotemPaiWontJoin
 title: JotemEnding
 ---
 
-...
+{$name}: ...
 -> Yes, let's go! *Join Jotem*
     <<trigger_ending {$name}>>
 -> Actually, I am not quite sure.
