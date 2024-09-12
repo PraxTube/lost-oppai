@@ -2,7 +2,6 @@ pub mod generation;
 
 mod chunk_manager;
 mod collision;
-mod fauna;
 mod flora;
 mod poisson_sampling;
 
@@ -24,7 +23,6 @@ impl Plugin for MapPlugin {
             chunk_manager::ChunkManagerPlugin,
             collision::MapCollisionPlugin,
             flora::FloraPlugin,
-            fauna::FaunaPlugin,
         ));
     }
 }

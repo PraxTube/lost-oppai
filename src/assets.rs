@@ -95,24 +95,6 @@ pub struct GameAssets {
     #[asset(texture_atlas(tile_size_x = 16, tile_size_y = 16, columns = 3, rows = 1))]
     pub rocks_layout: Handle<TextureAtlasLayout>,
 
-    // --- FAUNA ---
-    #[asset(path = "map/fauna/bird.png")]
-    pub bird_texture: Handle<Image>,
-    #[asset(texture_atlas(tile_size_x = 16, tile_size_y = 16, columns = 8, rows = 2))]
-    pub bird_layout: Handle<TextureAtlasLayout>,
-    #[asset(
-        paths(
-            "map/fauna/bird.trickfilm#idle",
-            "map/fauna/bird.trickfilm#jump",
-            "map/fauna/bird.trickfilm#pick",
-            "map/fauna/bird.trickfilm#fly",
-        ),
-        collection(typed)
-    )]
-    pub bird_animations: Vec<Handle<AnimationClip2D>>,
-    #[asset(path = "map/fauna/bird_shadow.png")]
-    pub bird_shadow: Handle<Image>,
-
     // --- UI ---
     #[asset(path = "ui/white_pixel.png")]
     pub white_pixel: Handle<Image>,
@@ -169,10 +151,6 @@ pub struct GameAssets {
     #[asset(path = "audio/player_footstep.ogg")]
     pub player_footstep: Handle<AudioSource>,
 
-    #[asset(path = "audio/bird_step.ogg")]
-    pub bird_step_sound: Handle<AudioSource>,
-    #[asset(path = "audio/bird_flaps.ogg")]
-    pub bird_flaps_sound: Handle<AudioSource>,
     #[asset(path = "audio/birds.ogg")]
     pub bird_sounds: Handle<AudioSource>,
     #[asset(path = "audio/crickets.ogg")]
