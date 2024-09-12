@@ -418,16 +418,6 @@ impl BitMap {
             .collect()
     }
 
-    pub fn is_position_water(&mut self, pos: Vec2) -> bool {
-        let v = IVec2::new((pos.x / TILE_SIZE) as i32, (pos.y / TILE_SIZE) as i32);
-        self.get_water_flag(v)
-            || self.get_water_flag(v - IVec2::X)
-            || self.get_water_flag(v - IVec2::Y)
-            || self.get_water_flag(v - IVec2::ONE)
-            || self.get_water_flag(v + IVec2::new(-1, 1))
-            || self.get_water_flag(v + IVec2::new(1, -1))
-    }
-
     pub fn get_water_sparkle_indices(&mut self) -> Vec<u16> {
         self.water_sparkle_mask.get_animation_indices()
     }

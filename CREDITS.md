@@ -23,10 +23,6 @@ https://seliel-the-shaper.itch.io/spring-forest
 - Ionas & Antonius
     - https://gandalfhardcore.itch.io/free-pixel-art
 
-### Bird
-
-https://ma9ici4n.itch.io/pixel-art-bird-16x16
-
 ---
 
 ## UI
