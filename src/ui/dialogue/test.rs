@@ -247,3 +247,39 @@ fn check_all_required_variables() {
         );
     }
 }
+
+/// Make sure there are no narrator lines.
+/// This is a problem because the visuals from the profile icon (portrait)
+/// would look really strange.
+#[test]
+fn assert_no_narrator_lines() {
+    for entry in fs::read_dir(PATH_TO_DIR).expect("Can't read entries in current dir") {
+        let file_name = entry
+            .as_ref()
+            .expect("Can't get entry in current dir")
+            .file_name();
+        let (contents, _) = match try_read_yarn_contents(entry) {
+            Some(r) => r,
+            None => continue,
+        };
+
+        for line in contents.lines().map(str::trim) {
+            if !(line.starts_with("{$")
+                || line.starts_with("You:")
+                || line.starts_with("<<")
+                || line.starts_with("===")
+                || line.starts_with("---")
+                || line.starts_with("title:")
+                || line.starts_with("->")
+                || line.starts_with("//")
+                || line.is_empty())
+            {
+                panic!(
+                    "There should be no narrator lines, i.e. dialogue lines that don't start with a '<name>: <dialogue content>'\nIn line: '{}'\nIn file: '{}'",
+                    line,
+                    file_name.to_str().unwrap_or_default()
+                );
+            }
+        }
+    }
+}

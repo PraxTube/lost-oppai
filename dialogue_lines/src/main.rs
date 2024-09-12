@@ -44,7 +44,7 @@ where
             None => continue,
         };
 
-        for line in contents.lines().map(str::trim) {
+        for line in contents.lines() {
             predicate(line.trim(), &npc_file_name)
         }
     }
@@ -54,6 +54,25 @@ fn number_npc_lines() -> usize {
     let mut number_of_lines = 0;
     apply_to_lines(|line, _| {
         if line.starts_with("{$") && line.split('}').collect::<Vec<&str>>()[1].starts_with(':') {
+            number_of_lines += 1;
+        }
+    });
+    number_of_lines
+}
+
+fn number_of_narrator_lines() -> usize {
+    let mut number_of_lines = 0;
+    apply_to_lines(|line, _| {
+        if !(line.starts_with("{$")
+            || line.starts_with("You:")
+            || line.starts_with("<<")
+            || line.starts_with("===")
+            || line.starts_with("---")
+            || line.starts_with("title:")
+            || line.starts_with("->")
+            || line.starts_with("//")
+            || line.is_empty())
+        {
             number_of_lines += 1;
         }
     });
@@ -118,6 +137,7 @@ fn print_individual_npc_lines() {
 fn main() {
     println!("Total player lines: {}", number_player_lines());
     println!("Total player options: {}", number_player_options());
+    println!("Total narrator lines: {}", number_of_narrator_lines());
     println!("Total NPC lines: {}", number_npc_lines());
     print_individual_npc_lines();
 }
