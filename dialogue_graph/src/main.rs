@@ -312,8 +312,8 @@ fn construct_graph(contents: String) -> Graph<String, usize, Directed> {
 fn main() {
     if Path::new(DOT_FILES_OUTPUT_PATH).exists() {
         remove_dir_all(DOT_FILES_OUTPUT_PATH).expect("Couldn't hard remove graph output dir");
-        create_dir(DOT_FILES_OUTPUT_PATH).expect("Couldn't create graph output dir");
     }
+    create_dir(DOT_FILES_OUTPUT_PATH).expect("Couldn't create graph output dir");
 
     for entry in fs::read_dir(PATH_TO_DIALOGUES).expect("Can't read entries in current dir") {
         let (contents, npc_file_name) = match try_read_yarn_contents(entry) {
