@@ -1,12 +1,16 @@
+use std::str::FromStr;
+
 use bevy::prelude::*;
 use bevy_yarnspinner::{events::*, prelude::*};
 
+use crate::npc::NpcDialogue;
 use crate::player::chat::PlayerStoppedChat;
 use crate::player::input::PlayerInput;
+use crate::GameAssets;
 
 use super::option_selection::OptionSelection;
 use super::runner::RunnerFlags;
-use super::spawn::{DialogueContinueNode, DialogueNameNode};
+use super::spawn::{DialogueCharacterIcon, DialogueContinueNode, DialogueNameNode};
 use super::typewriter::{Typewriter, TypewriterFinished, WriteDialogueText};
 use super::DialogueViewSystemSet;
 
@@ -17,22 +21,56 @@ fn convert_name(name: &str) -> String {
     name.to_string()
 }
 
+/// Return an Option so that you only set the texture when there is a proper NPC.
+/// If there is a frame delay (due to events or similar), then we will simply
+/// display the previous NPC for couple of frames. That's okay.
+fn character_icon(assets: &Res<GameAssets>, name: &str) -> Option<Handle<Image>> {
+    let name = name.trim_start_matches('_');
+    if name == "You" {
+        return Some(assets.pai_icon.clone());
+    }
+
+    match NpcDialogue::from_str(name) {
+        Ok(r) => match r {
+            NpcDialogue::Eleonore => Some(assets.eleonore_icon.clone()),
+            NpcDialogue::Jotem => Some(assets.jotem_icon.clone()),
+            NpcDialogue::Isabelle => Some(assets.isabelle_icon.clone()),
+            NpcDialogue::Ionas => Some(assets.ionas_icon.clone()),
+            NpcDialogue::Antonius => Some(assets.antonius_icon.clone()),
+            NpcDialogue::IonasAndAntonius => {
+                error!("should never happen, you have used '$name' in antonius and ionas dialogue");
+                None
+            }
+        },
+        Err(_) => None,
+    }
+}
+
 fn present_line(
+    assets: Res<GameAssets>,
     mut typewriter: ResMut<Typewriter>,
+    mut q_character_icon: Query<&mut UiImage, With<DialogueCharacterIcon>>,
     mut q_name_text: Query<&mut Text, With<DialogueNameNode>>,
     mut q_runner_flags: Query<&mut RunnerFlags>,
     mut ev_present_line: EventReader<PresentLineEvent>,
 ) {
+    let mut character_icon_image = match q_character_icon.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
     let mut name_text = match q_name_text.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
 
     for event in ev_present_line.read() {
-        let name = convert_name(event.line.character_name().unwrap_or_default());
-        name_text.sections[0].value = name;
-        typewriter.set_line(&event.line);
+        let raw_name = event.line.character_name().unwrap_or_default();
+        if let Some(texture) = character_icon(&assets, raw_name) {
+            character_icon_image.texture = texture;
+        }
+        name_text.sections[0].value = convert_name(raw_name);
 
+        typewriter.set_line(&event.line);
         for mut flags in &mut q_runner_flags {
             if flags.active {
                 flags.line = Some(event.line.clone());
@@ -92,21 +130,26 @@ fn continue_dialogue(
     }
 }
 
-fn update_dialogue_name(
+fn update_displayed_character(
+    assets: Res<GameAssets>,
     typewriter: Res<Typewriter>,
+    mut q_character_icon: Query<&mut UiImage, With<DialogueCharacterIcon>>,
     mut q_name_text: Query<&mut Text, With<DialogueNameNode>>,
-    mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
 ) {
-    if ev_write_dialogue_text.is_empty() {
-        return;
-    }
-    ev_write_dialogue_text.clear();
-
-    let mut text = match q_name_text.get_single_mut() {
+    let mut character_icon_image = match q_character_icon.get_single_mut() {
         Ok(r) => r,
         Err(_) => return,
     };
-    text.sections[0].value = convert_name(&typewriter.character_name.clone().unwrap_or_default());
+    let mut name_text = match q_name_text.get_single_mut() {
+        Ok(r) => r,
+        Err(_) => return,
+    };
+
+    let raw_name = &typewriter.character_name.clone().unwrap_or_default();
+    if let Some(texture) = character_icon(&assets, raw_name) {
+        character_icon_image.texture = texture;
+    }
+    name_text.sections[0].value = convert_name(raw_name);
 }
 
 fn show_continue_node(
@@ -146,7 +189,7 @@ impl Plugin for DialogueUpdatingPlugin {
                 present_line,
                 present_options.run_if(on_event::<PresentOptionsEvent>()),
                 continue_dialogue,
-                update_dialogue_name,
+                update_displayed_character.run_if(on_event::<WriteDialogueText>()),
                 show_continue_node.run_if(
                     on_event::<TypewriterFinished>().or_else(on_event::<WriteDialogueText>()),
                 ),
@@ -155,6 +198,7 @@ impl Plugin for DialogueUpdatingPlugin {
                 ),
             )
                 .chain()
+                .run_if(resource_exists::<GameAssets>)
                 .after(YarnSpinnerSystemSet)
                 .in_set(DialogueViewSystemSet),
         );
