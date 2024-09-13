@@ -119,6 +119,19 @@ pub struct GameAssets {
     #[asset(paths("ui/dialogue_start_hint.trickfilm#main",), collection(typed))]
     pub dialogue_start_hint_animations: Vec<Handle<AnimationClip2D>>,
 
+    #[asset(path = "ui/character_icons/pai.png")]
+    pub pai_icon: Handle<Image>,
+    #[asset(path = "ui/character_icons/eleonore.png")]
+    pub eleonore_icon: Handle<Image>,
+    #[asset(path = "ui/character_icons/jotem.png")]
+    pub jotem_icon: Handle<Image>,
+    #[asset(path = "ui/character_icons/isabelle.png")]
+    pub isabelle_icon: Handle<Image>,
+    #[asset(path = "ui/character_icons/antonius.png")]
+    pub antonius_icon: Handle<Image>,
+    #[asset(path = "ui/character_icons/ionas.png")]
+    pub ionas_icon: Handle<Image>,
+
     #[asset(path = "ui/keys/arrows.png")]
     pub ui_arrows_key: Handle<Image>,
     #[asset(path = "ui/keys/down_key.png")]

@@ -14,6 +14,8 @@ pub struct DialogueContent;
 #[derive(Component)]
 pub struct DialogueNameNode;
 #[derive(Component)]
+pub struct DialogueCharacterIcon;
+#[derive(Component)]
 pub struct DialogueContinueNode;
 
 #[derive(Component)]
@@ -25,9 +27,11 @@ pub struct OptionsText;
 #[derive(Component)]
 pub struct OptionButton(pub OptionId);
 
+const BACKGROUND_ALPHA: f32 = 0.9;
 const DIALOG_WIDTH: f32 = 800.0;
 const OPTIONS_WIDTH: f32 = 500.0;
-const TEXT_BORDER: f32 = 80.0;
+const TEXT_BORDER_HORIZONTAL: f32 = 40.0;
+const TEXT_BORDER_VERTICAL: f32 = 20.0;
 const OPTIONS_TEXT_BORDER: f32 = 10.0;
 
 const CONTINUE_BOTTOM: f32 = -5.0;
@@ -36,7 +40,7 @@ const CONTINUE_BOB_OFFSET: f32 = 5.0;
 
 fn style_standard(_assets: &Res<GameAssets>) -> Style {
     Style {
-        max_width: Val::Px(DIALOG_WIDTH - 2.0 * TEXT_BORDER),
+        max_width: Val::Px(DIALOG_WIDTH - 2.0 * TEXT_BORDER_HORIZONTAL),
         ..default()
     }
 }
@@ -65,53 +69,6 @@ fn text_style_option_text(assets: &Res<GameAssets>) -> TextStyle {
     }
 }
 
-fn spawn_dialogue_top(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity {
-    let edge = commands
-        .spawn((ImageBundle {
-            image: UiImage {
-                texture: assets.dialogue_edge.clone(),
-                ..default()
-            },
-            style: Style {
-                width: Val::Px(DIALOG_WIDTH),
-                ..default()
-            },
-            ..default()
-        },))
-        .id();
-
-    let name_node = commands
-        .spawn((
-            TextBundle {
-                text: Text::from_section(String::new(), text_style_name(assets)),
-                style: Style {
-                    position_type: PositionType::Absolute,
-                    left: Val::Px(TEXT_BORDER / 2.0),
-                    top: Val::Px(-8.0),
-                    ..default()
-                },
-                z_index: ZIndex::Local(1),
-                ..default()
-            },
-            DialogueNameNode,
-            Label,
-        ))
-        .id();
-
-    commands
-        .spawn((NodeBundle {
-            style: Style {
-                justify_content: JustifyContent::Center,
-                align_items: AlignItems::Center,
-                flex_direction: FlexDirection::Column,
-                ..default()
-            },
-            ..default()
-        },))
-        .push_children(&[edge, name_node])
-        .id()
-}
-
 fn spawn_dialogue_content(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity {
     let text = commands
         .spawn((
@@ -130,10 +87,15 @@ fn spawn_dialogue_content(commands: &mut Commands, assets: &Res<GameAssets>) -> 
                 flex_direction: FlexDirection::Column,
                 justify_content: JustifyContent::SpaceAround,
                 align_items: AlignItems::FlexStart,
-                padding: UiRect::horizontal(Val::Px(TEXT_BORDER)),
+                padding: UiRect {
+                    left: Val::Px(TEXT_BORDER_HORIZONTAL),
+                    right: Val::Px(TEXT_BORDER_HORIZONTAL),
+                    top: Val::Px(TEXT_BORDER_VERTICAL),
+                    bottom: Val::Px(TEXT_BORDER_VERTICAL),
+                },
                 ..default()
             },
-            background_color: Color::BLACK.with_alpha(0.8).into(),
+            background_color: Color::BLACK.with_alpha(BACKGROUND_ALPHA).into(),
             ..default()
         },))
         .push_children(&[text])
@@ -141,21 +103,6 @@ fn spawn_dialogue_content(commands: &mut Commands, assets: &Res<GameAssets>) -> 
 }
 
 fn spawn_dialogue_bottom(commands: &mut Commands, assets: &Res<GameAssets>) -> Entity {
-    let edge = commands
-        .spawn((ImageBundle {
-            image: UiImage {
-                texture: assets.dialogue_edge.clone(),
-                flip_y: true,
-                ..default()
-            },
-            style: Style {
-                width: Val::Px(DIALOG_WIDTH),
-                ..default()
-            },
-            ..default()
-        },))
-        .id();
-
     let tween = Tween::new(
         EaseFunction::SineInOut,
         std::time::Duration::from_secs_f32(CONTINUE_BOB_DURATION),
@@ -197,6 +144,58 @@ fn spawn_dialogue_bottom(commands: &mut Commands, assets: &Res<GameAssets>) -> E
         ))
         .id();
 
+    let icon_node = commands
+        .spawn((
+            ImageBundle {
+                image: UiImage::new(assets.eleonore_icon.clone()),
+                style: Style {
+                    width: Val::Px(128.0),
+                    height: Val::Px(128.0),
+                    ..default()
+                },
+                z_index: ZIndex::Local(1),
+                ..default()
+            },
+            DialogueCharacterIcon,
+        ))
+        .id();
+
+    let name_node = commands
+        .spawn((
+            TextBundle {
+                text: Text::from_section(String::new(), text_style_name(assets)),
+                style: Style {
+                    // bottom: Val::Px(-25.0),
+                    ..default()
+                },
+                z_index: ZIndex::Local(1),
+                ..default()
+            },
+            DialogueNameNode,
+            Label,
+        ))
+        .id();
+
+    let character_icon_node = commands
+        .spawn((NodeBundle {
+            style: Style {
+                position_type: PositionType::Absolute,
+                left: Val::Px(-550.0),
+                bottom: Val::Px(0.0),
+                width: Val::Px(140.0),
+                height: Val::Px(180.0),
+                // justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                flex_direction: FlexDirection::Column,
+                ..default()
+            },
+            z_index: ZIndex::Local(1),
+            background_color: Color::BLACK.with_alpha(BACKGROUND_ALPHA).into(),
+            ..default()
+        },))
+        .push_children(&[icon_node, name_node])
+        .id();
+
     commands
         .spawn((NodeBundle {
             style: Style {
@@ -207,7 +206,7 @@ fn spawn_dialogue_bottom(commands: &mut Commands, assets: &Res<GameAssets>) -> E
             },
             ..default()
         },))
-        .push_children(&[edge, continue_node])
+        .push_children(&[character_icon_node, continue_node])
         .id()
 }
 
@@ -250,7 +249,7 @@ fn spawn_dialogue_options(commands: &mut Commands, _assets: &Res<GameAssets>) ->
                     position_type: PositionType::Absolute,
                     ..default()
                 },
-                background_color: Color::BLACK.with_alpha(0.8).into(),
+                background_color: Color::BLACK.with_alpha(BACKGROUND_ALPHA).into(),
                 visibility: Visibility::Hidden,
                 ..default()
             },
@@ -262,7 +261,6 @@ fn spawn_dialogue_options(commands: &mut Commands, _assets: &Res<GameAssets>) ->
 fn spawn_dialogue(mut commands: Commands, assets: Res<GameAssets>) {
     let dialogue_options = spawn_dialogue_options(&mut commands, &assets);
 
-    let dialogue_top = spawn_dialogue_top(&mut commands, &assets);
     let dialogue_content = spawn_dialogue_content(&mut commands, &assets);
     let dialogue_bottom = spawn_dialogue_bottom(&mut commands, &assets);
 
@@ -279,7 +277,7 @@ fn spawn_dialogue(mut commands: Commands, assets: Res<GameAssets>) {
             },
             ..default()
         },))
-        .push_children(&[dialogue_top, dialogue_content, dialogue_bottom])
+        .push_children(&[dialogue_content, dialogue_bottom])
         .id();
 
     commands
