@@ -28,7 +28,7 @@ unicode-segmentation = "1.11.0"
 strum = "0.26.3"
 strum_macros = "0.26.4"
 
-bevy = "0.14.1"
+bevy = "0.14.2"
 bevy_asset_loader = { version = "0.21.0", features = ["2d"] }
 bevy_rapier2d = "0.27.0"
 bevy_kira_audio = "0.20.0"
@@ -37,7 +37,7 @@ noisy_bevy = "0.7.0"
 bevy_tweening = { version = "0.11.0", features = ["bevy_ui"]}
 bevy_particle_systems = "0.13.0"
 bevy_ecs_tilemap = "0.14.0"
-bevy_trickfilm = "0.7.0"
+bevy_trickfilm = "0.8.0"
 bevy_yarnspinner = "0.3.1"
 
 [dev-dependencies]
