@@ -114,6 +114,11 @@ title: JotemInnateDream
     {$name}: So ya either find something yer passionate about, or ya distract yerself somehow.
     {$name}: If ya do neither, ya gonna loose ya mind.
     -> Are you talking from experience?
+        {$name}: Haha, well wouldn't you know.
+        {$name}: Though the distraction is only a temporary solution ya know.
+        {$name}: Sooner or later ya will have to realize that the one to choose whether yer happy or not is you.
+        {$name}: That's what I have learned through a very faithful encounter.
+        <<jump ThatOneEncounter>>
     -> Distraction doesn't sound very positive.
         {$name}: Yeh, though I don't exactly mean to say they are bad.
         {$name}: Is the wild cat distracted by food, or is it its purpose to hunt?
@@ -133,6 +138,16 @@ title: JotemInnateDream
         {$name}: So how do you differentiate between them? Only through time.
         {$name}: You will never know with certainty whether yer truly commiting to yer dream or if it's just another distraction.
         {$name}: But if it's hard to do and ya like to do it despite it, nay, precicely because of it, then ya on the right track.
+        {$name}: Though I think ya don't need to worry too much about it.
+        {$name}: All that matters is that ya love doing it.
+        {$name}: Da ya love it and never have regretted doing it?
+        {$name}: Sounds like passion and not distraction to me!
+        {$name}: Ultimately, it's you that decides.
+        {$name}: Same with yer happiness.
+        {$name}: The one to decide whether yer happy or not is you.
+        {$name}: That's somethin I had to learn the hard way.
+        {$name}: Only after meeting her did I learn that.
+        <<jump ThatOneEncounter>>
 -> Objection! If you are only happy when following your dream, what happens when you are physically unable to continue your dream?
     {$name}: Yeh mean like if I were unable to continue adventuring for example?
     {$name}: Well I would just find a different way to continue my dream!
@@ -165,12 +180,8 @@ title: PastJotem
 {$name}: I thought it was unfair.
 {$name}: That I was unlucky I wasn't born rich and able to do what I want.
 {$name}: That I can't change what I was given and must accept it.
-{$name}: But after meeting *her*, all of that changed...
--> Who is *her*?
-    {$name}: A person with a tremendous will.
-    <<jump ThatOneEncounter>>
-// -> What happend?
-// -> Your dream?
+{$name}: But after meeting her, all of that changed...
+<<jump ThatOneEncounter>>
 
 ===
 title: ThatOneEncounter

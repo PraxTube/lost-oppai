@@ -9,22 +9,26 @@ title: IonasAndAntonius
 
 {$antonius}: and that's where I see it differently.
 {$ionas}: Hm, yes I think I- oh, hey there.
--> Hi, where you two in the middle of a conversation?
-    {$ionas}: Yeah kind of.
-    {$antonius}: Don't worry about it.
-    <<set $ionas to "Ionas">>
-    <<set $antonius to "Antonius">>
-    {$antonius}: I am Antonius, and this is Ionas.
-    {$ionas}: Nice to meet you.
-    {$antonius}: And you are?
-    -> I am Pai, also nice to meet you.
-        {$antonius}: Pai, huh?
-        {$antonius}: I have got a question for you Pai.
-        {$antonius}: Do you believe in a god?
-        -> That's sudden. But no, I don't.
-            {$antonius}: Hahaha, yeah perhaps from your view.
-            {$antonius}: We have been talking about this for hours.
-            <<jump PaiDoesntBelieve>>
+You: Hi, where you two in the middle of a conversation?
+{$ionas}: Yeah kind of.
+{$antonius}: Don't worry about it.
+<<set $ionas to "Ionas">>
+<<set $antonius to "Antonius">>
+{$antonius}: I am Antonius, and this is Ionas.
+{$ionas}: Nice to meet you.
+{$antonius}: And you are?
+-> I am Pai, also nice to meet you.
+    {$antonius}: Pai, huh?
+    {$antonius}: I have got a question for you Pai.
+    {$antonius}: Do you believe in a god?
+    -> That's sudden. But no, I don't.
+        {$antonius}: Hahaha, yeah perhaps from your view.
+        {$antonius}: We have been talking about this for hours.
+        <<jump PaiDoesntBelieve>>
+    -> Yes I do. Why are you asking all of a sudden?
+        {$antonius}: I see I see.
+        {$antonius}: Thing is that we have been talking about this for hours.
+        <<jump PaiDoesBelieve>>
 -> Are you two Ionas and Antonius? <<if $mentioned_by_Isabelle>>
     <<set $ionas to "Ionas">>
     <<set $antonius to "Antonius">>
@@ -43,6 +47,22 @@ title: PaiDoesntBelieve
 {$antonius}: We have been talking about our differing worldviews.
 {$antonius}: I agree with what his religion considers good and bad.
 {$antonius}: The do's and dont's essentially.
+<<jump FundamentallyDifferentWorldviews>>
+
+===
+title: PaiDoesBelieve
+---
+
+{$antonius}: Ionas is also believer and I am an atheist.
+{$antonius}: We have been talking about our differing worldviews.
+{$antonius}: He told me about his religion and what it considers good and bad.
+{$antonius}: And interestingly enough I agree with almost all of it.
+<<jump FundamentallyDifferentWorldviews>>
+
+===
+title: FundamentallyDifferentWorldviews
+---
+
 {$antonius}: However we see the world fundamentally different.
 {$antonius}: Different in terms of subjective and objective truth.
 -> How can truth be subjective?
@@ -71,8 +91,9 @@ title: PaiDoesntBelieve
         <<jump SubjectiveAndObjectiveWorldview>>
 -> Subjective truths? Wouldn't that be subjective believes then?
     {$antonius}: Huh, yeah I think so.
--> But what is your life purpose in a subjective worldview?
-    {$ionas}: That's a good question.
+-> Though what would be your life purpose in a subjective worldview?
+    {$ionas}: That's a good question. I have been wondering the same.
+    {$antonius}: Then let me give you my view on what I consider the purpose of life.
     <<jump AntoniusLifePurpose>>
 
 ===
@@ -205,21 +226,22 @@ title: SubjectiveAndObjectiveWorldview
             {$antonius}: But the old guy can probably give a more profound perspective on the matter.
             {$antonius}: He always has some wisdom to share.
             <<jump DoYouWantToJoinIonasAndAntonius>>
-        -> The point of you being different from your past self is interesting. Though do you think it's a good thing?
-            {$antonius}: Oh yes, I think it's absolutely important.
+        -> The point of you being different from your past self is interesting. Though do you think that's a good thing?
+            {$antonius}: Oh yes, I think it absolutely is.
             {$ionas}: I agree.
             {$ionas}: If you don't change over time, then it means you aren't learning and growing as a person.
             {$antonius}: Yeah, it doesn't mean that you will change your whole world view and believes.
             {$antonius}: Usually just adjusting your values based, again, on your experience.
             {$antonius}: Wait, does this make sense in an objective world view?
             {$antonius}: I mean I get that you only approximate the truth, the more you think the closer you will get.
-            {$antonius}: But then you will by definition never be able to truly know the answer.
-            {$ionas}: Yes, you cannot know gods plans.
+            {$antonius}: But then you will, by definition, never be able to truly know the answer.
+            {$ionas}: Yes, you cannot know gods plan.
             {$ionas}: Though it's not a contradiction at all.
             {$ionas}: I also don't see it as an inconvenience or a problem.
             {$ionas}: It means that I will always have something to ponder on.
             {$ionas}: The fact that I can always drill deeper on the question of what it means to live is in my opinion liberating.
             {$antonius}: That... is a fair point.
+            <<jump DoYouWantToJoinIonasAndAntonius>>
 
 ===
 title: AntoniusLifePurpose
@@ -251,6 +273,7 @@ title: AntoniusLifePurpose
 {$antonius}: Your purpose is not to commit to your dream.
 {$antonius}: It's more broad, it's simply to commit yourself to life as a whole.
 {$antonius}: To not just live and be, but to actively experience and to seek meaning.
+{$antonius}: You could also say the purpose of life is to live a happy life, which you do by living committed.
 {$antonius}: And this also means that when you have a dream that you should commit yourself to achieving it.
 {$antonius}: But it doesn't mean that your dream is your whole purpose.
 {$antonius}: It also doesn't mean you only have that one dream.
@@ -352,23 +375,22 @@ title: IonasAndAntoniusWorldViewInconsistencies
 {$antonius}: Also how the more time you spend with somebody the more you understand how they think.
 <<jump DoYouWantToJoinIonasAndAntonius>>
 
-===
-title: IonasAndAntoniusHappinessWithoutGod
----
-
-{$antonius}: Another thing that came my mind was the following.
-{$antonius}: If true happiness is defined as being with god, then what about people that have never heard of his word?
-{$antonius}: I know that those are considered 'ignorant', in the literal sense of 'not knowing something'.
-{$antonius}: And that 'ignorance is bliss' is supposed to mean that they can still be happy.
-{$antonius}: But how? This doesn't really make much sense to me.
-{$antonius}: I am assuming I am misunderstanding something or that there is a different meaning that escapes me.
-{$antonius}: But by definition, it should not be possible to live a truly happy life without searching for god.
-{$antonius}: However, if you aren't even aware of his word and it is not your fault, then how is that any fair?
-{$antonius}: So say you are born on a remote island with nobody knowing anything about god.
-{$antonius}: If you don't have the technology to leave that island, you are essentially unable to even know that you are supposed to search for god.
-{$antonius}: Even under the notion of free will this is an issue I think.
-{$antonius}: Of course you could argue that god will guide anybody to him, but such argumentation is always a bit hard to buy.
-{$ionas}: 
+// ===
+// title: IonasAndAntoniusHappinessWithoutGod
+// ---
+//
+// {$antonius}: Another thing that came my mind was the following.
+// {$antonius}: If true happiness is defined as being with god, then what about people that have never heard of his word?
+// {$antonius}: I know that those are considered 'ignorant', in the literal sense of 'not knowing something'.
+// {$antonius}: And that 'ignorance is bliss' is supposed to mean that they can still be happy.
+// {$antonius}: But how? This doesn't really make much sense to me.
+// {$antonius}: I am assuming I am misunderstanding something or that there is a different meaning that escapes me.
+// {$antonius}: But by definition, it should not be possible to live a truly happy life without searching for god.
+// {$antonius}: However, if you aren't even aware of his word and it is not your fault, then how is that any fair?
+// {$antonius}: So say you are born on a remote island with nobody knowing anything about god.
+// {$antonius}: If you don't have the technology to leave that island, you are essentially unable to even know that you are supposed to search for god.
+// {$antonius}: Even under the notion of free will this is an issue I think.
+// {$antonius}: Of course you could argue that god will guide anybody to him, but such argumentation is always a bit hard to buy.
 
 ===
 title: DoYouWantToJoinIonasAndAntonius
@@ -412,6 +434,24 @@ title: DoYouWantToJoinIonasAndAntonius
         <<jump TalkedWithJotem>>
     <<endif>>
     {$antonius}: How about you talk with him and decide afterwards?
+    {$antonius}: Sounds like a plan right?
+    {$antonius}: We will be waiting here for you!
+    <<stop_chat>>
+    <<jump IonasAndAntoniusWaiting>>
+-> Yeah sure, why not.
+    {$ionas}: Huh?
+    {$antonius}: Well that was unexpected haha.
+    {$ionas}: Why would you agree so quickly?
+    {$ionas}: I mean this came very much out of the blue for me.
+    {$antonius}: Yeah I know.
+    {$antonius}: But I would like you to talk with Jote first, Pai.
+    <<if $talked_with_target_npc>>
+        You: Actually, I did.
+        {$ionas}: Huh really?
+        <<jump TalkedWithJotem>>
+    <<endif>>
+    {$antonius}: I think it would be smarter to get his perspective first.
+    {$ionas}: Yeah I agree.
     {$antonius}: Sounds like a plan right?
     {$antonius}: We will be waiting here for you!
     <<stop_chat>>
