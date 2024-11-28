@@ -250,7 +250,7 @@ fn update_speed_multiplier(
 ) {
     for ev in ev_main_menu_button_pressed.read() {
         let speed_multiplier = match ev.0 {
-            ButtonAction::Normal => 1.0,
+            ButtonAction::Normal => 1.5,
             ButtonAction::Quick => 2.0,
             ButtonAction::Fast => 10.0,
             ButtonAction::Instant => 500.0,

@@ -15,8 +15,8 @@ use bevy_rapier2d::prelude::*;
 pub const PLAYER_SPAWN_POS: Vec3 = Vec3::ZERO;
 pub const NPC_PROXIMITY_DISTANCE: f32 = 50.0;
 const PLAYER_SCALE: Vec3 = Vec3::splat(0.5);
-const WALK_SPEED: f32 = 75.0;
-const RUN_SPEED: f32 = 115.0;
+const WALK_SPEED: f32 = 100.0;
+const RUN_SPEED: f32 = 150.0;
 const PLAYER_COLLISION_GROUPS: CollisionGroups = CollisionGroups::new(Group::ALL, Group::ALL);
 
 pub struct PlayerPlugin;

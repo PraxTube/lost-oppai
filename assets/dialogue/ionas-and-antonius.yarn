@@ -33,9 +33,61 @@ You: Hi, where you two in the middle of a conversation?
     <<set $ionas to "Ionas">>
     <<set $antonius to "Antonius">>
     {$antonius}: Yeah, how do you know?
-    You: I talked with Isabelle about you two.
+    You: I talked with Isabelle about guys.
     You: She told me to talk with you.
+    {$ionas}: You talked with Isabelle?
+    {$antonius}: Was the topic handsome, reliable, young men?
+    You: ...
+    You: We talked about how to enjoy life.
+    You: She mentioned that you guys like to talk about that stuff.
+    {$ionas}: Ah, yeah makes sense Isabelle would talk about something like that.
+    {$ionas}: We do, in fact we were just talking about our differing world views and how it affects our definition of happiness.
+    {$ionas}: So you two were talking about how to enjoy life? What specifically?
+    -> Isabelle said that you can only be happy in the moment, and that happiness can only be found there.
+        {$ionas}: Oh, I like that.
+        {$ionas}: I very much agree.
+        {$ionas}: People nowadays focus far too much on the future, on their career and what will be one day.
+        {$ionas}: They sacrifice their happiness in the moment and tell themselves they will be happy once I finish this.
+        {$ionas}: Once I get this I will be happy, once this is complete I can take it easy...
+        {$ionas}: But they keep pushing this kind of goal.
+        {$ionas}: They never arrive at the point where they are truly happy.
+        {$antonius}: Yes, I actually wonder if you even could be happy that way, on a theoretical level.
+        {$antonius}: Because that kind of happiness is very materialistic.
+        {$antonius}: And I have never seen true happiness originating from that.
+        {$antonius}: Though I think you should not just blindly follow your hearts desire.
+        {$antonius}: Applying reason and preparing for the future is not inherently bad.
+        {$antonius}: In fact not doing so can lead you to big misery itself.
+        {$antonius}: You can quickly become unhealthy and that will certainly lead you to a less enjoyable life.
+        {$antonius}: A healthy man has a thousand whishes, a sick man just one... as they say.
+        {$ionas}: That is of course true, but what I am observing is definitely not a healthy dose of caution.
+        {$ionas}: It feels more like the people are obsessed about their careers, and also that of others!
+        {$ionas}: TODO
 
+        {$antonius}: Though a certain amount of stress is good.
+        {$antonius}: Not only good, but required.
+        {$antonius}: If there is too little challenge in your life then you will become weak.
+        {$antonius}: Just like your body looses muscle when you don't train it.
+        {$antonius}: Your mind becomes weak when you don't challenge it.
+        {$antonius}: Some level of competition among peers can be very fruitful.
+        {$antonius}: But I agree, it has become quite obsessive.
+        {$antonius}: TODO
+
+        {$antonius}: Hm, I actually wonder if it is inevitable for societies to become individually weaker.
+        {$ionas}: What do you mean with individually weaker?
+        {$antonius}: Right right, let me define that more clearly.
+        {$antonius}: I mean that as a society grows and become stronger as a whole, the individual entities become weaker.
+        {$antonius}: In our case us humans.
+        {$antonius}: And with weaker I mean both physically and mentally.
+        {$antonius}: The attributes that required to build the society become lost.
+        {$antonius}: This is talking mostly from a natural selection kind of perspective.
+        {$antonius}: As the attributes that were required to build the strong society become less required the average becomes weaker.
+        {$antonius}: This itself is known pretty well. Shortly summarized as the following.
+        {$antonius}: 'Hard times create strong man.'
+        {$antonius}: 'Strong man create good times.'
+        {$antonius}: 'Good times create weak man'.
+        {$antonius}: 'And weak man create hard times.'
+        {$antonius}: But I am wondering whether this is something like a natural constant, a law of nature, or if there is something else behind it.
+        {$antonius}: TODO
 
 ===
 title: PaiDoesntBelieve
@@ -197,8 +249,8 @@ title: SubjectiveAndObjectiveWorldview
             {$antonius}: You might consider this pointless, but I find it liberating.
             {$antonius}: Because another problem with an objective world view is that only a single religion can be correct.
             {$antonius}: All others must be, by definition, wrong.
-            {$antonius}: Which implies that all people of the 'wrong' religion must be living not truly happy lives.
-            {$antonius}: Only the people that have exactly your religion live truly happy lives.
+            {$antonius}: Which implies that all people of the 'wrong' religions must be living not truly happy lifes.
+            {$antonius}: Only the people that have exactly your religion live a truly happy life.
             {$antonius}: Even religions that split off from yours at some point are by definition 'wrong'.
             {$antonius}: So that means that a huge amount of people are supposed to live in not 'true happiness'.
             {$antonius}: That is in stark contrast with a subjective world view.
@@ -387,10 +439,10 @@ title: IonasAndAntoniusWorldViewInconsistencies
 // {$antonius}: I am assuming I am misunderstanding something or that there is a different meaning that escapes me.
 // {$antonius}: But by definition, it should not be possible to live a truly happy life without searching for god.
 // {$antonius}: However, if you aren't even aware of his word and it is not your fault, then how is that any fair?
-// {$antonius}: So say you are born on a remote island with nobody knowing anything about god.
+// {$antonius}: Say you are born on a remote island with nobody knowing anything about god.
 // {$antonius}: If you don't have the technology to leave that island, you are essentially unable to even know that you are supposed to search for god.
 // {$antonius}: Even under the notion of free will this is an issue I think.
-// {$antonius}: Of course you could argue that god will guide anybody to him, but such argumentation is always a bit hard to buy.
+// {$ionas}: 
 
 ===
 title: DoYouWantToJoinIonasAndAntonius

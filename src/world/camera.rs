@@ -20,7 +20,7 @@ use crate::utils::DebugActive;
 // too large values will lead to overflow of the 1000 range
 // (in which case they won't get rendered on the camera anymore).
 const YSORT_SCALE: f32 = 0.0001;
-const PROJECTION_SCALE: f32 = 200.0;
+const PROJECTION_SCALE: f32 = 250.0;
 
 #[derive(Component)]
 pub struct MainCamera;

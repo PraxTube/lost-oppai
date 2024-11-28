@@ -40,27 +40,37 @@ title: OppaiIsLost
 ---
 
 {$name}: I can help ya out if yer lost.
-// -> Yes, please!
--> I am actually lost in a different way...
-    {$name}: Hm? What do ya mean?
-    -> I just don't know what to do in life.
-        {$name}: Hoo... I see.
-        {$name}: Well, I don't know yer circumstances.
-        {$name}: But perhaps I can give ya my perspective on yer situation.
-        <<jump OppaiIsLostInLife>>
+You: I am actually lost in a different way...
+{$name}: Hm? What do ya mean?
+-> I just don't know what to do in life.
+    {$name}: Hoo... I see.
+    {$name}: Well, I don't know yer circumstances.
+    {$name}: But perhaps I can give ya my perspective on yer situation.
+    <<jump OppaiIsLostInLife>>
+-> I have so many things I want to achieve in life but I just can't seem to get anything right.
+    {$name}: So ya can remember that at least?
+    {$name}: I have actually been in a similar spot.
+    {$name}: Nothing seems to work out and ya just spin in circles.
+    {$name}: It seems like all yer efforts are for naught.
+    {$name}: But make no mistake: If nothing changes, nothing changes.
+    {$name}: Ain't nobody giving ya the happy life ya want.
+    {$name}: Ya gotta put in the work, and it will suck. At first anyways.
+    {$name}: But things WILL get better.
+    {$name}: It does take a lot of time though.
+    {$name}: I will tell ya a little about my past if ya don't mind.
+    <<jump PastJotem>>
 
 ===
 title: OppaiIsWeird
 ---
 
-{$name}: ...
--> I don't remember. I woke up in this place without any memories of how I got here.
-    {$name}: What? Some kind of amnesia?
-    {$name}: Or perhaps ya were attacked and robbed?
-    {$name}: Though ya don't look hurt...
-    -> I feel fine, I just have no clue what is going on or were we are.
-        {$name}: Hm, yeah I bet.
-        <<jump OppaiIsLost>>
+You: I don't remember. I woke up in this place without any memories of how I got here.
+{$name}: What? Some kind of amnesia?
+{$name}: Or perhaps ya were attacked and robbed?
+{$name}: Though ya don't look hurt...
+You: I feel fine, I just have no clue what is going on or were we are.
+    {$name}: Hm, yeah I bet.
+    <<jump OppaiIsLost>>
 
 ===
 title: OppaiIsLostInLife
@@ -79,14 +89,77 @@ title: OppaiIsLostInLife
         {$name}: You can only feel truly happy when doing work that feels meaningful.
         {$name}: And ya know what? Only hard work feels meaningful.
         {$name}: So ya first gotta be unhappy before ya can be happy! Hahaha
-        -> Hm, I don't know about that.
-            {$name}: Let me tell ya a little about my past.
-            <<jump PastJotem>>
-        // -> What? No, that doesn't make any sense.
+        You: Hm, I don't know about that.
+        {$name}: Let me tell ya a little about my past.
+        <<jump PastJotem>>
     -> No, I don't.
         {$name}: I see.
         {$name}: That's a shame.
         <<jump JotemInnateDream>>
+-> I struggle to create meaningful bonds with others.
+    You: I always feel like there is a wall between me and others.
+    You: Like I am not my true self, that I can't be my true self.
+    You: And that really sucks.
+    {$name}: Hmm, yes I understand.
+    {$name}: I can relate to that feeling.
+    {$name}: It's like ya just go through the motions.
+    {$name}: It all feels so transactional.
+    -> Yeah exactly.
+        {$name}: I have struggled with exactly this feeling for most of my life.
+        {$name}: I finally broke free from it once I started to live life the way I felt was right.
+        {$name}: Not living by any norms.
+        {$name}: That freed me from talking with a mask.
+        {$name}: It helped me overcome the fear of rejection.
+        {$name}: I don't live my life the way others expect me to.
+        {$name}: What a miserable life that is.
+        {$name}: However, I think there is a way.
+        {$name}: A way for anybody to live life the way they want, they need to.
+        <<jump JotemInnateDream>>
+    -> That's not quite what I mean. I struggle talking to others and to be myself.
+        {$name}: I see.
+        {$name}: So yer scared of rejection.
+        {$name}: That's a different matter indeed.
+        {$name}: Is that fear coming from a rational or irrational place?
+        You: Isn't fear always irrational?
+        {$name}: Haha, true.
+        {$name}: Let me rephrase the question:
+        {$name}: Are ya putting on a mask around others because it makes life easier, or are you scared of embarrassement?
+        -> The former.
+            {$name}: Yeah, I thought so.
+            {$name}: Trying to be the 'nice' person.
+            {$name}: I think that is very bad.
+            {$name}: I am not trying to blame ya, I have done the same in the past.
+            {$name}: But I think that is very bad.
+            {$name}: Because yer lying to make things more easy around other.
+            {$name}: In that sense, yer using yourself as a means to and end.
+            {$name}: That is no good!
+            {$name}: For me the problem was my family that was around me.
+            {$name}: I should have left my hometown earlier in life.
+            {$name}: As ya grow up, ya learn about all the different things in life.
+            {$name}: But if ya stay around the people that have known ya yer whole life they expect a certain behaviour of ya.
+            {$name}: It's not even their fault, that is just human!
+            {$name}: However, it means that ya can't grow beyond a certain point.
+            {$name}: And that can make ya put on that mask.
+            {$name}: Breaking free of the shackles placed upon ya is what ya gotta do right now.
+            You: How did you manage to do it?
+            <<jump PastJotem>>
+        -> The latter.
+            {$name}: Scared of rejection huh?
+            {$name}: Yeah that is a tough one.
+            {$name}: There more ya open up to others the easier it will be become.
+            {$name}: But that ain't really any advice huh?
+            {$name}: It can be easier to open up to people that aren't as close to ya.
+            {$name}: It sounds a little counter intuitive, but the less a person knows about ya the less they are gonna judge ya.
+            {$name}: Though I think that is also not making it any easier.
+            {$name}: I do think there is one way to go about this.
+            {$name}: And that is to put yer all into the thing you love most.
+            {$name}: I believe that will make it much easier for ya to open up to others and also attract like minded people.
+            You: What do you mean with the thing I love most?
+            {$name}: The dream ya want to make true.
+            You: And if I don't have a dream?
+            {$name}: Ah I see, so that is what yer problem is.
+            {$name}: Well...
+            <<jump JotemInnateDream>>
 
 ===
 title: JotemInnateDream
@@ -95,20 +168,9 @@ title: JotemInnateDream
 {$name}: I think every person gotta have a dream.
 {$name}: Not just for being happy and all that.
 {$name}: I tell ya, you will go nuts without one.
-{$name}: You either have something to commit to or something to distract you.
+{$name}: Ya either have something to commit to or something to distract yer.
 {$name}: If ya got neither... well ya mind gonna go little wonky.
-{$name}: This didn't used to be the case.
-{$name}: Back when there was no society and humans were still playing survival of the fittest.
-{$name}: Ya simply didn't have the time to dream.
-{$name}: What's the next meal?
-{$name}: Where will I sleep tonight?
-{$name}: How can I keep my genes alive?
-{$name}: Ain't no way ya could think about any longer future than that.
-{$name}: But now?
-{$name}: People got it easier, a lot easier.
-{$name}: The peeps in the city got it too easy even.
 {$name}: Tell me, if yer happy when ya do the hard work, but ya life doesn't require hard work, what happens?
--> What do you mean?
 -> You get unhappy.
     {$name}: Hexactly.
     {$name}: So ya either find something yer passionate about, or ya distract yerself somehow.
@@ -149,13 +211,14 @@ title: JotemInnateDream
         {$name}: Only after meeting her did I learn that.
         <<jump ThatOneEncounter>>
 -> Objection! If you are only happy when following your dream, what happens when you are physically unable to continue your dream?
-    {$name}: Yeh mean like if I were unable to continue adventuring for example?
+    {$name}: Yer mean like if I were unable to continue adventuring for example?
     {$name}: Well I would just find a different way to continue my dream!
     {$name}: Teach kids how to become an adventurer.
     {$name}: Or perhaps help in the gild or parties as a support.
-    {$name}: Maybe I would even write my own book! Hahaha
-    -> Yeah, no the last one is definitely not going to happen.
-        {$name}: Haha, ouch. Guess ya got some jokes of yer own.
+    {$name}: Maybe I would even write my own book, hahaha!
+    -> But would that really be enough for you?
+    -> You writing a book? Yeah no, definitely not.
+        {$name}: Haha, outch. Guess ya got some jokes of yer own.
         {$name}: But worrying about all this purpose of life stuff...
         {$name}: Life ain't that long, ya know?
         {$name}: Instead of worrying about what could happen, enjoy the things that are happening.
@@ -164,8 +227,73 @@ title: JotemInnateDream
         -> But that would disregard planning. Thinking for the future is important.
             {$name}: That's right. But I am not saying to not think and plan ahead.
             {$name}: There is a difference between planning and worrying.
-            {$name}: The former will get ya closer to yer dream, the latter will make ya miserable.
+            {$name}: The former will get ya closer to yer dream, the latter will make ya miserable and push yer dream away.
             {$name}: 
+        -> I agree, worrying too much is very counterproductive.
+            {$name}: Exactly.
+            {$name}: It's good to prepare, but it's bad to worry.
+    -> You mean it's about 
+-> Huh? What do you mean?
+    {$name}: Like, ya know how there are two driving forces for any decision ya make.
+    {$name}: There is need, and there is want.
+    -> Yes, I understand that.
+        {$name}: Good, than the example should make more sense.
+        <<jump ExampleOfNeed>>
+    -> Explain in more detail.
+        {$name}: When yer taking an action, the reason for taking that action is because of one of those.
+        {$name}: Ya either NEED to take that action or else yer gonna die, or some other negative thing may happen.
+        {$name}: Or ya act because ya WANT something, not doing the action doesn't necessarily have negative consequences here.
+        {$name}: When ya boil it down, those are yer only two reasons for acting.
+        {$name}: Now tell me, which one do ya think is the stronger reason.
+        {$name}: The one that is more likely to make ya see things through?
+        -> It's the need of course.
+            {$name}: Exactly.
+            {$name}: It's what makes ya survive when it comes down to it.
+            <<jump ExampleOfNeed>>
+        -> I don't think that one is necessarily stronger than the other, it depends.
+            {$name}: Hahahaha, I like that ya responded that way.
+            {$name}: Because I disagree.
+            {$name}: Although, not quite.
+            {$name}: Thing is that need is a million times stronger, no question.
+            {$name}: However, ya say want can be stronger in some cases?
+            {$name}: Why do ya think so?
+            {$name}: I wanna bet it's because ya thought of all those things humans did not out of need, but out of want.
+            {$name}: In other words: They had strong dreams, which they wanted to achieve.
+            {$name}: And that's exactly what I mean!
+            {$name}: Ya gotta have a strong ass dream, one that you really want to achieve.
+            {$name}: Almost to the point that it feels like ya need to.
+            {$name}: Though this must be an intrinsic thing.
+            {$name}: It can quickly become toxic otherwise.
+            {$name}: Anyways, ya basically got it.
+            {$name}: To give ya one final example.
+            <<jump ExampleOfNeed>>
+
+===
+title: ExampleOfNeed
+---
+
+{$name}: Way back before humans had any kind of society there was not much room for any wants.
+{$name}: Ya were only able to worry about yer needs.
+{$name}: This didn't used to be the case.
+{$name}: Back when there was no society and humans were still playing survival of the fittest.
+{$name}: Ya simply didn't have the time to dream.
+{$name}: What's the next meal?
+{$name}: Where will I sleep tonight?
+{$name}: How can I keep my family alive?
+{$name}: Ain't no way ya could think about any longer future than that.
+{$name}: But now?
+{$name}: People got it easier, a lot easier.
+{$name}: The more society ya have around ya, the more comfortable yer life.
+{$name}: But comfort is very dangerous.
+-> But isn't that the point of society? To decrease needs.
+    {$name}: 
+-> You miss starving and fighting for your life?
+-> However, comfort allows you to rest and recover.
+    {$name}: Indeed.
+    {$name}: And there is also plenty of resting and comfort in the wild.
+    {$name}: Just think of a wild cat, resting in a grassy field.
+    {$name}: The problem is the balance.
+    {$name}: Neither too much comfort nor too much struggle is good.
 
 ===
 title: PastJotem
@@ -194,21 +322,10 @@ title: ThatOneEncounter
 {$name}: I don't *have* to provide for my family, I *get* to provide for them.
 {$name}: Viewing my life and seeing myself as the victim is far too easy.
 {$name}: I learned that if ya want to achieve anything, ya have to put in the work.
-{$name}: It's all about ya perspective.
+{$name}: It's all about ya perspective and-
 {$name}: ...
-{$name}: Sorry, that might have been a bit much. I always get carried away when I think back.
-// -> I actullay disagree with you.
-//     {$name}: Is that so? Do ya mind telling me why?
-//     -> What about people with mental health issues? If you chronically can't feel happyness or have depression.
-//     -> You can't control external factors, yet they have a huge affect on your life.
-//         {$name}: You certainly right about that one!
-//         {$name}: But that's also missing my point.
-//         {$name}: I was talking about how ya have full control of how ya *view* these things.
-//         {$name}: It's up to ya whether ya see an external factor as something good or bad.
-//         {$name}: You can take every challenges and see it as an opportunity, or as a hurdle.
-//         {$name}: But life is gonna be a lot easier if ya try to see challenges as an opportunity.
--> I don't mind. Could you go into more detail?
-    {$name}: Sure can!
+{$name}: Sorry, I have been just rambling about the past. I always get carried away when I think back.
+-> I don't mind. Please continue.
     {$name}: When I met her, I was at a low in my life.
     {$name}: However, after talkin to her for just one evening, one loong evening, life seemed so much easier.
     {$name}: Of course my habits and behaviour didn't change over night!
@@ -216,15 +333,23 @@ title: ThatOneEncounter
     {$name}: It was like I was finally able to see all the beatiful colors in the world.
     {$name}: Where everything was just one gray mess before, now everything was brimming with life.
     {$name}: Agh! You get what I mean, right?
-    -> Yes, I think so.
-        {$name}: Okay, good.
-        {$name}: So anyways, that was my little story.
-        {$name}: After that point, I was able to enjoy fishing.
-        {$name}: In my free time I build towards my dream of becoming an adventurer.
-        {$name}: And eventually, I did!
-        -> That's awesome. Do you think I could achieve that too?
-            {$name}: Of course! Unless there are physical limitations, I believe anybody can achieve about pretty much anything.
-            <<jump JotemPaiAchievingHerOwnDream>>
+    You: Yes, I think so.
+    {$name}: Okay, good.
+    {$name}: So anyways, that was my little story.
+    {$name}: After that point, I was able to enjoy fishing.
+    {$name}: In my free time I build towards my dream of becoming an adventurer.
+    {$name}: And eventually, I did!
+    You: That's awesome. Do you think I could achieve that too?
+    {$name}: Of course! Unless there are physical limitations, I believe anybody can achieve about pretty much anything.
+    <<jump JotemPaiAchievingHerOwnDream>>
+-> I disagree. You can't control external factors, yet they have a huge affect on your life.
+    {$name}: Ya certainly right about that one!
+    {$name}: But that's also missing my point.
+    {$name}: I was talking about how ya have full control of how ya *view* these things.
+    {$name}: It's up to ya whether ya see an external factor as something good or bad.
+    {$name}: You can take every challenges and see it as an opportunity, or as a hurdle.
+    {$name}: But life is gonna be a lot easier if ya try to see challenges as an opportunity.
+    <<jump JotemPaiAchievingHerOwnDream>>
 
 ===
 title: JotemPaiAchievingHerOwnDream
@@ -236,32 +361,32 @@ title: JotemPaiAchievingHerOwnDream
 {$name}: So anyways, ya don't have anywhere to go right now, right?
 You: No, I wouldn't know where anyways.
 {$name}: Right. So how about ya join me?
-{$name}: Your dream might not be to become an adventurer, but ya can work towards ya dream while making money as an adventurer.
--> I am not too sure...
-    {$name}: Yeh right, how about ya talk with her first?
-    <<target_npc_mentioned {$name} {$target_npc}>>
-    {$name}: I mean Eleonore, the person that helped me back then.
-    {$name}: She is a witch and likes to come here to calm her mind.
-    {$name}: She should be around here somewhere.
-    {$name}: You can't really miss her, big hat and orange hair.
-    {$name}: Oh yeah and she is floating in the air.
-    {$name}: So how about ya go talk to her?
-    <<if $talked_with_target_npc>>
-        {$name}: Oh really?
-        <<jump TalkedWithEleonore>>
-    <<endif>>
-    {$name}: I think it would help ya make a decision.
-    -> Okay, I will give it a try.
-        {$name}: Alright! I will be waiting here for ya.
-        {$name}: Good luck!
-        <<stop_chat>>
-        <<jump JotemWaiting>>
-    -> No, I will pass.
-        {$name}: I see. Well, I will be around for a little longer.
-        {$name}: So if ya change yer mind feel free to come to me.
-        {$name}: Though I will not take ya with me unless ya talk with Eleonore.
-        <<stop_chat>>
-        <<jump JotemWaiting>>
+{$name}: Yer dream might not be to become an adventurer, but ya can work towards ya dream while making money as an adventurer.
+You: Eh, that's very sudden. I am not too sure...
+{$name}: Yeh right, how about ya talk with her first?
+<<target_npc_mentioned {$name} {$target_npc}>>
+{$name}: I mean Eleonore, the person that helped me back then.
+{$name}: She is a witch and likes to come here to calm her mind.
+{$name}: She should be around here somewhere.
+{$name}: You can't really miss her, big hat and orange hair.
+{$name}: Oh yeah and she is floating in the air.
+{$name}: So how about ya go talk to her?
+<<if $talked_with_target_npc>>
+    {$name}: Oh really?
+    <<jump TalkedWithEleonore>>
+<<endif>>
+{$name}: I think it would help ya make a decision.
+-> Okay, I will give it a try.
+    {$name}: Alright! I will be waiting here for ya.
+    {$name}: Good luck!
+    <<stop_chat>>
+    <<jump JotemWaiting>>
+-> No, I will pass.
+    {$name}: I see. Well, I will be around for a little longer.
+    {$name}: So if ya change yer mind feel free to come to me.
+    {$name}: Though I will not take ya with me unless ya talk with Eleonore.
+    <<stop_chat>>
+    <<jump JotemWaiting>>
 
 ===
 title: JotemWaiting
