@@ -1040,7 +1040,7 @@ title: EleonorePaiApprentice
     <<stop_chat>>
     <<jump EleonoreWaiting>>
 -> Hm, yeah why not.
-    {$name}: You seem less surprised then I expected.
+    {$name}: You seem less surprised than I expected.
     {$name}: But that's good to hear.
     {$name}: I would advice you to talk with a certain girl that lives around here first though.
     <<target_npc_mentioned {$name} {$target_npc}>>

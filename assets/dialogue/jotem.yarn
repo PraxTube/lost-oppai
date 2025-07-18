@@ -33,7 +33,24 @@ title: Jotem
         {$name}: But oh well, nice to meet ya Pai.
         {$name}: So anyways, what are ya doing out here while bein dressed so lightly?
         <<jump OppaiIsWeird>>
-// -> What are you doing out here?
+-> Are you Jotem? <<if $mentioned_by_IonasAndAntonius>>
+    {$name}: Getting straight to the point ay?
+    <<set $name to "Jotem">>
+    {$name}: Yeh, I am Jotem, and ye'r?
+    You: I am Pai.
+    You: I was talking with Ionas and Antonius and they told me to talk with you.
+    {$name}: I see.
+    {$name}: Lemme guess, they were talking about god and the world again?
+    You: Roughly, yes.
+    {$name}: Hahaha! But why did they send ya to talk with me?
+    You: Antonius invited me to live with them, but I wasn't sure.
+    You: So he told me to got talk with you first.
+    {$name}: Hm? That's a weird situation ya've gotten yourself into.
+    You: Yes...
+    {$name}: So anyways, ya probably talked about some more philosophical topics heh?
+    {$name}: Whatcha wanna talk about?
+    <<jump OppaiIsLostInLife>>
+
 
 ===
 title: OppaiIsLost
@@ -217,6 +234,27 @@ title: JotemInnateDream
     {$name}: Or perhaps help in the gild or parties as a support.
     {$name}: Maybe I would even write my own book, hahaha!
     -> But would that really be enough for you?
+        {$name}: Good question, I think I will only know when it will truly hit me.
+        {$name}: But I like to think that I will be able to find a solution.
+        {$name}: When I think about why I aspire to be an adventurer, I always think it must be because of my childhood.
+        {$name}: Seeing those awesome adventurerers got me all excited as a kid.
+        {$name}: What if I had never seen any adventurerers? What if they didn't even exist in this world?
+        {$name}: I am sure I would have a different dream now, but it wouldn't be any less meaningful to me.
+        {$name}: In other words, I don't think yer bound to just one dream.
+        {$name}: Yer environment has a big effect on ya, so I am hopeful that it's not all over even if I can't continue my current dream.
+        -> That's a very positive outlook. But not everybody can be as positive as that.
+            {$name}: Oh ya think I was born this way?
+            {$name}: It's merely a mindset. Something you can change, something you can train.
+            <<jump JotemPaiAchievingHerOwnDream>>
+        -> But what if you couldn't? If you wouldn't be able to move on?
+            {$name}: Hah! I like that ya said that.
+            {$name}: I believe the most important thing is to be in the persuit of some really big goal.
+            {$name}: That's why I call it a dream.
+            {$name}: Sure, from time to time I think about what I would do if I would loose a hand or a leg.
+            {$name}: If I couldn't continue my adventurers.
+            {$name}: But is that gonna help me achieve my dream? Nay!
+            {$name}: I think about how to avoid that situation, not what to do in case of it.
+            <<jump JotemPaiAchievingHerOwnDream>>
     -> You writing a book? Yeah no, definitely not.
         {$name}: Haha, outch. Guess ya got some jokes of yer own.
         {$name}: But worrying about all this purpose of life stuff...
@@ -227,12 +265,22 @@ title: JotemInnateDream
         -> But that would disregard planning. Thinking for the future is important.
             {$name}: That's right. But I am not saying to not think and plan ahead.
             {$name}: There is a difference between planning and worrying.
-            {$name}: The former will get ya closer to yer dream, the latter will make ya miserable and push yer dream away.
-            {$name}: 
+            {$name}: Planning will cause ya to take actions.
+            {$name}: Worrying will only paralyze ya.
+            <<jump JotemPaiAchievingHerOwnDream>>
         -> I agree, worrying too much is very counterproductive.
-            {$name}: Exactly.
+            {$name}: Right?!
             {$name}: It's good to prepare, but it's bad to worry.
-    -> You mean it's about 
+            <<jump JotemPaiAchievingHerOwnDream>>
+    -> You mean it's not so much about the dream itself, but rather the persuit?
+        {$name}: Hah! Exactly, neatly put.
+        {$name}: I don't think there is any dream that is better than any other.
+        {$name}: It's stupid to look down on other peoples dreams and ambitions.
+        {$name}: To think that yer dream is in some way more noble.
+        {$name}: Or to think yer dream is inferior or less noble.
+        {$name}: Who gives a shit?!
+        {$name}: Ya just gotta do what ya wanna do!
+        <<jump JotemPaiAchievingHerOwnDream>>
 -> Huh? What do you mean?
     {$name}: Like, ya know how there are two driving forces for any decision ya make.
     {$name}: There is need, and there is want.
@@ -285,15 +333,98 @@ title: ExampleOfNeed
 {$name}: People got it easier, a lot easier.
 {$name}: The more society ya have around ya, the more comfortable yer life.
 {$name}: But comfort is very dangerous.
--> But isn't that the point of society? To decrease needs.
-    {$name}: 
--> You miss starving and fighting for your life?
 -> However, comfort allows you to rest and recover.
     {$name}: Indeed.
-    {$name}: And there is also plenty of resting and comfort in the wild.
-    {$name}: Just think of a wild cat, resting in a grassy field.
     {$name}: The problem is the balance.
     {$name}: Neither too much comfort nor too much struggle is good.
+    <<jump JotemAntifragile>>
+-> But isn't that the point of a society? To decrease needs.
+    {$name}: Yeh. Yer right 'bout that.
+    {$name}: The danger is that yer life can get too comfortable.
+    <<jump JotemAntifragile>>
+-> You miss starving and fighting for your life?
+    {$name}: What do ya think an adventurer does for a livin'! Hahaha!
+    {$name}: But ya got a point.
+    {$name}: I am merely sayin' that yer payin' a price for not havin' to worry about ya food and safety.
+    {$name}: If nothin' else, at least be aware of it.
+    You: What exactly is that price you pay?
+    {$name}: Experience.
+    {$name}: A wise man once said:
+    {$name}: 'There is no one more unfortunate than the man that has never been unfortunate'.
+    {$name}: Which just means that if ya never experience hardship, ya ain't gonna grow.
+    {$name}: That's why too much comfort is dangerous.
+    {$name}: It also leads to a lack of confidence.
+    {$name}: If ya don't test yer own limits, how are ya ever gonna know them?
+    <<jump JotemPaiAchievingHerOwnDream>>
+
+===
+title: JotemAntifragile
+---
+
+{$name}: Think of the hammer of a blacksmith.
+{$name}: It's robust, it can withstand a lot of stress, but it doesn't become stronger through the stress.
+{$name}: Now think about yer muscles.
+{$name}: Putting them under just the right amount of stress will make them grow.
+{$name}: They are not fragile, they are not robust, they are anti-fragile!
+{$name}: They require stress!
+{$name}: Of course, put too much stress on them and they'll break.
+{$name}: But ya get the idea, too much stress is bad, we know that.
+{$name}: But too little stress is equally bad!
+{$name}: If ya don't move ya body, yer muscles are gonna become weak.
+{$name}: Same applies to yer mind.
+{$name}: Without a strong need, ya ain't gonna grow.
+{$name}: Ya'll be too weak to achieve yer wants.
+{$name}: And ya'll be stuck forever.
+{$name}: A vicious cycle.
+-> That requires a lot of motivation though. Not everybody has that.
+    {$name}: Haha! That's exactly what many get wrong.
+    {$name}: Somehow people think that they can turn on motivation like it's a switch.
+    {$name}: They for some reason think that discipline is something that is given to ya.
+    {$name}: What a fallacy!
+    {$name}: It's the other way around!
+    {$name}: Discipline is a habit, motivation an emotion.
+    {$name}: Ya can't control yer emotions, only how ya respond to them.
+    {$name}: But ya can absolutely influence yer habits.
+    {$name}: Ya don't build motivation from discipline, ya build discipline from motivation.
+    {$name}: Yer environment has such a strong effect on ya.
+    {$name}: Ya gotta use yer fleeting motivation to change yer environment.
+    {$name}: And then, over time, the environment will change yer habits, and thus yer discipline.
+    {$name}: But really, ya'll make it far too complicated.
+    <<jump JotemPaiAchievingHerOwnDream>>
+-> Sounds like you want people to suffer more.
+    {$name}: Heh. I want people to be stronger.
+    {$name}: And ya ain't gonna grow strong from sitting on yer buttom all day.
+    {$name}: But yeh, I think there are people that have it too easy for their own good.
+    {$name}: The environment they are in doesn't allow them to get stronger.
+    {$name}: Eventually, life's gonna throw a curve ball at ya.
+    {$name}: And if ya ain't prepared for it, yer gonna get hurt pretty badly.
+    {$name}: What I am sayin' is that people can choose to make their lives harder.
+    {$name}: Not because they want to.
+    {$name}: But because they need to.
+    {$name}: If yer life is to easy than yer need is difficulty.
+    {$name}: Isn't that a weird twist of nature?! Hahaha!
+    {$name}: A too comfortable life is also gonna affect yer mindset.
+    <<jump JotemPaiAchievingHerOwnDream>>
+-> What's the solution than? It doesn't sound like anything I can do would matter, that the environment I am in is it comes down to.
+    {$name}: Sounds like it, huh?
+    {$name}: Well, ya gotta realize one thing.
+    {$name}: Ya still get that motivation from time to time.
+    {$name}: To make things better, to finally achieve yer dream.
+    {$name}: Than ya try, but nothing changed.
+    {$name}: Why do ya think that is?
+    {$name}: It's because ya didn't use that motivation to change yer environment!
+    {$name}: The problem is not YOU, it's yer environment.
+    {$name}: Imagine yer swimming in a river.
+    {$name}: Yer dream and all yer ambitions run opposite to the current of the river.
+    {$name}: No matter how much ya struggle, no matter how much motivation ya have.
+    {$name}: Ya just ain't gonna match the current, eventually ya'll be too exhausted.
+    {$name}: So what do ya do?
+    {$name}: Ya simply use yer energy to get out of the river, and walk on the land.
+    {$name}: Nothing changes if nothing changes.
+    {$name}: Ya are the way ya are because of yer environment.
+    {$name}: If ya don't change it, ya will always get pushed back to yer starting point by the current.
+    {$name}: But really, ya'll make it far too complicated.
+    <<jump JotemPaiAchievingHerOwnDream>>
 
 ===
 title: PastJotem
@@ -365,14 +496,15 @@ You: No, I wouldn't know where anyways.
 You: Eh, that's very sudden. I am not too sure...
 {$name}: Yeh right, how about ya talk with her first?
 <<target_npc_mentioned {$name} {$target_npc}>>
-{$name}: I mean Eleonore, the person that helped me back then.
-{$name}: She is a witch and likes to come here to calm her mind.
+{$name}: I mean Eleonore, the person that helped me when I was at a low.
+{$name}: She's a witch and often comes here to calm her mind or somethin'.
 {$name}: She should be around here somewhere.
 {$name}: You can't really miss her, big hat and orange hair.
-{$name}: Oh yeah and she is floating in the air.
+{$name}: Oh yeah, and she is floating in the air.
 {$name}: So how about ya go talk to her?
 <<if $talked_with_target_npc>>
-    {$name}: Oh really?
+    You: I already talked with Eleonore.
+    {$name}: Hoh, really?
     <<jump TalkedWithEleonore>>
 <<endif>>
 {$name}: I think it would help ya make a decision.

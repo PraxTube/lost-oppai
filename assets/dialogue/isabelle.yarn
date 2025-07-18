@@ -7,10 +7,29 @@ title: Isabelle
 
 {$name}: Hello, stranger.
 {$name}: You look like you have had quite a day.
--> Hello, yes sort of.
-    {$name}: What are you doing out here? Are you lost?
-    -> Yes...
-        <<jump IsabelleHelpsPai>>
+You: Hey, yes, sort of.
+{$name}: What are you doing out here? Are you lost?
+-> Yes...
+    <<jump IsabelleHelpsPai>>
+-> I am just taking a leisurely stroll.
+    {$name}: What a coincidence, so am I!
+    {$name}: It's really refreshing to take a stoll on such a beatiful day.
+    {$name}: It helps clear the mind.
+    -> Is that the reason you are out on a stroll?
+        {$name}: Not today. I just wanted to enjoy the sun and the light breeze.
+        {$name}: 
+    -> What do you mean?
+        {$name}: Oh, you don't agree?
+        {$name}: I don't know why, but taking a stroll helps me solve my problems.
+        {$name}: Maybe it's because I am taking a break from them, but I somehow feel very refreshed.
+        {$name}: It's apparently also very useful when you work on very complex tasks that require a lot of thinking.
+        {$name}: At least that's what I have heard from some acquaintances.
+        -> 
+-> You must be Isabelle. <<if $mentioned_by_Eleonore>>
+    <<set $name to "Isabelle">>
+    {$name}: You know me?
+    You: Yes, I had a talk with Eleonore.
+    You: She told me 
 
 ===
 title: IsabelleHelpsPai
@@ -18,26 +37,25 @@ title: IsabelleHelpsPai
 
 {$name}: Well, then how about I give you a hand?
 {$name}: I live around this area.
-{$name}: When it's a beatiful sunny day like today, I like to take a stroll.
+{$name}: When it's a sunny day like this one, I like to take a stroll.
 {$name}: I suppose you aren't taking a leisurely stroll?
--> I am not. I don't remember anything, I just woke up in the middle of the road.
-    {$name}: Wait, what?
-    {$name}: So you don't even know how you got here?
-    {$name}: Where are you from then?
-    You: I... I don't remember.
-    {$name}: Hm... OH! How rude of me, I didn't even introduce myself yet!
-    <<set $name = "Isabelle">>
-    {$name}: I am Isabelle, who are you?
-    -> I am Pai, nice to meet you.
-        {$name}: So you at least remember your name!
-        {$name}: It's also nice to meet you, Pai.
-        {$name}: Is there anything else you remember besides your name?
-        -> No... not really. Only that this feeling of being lost seems familiar.
-            {$name}: Huh.
-            {$name}: Could it be that you are lost in a more general way in life?
-            -> That... may be the case.
-                <<jump IsabelleLifeAdvice>>
-
+You: I am not. I don't remember anything, I just woke up in the middle of the road.
+{$name}: Huh?
+{$name}: So you don't even know how you got here?
+{$name}: Where are you from then?
+You: I... I don't remember.
+{$name}: Hm... OH! How rude of me, I didn't even introduce myself yet!
+<<set $name = "Isabelle">>
+{$name}: I am Isabelle, who are you?
+You: I am Pai, nice to meet you.
+{$name}: So you at least remember your name!
+{$name}: It's also nice to meet you, Pai.
+{$name}: Is there anything else you remember besides your name?
+-> No... not really. Only that this feeling of being lost seems familiar.
+    {$name}: Huh.
+    {$name}: Could it be that you are lost in a more general way in life?
+    -> That... may be the case.
+        <<jump IsabelleLifeAdvice>>
 
 ===
 title: IsabelleLifeAdvice
@@ -48,39 +66,39 @@ title: IsabelleLifeAdvice
 {$name}: I have met people that changed their lifes for the better when they were way older.
 {$name}: It's never to late to change directions.
 {$name}: Or to find one in the first place.
-{$name}: What are you struggling with the most?
--> Kind of... everything. What does it mean to be happy? That kind.
-    {$name}: I see...
-    {$name}: Some might tell you that it's following your purpose.
-    {$name}: Or that you need to have a dream that you fully commit to.
-    {$name}: And there is absolutely nothing wrong with that.
-    {$name}: In fact, it can be very freeing to just commit yourself to something.
-    {$name}: For me however, happyness comes from enjoying the little things.
-    {$name}: Enjoying what is, not what was or could.
-    {$name}: Enjoying the here and now and time spend with others.
-    -> I have heard that before. You may say that, but it's something else to actually life like it.
-        {$name}: That is true of course.
-        {$name}: But it's something I have learned over the years.
-        {$name}: To treasure your relationships with others.
-        {$name}: Treating the people that are dear to you with the respect and kindness they deserve.
-        {$name}: If you give love and kindness, it will come back to you.
-        {$name}: You never know how much time you will have left with them.
-        {$name}: So you better treasure the moment you have and enjoy what is.
-        {$name}: Right?
-        -> Hm, I suppose.
-            {$name}: You still seem hesitant.
-            {$name}: Oh yeah!
-            {$name}: How about this then?
-            <<jump IsabelleProposal>>
-    -> Enjoying your time with others is a good point.
-        {$name}: Yes, it's very important to treasure your relationships.
-        {$name}: This can be harder then you might think however.
-        {$name}: The problem is that people tend to spend too much time with eachother.
-        {$name}: Which might streem strange to be an issue at first glance.
-        {$name}: The reason for this is that you need distance in every relationship.
-        {$name}: Whether with your friends or your lover.
-        {$name}: It's important to be alone and spend time with yourself.
-        {$name}: Otherwise you get physically and mentally dependent on the other.
+{$name}: The questions: 'How do you find happiness?', has many asnwers.
+{$name}: Some might tell you that it's following your purpose.
+{$name}: Or that you need to have a dream that you fully commit to.
+{$name}: And there is absolutely nothing wrong with that.
+{$name}: In fact, it can be very freeing to just commit yourself to something.
+{$name}: For me however, happiness comes from enjoying the little things.
+{$name}: Enjoying what is, not what was or could.
+{$name}: Enjoying the here and now and time spend with others.
+-> I have heard that before. You may say that, but it's something else to actually life like it.
+    {$name}: That is true of course.
+    {$name}: But it's something I have learned over the years.
+    {$name}: To treasure your relationships with others.
+    {$name}: Treating the people that are dear to you with the respect and kindness they deserve.
+    {$name}: If you give love and kindness, it will come back to you.
+    {$name}: You never know how much time you will have left with them.
+    {$name}: So you better treasure the moment you have and enjoy what is.
+    {$name}: Right?
+    -> Hm, I suppose.
+        {$name}: You still seem hesitant.
+        {$name}: Oh yeah!
+        {$name}: How about this then?
+        <<jump IsabelleProposal>>
+-> Enjoying your time with others is a good point.
+    {$name}: Yes, it's very important to treasure your relationships.
+    {$name}: This can be harder then you might think however.
+    {$name}: The problem is that people tend to spend too much time with eachother.
+    {$name}: Which might streem strange to be an issue at first glance.
+    {$name}: The reason for this is that you need distance in every relationship.
+    {$name}: Whether with your friends or your lover.
+    {$name}: It's important to be alone and spend time with yourself.
+    {$name}: Otherwise you get physically and mentally dependent on the other.
+    {$name}: Speaking of dependent...
+    <<jump IsabelleProposal>>
 
 // ===
 // title: IsabelleLifeDistractions
@@ -106,20 +124,25 @@ title: IsabelleProposal
 {$name}: It's still quite chaotic with the kids, so I could use a helping hand.
 {$name}: How about you life with us?
 {$name}: You help us out with chores and I will show you how to enjoy the simple life.
--> I don't know, seems very sudden.
-    {$name}: Right, of course.
-    {$name}: In that case, why don't you talk with some old acquaintances of mine.
-    <<target_npc_mentioned {$name} {$target_npc}>>
-    {$name}: They are called Ionas and Antonius.
-    {$name}: I meet them regularly on my strolls.
-    {$name}: The two have differing world views which tends to create interesting conversations.
-    {$name}: They are gonna be around here somehwere.
-    {$name}: Why don't you talk with them and tell me about your decision after?
-    -> Okay, I will give it a try.
-        {$name}: Awesome! I will be waiting here for you then.
-        {$name}: Safe trip! And don't get lost ^_^
-        <<stop_chat>>
-        <<jump IsabelleWaiting>>
+You: I don't know, seems very sudden.
+{$name}: Right, of course.
+{$name}: In that case, why don't you talk with some old acquaintances of mine.
+<<target_npc_mentioned {$name} {$target_npc}>>
+{$name}: They are called Ionas and Antonius.
+{$name}: I meet them regularly on my strolls.
+{$name}: I think it could help you make a decision.
+<<if $talked_with_target_npc>>
+    You: I already had a chat with those two.
+    <<jump IsabelleTalkedWithTarget>>
+<<endif>>
+{$name}: The two have differing world views which tends to create interesting conversations.
+{$name}: They are gonna be around here somehwere.
+{$name}: Why don't you talk with them and tell me about your decision after?
+-> Okay, I will give it a try.
+    {$name}: Awesome! I will be waiting here for you then.
+    {$name}: Safe trip! And don't get lost ^_^
+    <<stop_chat>>
+    <<jump IsabelleWaiting>>
 
 ===
 title: IsabelleWaiting
@@ -159,9 +182,10 @@ title: IsabelleWaiting
 title: IsabelleTalkedWithTarget
 ---
 
-{$name}: Oh really? Did you manage to decide?
-{$name}: Are you going to come life with me and my family?
-{$name}: And try to find peace and happiness in living in the moment.
+{$name}: Oh really?
+{$name}: Than let me ask you one more time:
+{$name}: Are you going to come live with me and my family?
+{$name}: And try to find peace and happiness in living in the moment?
 -> Yes, I will come with you.
     {$name}: Great!
     {$name}: What was your final reason to decide to come with me?
