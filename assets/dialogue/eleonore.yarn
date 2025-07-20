@@ -7,61 +7,61 @@ title: Eleonore
 
 {$name}: ...
 {$name}: Oh hey there.
--> Hi. Wait, are you flying?
-    {$name}: First time?
-    {$name}: Guess there aren't that many mages around here.
-    {$name}: Yeah, I am using a spell to levitate.
-    {$name}: By your reaction I assume you are from some small village?
+-> Woah, are you flying? How do you do that?
+    {$name}: Haha, I like that reaction.
+    {$name}: First time seeing magic up close?
+    {$name}: I guess there aren't many mages where you live.
+    {$name}: Are you from some small village around here?
     You: I- I actually don't remember.
-    {$name}: Huh? You don't remember were you are coming from?
-    {$name}: Then how did you get here?
+    {$name}: Huh? You don't remember where you're coming from?
+    {$name}: Then how'd you get here?
     You: I don't remember either.
     You: I just woke up in the middle of the road.
     {$name}: Hm... could be the doing of a spell.
     <<set $name to "Eleonore">>
-    {$name}: I am Eleonore by the way.
+    {$name}: I'm Eleonore by the way.
     {$name}: Do you at least remember your name?
-    -> Yes, I am Pai, nice to meet you.
-        {$name}: Oh, it also seems like you didn't forget your manners!
+    -> Yes, I'm Pai, nice to meet you.
+        {$name}: Seems like you didn't forget your manners either.
         {$name}: Nice to meet you too, Pai.
         <<jump AfterGreeting>>
-    -> I am Pai.
+    -> I'm Pai.
         {$name}: Pai? You got a strange name.
         <<jump AfterGreeting>>
--> Hey, what are you doing out here?
-    {$name}: I am calming my mind and taking a break from my studies of the arcane.
+-> Hello, what are you doing out here?
+    {$name}: I'm calming my mind and taking a break from my studies of the arcane.
     {$name}: Studying magic can become very complicated and you can loose yourself very easily.
-    {$name}: Especially for a mage.
-    {$name}: I find it very important to not get lost in one's work.
+    {$name}: Taking a break every now and than is very helpful.
     <<set $name to "Eleonore">>
-    {$name}: I am Eleonore by the way, and you are?
-    You: I am Pai, nice to meet you.
+    {$name}: I'm Eleonore by the way, and you are?
+    You: I'm Pai, nice to meet you.
     {$name}: Likewise.
     <<jump AfterGreeting>>
 -> Hi, are you Eleonore? <<if $mentioned_by_Jotem>>
     <<set $name to "Eleonore">>
     {$name}: Oh? How do you know?
-    You: Ah so you are Eleonore.
-    You: I takled with Jotem and he told me to talk with you.
-    You: I am Pai by the way.
+    You: Ah, so you're Eleonore.
+    You: I was talking with Jotem and he said I should speak with you.
+    You: I'm Pai by the way.
     {$name}: I see.
-    {$name}: What did you two talk about? There must be a reason he wanted you to talk to me.
+    {$name}: What'd you two talk about? There must be a reason he wanted you to talk to me.
     You: Yes, he told me about his dream and how he was able to achieve it after meeting you.
     You: He invited me to join him in his adventures.
-    {$name}: Oh? And let me guess, you said you aren't too sure.
-    {$name}: To which he replied to talk with me first?
-    You: Yes! That is exactly it.
-    {$name}: Alright, I think I get it then.
-    {$name}: In that case I want to ask you a question.
+    {$name}: Oh? I'm glad to hear that.
+    {$name}: So how can I help you?
+    You: I'm not sure if I should join him.
+    You: I would like to get your perspective.
+    {$name}: Alright, gotcha.
+    {$name}: In that case let me ask you a question:
     {$name}: Do you know what a mage is?
     -> Yes, of course.
-        {$name}: Okay good, that will make things quicker.
-        {$name}: You may have already realized that I am a mage.
-        {$name}: To be more precise, I am a witch.
-        {$name}: And magic is the single most fascinating thing in the entire world to me.
+        {$name}: Okay good, that'll make things quicker.
+        {$name}: You may have already realized that I'm a mage.
+        {$name}: To be more precise, I'm a witch.
+        {$name}: And magic's the single most fascinating thing in the world to me.
         <<jump EleonoreLovesMagic>>
     -> No, not really.
-        {$name}: In that case allow me to explain.
+        {$name}: I see, than let me explain.
         <<jump EleonoreIsAMage>>
 
 ===
@@ -71,17 +71,15 @@ title: AfterGreeting
 {$name}: ...
 -> You said something about mages? What do you mean by that?
     {$name}: Oh that.
-    {$name}: Yeah I guess you wouldn't know given your state.
+    {$name}: Yeah I guess it makes sense that you can't remember.
     <<jump EleonoreIsAMage>>
 -> So how exactly can you fly like that?
-    {$name}: Haha, you curious?
-    {$name}: It's actually not quite trivial to explain.
-    {$name}: But to oversimplify, I continuously cast a spell that pushes me off the ground.
-    {$name}: This force isn't much, but by casting it over and over I reach an equilibrium.
-    {$name}: It sounds a lot easier then it actually is to implement though.
-    {$name}: Though it's funny, people call it magic but humanity has a pretty good understanding of the mechanics now.
-    {$name}: Although there are still quite a few open questions.
-    {$name}: But that is exactly why I love the study of magic so much.
+    {$name}: Haha, curious?
+    {$name}: It's a little more involved than it may seem at first glance.
+    {$name}: To oversimplify; I continuously cast a spell that pushes me off the ground.
+    {$name}: It's not much, but by casting it over and over I reach an equilibrium.
+    {$name}: Though it's not easy to put into practice.
+    {$name}: But that's exactly why I love the practice of magic so much.
     <<jump EleonoreLovesMagic>>
 
 ===
@@ -90,48 +88,47 @@ title: EleonoreIsAMage
 
 {$name}: Mages are people that can manipulate mana.
 {$name}: Either their own or that of the environment.
-{$name}: It's what allows me to hover like this.
-{$name}: To me, magic is the most beatiful thing in the world.
+{$name}: It's what allows me to levitate like this.
+{$name}: To me, magic's the most beatiful thing in the world.
 {$name}: I have dedicated my whole life into the study of the craft.
-{$name}: You see, I am actually not just any mage, I am a witch.
+{$name}: You see, I'm actually not just any mage, I'm a witch.
 -> A witch? How is that different?
     {$name}: Oh right, you don't know ~_~
-    {$name}: It basically means I am a very powerful mage.
+    {$name}: It basically means I'm a very powerful mage.
     {$name}: I mean to say that I dedicated an extraordinary amount of time into learnig about magic.
     {$name}: There isn't anything more fascinating than magic.
     -> What's so amazing about magic?
         {$name}: Oh girl, what isn't!
         <<jump EleonoreLovesMagic>>
     -> That makes it sound like you are quite the old hag.
-        {$name}: Oi watch your mouth you little brat.
+        {$name}: Oi, watcha mouth ya' little brat!
         {$name}: That better?
-        {$name}: But yes, time flows a little differently for me then it does for you.
+        {$name}: But yes, time flows a little differently for me than it does for you.
         {$name}: Though I don't think it matters too much how much time you have.
         {$name}: It's important to know that it's limited and that you should spend it with care.
-        {$name}: If you want to achieve something great, then there is no time for you to slack.
-        {$name}: Though that doesn't mean you should spend your whole day practicing your craft.
+        {$name}: If you want to achieve something great, than you must commit.
+        {$name}: Though breaks like this one are important as well.
         <<jump EleonoreProcrastinationPerfection>>
--> How old are you? You don't look much older then me.
-    {$name}: How rude, don't you know better then to ask a women her age?
-    You: I am also a women...
-    {$name}: Let's just say I am older than my looks suggest.
-    {$name}: But my point wasn't to say that I am old.
-    {$name}: Rather that I have spend most of my life with the study of magic.
-    {$name}: Simply because to me, there is nothing more fascinating in the world.
+-> You make it sound like you are very old, but you don't look much older than me.
+    {$name}: Hehe, thanks <3
+    {$name}: Let's just say that I'm older than my appearance suggest.
+    {$name}: But my point wasn't to say that I'm old.
+    {$name}: Rather, I have spend most of my life with the study of magic.
+    {$name}: Simply because to me, there's nothing more fascinating in the world.
+    {$name}: Just think about it:
     <<jump EleonoreLovesMagic>>
-
 
 ===
 title: EleonoreLovesMagic
 ---
 
 {$name}: The endless amounts of possibilities, the complexity and depth.
-{$name}: How you can always learn something new no matter how long you study it.
-{$name}: There is so much that you will never be able to know everything.
+{$name}: You can always learn something new no matter how long you study it.
+{$name}: There's so much that you'll never be able to know everything.
 {$name}: But most importanly, it's just fun.
 {$name}: It's my dream to create the most powerful fire spell in the entire world.
 -> Your dream is surprisingly... childish.
-    {$name}: Hahaha ey, that's my dream you are talking about!
+    {$name}: Hahaha ey, that's my dream you're talking about!
     {$name}: But yes, it is.
     {$name}: However, is there a need to have some grandious dream?
     {$name}: I get to do what I love and help others in my own way.
@@ -141,23 +138,25 @@ title: EleonoreLovesMagic
     <<jump EleonoreCorrectMindset>>
 -> The most powerful fire spell? Why?
     {$name}: Hm, no particular reason really.
-    {$name}: I just really like fire spells and there simply doesn't exist one to satisfy me yet.
-    {$name}: So I set out to create it myself.
+    {$name}: I have wanted to become a mage since I was a little kid.
+    {$name}: And I just really like fire spells.
+    {$name}: I set out to create the greatest fire spell myself.
+    {$name}: Simply because there doesn't exist one yet to satisfy me.
     {$name}: That's about it.
     -> So you don't really have a reason behind your dream?
-        {$name}: That's a misconception I hear a lot.
-        {$name}: Why do people think there much be a reason for everything?
-        {$name}: I guess it's part of humans nature.
+        {$name}: You make it sound like that's something bad.
+        {$name}: Why do people think there must be a reason for everything?
+        {$name}: I guess it's part of human nature.
         {$name}: But no, I don't, and I think that's perfectly fine.
         <<jump EleonoreTypesOfDreams>>
     -> Is it difficult?
-        {$name}: Well, any dream is, right?
+        {$name}: Any dream worth dreaming is gonna be difficult to achieve, right?
         <<jump EleonoreCorrectMindset>>
 -> How close are you to that goal?
     {$name}: It's going pretty well.
-    {$name}: Though I am not too obsessed with reaching it.
-    {$name}: Of course I want to create the most powerful fire spell.
-    {$name}: But I am also wondering what I would do once I achieved it.
+    {$name}: Though I'm not too obsessed with reaching it.
+    {$name}: Of course, I do want to create the most powerful fire spell ever to exist.
+    {$name}: But I'm also wondering what I would do once I achieved it.
     <<jump EleonoreTimeplan>>
 
 ===
@@ -165,31 +164,32 @@ title: EleonoreProcrastinationPerfection
 ---
 
 {$name}: I believe you need to live a balanced life.
-{$name}: Meaning to work not work on the same thing the whole day.
-{$name}: Instead spreading your focus on multiple subjects.
+{$name}: For me it's very helpful to work on different things throughout the day.
+{$name}: Essentially spreading my focus on multiple subjects.
 {$name}: Let me convince you of the following claim.
-{$name}: Procrastination, by the original definition, isn't something bad.
+{$name}: Procrastination, by the original definition of the word, isn't something bad.
 {$name}: It simply states 'putting something off to a future time'.
 {$name}: The modern definition is heavily negatively connotated.
-{$name}: But I don't mean that here.
+{$name}: I don't mean that one.
 {$name}: By the original definition, we simply delay the execution of a task.
 {$name}: Why should we do that? Why not complete the task right away?
 {$name}: Because it often times doesn't make sense to do so.
-{$name}: When I work on a new spell and I eventually get stuck, is it smart to force myself to continue?
-{$name}: It is not. Once you have built your discipline, the natural procrastination you will feel is good.
-{$name}: It's a signal telling you to stop and do something else.
-{$name}: Take a stroll, workout your body, talk with people, do *anything* else that is not your current task.
-{$name}: It's your body and mind telling you that you need a break from the current thing.
-{$name}: That you are not as efficient as you could be when you are refreshed.
+{$name}: When I work on a new spell, and I inevitably get stuck, is it smart to force myself to continue?
+{$name}: It's not. Once you have built your discipline, the natural procrastination you feel is good.
+{$name}: It's a signal, telling you to stop and do something else.
+{$name}: Take a stroll, exercise your body, talk with people, do *anything* else.
+{$name}: It's your body and mind telling you that you need a break from your current task.
+{$name}: You're not as efficient, you need to a refresher.
+{$name}: That's why I think people shouldn't be so worried about procrastination.
 {$name}: Instead, people should be more concerned about perfectionism.
 -> Perfectionism? Why is that?
     <<jump EleonoreBewarePerfectionism>>
 -> Procrastination is supposed to be good for you?
-    {$name}: Yes, but only once you have build the correct mindset.
+    {$name}: Yes, but only once you have built the correct mindset.
     {$name}: It's similar to eating.
-    {$name}: If you are eating healthy, then it's wise to listen to your bodies reaction to food.
-    {$name}: You will notice what type of food your body wants and it will be the healthy ones.
-    {$name}: Unhealthy food will make you feel bad if you otherwise eat healthy.
+    {$name}: If you're eating healthily, then it's wise to listen to your bodies reaction to food.
+    {$name}: You'll notice what type of food your body truly needs. It'll be the healthy ones.
+    {$name}: Unhealthy food will make you feel bad if you otherwise eat well.
     {$name}: Same with procrastination.
     {$name}: If you have a strong and trained mindset, then procrastination is a positive signal.
     {$name}: But if you have a weak mindset and trained your mind and body to be a mess, then it's negative noise.
@@ -197,9 +197,9 @@ title: EleonoreProcrastinationPerfection
     {$name}: I claim that there aren't any good or bad things in nature.
     {$name}: They are all just signals.
     {$name}: But through modernity, especially in the cities, these have been turned into noise.
-    {$name}: Though I need to think about this myself more.
+    {$name}: Though I need to think about this myself a little more.
     {$name}: So take this as perhaps food for thought if anything.
-    {$name}: But I do have some more thoughts on the whole notion of the right mindset.
+    {$name}: But I do have some more thoughts on the topic of 'the right mindset'.
     <<jump EleonoreCorrectMindset>>
 -> Okay, let's assume that is true, what is the actionable step?
     {$name}: Oh, very pragmatic.
@@ -211,54 +211,57 @@ title: EleonoreProcrastinationPerfection
 title: EleonoreActionableStepProcrastination
 ---
 
-{$name}: When you don't want to do something, don't.
+{$name}: When you don't want to do something, simply don't.
 {$name}: Come back to it at a later point.
-{$name}: If you don't want to do a task at all, well don't do it.
+{$name}: If you don't want to do a task at all, well don't ever do it.
 {$name}: I know there are exceptions, but they are surprisingly rare.
-{$name}: Only in the city, in the modern life, are there many tasks you want to avoid.
+{$name}: Only in the city, in the modern life, are there many tasks you want to avoid but can't.
 {$name}: However, in the more simple life there aren't really many tasks you never want to do.
 {$name}: Compared to the obligations you have in the city, the natural life is full of variation.
 {$name}: And there are quite a few tasks you can postpone.
 {$name}: Especially the more intellectual, albeit less natural, ones.
 -> That seems very wishy washy.
-    {$name}: I will give you an example.
-    {$name}: When I am developing a spell, I need to apply a lot of logic in the construction.
-    {$name}: If I mess up, there will be unintended side effects.
-    {$name}: They usually just cause the spell to not work at all, but they can be more devistating.
+    {$name}: I'll give you an example.
+    {$name}: When I'm developing a spell, I need to apply a lot of logic to the construction.
+    {$name}: 
+    {$name}: If I mess up, there'll be unintended side effects.
+    {$name}: They usually just cause the spell to not work at all, but they can be more devastating.
     {$name}: It can take hours if not days to figure out how to fix such an issue.
     {$name}: Even spotting the issue itself can be quite a lot of work.
-    {$name}: Because in these cases especially, your subcauncious will work on these in the background.
-    {$name}: It will try to figure out the root cause and try to fix it.
-    {$name}: Often times when I am taking a stroll even.
-    {$name}: If I were to try and brute force a solution it would often times fail.
-    {$name}: Not only would I spend a lot of time and energy for naught, but it would also be frustrating.
-    {$name}: By mindfully procrastinting I am actually more efficient and also live more healthily.
-    {$name}: The mindset of things being 'Good Enough' can help here as well.
+    {$name}: It's in those situations that taking a break can be extremely useful.
+    {$name}: As you do something else, your subconscious will continue to work on the task.
+    {$name}: It'll try to figure out the root cause and search for solutions.
+    {$name}: This happens most often times when I'm taking a stroll.
+    {$name}: Like I am right now.
+    {$name}: Brute forcing a solution often times fails.
+    {$name}: Not only would I spend a lot of time and energy for nothing, but it would also be frustrating.
+    {$name}: By mindfully procrastinating, I'm actually more efficient and also live more healthily.
+    {$name}: Being able to accept a 'Good Enough' is really important here.
     {$name}: It's easier to postpone things when you know that you aren't aiming for perfection.
-    {$name}: In fact, perfection is the enemy of good.
-    {$name}: That is why I think perfectionism is a curse, not a blessing.
+    {$name}: In fact, perfection's the enemy of good.
+    {$name}: That's why I think perfectionism is a curse, not a blessing.
     {$name}: People that boast about being perfectionists are completely ignorant to this fact.
     {$name}: The whole notion of something being 'perfect' is nonsensical.
     {$name}: Perfection just does not exist, and can never exist.
-    {$name}: The more time your spend on trying to achieve it, the more frustrated you will become.
+    {$name}: The more time your spend on trying to achieve it, the more frustrated you'll become.
     -> Okay fair, I can see that. But you still need to aim to improve yourself.
         {$name}: Absolutely, though I never said to not do that.
         {$name}: 'Good enough' doesn't exclude improvement.
-        {$name}: On the contrary, if you want to make something good you will often have to step outside your comfort zone.
+        {$name}: On the contrary, if you want to make something good you'll often have to step outside your comfort zone.
         {$name}: I would actually argue that perfectionism often doesn't involve you stepping outside your comfort zone.
-        {$name}: That is because if you want to make something perfect, then you will do the same thing over and over.
-        {$name}: But rarely in a matter that will teach you new things.
-        {$name}: So accepting the reality of 'good enough' and moving forward allows you to learn more and learn faster.
-        {$name}: And, in my experience, you enjoy the process as a whole much more.
-        {$name}: I believe there is a little more nuance here.
+        {$name}: Because if you want to make something perfect, then you'll do the same thing over and over.
+        {$name}: But rarely in a matter that'll teach you something new.
+        {$name}: Accepting the reality of 'Good Enough' allows you to learn more and learn faster.
+        {$name}: And you enjoy the process as a whole much more.
+        {$name}: I believe there's a little more nuance here.
         <<jump EleonoreCorrectMindset>>
     -> I disagree, perfect is subjective, so it can very well exist.
-        {$name}: You are arguing along the lines of beauty is in the eye of the beholder?
+        {$name}: You're arguing along the lines of: Beauty is in the eye of the beholder?
         {$name}: I certainly agree with that, and also that the definition of perfect is subjective.
         {$name}: But that still doesn't really make it attainable.
-        {$name}: You will always find something to improve.
+        {$name}: You'll always find something to improve.
         {$name}: Even if you were to define your state of perfect as something imperfect.
-        {$name}: The very fact that you are trying to model reality towards what you have in your head is the problem.
+        {$name}: The very fact that you're trying to model reality based what you have imagined is the problem.
         {$name}: Does your definition of perfection change?
         {$name}: Yes it does.
         {$name}: Based on what?
@@ -268,38 +271,40 @@ title: EleonoreActionableStepProcrastination
         {$name}: You could even argue this point philosophically.
         {$name}: How can you even be sure that what you perceive is real?
         {$name}: You can't, so reality is inherently non perfect.
-        {$name}: And the more you try to attain the unattainable, the more distracted you will become.
+        {$name}: And the more you try to attain the unattainable, the more distracted you'll be.
         {$name}: I think this plays into a very similar subject.
         <<jump EleonoreCorrectMindset>>
-    -> I don't think you will always become frustrated the more you try to achieve something.
+    -> I don't think you necessarily will become frustrated the more you try to achieve something.
         {$name}: I think it depends on your sense of progress.
         {$name}: Perfectionism leads to a sense of waste of time.
-        {$name}: Because instead of progressing with your subject, you are distracted by small details.
-        {$name}: In a way you don't have the bigger picture in view.
-        {$name}: If you did, you would realize that most details aren't that important.
+        {$name}: Because instead of progressing with your subject, you're distracted by small details.
+        {$name}: In a way, you don't have the bigger picture in view.
+        {$name}: If you'd, you'd realize that most details aren't that important.
         {$name}: It's a problem of priority.
         {$name}: And I think the underlying issue is your mindset.
         <<jump EleonoreCorrectMindset>>
 -> But wouldn't you still be better off to dedicate most of your time to your craft?
-    {$name}: I think you will hit diminishing returns at some point.
+    {$name}: I think you'll hit diminishing returns at some point.
     {$name}: Even eating food.
     {$name}: There are certain foods that you should eat a lot of and others you should avoid.
-    {$name}: But you can eat too much of anything and it will be bad for you.
-    {$name}: Not only will it not benifit you, it will actively harm you.
+    {$name}: But you can eat too much of anything and it'll be bad for you.
+    {$name}: Not only will it not benefit you, it'll actively harm you.
     {$name}: I think it's the same with everything else in life.
     -> Though this would also mean that spending all of your time in nature is bad?
         {$name}: Because it is.
-        {$name}: Well, it depends how you define bad.
-        {$name}: When you spend most of your time away from others, then you are more susceptible to diseases.
-        {$name}: Simply because your body is constantly fighting small portions of these while you are around others.
+        {$name}: Well, it depends on how you define bad.
+        {$name}: I'll give you an example that may seem weird at first, but I think it'll make sense in the end:
+        {$name}: When you spend most of your time away from others, then you're more susceptible to diseases.
+        {$name}: Simply because your body is constantly fighting small portions of these while you're around others.
+        {$name}: The more people around, the more your body fights.
         {$name}: This builds strength and resistance towards those diseases.
-        {$name}: But if you aren't around others at all, then you are most prone to get a really bad case if you get sick.
+        {$name}: But if you aren't around others at all, then you're more prone to get sick the next time you come in contact.
         {$name}: Of course, this only matters if you ever need to go near others.
-        {$name}: But because you simply can't know when or if you are going to be around others, this makes you more fragile.
+        {$name}: But because you simply can't know when or if you're going to be around others, this makes you more fragile.
         {$name}: More fragile towards randomness.
         {$name}: Because the random event is that you come in contact with another person.
         {$name}: Which is generally not good for you.
-        {$name}: You also loose on the benifit of learning from others.
+        {$name}: You also loose on the benefit of learning from others.
         {$name}: As always, there are positives and negatives.
         {$name}: And as with anything, there are no solutions, only trade-offs.
         {$name}: I can also put it this way.
@@ -307,31 +312,49 @@ title: EleonoreActionableStepProcrastination
     -> Hm, assuming that's true, then you are saying to live a balanced life?
         {$name}: Yes, at the very least when we are talking about efficiency.
         {$name}: A balanced life might make the most sense from a practical standpoint.
-        {$name}: But if you are simply the most happy when following your passion, then this might not make that much sense.
-        {$name}: Though 'balanced' is also very broad and I think can vary from person to peron.
-        {$name}: Actually, I have another thought to this.
+        {$name}: But if you're simply the most happy when following your passion, then this might change.
+        {$name}: Though 'balanced' is also very broad and varies from person to peron.
+        {$name}: Actually, I have another thought on this.
         <<jump EleonoreCorrectMindset>>
+-> Have you ever lived on a farm? There are plenty of things you must do that you really don't want to do sometimes. Regardless of whether you are living in a city or not.
+    {$name}: Yeah, that's a very good point.
+    {$name}: Though there's a difference.
+    {$name}: There isn't anybody forcing you to do the work on the farm.
+    {$name}: You do it because otherwise you and your family will starve.
+    {$name}: It's a natural need.
+    {$name}: What I was talking about in the city is man made.
+    {$name}: That's the difference.
+    {$name}: Otherwise it would have very little meaning to talk about this.
+    {$name}: There are things you must do, just take breathing.
+    {$name}: You can postpone it for a couple of seconds, minutes at best.
+    {$name}: So yes, there are things you must do.
+    {$name}: But that's not what I'm talking about.
+    {$name}: Living on your own comes with responsibilities, absolutely.
+    {$name}: But it's only through responsibility that you can experience freedom.
+    {$name}: As there's no freedom without responsibility.
+    {$name}: Anyways, I didn't mean to go so much into detail there.
+    {$name}: Because none of this really matters unless you can actually achieve your dream.
+    <<jump EleonoreCorrectMindset>>
 
 ===
 title: EleonoreBewarePerfectionism
 ---
 
 {$name}: Firstly, when I say perfectionism, I mean the following.
-{$name}: A tendency to be dissatisfied with anything non optimal or that meets ridiculously high standards.
-{$name}: Which in turn leads to an obsession over the most minuscule details that are insignificant.
-{$name}: But seem important to the perfectionist.
-{$name}: The problem is that this is completely stupid and doesn't make any sense.
+{$name}: 'A tendency to be dissatisfied with anything non optimal or that meets ridiculously high standards.'
+{$name}: Which, in turn, leads to an obsession over the most minuscule details that are insignificant.
+{$name}: But they seem important to the perfectionist.
+{$name}: The problem is that it's completely stupid and doesn't make any sense.
 {$name}: Firstly, achieving a state of 'perfect' just simply doesn't exist in reality.
 {$name}: It's something unattainable.
 {$name}: Secondly, say you just have extremely high standards, not to reach 'perfection'.
-{$name}: Then this is also stupid, because you will not reach those standards by obsessing about minor details.
-{$name}: It will slow down your learning.
-{$name}: Focusing on improving your skills and eventually being able to perform based to your high standards.
-{$name}: Instead you will waste your time over things you will rarely learn much from.
-{$name}: That doesn't mean that non-perfectionists are sloppy or slacking off.
+{$name}: Then this is also stupid, because you'll not reach those standards by obsessing about minor details.
+{$name}: It'll just slow you down.
+{$name}: You'll waste your time over things you'll rarely learn anything from.
+{$name}: It also doesn't mean that non-perfectionists are sloppy or slacking off.
 {$name}: In fact, you know the saying 'perfect is the enemy of good'?
 {$name}: Well guess why?
-{$name}: Because the more you try to achieve the 'perfect', the more distracted you will be.
+{$name}: Because the more you try to achieve the 'perfect', the more distracted you'll be.
 {$name}: In a way, it's a problem of priority.
 <<jump EleonoreCorrectMindset>>
 
@@ -341,14 +364,14 @@ title: EleonoreTimeplan
 
 {$name}: Have you ever worked on something for so long that you never thought of what comes after?
 You: Do I look like it?
-{$name}: Fair, though I was speaking figuratively...
+{$name}: ... Fair, though I was speaking figuratively...
 {$name}: Anyways, when you finally get to that point, you just have no clue what to do.
 {$name}: I don't really know what I would do after I achieved my dream.
-{$name}: To me it seems far worse to have achieved my dream and not know what to do then.
-{$name}: Instead of committing myself to achieving it.
-{$name}: Enjoying the journey is very important.
-{$name}: If you are only thinking about the end goal, then what happens when you reach it?
-{$name}: You will just set the next goal and mindlessly work until you reach that.
+{$name}: To me it seems far worse to have achieved my dream and not know what to do afterwards.
+{$name}: Instead, committing myself to achieving it seems far better.
+{$name}: 'Enjoying the journey', essentially.
+{$name}: If you're only thinking about the end goal, then what happens when you reach it?
+{$name}: You'll just set the next goal and mindlessly work until you reach that.
 {$name}: Resulting in you never being happy or fulfilled.
 {$name}: I much rather be working towards my dream steadily and enjoying every last second of it.
 -> So you didn't create that spell yet?
@@ -358,100 +381,97 @@ You: Do I look like it?
         {$name}: Any hugely ambitious goal takes a lot of time.
         {$name}: In particular when you want to create something of high quality.
         {$name}: You might want to get straight into creating your dream spell.
-        {$name}: However, this will most likely just fail completely.
+        {$name}: However, this'll most likely just end in complete disaster.
         {$name}: Instead, you should try to create really small spells.
-        {$name}: Which that seem almost trivial to make.
+        {$name}: Ones that seem almost trivial.
         {$name}: But creating a spell, any spell, is very difficult.
-        {$name}: Of course you will need to eventually start to work on you dream spell.
-        {$name}: I am just saying that you shouldn't expect to create your Magnum Opus right away.
-        {$name}: In fact it could even ruin it for you.
-        {$name}: To begin with, if it's you dream to create something big, then it means it's important to you.
+        {$name}: Of course, eventually you'll need to start to work on you dream spell.
+        {$name}: I'm just saying that you shouldn't expect to create your Magnum Opus right away.
+        {$name}: In fact, it could even ruin it for you.
+        {$name}: To begin with, if it's your dream to create something big, then it means it's important to you.
         {$name}: So why would you start to work on that right away?
         {$name}: When you skills are the lowest.
         {$name}: When your experience is practically zero.
         {$name}: When you haven't failed enough times to know how to succeed.
-        {$name}: The more ambitious your dream, the stronger the foundation of your skills has to be to achieve it.
-        -> What with people that don't have the time though?
+        {$name}: The more ambitious your dream, the stronger the foundation of your skills has to be in order to achieve it.
+        -> What's with the people that don't have the time to do so?
             {$name}: Yeah, this isn't a rule.
             {$name}: There is a certain type of people that can just work like that.
             {$name}: Also, not all people have the time necessary to achieve their dreams.
             {$name}: I don't see this idealistically.
             {$name}: It's simply a pattern I have observed from myself and quite a few others.
-            {$name}: But whatever will get you get you to your goal works.
             {$name}: For me it's about practicality.
-            {$name}: Though there is one thing I believe is required to achieve your dream.
-            {$name}: Regardless of any other qualities.
+            {$name}: Though there is one thing I believe is required to achieve any dream.
+            {$name}: Regardless of all other qualities.
             <<jump EleonoreCorrectMindset>>
         -> Essentially, master the basics before anything else?
             {$name}: Hm, not quite I think.
-            {$name}: While it's absolutely important to master the basics,
-            {$name}: It's even more important to continuously improve.
-            {$name}: You will not improve much if you do the same thing over and over.
+            {$name}: While it's absolutely important to master the basics, it's even more important to continuously improve.
+            {$name}: You'll not improve much if you do the same thing over and over.
             {$name}: And usually this is what people do when they think of 'master the basics'.
             {$name}: Instead, build things.
-            {$name}: Whatever it is that your craft makes.
-            {$name}: Just, create.
-            {$name}: I am saying to start very small.
+            {$name}: Whatever your craft, just, create more.
+            {$name}: I'm saying to start very small.
             {$name}: And to gradually increase the size and scope.
-            {$name}: You will practice the basics with every time you create something new.
-            {$name}: But you will also improve as you will face new challenges.
+            {$name}: You'll practice the basics every time you create something new.
+            {$name}: But you'll also improve as you'll face new challenges.
             {$name}: These are just techniques though.
             {$name}: Little tips and tricks that may make it easier to achieve your dream.
-            {$name}: They can only help you though, they are not the necessary component.
+            {$name}: While they'll help you, they are not the necessary component.
             <<jump EleonoreCorrectMindset>>
         -> I don't know, I don't think it's applicable to every craft.
             {$name}: Yeah that is very likely not the case.
             {$name}: But I don't mean this as a strict rule.
             {$name}: I do wonder in which cases this would not hold though.
             {$name}: I think this depends even more on the person than it does on the craft.
-            {$name}: While I haven't seen any craft were this rule generally doesn't hold,
-            {$name}: I have seen people that can work regardless of this.
+            {$name}: I cannot think of any craft where this rule doesn't apply.
+            {$name}: Though I have seen people that can work regardless of this.
             {$name}: So this is a at best a rule of thumb if anything.
             {$name}: But I think there is one characteristic that isn't optional.
             <<jump EleonoreCorrectMindset>>
     -> Because you are a bad mage?
         {$name}: Hey, don't get cheeky now.
         {$name}: It's just that it's a difficult task.
-        {$name}: I wouldn't claim that I am a great mage though, even for a witch.
+        {$name}: I wouldn't claim that I'm a great mage though, even for a witch.
         {$name}: But what do you think does it take to achieve your dream?
         {$name}: Motivation? Passion?
-        {$name}: Discipline. A lot of discipline.
+        {$name}: It's discipline. A lot of discipline.
         {$name}: And a strong mind.
-        {$name}: I like to think of it this way.
+        {$name}: I like to think of it this way:
         <<jump EleonoreCorrectMindset>>
 -> Though will you not be happy once you achieve your dream? Isn't that the point of it all?
     {$name}: Oh no, it's not that simple at all.
     {$name}: Firstly, think about what actually happens in that case.
-    {$name}: You achieve your dream, you are gonna be happy for a split second, and then what?
-    {$name}: Then you will either feel a feeling of extreme emptyness or a new dream will pop up in your head.
-    {$name}: Either way, you will not achieve true happiness
-    {$name}: Secondly, the feeling of anticipation is usually stronger then the actual thing.
+    {$name}: You achieve your dream, you're gonna be happy for a moment, and then what?
+    {$name}: Then you'll either feel a feeling of extreme emptyness or a new dream will pop up in your head.
+    {$name}: Either way, you'll not achieve true happiness
+    {$name}: Secondly, the feeling of anticipation is usually stronger than the actual thing.
     {$name}: This goes for both positive and negative feelings.
-    {$name}: The more you *think* you want something, the less you happy you will feel once you actually get it.
-    {$name}: Same with fears, the more you fear something.
-    {$name}: The more you fear something the worse it gets in your head.
-    {$name}: But when you actually face it, it is usually less bad then you imagined.
+    {$name}: The more you think you want something, the less happy you'll feel once you actually get it.
+    {$name}: Same with fear.
+    {$name}: The more you fear something the worse it is inside your head.
+    {$name}: But when you actually face it, it's usually less bad then you imagined.
     {$name}: This is why expecting the worst can be a powerful tool.
-    {$name}: But to get back to the question.
-    {$name}: The more you want to achieve something, the more disappointed you will be once you actually achieve it.
-    {$name}: That is why instead of wanting to achieve me dream, I want to be achieving my dream.
-    {$name}: I am most happy when I am working on my spell, when I am in the action.
+    {$name}: Anyways, to get back to the question.
+    {$name}: The more you want something, the more disappointed you'll be once you actually get it.
+    {$name}: That's why instead of wanting to achieve my dream, I want to be achieving my dream.
+    {$name}: I'm most happy when I work on my spells.
     {$name}: I don't derive my happiness from the end result, rather from the actions I take every moment.
-    {$name}: There is a story of a man.
+    {$name}: This reminds me of a story.
     <<jump EleonoreSisyphus>>
 -> I understand that you are in no rush to reach your goal, but what with people that have less time?
     {$name}: That is an interesting point.
-    {$name}: I am not too sure.
+    {$name}: I'm not too sure.
     {$name}: If you have little time, then you don't need to worry about what comes after achieving your dream.
     {$name}: They *can't* worry about it even.
-    {$name}: I mean I am not too worried about achieving my dream.
-    {$name}: It's simply that I am enjoying my life as it is right now.
+    {$name}: I mean, I'm not too worried about what comes after either.
+    {$name}: It's simply that I'm enjoying my life as it is right now.
     {$name}: I know how it feels to lack a purpose in life.
-    {$name}: The meaninglessness it brings.
-    {$name}: What if that is the state you will find yourself once you achieve your dream?
+    {$name}: The feeling that something is just missing.
+    {$name}: What if that's the state you'll find yourself once you achieve your dream?
     {$name}: Wouldn't it be better to have limited time but work on something with passion?
     {$name}: Instead of having all the time in the world but no purpose to commit to.
-    {$name}: I don't know, I am happy with the way things are right now.
+    {$name}: I don't know, I'm happy with the way things are right now.
     {$name}: If I knew I had less time, maybe I would act differently.
     {$name}: But that opens another question.
     {$name}: Should you act like today is your last day? Everyday?
@@ -462,17 +482,15 @@ You: Do I look like it?
         {$name}: I see, in that case we agree.
         {$name}: I believe this is a great way to live with less regrets.
         {$name}: Or even to learn to live with none at all.
-        {$name}: But I think it's a lot harder to put into practice then it is to talk about it.
+        {$name}: But it's a lot easier said than done.
         <<jump EleonoreCorrectMindset>>
-    -> Hm, no, I think it's a bad way to live your life. You need to think in the long run.
-        {$name}: I agree that one shouldn't disregard planning and thinking of the future.
-        {$name}: Though I am also not sure if that is what the statement is getting at necessarily.
-        {$name}: Of course there is not much you can plan for if you had truly only a single day left.
-        {$name}: If you have kids or other family members then maybe you could make a point for planning for them.
-        {$name}: Regardless, I think the statement isn't making a point about planning and instead more about living a fulfilling live.
-        {$name}: Time is just about the most scarce resource for any living thing.
-        {$name}: However we tend to forget this very easily as we don't seem very aware of this in the moment.
-        {$name}: So if you were to treat every day like it's your last, you are essentially reminding yourself of that.
+    -> Hm, no, I don't really like it. It sounds depressing.
+        {$name}: Haha, yeah I get you.
+        {$name}: Though I think that mentality can also be liberating.
+        {$name}: Time is just about the most scarce resource for any living being.
+        {$name}: However, we tend to forget this very easily as we don't seem very aware of this in the moment.
+        {$name}: Or at least, if there is too much comfort around you to see it.
+        {$name}: If you were to treat every day like it's your last, you're essentially reminding yourself of that.
         {$name}: Think of it this way.
         <<jump EleonoreCorrectMindset>>
 
@@ -491,10 +509,10 @@ title: EleonoreSisyphus
     {$name}: To make it brief, he was a human living in ancient times.
     {$name}: He was a violant tyrant killing people to display his power.
     {$name}: He was also somewhat of a trickster, cheating death multiple times.
-    {$name}: Legends have it that the gods became so enraged with him that they gave them the following task.
-    {$name}: To roll a boulder up a mountain for all of eternity.
-    {$name}: The boulder would never actually reach to the top.
-    {$name}: Everytime it neared the top it would roll back down.
+    {$name}: Legends have it that the gods became so enraged with him that they gave him the following task:
+    {$name}: Roll up a boulder on top of a mountain for all of eternity.
+    {$name}: The boulder would never actually reach the top.
+    {$name}: Everytime it came close the top, it would roll back down.
     {$name}: A task that is laborious and seemingly futile.
     <<jump EleonoreSisyphusHappy>>
 
@@ -521,7 +539,7 @@ title: EleonoreSisyphusHappy
     {$name}: I think the mind plays a huge role in this.
     <<jump EleonoreCorrectMindset>>
 -> Yes, I imagine him to be.
-    {$name}: So did I in the past.
+    {$name}: So'd I in the past.
     {$name}: But recently I have been thinking more about the concept of eternity.
     {$name}: And I don't see how you can be happy in an eternal state.
     {$name}: But I think he can absolutely be happy about his task, because that is within his control.
@@ -534,28 +552,28 @@ title: EleonoreSisyphusHappy
 title: EleonoreCorrectMindset
 ---
 
-{$name}: In order to achieve any dream, a person needs to be able to do the following.
-{$name}: They need to be able to sacrifice instant gratification for future reward.
-{$name}: Choosing to do the hard work for delayed payoff essentially.
+{$name}: I think that in order to achieve any dream, you must be able to do one thing.
+{$name}: Sacrifice instant gratification for future reward.
+{$name}: Choosing to do the hard work for delayed payoff.
 {$name}: For example, deciding to train your body instant of eating some cake.
-{$name}: Of course instant gratification has it's place too.
-{$name}: But it's far too easy to induldge in the latter.
+{$name}: Of course, instant gratification has its place too.
+{$name}: But it's far too easy to induldge in it.
 {$name}: So, what would you say.
 {$name}: Are you a person that works hard?
 -> Yes, I would say I am.
-    {$name}: Really? That would be great then.
-    {$name}: Most people benifit from such a mindset.
+    {$name}: Really? That would be great.
+    {$name}: Most people benefit from such a mindset.
     {$name}: But my point with this was to say the following.
     {$name}: If you want to achieve your dream, you must adopt this kind of mindset.
     {$name}: Any dream worth having is going to be hard to achieve!
-    {$name}: You will inevitably hit a wall.
-    {$name}: If you are not prepared, you are just going to go after the next easy thing.
+    {$name}: You'll inevitably hit a wall.
+    {$name}: If you're not prepared, you'll just go after the next shiny thing.
     {$name}: The next stimulation.
-    {$name}: And no matter how motivated you are, no matter how much you love your craft.
+    {$name}: And no matter how motivated you're, no matter how much you love your craft.
     {$name}: The time will come were this fire will burn out.
-    {$name}: I love magic more than anybody I know, yet even I reached this point.
+    {$name}: I love magic more than anybody in the world, yet even I reached this point.
     {$name}: It's important to take care of your mind and body.
-    {$name}: You are likely to fail if you try to rush to get to your goal.
+    {$name}: You're likely to fail if you try to rush to get to your goal.
     {$name}: Instead, think for the long run.
     {$name}: Slow and steady wins it all.
     -> But wouldn't that mean that you are always living in the future and never in the present?
@@ -564,122 +582,121 @@ title: EleonoreCorrectMindset
     -> This doesn't really sound like you are enjoying life though.
         {$name}: Oh? You mean it's not fun to chase after your dream?
         {$name}: To persue what you always wanted to do?
-        {$name}: I get that it sounds tough to always push yourself.
+        {$name}: I get that it sounds tough to constantly push yourself.
         {$name}: But that's also what's so fun about it.
         {$name}: The easy path is only rewarding for a split second.
-        {$name}: Once the rush wears off you will feel crap.
+        {$name}: Once the rush wears off, you'll feel like crap.
         {$name}: It's the exact opposite with hard work.
-        {$name}: It may feel challenging in the moment, but great once you have overcome it.
+        {$name}: It may feel challenging at first, but great once you get going.
         {$name}: And for me, even the most challenging aspects of magic are enjoyable.
         {$name}: That's what it should feel like when you do the thing you love.
         -> How do you find the thing you love?
-            {$name}: That's actually not such a trivial thing.
-            {$name}: Or well it depends.
+            {$name}: That's a good question.
             <<jump EleonoreFindTheThingYouLove>>
         -> Again, it seems more that you are coping instead of actually enjoying it.
-            {$name}: You mean because it sounds like I am pushing myself and working hard?
+            {$name}: Because it sounds like I'm pushing myself and working hard?
             <<jump EleonoreEnjoyingLife>>
     -> I agree with you.
         {$name}: Really? Then let me ask you this.
         <<jump EleonorePaiFascination>>
 -> No, if I am being honest not really.
-    {$name}: Oh, well at least you are honest about it.
+    {$name}: Oh, well at least you're honest about it.
     {$name}: Though what do you think is the reason for that?
     {$name}: Is it just that you don't need to work hard?
-    {$name}: Perhaps a lack of passion for anything?
+    {$name}: Or is it perhaps a lack of passion for anything?
     -> Why would you need to work hard? I don't see it as something bad.
         {$name}: Ah. So hard work doesn't necessarily make you happy, enjoying the moment is what is important?
         <<jump EleonoreEnjoyingLife>>
-    -> I think it's a lack of necesassity.
-        {$name}: I see, I would think this is the most common reason.
-        <<jump EleonorePaiLacksNecesassity>>
-    -> I mean I do have things I like, but I guess not that much?
+    -> I think it's a lack of necessity.
+        {$name}: I see, I think this is the most common reason.
+        <<jump EleonorePaiLacksNecessity>>
+    -> I mean I do have things I like, but I guess I don't like them that much?
         {$name}: Hm, let me ask it differently then.
         <<jump EleonorePaiFascination>>
 
 ===
-title: EleonorePaiLacksNecesassity
+title: EleonorePaiLacksNecessity
 ---
 
-{$name}: We humans try our best to make our lives as comfortable as possible.
-{$name}: Which results in too comfortable lives if aren't careful.
-{$name}: The easy and the trivial aren't really satisfying in the long term.
-{$name}: So you get unhappy when your live is too comfortable.
+{$name}: We humans try our best to make our lifes as comfortable as possible.
+{$name}: Which results in too comfortable lifes if aren't careful.
+{$name}: The easy and the trivial aren't satisfying in the long term.
+{$name}: So you get unhappy when your life is too comfortable.
 {$name}: But it's so paradoxical.
 {$name}: I mean why not just make it more difficult then?
-{$name}: Though why would humans try to make live more comfortable in the first place?
+{$name}: Though why would humans try to make life more comfortable in the first place?
 {$name}: It's truly bizarre.
-{$name}: I think the root cause lies in the fact that humans need stressors.
-{$name}: Take your muscles, if you don't give them regular stress in the form of movement or exercise, they will deteriorate.
+{$name}: I think the reason lies in the fact that humans need stressors.
+{$name}: Take your muscles as an example.
+{$name}: If you don't give them regular stress in the form of movement or exercise, they'll deteriorate.
 {$name}: I think it's the same with your mind.
-{$name}: You need regular challenges, otherwise you will forgot how to properly use your mind and body.
+{$name}: You need regular challenges, otherwise you'll forget how to properly use it.
 -> Okay, then what if your environment is too comfortable and doesn't provide these challenges?
     {$name}: Well, as I see it you have two options.
     {$name}: You either change your environment and make it more challengeing.
     {$name}: Or you build a strong enough mindset to work hard regardless of your circumstances.
-    {$name}: The later being arguably a lot harder to achieve.
-    {$name}: I think you should always change your environment to change you towards the person you want to become.
+    {$name}: The later is much more unrealistic than most people think.
+    {$name}: I think you should always change your environment to change yourself.
     {$name}: Because everything else will be like fighting against the flow.
     {$name}: Not impossible, but it requires a lot of energy.
     {$name}: But making your environment purposefully more difficult seems very counterintuitive.
-    {$name}: However, I am a firm believer that everything has positives and negatives.
+    {$name}: However, I'm a firm believer that everything has positives and negatives.
     {$name}: That there exist only trade-offs, no solutions.
-    {$name}: So that means there are also going to be positive side effects with a more difficult livestyle.
+    {$name}: So that means there are also going to be positive side effects with a more difficult lifestyle.
     {$name}: For example, you could choose to grow your own food.
     {$name}: It's certainly harder then buying food.
     {$name}: But you also get more control over how your food is grown and what kind of variety.
-    {$name}: I think this is a general trend.
+    {$name}: I think you can apply this more generally.
     <<jump EleonoreFreedomResponsibility>>
 -> Too much isn't good either though.
     {$name}: Yes of course, too much stress will be harmful.
     {$name}: Just like too much physical stress will rip your muscles.
-    {$name}: So will too much mental stress drive you insane.
-    {$name}: But the point is that you grow from this stress.
+    {$name}: And too much mental stress will drive you insane.
+    {$name}: But the point is that you grow from stress, the right amount of stress.
     {$name}: It's essentially stepping outside your comfort-zone and gradually increasing it.
-    {$name}: You don't want step out too much, but you do need to step outside of it to grow.
+    {$name}: You don't want step out too much, but you do need to step outside.
     {$name}: I also think that this is required to live a happy life.
     -> But how would you do that? Stepping outside your comfort-zone is by definition not easy.
-        {$name}: I agree.
+        {$name}: Haha, yeah exactly.
         {$name}: But I think there are steps you can take to make it easier.
-        {$name}: And that is to increase your freedom.
+        {$name}: And that's to increase your freedom.
         <<jump EleonoreFreedomResponsibility>>
-    -> Though that would mean that you constantly face challenges in life.
-        {$name}: Yes exactly.
-        {$name}: You mean to say that this is not enjoying life?
+    -> Though that would mean that you constantly have face challenges in life.
+        {$name}: Exactly.
+        {$name}: You mean to say that's not an enjoyable life?
         <<jump EleonoreEnjoyingLife>>
 
 ===
 title: EleonoreFreedomResponsibility
 ---
 
-{$name}: The more freedom you have in any given area, the more responsibility you bear.
-{$name}: And the more responsibility you bear, the more meaningful your decisions become.
-{$name}: It also increases your workload and in a way your hardship.
-{$name}: But I think it does so in a good way.
+{$name}: The more freedom you have, the more responsibility you bear.
+{$name}: And the more responsibility you bear, the more meaningful the decisions you take.
+{$name}: It also increases your hardship.
+{$name}: But I in a good way.
 {$name}: I think this becomes more clear when you look at the opposite.
-{$name}: That is, no freedom and thus no responsibilities.
-{$name}: Meaning your decisions don't have much meaning, as they bear barely any consequences.
-{$name}: Of course you could argue that you have more time for other meaningful tasks.
-{$name}: But how can that be the case, when you lack freedom to do so?
-{$name}: And I think that is were the problem of comfort originates from.
-{$name}: Think about an apex predator in the wild and one trapped in a cage.
+{$name}: So that would be: No freedom leading to responsibilities.
+{$name}: Because you don't have any responsibilities with your actions, they lack consequences.
+{$name}: And actions without consequences don't allow you to grow and derive meaning from.
+{$name}: I think this is where the whole problem of comfort originates from.
+{$name}: Think about the difference of a wild animal and one that's trapped in a cage.
 {$name}: The former needs to hunt for himself and owns his mistakes.
-{$name}: He needs to be fit in order to survive, so he is forced to work hard by the rules of nature.
-{$name}: Compared to the later, which gets fed on a regular schedule and isn't exposed to any real danger.
-{$name}: The former is free and responsible for his own life, while the other is trapped and deprived of any responsibility.
-{$name}: The one that is trapped certainly has a more comfortable live.
-{$name}: He gets to sleep all day and doesn't have a worry in the world.
-{$name}: But he also has a meaningless life.
+{$name}: He needs to be fit in order to survive, so he's forced to work hard by the rules of nature.
+{$name}: Compared to the later, which gets fed and isn't exposed to any real danger.
+{$name}: The former is free and responsible for his own life, while the other is trapped and deprived of any responsibilities.
+{$name}: Living in the cage certainly is the more comfortable life.
+{$name}: You get to sleep all day and don't have a worry in the world.
+{$name}: But it's also the by far less meaningful one.
 -> But escaping your prison and fighting against it is meaningful. You still have the freedom to do that.
-    {$name}: Yes that is exactly it.
-    {$name}: However that requires a lot of mental energy.
-    {$name}: If your live is comfortable, what incentive do you have to change it?
-    {$name}: The longer you live such a life the more your mind and body will change for the worse.
-    {$name}: And it will become harder and harder to fight against it.
+    {$name}: Yes, that's exactly it.
+    {$name}: However, that requires a lot of mental energy.
+    {$name}: If your life is comfortable, what incentive do you have to change it?
+    {$name}: The longer you live such a life, the more your mind and body will change for the worse.
+    {$name}: And it'll become harder and harder to fight against it.
     {$name}: It's a downwards spiral.
-    {$name}: So you have the choice wants you realize this.
+    {$name}: You have the choice once you realize this.
     {$name}: Do you change your environment, or do you bet on your willpower?
-    {$name}: I would always pick the former, because time will play in your favor.
+    {$name}: I would always try to change my environment.
     {$name}: Because what does it even mean for the trapped one to fight against his prison?
     {$name}: It means to break free and live in freedom.
     {$name}: So his goal is to change his environment!
@@ -688,20 +705,20 @@ title: EleonoreFreedomResponsibility
     {$name}: Maybe it's time for you to change your environment.
     <<jump EleonorePaiApprentice>>
 -> Responsibility is not all good though. It means you have less time for other things.
-    {$name}: True, but the more technological advance humanity makes the more freedom people can obtain.
+    {$name}: True, but the more humanity advances in technology, the more time people have.
     {$name}: But it seems like people are just giving up more and more freedom.
     {$name}: So what are they spending there newly found time on?
     {$name}: In my experience, it's spend on pointless hedonistic pleasures.
     {$name}: Which again, I think is simply due to the fact that it is bound to happen.
-    {$name}: Because once you have too little freedom, and thus too little responsibility, your live is too comfortable.
-    {$name}: And if you don't change that yourself then there will likely come the point where outside circumstances will do that for you.
-    {$name}: In which case you will not be ready for it.
-    {$name}: Like if you had to life a really heavy weight.
-    {$name}: If your live is too comfortable, you won't work out.
+    {$name}: Because once you have too little responsibility, your life is too comfortable.
+    {$name}: And if you don't change that yourself then there'll likely come the point where outside circumstances will do that for you.
+    {$name}: In which case you'll not be ready for it.
+    {$name}: Like if you had to lift a really heavy weight.
+    {$name}: If your life is too comfortable, you won't work out.
     {$name}: And so once the time comes were you must lift this heavy weight, you can't.
-    {$name}: So if your life is too easy, you must make it more difficult.
+    {$name}: If your life is too easy, you must make it more difficult.
     {$name}: Which I know is not easy.
-    {$name}: The best way to achieve is that by changing your environment.
+    {$name}: The best way to achieve this is by changing your environment.
     {$name}: Oh, why don't you do that?
     {$name}: Why don't you join me?
     <<jump EleonorePaiApprentice>>
@@ -723,18 +740,18 @@ title: EleonorePaiFascination
 ---
 
 {$name}: Do you have anything that deeply fascinates you?
--> Hm, yes, I actually do.
+-> Yes, I do.
     <<jump EleonorePaiFascinationPositive>>
 -> No, not really.
     <<jump EleonorePaiFascinationNegative>>
 -> What do you mean with 'fascinates you'?
-    {$name}: Like, something you are passionate about.
+    {$name}: Like, something you're passionate about.
     {$name}: Something you really like to do.
     {$name}: Doesn't need to be your job or anything like that.
     {$name}: It can be a past time of yours or whatever.
     {$name}: Just something you really like.
     {$name}: You have something like that?
-    -> Yes, I would say I do.
+    -> In that case, yes, I would say I do.
         <<jump EleonorePaiFascinationPositive>>
     -> No I don't.
         <<jump EleonorePaiFascinationNegative>>
@@ -743,19 +760,19 @@ title: EleonorePaiFascination
 title: EleonorePaiFascinationPositive
 ---
 
-{$name}: Oh really? I expected you to not remember.
-{$name}: But that is great.
-{$name}: I think every human should have something like this.
-{$name}: So are you acting on this fascination?
-{$name}: Are you following this drive?
+{$name}: That's great.
+{$name}: I think every human should have something like that.
+{$name}: Are you acting on that fascination?
+{$name}: Are you following that drive?
 -> ... Not really.
-    {$name}: That's a shame. I know it's hard.
-    {$name}: I would not be were I am now without the help of my mentor.
+    {$name}: I see... that's a shame.
+    {$name}: I know it's hard. I have been there too.
+    {$name}: I wouldn't be where I'm now without the help of my mentor.
     {$name}: Oh! What about this then?
     <<jump EleonorePaiApprentice>>
--> Yes I am!
+-> Yes, I am!
     {$name}: Oh, that's awesome.
-    {$name}: It's becoming increasingly rare to find individuals that like this.
+    {$name}: It's becoming increasingly rare to find individuals like that.
     {$name}: Actually, that brings me to an idea.
     {$name}: I really enjoy having like-minded people around.
     {$name}: And I kinda like you.
@@ -766,31 +783,30 @@ title: EleonorePaiFascinationNegative
 ---
 
 {$name}: I see. That's a shame.
-{$name}: Life is easier when you have a passion.
+{$name}: Life is easier when you have a passion for something.
 {$name}: I would actually go as far as to say that your purpose of life depends on it.
 {$name}: If you don't have a passion, can you even live a comitted life?
-{$name}: And if you don't live a comitted live then you aren't living a purposeful life.
-{$name}: So I think a passion, some kind of dream you are trying to achieve, is necessary.
+{$name}: And if you don't live a comitted life then you aren't living a purposeful life.
+{$name}: So I think a passion, some kind of dream you're trying to achieve, is necessary.
 {$name}: But I also think that anything can become your dream.
-{$name}: We humans usually like things because we just have some intrinsic interest or because we are good in it.
-{$name}: The latter can be fostered.
+{$name}: We humans usually like things because we just have some intrinsic interest or because we are good at them.
+{$name}: The latter can be fostered by.
 {$name}: Oh, how about I just show you?
 <<jump EleonorePaiApprentice>>
-
 
 ===
 title: EleonoreEnjoyingLife
 ---
 
-{$name}: Is enjoying life and being happy the same? I am not quite sure.
+{$name}: Is enjoying life and being happy the same? I'm not quite sure.
 {$name}: They certainly aren't mutually exclusive.
 {$name}: But what does it mean to enjoy life in the first place?
 {$name}: It's not to enduldge in endless hedonistic pleasure.
-{$name}: Instead I would say it means to fulfill your purpose.
-{$name}: And at least in my experience, that leads to happiness.
+{$name}: Instead, I would say it means to fulfill your purpose.
+{$name}: Which leads to happiness.
 {$name}: This actually reminds me of a discovery I made not too long ago.
-{$name}: It's related to this in the regard that quite a lot of people see my life and think it's a struggle.
-{$name}: But really it's just them projecting their subjective world view onto me.
+{$name}: Quite a lot of people see my life and think it's a struggle.
+{$name}: But really, it's just them projecting their subjective world view onto me.
 <<jump EleonoreOptimizingEnvironment>>
 
 ===
@@ -798,63 +814,64 @@ title: EleonoreOptimizingEnvironment
 ---
 
 {$name}: There is a scale on how serious you can be about any given task.
-{$name}: It's a spectrum, so it's not just either serious or non-serious, it's something inbetween.
-{$name}: When doing tasks related to your work you are more serious about them.
-{$name}: Or at least that should be the case, if it isn't, then you luckily dislike your job.
-{$name}: The more serious you are about a given task, the more you will want to optimize it.
-{$name}: If the task is direclty linked to your dream, then you are probably gonna be very serious about it.
+{$name}: It's a spectrum, it's not just either serious or non-serious, it's something inbetween.
+{$name}: When performing tasks related to your work, you're more serious about them.
+{$name}: Or at least that should be the case, if it isn't, then you likely dislike your job.
+{$name}: The more serious you're about a given task, the more you'll want to optimize it.
+{$name}: If the task is direclty linked to your dream, then you're probably gonna be very serious about it.
 {$name}: And so optimizing it doesn't sound too crazy, even just a few percent will make a significant difference.
-{$name}: Say you work 4 hours each day on that task, an improvement of just 1% would make a massive difference over time.
-{$name}: This will result in compounding effects which will add up a lot.
+{$name}: Even an improvement of just 1% would make a massive difference over time.
+{$name}: It'll result in compounding effects which will add up a lot.
 {$name}: But anyways, my point is this.
-{$name}: When you are more serious about a task than the people around you, it's gonna suck.
-{$name}: Even if you are doing completely separate things.
-{$name}: Their presence alone will decrease your performance.
-{$name}: And again, I know this may sound like I am exaggerating.
-{$name}: But compound effects are extremely difficult for us humans to understand.
+{$name}: When you're more serious about a task than the people around you it's gonna suck.
+{$name}: Even if you're doing completely separate things.
+{$name}: Their presence alone will decrease your motivation.
+{$name}: And again, I know this may sound like I'm exaggerating.
+{$name}: But compounding effects are extremely difficult for us humans to understand.
 {$name}: Any non-linear behaviour is.
-{$name}: And so it's not that I am not enjoying life or overly worried.
-{$name}: It's simple that I care about this so much that I am willing to go to this length.
-{$name}: This is just difficult to understand for people that don't think this way.
-{$name}: It may similar to how chaotic people are incompatible with lawful people.
-{$name}: I am not sure if there is a link here, but it's something similar I reckon.
-{$name}: It's like how you may find it okay as a kid to leave your room in a mess.
+{$name}: And so it's not that I'm not enjoying life or overly worried.
+{$name}: It's simple that I care about this so much that I'm willing to go to this length.
+{$name}: People that don't think this way simply find it difficult to understand.
+{$name}: It's similar to how chaotic people are incompatible with organized people.
+{$name}: Though I'm not sure if there is a connection here.
+{$name}: Maybe it's like how you find it okay as a kid to leave your room in a mess.
 {$name}: You aren't gonna struggle to find a shirt to wear, so there isn't a particular need to tidy it up.
-{$name}: But if I were to keep such a mess in my study chamber it wouldn't work at all.
-{$name}: With hundreds of papers and dozens of books all over the place.
-{$name}: I would waste all my time just trying to find anything.
-{$name}: So at some point it becomes necessary to become more orderly.
+{$name}: But if I were to keep such a mess in my study chamber, then it would slow down my progress significantly.
+{$name}: I would waste all my time just trying to find the things I am looking for.
+{$name}: At some point it becomes necessary to become more orderly.
 {$name}: Maybe it's similarly necessary to become more serious in that regard.
 -> So you just seclude yourself from others?
-    {$name}: Somewhat. It's just really hard to find people that are similar to me.
-    {$name}: Being together with chaotic people just drives me insane.
-    {$name}: Besides, I prefer freedom and the responsibility it entails over comfort every time.
+    {$name}: Somewhat. It's just really hard to find people that are similar to you if you aren't considered normal.
+    {$name}: But really normal doesn't mean good.
+    {$name}: It's completely subjective to the group you find yourself in.
+    {$name}: If things are getting worse and worse, than how is being normal a good thing.
+    {$name}: For me being around chaotic people just drives me insane.
+    {$name}: Besides, I prefer freedom and the responsibility it entails over comfort.
     {$name}: It's why I dislike the city so much.
-    {$name}: And that's also the reason why I am out here.
-    {$name}: The more I can do myself the easier live is for me.
-    {$name}: It seems a little paradox at first, but it's just comforting to know that I am responsible for everything.
-    {$name}: Because this means that I am also the one that fixes anything if it's broken.
-    {$name}: Or that can deem it not important to fix.
+    {$name}: And that's also the reason why I'm out here.
+    {$name}: The more I can do myself, the easier life is for me.
+    {$name}: It seems a little paradox at first, but it's just comforting to know that I'm responsible for everything.
+    {$name}: Because this means that I'm also the one that fixes anything that's broken.
     {$name}: Of course this is only possible due to the technological advancement in magic.
-    {$name}: Otherwise it would be significantly harder to live the way I do right now.
+    {$name}: Otherwise it would be significantly harder to live the way I do.
     {$name}: Though one big drawback of living like this is that achieving my dream also gets harder.
     {$name}: It also gets easier in a lot of ways, but there are always trade-offs.
-    {$name}: One being that I don't have any colleaques around.
-    {$name}: What might take me months of trial and error could be resolved within one chat at lunch.
-    {$name}: Talking with other people that have expertise on a similar or above level as you.
+    {$name}: One being that I don't have any colleagues around.
+    {$name}: What might take me months of trial and error could be resolved by a single chat at lunch.
+    {$name}: Talking with people that have expertise in a similar subject to your own.
     {$name}: That is extremely powerful, and well it's obviously not going to happen out here.
-    -> You really seem to dislike cities a lot, but they also have their purpose.
-        {$name}: Yes of course, especially when you look at the reason why the formed in the first place.
-        {$name}: But I grew up in a large city, so I also know of their shortcomings.
-        {$name}: And there are a lot of shortcomings.
-        {$name}: Though I won't deny that they still bring benifits.
+    -> You really seem to dislike cities a lot, but they also have their benefit.
+        {$name}: Yeah of course, especially when you look at the reason why cities formed in the first place.
+        {$name}: But I grew up in a large city, so I also know of their drawbacks.
+        {$name}: And there are a lot of them.
+        {$name}: Though I won't deny that they still bring benefits.
         {$name}: However, they all come at the cost of your own freedom.
-        {$name}: I don't mean to say that you are imprisioned in the city.
-        {$name}: But you are naturally giving up certain freedoms in order to live with others.
-        {$name}: You must, otherwise living with so many different kinds of people would be impossible.
-        {$name}: There is a certain ruleset you must subscribe to or else you will get punished.
-        {$name}: It makes sense, it wouldn't work otherwise.
-        {$name}: But it nonetheless takes away some of your freedom.
+        {$name}: I don't mean to say that you're imprisioned in the city.
+        {$name}: But you're naturally giving up certain freedoms in order to live with others.
+        {$name}: Otherwise living with so many different kinds of people would be impossible.
+        {$name}: There is a certain ruleset you must subscribe to or else you'll get punished.
+        {$name}: It makes sense, it wouldn't work any other way.
+        {$name}: But it nonetheless takes away part of your freedom.
         {$name}: And there is this great saying I once heard:
         {$name}: 'People that sacrifice freedom for safety deserve neither.'
         {$name}: I think it's easiest to see for yourself though.
@@ -863,49 +880,45 @@ title: EleonoreOptimizingEnvironment
         <<jump EleonorePaiApprentice>>
     -> In that case, why don't you just live in a remote location with like-minded people?
         {$name}: Hahaha, yes, why don't I just do that?
-        {$name}: Well it's because it's firstly really hard to find like-minded poeple.
-        {$name}: And secondly, it's not that everybody wants to live their way like that.
-        {$name}: Even if I managed to find people that share similar values with the study of magic as their main focus.
-        {$name}: Not all of them would want to live in a remote location far away from most others.
+        {$name}: Well it's because it's firstly really hard to find like-minded poeple in the first place.
+        {$name}: And secondly, it's not that everybody wants to live a way like that.
+        {$name}: Even if I managed to find people that share a similar love for magic like I do.
+        {$name}: Not all of them would want to live in a remote location.
         {$name}: In fact, most of them actually like living in the city.
         {$name}: But I would definitely live with people that share my interests.
         {$name}: Actually, you don't have anywhere to go right?
-        You: No... what are you getting at?
-        {$name}: Right, so I have a feeling we would get along.
+        You: No... I don't, what are you getting at?
+        {$name}: Right, I have a feeling we would get along.
         {$name}: So what do you think?
         <<jump EleonorePaiApprentice>>
 -> What do you mean with non-linear?
     {$name}: Anything that doesn't have a constant growth or decline is non-linear.
     {$name}: When you throw a ball for example.
     {$name}: It's trajectory will not be linear.
-    {$name}: Instead it accelerates towards the ground, the speed is non-linear.
+    {$name}: Instead, it accelerates towards the ground, it's non-linear.
     {$name}: And we humans are exceptionally bad at understanding anything non-linear.
     {$name}: I think the reason is that anything can be approximated linearly if you zoom in enough.
-    {$name}: Again take the ball example.
+    {$name}: Again, take the ball example.
     {$name}: If you look at two very close points in time then the speed will appear linear.
-    {$name}: And for most things in life this is sufficient.
+    {$name}: And for most things in life, this is sufficient.
     {$name}: At least in nature.
-    {$name}: Now in the modern time we get very different scaling behaviour.
+    {$name}: But in modern life we get very different scaling behaviour.
     {$name}: You seem very eager to learn about these topics.
     {$name}: Why don't you spend some more time with me?
     <<jump EleonorePaiApprentice>>
--> You can change your behaviour over time then? How lawful and serious you are?
+-> You can change your behaviour over time then? How organized and serious you are?
     {$name}: Yes, I mean why shouldn't you?
     {$name}: 'Humans don't change', is that what you mean?
-    {$name}: I guess it would make somewhat sense from that perspective.
-    {$name}: I am not quite sure where I stand on.
-    {$name}: Humans can most definitely change certain aspects.
-    {$name}: They can become more orderly or more chaotic over time.
-    {$name}: Same with how serious they are about certain tasks.
+    {$name}: I'm not quite sure where I stand on.
+    {$name}: Humans can most certainly become more orderly or more chaotic.
+    {$name}: Same with how serious they are about specific tasks.
     {$name}: But the nature of a human?
-    {$name}: I don't know, I believed they could for a long time.
-    {$name}: However, I just never saw that in anybody.
+    {$name}: For a long time I have believed that they could, but now I don't know.
+    {$name}: I just never saw that in anybody.
     {$name}: Not even in myself. For better or for worse.
-    {$name}: It just seems like there is a certain part of us set by nature.
-    {$name}: And while we can change the direction partially through nurturing specific parts, it's never completely separate.
-    {$name}: But when talking specifically about lawfulness and seriousness, yes definitely.
-    {$name}: In the first place, you don't just have one level of how lawful you are.
-    {$name}: It depends on the tasks, and that can definitely change over time.
+    {$name}: It just seems like there's a certain part of us set by nature.
+    {$name}: Though it also depends on the subject.
+    {$name}: It varies, and it can definitely change.
     {$name}: You know what, why don't I show you?
     <<jump EleonorePaiApprentice>>
 
@@ -914,21 +927,21 @@ title: EleonoreFindTheThingYouLove
 ---
 
 {$name}: I have always liked magic.
-{$name}: Ever since I was a little kid I dreamed of creating my own spells.
+{$name}: Ever since I was a little kid, I dreamed of creating my own spells.
 {$name}: But I didn't become a mage right away, I tried a bunch of other things before that.
 {$name}: It can be tricky to know what you love to do.
-{$name}: However, it's very easy to spot things you hate to do.
-{$name}: And so if you aren't sure what your dream is, then try out a bunch of stuff.
-{$name}: Of course you do need to commit a decent amount of time to it.
+{$name}: However, it's very easy to spot things you dislike doing.
+{$name}: If you aren't sure what your dream is, then try out a bunch of stuff!
+{$name}: Of course you do need to commit to it.
 {$name}: I struggled a lot with my study of magic.
 {$name}: It took me years until I realized that I wanted to pursue magic with all my heart.
 {$name}: Even though I had this dream as a kid!
 {$name}: So I encourage you to try out things.
-{$name}: You will quickly realize whether you hate it.
-{$name}: And if you enjoy doing it, well I think you should stick with it.
+{$name}: You'll quickly realize whether you dislike them.
+{$name}: And if you enjoy doing it, well just stick with it.
 {$name}: At least for a little bit.
 {$name}: I think any person can become really good at pretty much anything.
-{$name}: And you generally tend to enjoy things more when you are better at it.
+{$name}: And you generally tend to enjoy things more the better you get.
 {$name}: What about you?
 <<jump EleonorePaiFascination>>
 
@@ -944,73 +957,73 @@ title: EleonoreTypesOfDreams
 {$name}: But who are they to judge?
 {$name}: Why should I make myself fit into their way of thinking?
 {$name}: I think you lose as soon as you cut your dream short because of others.
--> But wouldn't that mean if my dream was to commit mass murder then I should persue that?
+-> But wouldn't that mean if my dream was to commit mass murder, then I should persue that?
     {$name}: ... No, obviously not.
     {$name}: As I was saying, this only goes for dreams that don't harm or inconvience others.
     {$name}: That type of dream obviously violates this.
     {$name}: And besides, I honestly don't think that it's in the human nature to harm or hurt.
-    {$name}: You would only develop such tendencies if you are raised in an environment that fosters it.
+    {$name}: You would only develop such tendencies if you're raised in an environment that fosters it.
     {$name}: I believe it's the human nature to build and invent.
     {$name}: To create rather than to destroy.
-    {$name}: It's more difficult to create something than it is to destroy something.
-    {$name}: And the harder a task is, the more satisfying it is to accomplish it.
+    {$name}: It's more difficult to create than it's to destroy.
+    {$name}: And the harder a task, the more satisfying it's to accomplish.
     You: Is that always the case though?
-    {$name}: Okay, I can't prove to you rigorously that this is the case, but think for yourself.
-    {$name}: Firstly, the easier the task, the faster you are done with it.
-    {$name}: If you do a lot of the same thing, eventually, it will get boring.
+    {$name}: Okay, I can't prove it rigorously, but think for yourself.
+    {$name}: Firstly, the easier the task, the faster you're done with it.
+    {$name}: If you do a lot of the same thing, eventually, it'll get boring.
     {$name}: Accomplishing a difficult task is something that doesn't happen often.
-    {$name}: Relateive to accomplishing easy tasks that is.
-    {$name}: Because it happens more rarely, it stays something special.
-    {$name}: If you eat too much of the same cake, it will eventually become boring and dull.
-    {$name}: If you repeat the same workout too much, it will eventually become boring and dull.
+    {$name}: Relative to accomplishing easy tasks that is.
+    {$name}: Because it happens more rarely, it stays more special.
+    {$name}: If you eat too much of the same cake, it'll eventually become boring and dull.
+    {$name}: If you repeat the same workout too much, it'll eventually become boring and dull.
     {$name}: However, the later is a lot harder to overdue, simply because it's more challenging.
-    {$name}: So it's less likely that you will reach that point compared to the former.
+    {$name}: So it's less likely that you'll reach that point compared to eating cake.
     -> But what about your claim of humans being more creative than destructive?
         {$name}: I don't have any hard proof for that either, just my personal experience.
         {$name}: Did people in your life seem more destructive than constructive?
         {$name}: They certainly didn't in mine.
-        {$name}: Of course this depends on you environment.
+        {$name}: Of course this depends on your environment.
         {$name}: Different types of environments will foster different types of mindsets and behaviours.
         {$name}: Hm, perhaps think of this in terms of achieving your dream.
         <<jump EleonoreCorrectMindset>>
     -> I don't quite agree. Easy tasks don't have to be less meaningful than more difficult tasks.
         {$name}: Yes, that's true.
         {$name}: But I wasn't quite talking about the value of a task on its own.
-        {$name}: Which is very subjective anyways.
+        {$name}: Which is subjective anyways.
         {$name}: Rather, I was talking about the fact that all tasks become more normal to you the more you do them.
         {$name}: For example, breathing is very important.
-        {$name}: Yet you rarely think about the fact that you are constantly breathing in and out.
-        {$name}: Though I guess you are thinking about it right now ^-^
-        {$name}: My point is that you do so often that it has become absolutely normal.
+        {$name}: Yet you rarely think about the fact that you're constantly breathing.
+        {$name}: Though I guess you're thinking about it right now ^-^
+        {$name}: My point is that you do it so often that it has become absolutely normal.
         {$name}: And I state that this happens with anything you do.
-        {$name}: For me casting spells is natural at this point, I rarely actively think about it.
-        {$name}: The easier the task the faster you will reach this point of feeling natural.
-        {$name}: However, any task can reach that point I think, no matter how difficult.
-        {$name}: It's just that harder tasks are, well, harder to repeat that often.
+        {$name}: For me, casting spells is natural at this point, I rarely actively think about it.
+        {$name}: The easier the task, the faster you'll reach this point of feeling natural.
+        {$name}: However, any task can reach that point, no matter how difficult.
+        {$name}: It's simply that harder tasks are, well, harder. Thus you repeat them less often.
         -> I think I get it.
             {$name}: Alright cool.
-            {$name}: Then let me get finally close the bow and get back to our original topic.
+            {$name}: Then let me finally close the bow and get back to our original topic.
             <<jump EleonoreCorrectMindset>>
         -> Okay, let's leave it at that, I get your point. But what does that have to do with your dream?
-            {$name}: ... You do know that you asked me about this, yes?
+            {$name}: ... You do realize that you asked me about this.
             {$name}: Hmpf. So anyways, what I mean to say is that dreams are gonna be hard to achieve.
             {$name}: If they wouldn't, then they wouldn't be dreams.
             <<jump EleonoreCorrectMindset>>
         -> I still disagree.
             {$name}: Oh well, I don't know how else to explain it.
-            {$name}: Perhaps if I bring it back to what we talked about in the first place.
+            {$name}: Maybe it'll make sense if I you understand why I was talking about it in the first place.
             <<jump EleonoreCorrectMindset>>
 -> Hm, that makes me wonder what you would consider as the purpose of life?
-    {$name}: Oh coming with the big questions now huh?
-    {$name}: I think it's to live a comitted live without any regret.
+    {$name}: Oh coming with the big questions now, huh?
+    {$name}: I think it's to live a comitted life without any regret.
     {$name}: Which is why I think you must act on your passion.
-    {$name}: Otherwise, when you have such a strong passion and urge to create, you are bound to regret to not acting on it.
+    {$name}: Otherwise, when you have such a strong passion and an urge to create, you're bound to regret not acting on it.
     {$name}: I think you also should live a happy life.
-    {$name}: So perhaps you can define the purpose of live by living the most happy live you can.
+    {$name}: So perhaps you can define the purpose of life by living the most happy life you can.
     {$name}: But then how do you define happy?
     {$name}: And how would you differentiate between hedonistic pleasure and happiness stemming from hard work?
-    {$name}: For me I found the answer in living a committed live, which means to act on your passion.
-    {$name}: Which brings with it its own challenges.
+    {$name}: I found the answer in living a committed life, which means to act on your passion.
+    {$name}: Which comes with its own challenges.
     <<jump EleonoreCorrectMindset>>
 
 ===
@@ -1018,16 +1031,16 @@ title: EleonorePaiApprentice
 ---
 
 {$name}: How about I become your mentor?
-{$name}: Teach you how to live a purposeful live, build a strong mind and to foster your ambitions.
+{$name}: Teach you how to live a purposeful life, build a strong mind, and to foster your ambitions.
 {$name}: Do you want to become my apprentice?
 -> Wow... that's quite sudden.
     {$name}: I suppose.
     {$name}: Hm, how about you speak with a certain someone then?
     <<target_npc_mentioned {$name} {$target_npc}>>
-    {$name}: A girl called Isabelle lives around here.
+    {$name}: A girl called Isabelle, she lives around here.
     {$name}: She is a simple country girl but it's really interesting to talk with her.
     {$name}: I learned from her how to treassure the moment.
-    {$name}: Why don't you talk with her, perhaps that will help you to decide?
+    {$name}: Why don't you talk with her, perhaps that'll help you to decide?
     <<if $talked_with_target_npc>>
         You: I already talked with Isabelle.
         {$name}: Oh really?
@@ -1035,7 +1048,7 @@ title: EleonorePaiApprentice
     <<endif>>
     You: Hm, I guess I can talk to her.
     {$name}: That's the spirit!
-    {$name}: I will be waiting here for you.
+    {$name}: I'll be waiting here for you.
     {$name}: See ya in a bit.
     <<stop_chat>>
     <<jump EleonoreWaiting>>
@@ -1046,34 +1059,32 @@ title: EleonorePaiApprentice
     <<target_npc_mentioned {$name} {$target_npc}>>
     {$name}: Her name is Isabelle.
     {$name}: She is a simple country girl but it's really interesting to talk with her.
-    {$name}: I learned from her how to treassure the moment.
-    {$name}: I would like you to talk with her first before joining me.
+    {$name}: She taught me how to treassure the moment.
+    {$name}: Try to talk with her first before joining me.
     <<if $talked_with_target_npc>>
         You: I actually already talked with her.
         {$name}: Oh really?
         <<jump TalkedWithIsabelle>>
     <<endif>>
-    {$name}: It will give you a chance to evaluate your decision more.
-    You: Sounds reasonable. I will talk with her.
-    {$name}: Alright, I will be waiting here for you.
+    You: Sounds reasonable. I'll talk with her.
+    {$name}: Alright, I'll be waiting here for you.
     {$name}: See ya.
     <<stop_chat>>
     <<jump EleonoreWaiting>>
--> No I think I will pass.
-    {$name}: I see. Yeah it is a quite sudden question.
-    {$name}: Though I would like you to talk with somebody.
+-> No, I will pass.
+    {$name}: I see. Yeah it's pretty out of the blue.
+    {$name}: Though I would like you to talk with someone.
     <<target_npc_mentioned {$name} {$target_npc}>>
-    {$name}: A girl called Isabelle that lives around here.
+    {$name}: A girl called Isabelle, she lives around here.
     {$name}: She taught me how to treasure the moment and how important it is to live a balanced life.
-    {$name}: I think you could learn something from talking to her.
+    {$name}: I think you could learn something by talking to her.
     <<if $talked_with_target_npc>>
         You: I actually already talked with Isabelle.
         {$name}: Oh really?
         <<jump TalkedWithIsabelle>>
     <<endif>>
-    {$name}: You don't have to join me, but know that you still have the chance to should you change your mind after talking to her.
-    You: Okay, well I can at least talk to her.
-    {$name}: Yes. Feel free to tell me your chat.
+    You: Well I can at least talk to her.
+    {$name}: Feel free to tell me after your chat.
     {$name}: Until then.
     <<stop_chat>>
     <<jump EleonoreWaiting>>
@@ -1085,13 +1096,13 @@ title: EleonoreWaiting
 {$name}: ...
 <<if $talked_with_target_npc>>
 {$name}: Did you talk with Isabelle?
--> I did.
-    <<jump TalkedWithIsabelle>>
+You: I did.
+<<jump TalkedWithIsabelle>>
 <<else>>
 {$name}: Did you talk with Isabelle?
 -> No, not yet.
     {$name}: I see, well take your time.
-    {$name}: I will be waiting here.
+    {$name}: I'll be waiting here.
     <<stop_chat>>
     <<jump EleonoreWaiting>>
 -> I can't find her.
@@ -1104,8 +1115,10 @@ title: EleonoreWaiting
     <<if $talked_with_target_npc>>
         <<jump TalkedWithIsabelle>>
     <<else>>
-        {$name}: Hm, really? Your mana is telling me that is a lie.
-        {$name}: I am not forcing you.
+        {$name}: Hm, really?
+        {$name}: I can read mana flow pretty well y'know?
+        {$name}: I'm sensing a lie.
+        {$name}: Look, I'm not forcing you.
         {$name}: But I think it could be helpful for you.
         <<stop_chat>>
         <<jump EleonoreWaiting>>
@@ -1116,14 +1129,12 @@ title: EleonoreWaiting
 title: TalkedWithIsabelle
 ---
 
-{$name}: Cool. How did it go?
+{$name}: Cool. How'd it go?
 {$name}: Did you learn something, did you decide if you want to join me?
 -> Yes, I will become your apprentice.
     {$name}: Really? Awesome!
-    {$name}: There aren't many witches how would take in an apprentice just like that you know.
-    {$name}: But I feel like you are special.
     {$name}: Alright then, shall we?
-    {$name}: I will show you all I know about magic and how to live your life so you will not have any regrets.
+    {$name}: I'll show you all I know about magic and how to live your life so you'll not have any regrets.
     <<jump EleonoreEnding>>
 -> Yes, I appreciate the offer, but I won't join you.
     <<jump EleonorePaiWontJoin>>
@@ -1134,8 +1145,8 @@ title: EleonorePaiWontJoin
 
 {$name}: I see.
 {$name}: Well it's your decision and I respect it.
-{$name}: Though I will stay a little longer.
-{$name}: If you change your mind feel free to come back.
+{$name}: Though I'll stay a little longer.
+{$name}: If you change your mind, feel free to come back.
 <<stop_chat>>
 <<jump EleonoreEndingNegative>>
 
@@ -1146,7 +1157,7 @@ title: EleonoreEnding
 {$name}: ...
 -> Yes please! *Join Eleonore*
     <<trigger_ending {$name}>>
--> Actually, I am not quite sure.
+-> Actually, I'm not quite sure.
     {$name}: Really now?
     {$name}: Okay... well just come back to me once you have decided.
     <<stop_chat>>
@@ -1156,7 +1167,7 @@ title: EleonoreEnding
 title: EleonoreEndingNegative
 ---
 
-{$name}: Hey, so did you change your mind?
+{$name}: Hey, so'd you change your mind?
 {$name}: Are you gonna join me?
 <<jump EleonoreEnding>>
 
