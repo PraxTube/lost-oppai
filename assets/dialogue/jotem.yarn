@@ -36,7 +36,7 @@ title: Jotem
 -> Are you Jotem? <<if $mentioned_by_IonasAndAntonius>>
     {$name}: Getting straight to the point ay?
     <<set $name to "Jotem">>
-    {$name}: Yeh, I am Jotem, and ye'r?
+    {$name}: Yeh, I'm Jotem, and who're ye?
     You: I am Pai.
     You: I was talking with Ionas and Antonius and they told me to talk with you.
     {$name}: I see.

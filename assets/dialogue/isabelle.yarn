@@ -15,21 +15,49 @@ You: Hey, yes, sort of.
     {$name}: What a coincidence, so am I!
     {$name}: It's really refreshing to take a stoll on such a beatiful day.
     {$name}: It helps clear the mind.
-    -> Is that the reason you are out on a stroll?
-        {$name}: Not today. I just wanted to enjoy the sun and the light breeze.
-        {$name}: 
-    -> What do you mean?
-        {$name}: Oh, you don't agree?
-        {$name}: I don't know why, but taking a stroll helps me solve my problems.
-        {$name}: Maybe it's because I am taking a break from them, but I somehow feel very refreshed.
-        {$name}: It's apparently also very useful when you work on very complex tasks that require a lot of thinking.
-        {$name}: At least that's what I have heard from some acquaintances.
-        -> 
+    You: Is that the reason you are out on a stroll?
+    {$name}: Not today. I needed a little time alone.
+    {$name}: I think that it's very important that you spend enough time with yourself.
+    {$name}: Of course it's just as important to be spending time with others.
+    {$name}: But without spending time by yourself, you can't relfect on the time you spend with others.
+    You: Though you aren't alone right now. Did I interrupt your alone time?
+    {$name}: Haha, of course not!
+    {$name}: Meeting strangers is part of the fun.
+    {$name}: I love talking with new people.
+    {$name}: Especially about what makes them happy.
+    {$name}: I think that's the most important thing in life.
+    {$name}: Oh, I haven't even introduced myself.
+    <<set $name to "Isabelle">>
+    {$name}: I am Isabelle, nice to meet you.
+    You: I am Pai, nice to meet you too.
+    {$name}: Say, Pai, what makes you happy?
+    You: I... don't really know.
+    You: There isn't anything really.
+    {$name}: Really? So you aren't happy with your current life?
+    You: No.
+    <<jump IsabelleLifeAdvice>>
 -> You must be Isabelle. <<if $mentioned_by_Eleonore>>
     <<set $name to "Isabelle">>
     {$name}: You know me?
-    You: Yes, I had a talk with Eleonore.
-    You: She told me 
+    You: Yes, I talked with Eleonore. She invited me to become her apprentice.
+    You: I told her I wasn't too sure about it and than she said to speak with Isabelle.
+    {$name}: I see, haha that Eleonore.
+    You: She said that you are the one that taught her to enjoy the moment and be happy with the now.
+    {$name}: Really? I wouldn't really say that I taught her, I merely had a chat with her.
+    {$name}: But that makes me happy.
+    {$name}: What about you Pai?
+    {$name}: Are you happy with your current life?
+    You: Wow, that is sudden.
+    {$name}: Haha is it? I am sorry.
+    {$name}: It's just that I think there is nothing more important than to be happy.
+    {$name}: Of course you want to think about the future.
+    {$name}: But if it makes you worry so much that you become unhappy in the moment it's not worth it.
+    {$name}: Having a general direction you are heading in life is good.
+    {$name}: To know what you want.
+    You: Would be nice to have something like that.
+    {$name}: You don't?
+    You: Nope, not really.
+    <<jump IsabelleLifeAdvice>>
 
 ===
 title: IsabelleHelpsPai
@@ -43,7 +71,7 @@ You: I am not. I don't remember anything, I just woke up in the middle of the ro
 {$name}: Huh?
 {$name}: So you don't even know how you got here?
 {$name}: Where are you from then?
-You: I... I don't remember.
+You: I... don't remember.
 {$name}: Hm... OH! How rude of me, I didn't even introduce myself yet!
 <<set $name = "Isabelle">>
 {$name}: I am Isabelle, who are you?
@@ -51,17 +79,14 @@ You: I am Pai, nice to meet you.
 {$name}: So you at least remember your name!
 {$name}: It's also nice to meet you, Pai.
 {$name}: Is there anything else you remember besides your name?
--> No... not really. Only that this feeling of being lost seems familiar.
-    {$name}: Huh.
-    {$name}: Could it be that you are lost in a more general way in life?
-    -> That... may be the case.
-        <<jump IsabelleLifeAdvice>>
+You: No, not really. Only that this feeling of being lost seems familiar.
+<<jump IsabelleLifeAdvice>>
 
 ===
 title: IsabelleLifeAdvice
 ---
 
-{$name}: I see. Well that's nothing bad though.
+{$name}: I see. That's nothing bad though.
 {$name}: You still seem pretty young.
 {$name}: I have met people that changed their lifes for the better when they were way older.
 {$name}: It's never to late to change directions.
@@ -83,11 +108,11 @@ title: IsabelleLifeAdvice
     {$name}: You never know how much time you will have left with them.
     {$name}: So you better treasure the moment you have and enjoy what is.
     {$name}: Right?
-    -> Hm, I suppose.
-        {$name}: You still seem hesitant.
-        {$name}: Oh yeah!
-        {$name}: How about this then?
-        <<jump IsabelleProposal>>
+    You: Hm, I suppose.
+    {$name}: You still seem hesitant.
+    {$name}: Oh yeah!
+    {$name}: How about this then?
+    <<jump IsabelleProposal>>
 -> Enjoying your time with others is a good point.
     {$name}: Yes, it's very important to treasure your relationships.
     {$name}: This can be harder then you might think however.
