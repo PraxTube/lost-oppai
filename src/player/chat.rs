@@ -24,7 +24,7 @@ fn start_chat(
     q_dialogue_runners: Query<&RunnerFlags, With<DialogueRunner>>,
     mut ev_player_started_chat: EventWriter<PlayerStartedChat>,
 ) {
-    if !player_input.start_dialogue {
+    if !player_input.dialogue {
         return;
     }
     for flags in &q_dialogue_runners {

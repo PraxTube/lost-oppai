@@ -164,7 +164,7 @@ fn select_option(
         }
     }
 
-    if !player_input.dialogue_confirm {
+    if !player_input.dialogue {
         return;
     }
 

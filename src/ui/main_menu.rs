@@ -387,7 +387,7 @@ fn confirm_main_menu(
     player_input: Res<PlayerInput>,
     mut ev_main_menu_button_pressed: EventWriter<MainMenuButtonPressed>,
 ) {
-    if player_input.dialogue_confirm {
+    if player_input.dialogue {
         ev_main_menu_button_pressed.send(MainMenuButtonPressed(ButtonAction::Play));
     }
 }

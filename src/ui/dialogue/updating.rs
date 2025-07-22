@@ -103,14 +103,14 @@ fn continue_dialogue(
     mut q_dialogue_runners: Query<(&mut DialogueRunner, &RunnerFlags)>,
     mut q_continue_visibility: Query<&mut Visibility, With<DialogueContinueNode>>,
 ) {
-    if input.dialogue_continue && !typewriter.is_finished() {
+    if input.dialogue && !typewriter.is_finished() {
         return;
     }
 
     if option_selection.is_some() {
         return;
     }
-    if !input.dialogue_continue && !typewriter.last_before_options {
+    if !input.dialogue && !typewriter.last_before_options {
         return;
     }
 
