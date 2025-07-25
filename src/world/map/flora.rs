@@ -32,7 +32,7 @@ const MAX_RADIUS: f32 = 4.0;
 const TREE_RADIUS: f32 = 3.0;
 const BUSH_1_RADIUS: f32 = 2.25;
 const BUSH_2_RADIUS: f32 = 1.25;
-const ROCK_RADIUS: f32 = 1.0;
+const ROCK_RADIUS: f32 = 1.15;
 
 const NPC_FLORA_RADIUS: f32 = 64.0;
 
@@ -63,7 +63,7 @@ fn spawn_rock(commands: &mut Commands, assets: &Res<GameAssets>, chunk_pos: IVec
     commands
         .spawn((
             Flora::new(chunk_pos),
-            YSort(-40.0),
+            YSort(-8.0),
             SpriteBundle {
                 texture: assets.rocks_texture.clone(),
                 transform: Transform::from_translation(pos),
