@@ -48,7 +48,7 @@ fn spawn_bar(mut commands: Commands, assets: Res<GameAssets>) {
 
 fn string_bar(x: f64) -> String {
     fn round_near_5(n: usize) -> usize {
-        (n + 4) / 5 * 5
+        n.div_ceil(5) * 5
     }
 
     let percent = round_near_5((x * 100.0) as usize);

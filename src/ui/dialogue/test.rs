@@ -133,10 +133,9 @@ fn validate_npc_names_existence() {
             let npc_name = parts[1].trim_start_matches('_');
             match NpcDialogue::from_str(npc_name) {
                 Ok(_) => {}
-                Err(err) => panic!(
-                    "The npc name doesn't match any NpcDialogue names, {}\n{}",
-                    npc_name, err
-                ),
+                Err(err) => {
+                    panic!("The npc name doesn't match any NpcDialogue names, {npc_name}\n{err}")
+                }
             };
         }
     })
@@ -203,8 +202,7 @@ fn match_names_with_files() {
             let npc_name = parts[1].trim_start_matches('_');
             if npc_name.to_lowercase() != npc_file_name.replace("-", "") {
                 panic!(
-                    "Name of npc is {} in yarn file, but yarn file is named {}",
-                    npc_name, npc_file_name
+                    "Name of npc is {npc_name} in yarn file, but yarn file is named {npc_file_name}"
                 );
             }
         }

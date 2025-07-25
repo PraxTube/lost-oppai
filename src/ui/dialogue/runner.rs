@@ -145,7 +145,7 @@ fn update_mentioned_by(
     mentioned_by: &NpcDialogue,
 ) {
     let variable_storage = runner.variable_storage_mut();
-    let variable = format!("$mentioned_by_{}", mentioned_by);
+    let variable = format!("$mentioned_by_{mentioned_by}");
     if !variable_storage.contains(&variable) {
         error!("Npc {}, does not contain var {}", flags.dialogue, variable);
         return;
