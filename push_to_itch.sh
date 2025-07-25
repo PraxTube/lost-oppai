@@ -2,7 +2,7 @@
 # It is required to have itch `butler` installed.
 
 binary="lost-oppai"
-itch_target="PraxTube/lost-oppai"
+itch_target="Rancic/lost-oppai"
 tag=$(git describe --tags --abbrev=0)
 
 rm -rf tmp_wasm
