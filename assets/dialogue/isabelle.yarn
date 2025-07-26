@@ -5,33 +5,31 @@ title: Isabelle
 <<set $talked_with_target_npc = false>>
 <<set $mentioned_by_Eleonore = false>>
 
-{$name}: Hello, stranger.
-{$name}: You look like you have had quite a day.
-You: Hey, yes, sort of.
+{$name}: Oh, hey there.
+{$name}: You look like you've had quite a day.
+You: Yes, sort of.
 {$name}: What are you doing out here? Are you lost?
 -> Yes...
     <<jump IsabelleHelpsPai>>
 -> I am just taking a leisurely stroll.
     {$name}: What a coincidence, so am I!
-    {$name}: It's really refreshing to take a stoll on such a beatiful day.
+    {$name}: It's really refreshing to take a stoll on such a beautiful day.
     {$name}: It helps clear the mind.
     You: Is that the reason you are out on a stroll?
     {$name}: Not today. I needed a little time alone.
-    {$name}: I think that it's very important that you spend enough time with yourself.
-    {$name}: Of course it's just as important to be spending time with others.
+    {$name}: I think it's important to spend time in solitude.
+    {$name}: Of course, it's just as important to be spending time with others.
     {$name}: But without spending time by yourself, you can't relfect on the time you spend with others.
-    You: Though you aren't alone right now. Did I interrupt your alone time?
-    {$name}: Haha, of course not!
+    You: Did I interrupt your alone time?
+    {$name}: Not at all.
     {$name}: Meeting strangers is part of the fun.
-    {$name}: I love talking with new people.
-    {$name}: Especially about what makes them happy.
-    {$name}: I think that's the most important thing in life.
+    {$name}: I love getting to know new people.
     {$name}: Oh, I haven't even introduced myself.
     <<set $name to "Isabelle">>
     {$name}: I am Isabelle, nice to meet you.
     You: I am Pai, nice to meet you too.
     {$name}: Say, Pai, what makes you happy?
-    You: I... don't really know.
+    You: That's sudden. I... don't really know.
     You: There isn't anything really.
     {$name}: Really? So you aren't happy with your current life?
     You: No.
@@ -40,7 +38,7 @@ You: Hey, yes, sort of.
     <<set $name to "Isabelle">>
     {$name}: You know me?
     You: Yes, I talked with Eleonore. She invited me to become her apprentice.
-    You: I told her I wasn't too sure about it and than she said to speak with Isabelle.
+    You: I told her I wasn't too sure, than she told me to speak with Isabelle.
     {$name}: I see, haha that Eleonore.
     You: She said that you are the one that taught her to enjoy the moment and be happy with the now.
     {$name}: Really? I wouldn't really say that I taught her, I merely had a chat with her.
@@ -50,8 +48,8 @@ You: Hey, yes, sort of.
     You: Wow, that is sudden.
     {$name}: Haha is it? I am sorry.
     {$name}: It's just that I think there is nothing more important than to be happy.
-    {$name}: Of course you want to think about the future.
-    {$name}: But if it makes you worry so much that you become unhappy in the moment it's not worth it.
+    {$name}: Of course, you want to think about the future.
+    {$name}: But if it makes you worry so much that you become unhappy, than it's not worth it.
     {$name}: Having a general direction you are heading in life is good.
     {$name}: To know what you want.
     You: Would be nice to have something like that.
@@ -64,17 +62,17 @@ title: IsabelleHelpsPai
 ---
 
 {$name}: Well, then how about I give you a hand?
-{$name}: I live around this area.
-{$name}: When it's a sunny day like this one, I like to take a stroll.
+{$name}: I live around here.
+{$name}: When it's a nice and sunny like today, I like to take a stroll.
 {$name}: I suppose you aren't taking a leisurely stroll?
 You: I am not. I don't remember anything, I just woke up in the middle of the road.
 {$name}: Huh?
 {$name}: So you don't even know how you got here?
 {$name}: Where are you from then?
-You: I... don't remember.
+You: I... don't remember either.
 {$name}: Hm... OH! How rude of me, I didn't even introduce myself yet!
 <<set $name = "Isabelle">>
-{$name}: I am Isabelle, who are you?
+{$name}: I am Isabelle, and you are?
 You: I am Pai, nice to meet you.
 {$name}: So you at least remember your name!
 {$name}: It's also nice to meet you, Pai.
@@ -91,8 +89,8 @@ title: IsabelleLifeAdvice
 {$name}: I have met people that changed their lifes for the better when they were way older.
 {$name}: It's never to late to change directions.
 {$name}: Or to find one in the first place.
-{$name}: The questions: 'How do you find happiness?', has many asnwers.
-{$name}: Some might tell you that it's following your purpose.
+{$name}: The questions: 'How do I find happiness?', has many answers.
+{$name}: Some might tell you that it's to follow your purpose.
 {$name}: Or that you need to have a dream that you fully commit to.
 {$name}: And there is absolutely nothing wrong with that.
 {$name}: In fact, it can be very freeing to just commit yourself to something.
@@ -100,12 +98,12 @@ title: IsabelleLifeAdvice
 {$name}: Enjoying what is, not what was or could.
 {$name}: Enjoying the here and now and time spend with others.
 -> I have heard that before. You may say that, but it's something else to actually life like it.
-    {$name}: That is true of course.
+    {$name}: That's true.
     {$name}: But it's something I have learned over the years.
-    {$name}: To treasure your relationships with others.
+    {$name}: To treasure your relationships.
     {$name}: Treating the people that are dear to you with the respect and kindness they deserve.
     {$name}: If you give love and kindness, it will come back to you.
-    {$name}: You never know how much time you will have left with them.
+    {$name}: You never know how much time you'll have left with them.
     {$name}: So you better treasure the moment you have and enjoy what is.
     {$name}: Right?
     You: Hm, I suppose.
@@ -114,31 +112,14 @@ title: IsabelleLifeAdvice
     {$name}: How about this then?
     <<jump IsabelleProposal>>
 -> Enjoying your time with others is a good point.
-    {$name}: Yes, it's very important to treasure your relationships.
-    {$name}: This can be harder then you might think however.
-    {$name}: The problem is that people tend to spend too much time with eachother.
-    {$name}: Which might streem strange to be an issue at first glance.
-    {$name}: The reason for this is that you need distance in every relationship.
-    {$name}: Whether with your friends or your lover.
+    {$name}: This is unfortunately quite difficult.
+    {$name}: People tend to spend a lot of time with others.
+    {$name}: Which might seems totally fine at first glance.
+    {$name}: But you need distance in every relationship.
     {$name}: It's important to be alone and spend time with yourself.
     {$name}: Otherwise you get physically and mentally dependent on the other.
     {$name}: Speaking of dependent...
     <<jump IsabelleProposal>>
-
-// ===
-// title: IsabelleLifeDistractions
-// ---
-//
-// {$name}: I don't think distractions are anything positive.
-// {$name}: Their very nature is to occupy your mind when they shouldn't.
-// {$name}: Instead of being fully present in the moment and committed to your task at hand.
-// {$name}: It makes you devalue the present and value more the future.
-// {$name}: But the future is only an illusion within your mind.
-// {$name}: So is the past.
-// {$name}: A distraction will make you excited with anticipation.
-// {$name}: Only to inevitbly disappoint you.
-// {$name}: Contiously ruining the present for you.
-// {$name}: I believe if you crave distractions then you simply don't have the right mindset.
 
 ===
 title: IsabelleProposal
@@ -146,7 +127,7 @@ title: IsabelleProposal
 
 {$name}: You can live with me for a while.
 {$name}: My husband and I started a family not too long ago.
-{$name}: It's still quite chaotic with the kids, so I could use a helping hand.
+{$name}: It's still quite chaotic with the kids, I could use pair of hands.
 {$name}: How about you life with us?
 {$name}: You help us out with chores and I will show you how to enjoy the simple life.
 You: I don't know, seems very sudden.
@@ -155,19 +136,18 @@ You: I don't know, seems very sudden.
 <<target_npc_mentioned {$name} {$target_npc}>>
 {$name}: They are called Ionas and Antonius.
 {$name}: I meet them regularly on my strolls.
-{$name}: I think it could help you make a decision.
 <<if $talked_with_target_npc>>
-    You: I already had a chat with those two.
+    You: I already had a chat with them.
     <<jump IsabelleTalkedWithTarget>>
 <<endif>>
 {$name}: The two have differing world views which tends to create interesting conversations.
-{$name}: They are gonna be around here somehwere.
-{$name}: Why don't you talk with them and tell me about your decision after?
--> Okay, I will give it a try.
-    {$name}: Awesome! I will be waiting here for you then.
-    {$name}: Safe trip! And don't get lost ^_^
-    <<stop_chat>>
-    <<jump IsabelleWaiting>>
+{$name}: They are going to be around here somehwere.
+{$name}: Why don't you talk with them and tell me about your decision afterwards?
+You: Okay, I will give it a try.
+{$name}: Awesome! I will be waiting here for you then.
+{$name}: Safe trip! And don't get lost ^_^
+<<stop_chat>>
+<<jump IsabelleWaiting>>
 
 ===
 title: IsabelleWaiting
@@ -175,7 +155,7 @@ title: IsabelleWaiting
 
 {$name}: ...
 <<if $talked_with_target_npc>>
-{$name}: Had a chat with the two?
+{$name}: Did you talk with them?
 -> Yep
     <<jump IsabelleTalkedWithTarget>>
 <<else>>
@@ -187,15 +167,15 @@ title: IsabelleWaiting
     <<jump IsabelleWaiting>>
 -> I can't find them.
     {$name}: Oh, well they should be around somewhere.
-    {$name}: Probably talking about the purpose of life or something similar.
-    {$name}: If you stay on the path you are bound to run into him.
+    {$name}: Probably talking about the purpose of life or something.
+    {$name}: If you stay on the path, then you're bound to run into them.
     <<stop_chat>>
     <<jump IsabelleWaiting>>
 -> Yes
     <<if $talked_with_target_npc>>
         <<jump IsabelleTalkedWithTarget>>
     <<else>>
-        {$name}: Really? That didn't sound very confident.
+        {$name}: Really? That didn't sound very convincing.
         {$name}: If you don't want to talk to them that's fine.
         {$name}: But I think it could give you another perspective.
         <<stop_chat>>
@@ -229,7 +209,7 @@ title: IsabellePaiWontJoin
 {$name}: Hm, yes I understand.
 {$name}: It's of course your decision and I respect it.
 {$name}: I will be around for a little bit.
-{$name}: So if you change your mind feel free to come back.
+{$name}: So if you change your mind, feel free to come back.
 <<stop_chat>>
 <<jump IsabelleEndingNegative>>
 
