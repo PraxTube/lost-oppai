@@ -114,9 +114,9 @@ title: OppaiIsLostInLife
         {$name}: That's a shame.
         <<jump JotemInnateDream>>
 -> I struggle to create meaningful bonds with others.
-    You: I al'ways feel like there is a wall between me and others.
-    You: Like I am not my true self, that I can't be my true self.
-    You: And that really sucks.
+    You: I always feel like there is a wall between me and others.
+    You: Like, I am not my true self, that I can't be my true self.
+    You: And I don't know how to change that.
     {$name}: Hmm, yeh, I understand.
     {$name}: I can relate to that feelin'.
     {$name}: It's like ya just go thru the motions.
