@@ -21,73 +21,104 @@ You: Hi, where you two in the middle of a conversation?
     {$antonius}: Pai, huh?
     {$antonius}: I have got a question for you Pai.
     {$antonius}: Do you believe in a god?
-    -> That's sudden. But no, I don't.
-        {$antonius}: Hahaha, yeah perhaps from your view.
+    -> Wow, that's sudden. But no, I don't.
+        {$antonius}: Hahaha, yeah perhaps.
         {$antonius}: We have been talking about this for hours.
         <<jump PaiDoesntBelieve>>
     -> Yes I do. Why are you asking all of a sudden?
         {$antonius}: I see I see.
-        {$antonius}: Thing is that we have been talking about this for hours.
+        {$antonius}: Thing is that we've been talking about this for hours.
         <<jump PaiDoesBelieve>>
 -> Are you two Ionas and Antonius? <<if $mentioned_by_Isabelle>>
     <<set $ionas to "Ionas">>
     <<set $antonius to "Antonius">>
     {$antonius}: Yeah, how do you know?
-    You: I talked with Isabelle about guys.
+    You: I talked with Isabelle.
     You: She told me to talk with you.
     {$ionas}: You talked with Isabelle?
     {$antonius}: Was the topic handsome, reliable, young men?
     You: ...
+    {$ionas}: ...
+    {$antonius}: ...
     You: We talked about how to enjoy life.
     You: She mentioned that you guys like to talk about that stuff.
-    {$ionas}: Ah, yeah makes sense Isabelle would talk about something like that.
-    {$ionas}: We do, in fact we were just talking about our differing world views and how it affects our definition of happiness.
-    {$ionas}: So you two were talking about how to enjoy life? What specifically?
-    -> Isabelle said that you can only be happy in the moment, and that happiness can only be found there.
-        {$ionas}: Oh, I like that.
-        {$ionas}: I very much agree.
-        {$ionas}: People nowadays focus far too much on the future, on their career and what will be one day.
-        {$ionas}: They sacrifice their happiness in the moment and tell themselves they will be happy once I finish this.
-        {$ionas}: Once I get this I will be happy, once this is complete I can take it easy...
-        {$ionas}: But they keep pushing this kind of goal.
-        {$ionas}: They never arrive at the point where they are truly happy.
-        {$antonius}: Yes, I actually wonder if you even could be happy that way, on a theoretical level.
-        {$antonius}: Because that kind of happiness is very materialistic.
-        {$antonius}: And I have never seen true happiness originating from that.
-        {$antonius}: Though I think you should not just blindly follow your hearts desire.
-        {$antonius}: Applying reason and preparing for the future is not inherently bad.
-        {$antonius}: In fact not doing so can lead you to big misery itself.
-        {$antonius}: You can quickly become unhealthy and that will certainly lead you to a less enjoyable life.
-        {$antonius}: A healthy man has a thousand whishes, a sick man just one... as they say.
-        {$ionas}: That is of course true, but what I am observing is definitely not a healthy dose of caution.
-        {$ionas}: It feels more like the people are obsessed about their careers, and also that of others!
-        {$ionas}: TODO
-
-        {$antonius}: Though a certain amount of stress is good.
-        {$antonius}: Not only good, but required.
-        {$antonius}: If there is too little challenge in your life then you will become weak.
-        {$antonius}: Just like your body looses muscle when you don't train it.
-        {$antonius}: Your mind becomes weak when you don't challenge it.
-        {$antonius}: Some level of competition among peers can be very fruitful.
-        {$antonius}: But I agree, it has become quite obsessive.
-        {$antonius}: TODO
-
-        {$antonius}: Hm, I actually wonder if it is inevitable for societies to become individually weaker.
-        {$ionas}: What do you mean with individually weaker?
-        {$antonius}: Right right, let me define that more clearly.
-        {$antonius}: I mean that as a society grows and become stronger as a whole, the individual entities become weaker.
-        {$antonius}: In our case us humans.
-        {$antonius}: And with weaker I mean both physically and mentally.
-        {$antonius}: The attributes that required to build the society become lost.
-        {$antonius}: This is talking mostly from a natural selection kind of perspective.
-        {$antonius}: As the attributes that were required to build the strong society become less required the average becomes weaker.
-        {$antonius}: This itself is known pretty well. Shortly summarized as the following.
-        {$antonius}: 'Hard times create strong man.'
-        {$antonius}: 'Strong man create good times.'
-        {$antonius}: 'Good times create weak man'.
-        {$antonius}: 'And weak man create hard times.'
-        {$antonius}: But I am wondering whether this is something like a natural constant, a law of nature, or if there is something else behind it.
-        {$antonius}: TODO
+    {$ionas}: Ah, that makes sense, Isabelle would talk about something like that.
+    {$ionas}: We do, in fact we were just talking about our differing world views and how it shapes our definition of happiness.
+    {$ionas}: So you were talking about how to enjoy life?
+    You: Yes, Isabelle said that you can only be happy in the moment, and that happiness can only be found there.
+    {$ionas}: Oh, I like that.
+    {$ionas}: I very much agree.
+    {$ionas}: People nowadays focus far too much on the future, on their career and what will be one day.
+    {$ionas}: They sacrifice their happiness in the moment and tell themselves: 'I will be happy once I finish this'.
+    {$ionas}: 'Once I get this, I will be happy', 'Once this is complete, I can take it easy'...
+    {$ionas}: But they keep pushing their goal.
+    {$ionas}: They never arrive at the point where they are truly happy.
+    {$antonius}: Exactly. I wonder if you could even be happy that way, on a theoretical level.
+    {$antonius}: Because that kind of happiness is very materialistic.
+    {$antonius}: And I've never seen true happiness originate from there.
+    {$antonius}: Though I think you should not just blindly follow your hearts desires.
+    {$antonius}: Applying reason is important.
+    {$antonius}: And preparing for the future is not inherently bad.
+    {$antonius}: In fact, most people are not preparing enough.
+    {$antonius}: Failing to prepare is preparing to fail, right?
+    {$antonius}: Not preparing for the future will make you unhealthy and miserable in the long term.
+    {$antonius}: And being unhealthy and miserable is the exact opposite of a happy and enjoyable life.
+    {$antonius}: A healthy man has a thousand whishes, a sick man just one... as they say.
+    {$ionas}: That's true, but what I am seeing is definitely not a healthy dose of caution.
+    {$ionas}: It feels more like the people are obsessed about their careers, and also that of others!
+    {$ionas}: It's like the only thing they talk about is work.
+    {$ionas}: And not even in a good way.
+    {$ionas}: If would love your craft and dedicate yourself fully to it, that's something else.
+    {$ionas}: But most people don't!
+    {$ionas}: And it shows.
+    {$ionas}: What is the first thing most people ask you about your work?
+    {$ionas}: 'How much money do you earn?'
+    {$ionas}: What is the second question people ask following that?
+    {$ionas}: 'How much money can you expect to earn in the future?'
+    {$ionas}: Money is not the most important thing in the world!
+    {$ionas}: Your happiness is!
+    {$ionas}: What good does it do if you work a job that you absolutely hate.
+    {$ionas}: It just causes you stress and wears you out.
+    {$ionas}: Of course you need money, but you must not obsess about it.
+    {$ionas}: Or else you will become a slave to it.
+    {$antonius}: Oh, I like that.
+    {$antonius}: I absolutely agree.
+    {$antonius}: Though I think of this a little more pragmatic.
+    {$antonius}: If you have something you really love doing, than you should be able to turn that into a career.
+    {$antonius}: It depends on your environment of course, but for the majority of people I believe this holds true.
+    {$antonius}: In other words: Money isn't even an arguement here!
+    {$antonius}: You've to look a little bit further into the future and you'll probably realize that you can have both.
+    {$antonius}: The job you love and also the money to support yourself and your family.
+    {$antonius}: It will require a lot of hard work though.
+    {$antonius}: That's the price you have to pay.
+    {$ionas}: Hm, yes, I think I agree, though I would have to think about it some more.
+    {$ionas}: But either way, money isn't the important aspect anyways.
+    {$antonius}: True.
+    {$antonius}: I think people are exposed to too little 'good' stress.
+    {$antonius}: If there is too little challenge in your life, then you will become weak.
+    {$antonius}: Just like your body looses muscle when you don't train it.
+    {$antonius}: Your mind becomes weak when you don't challenge it.
+    {$antonius}: Some level of competition among peers can be very fruitful.
+    {$ionas}: Fair point, I can see that being the case.
+    {$antonius}: Right? I actually had a thought regarding this the other day.
+    {$antonius}: 'Is it inevitable for societies to become individually weaker?'
+    {$ionas}: What do you mean with 'individually' weaker?
+    {$antonius}: Right right, let me define that more clearly.
+    {$antonius}: As a society grows, and becomes stronger as a whole, the individual entities become weaker.
+    {$antonius}: In our case us humans.
+    {$antonius}: And with weaker I mean both physically and mentally.
+    {$antonius}: The attributes that required to build the society become lost.
+    {$antonius}: This is talking mostly from a natural selection kind of perspective.
+    {$antonius}: As the attributes that were required to build the strong society become less required, the average becomes weaker.
+    {$antonius}: This itself is known pretty well. Shortly summarized as the following.
+    {$antonius}: 'Hard times create strong man.'
+    {$antonius}: 'Strong man create good times.'
+    {$antonius}: 'Good times create weak man'.
+    {$antonius}: 'And weak man create hard times.'
+    {$antonius}: But I am wondering whether this is something like a natural constant, a law of nature, or if there is something else behind it.
+    {$ionas}: ...
+    {$ionas}: That's a lot to think about.
+    {$ionas}: TODO, what does Jonas respond here? TODO
 
 ===
 title: PaiDoesntBelieve
@@ -105,10 +136,10 @@ title: PaiDoesntBelieve
 title: PaiDoesBelieve
 ---
 
-{$antonius}: Ionas is also believer and I am an atheist.
+{$antonius}: Ionas is also believer, and I am an atheist.
 {$antonius}: We have been talking about our differing worldviews.
 {$antonius}: He told me about his religion and what it considers good and bad.
-{$antonius}: And interestingly enough I agree with almost all of it.
+{$antonius}: And interestingly enough, I agree with almost all of it.
 <<jump FundamentallyDifferentWorldviews>>
 
 ===
@@ -116,11 +147,11 @@ title: FundamentallyDifferentWorldviews
 ---
 
 {$antonius}: However we see the world fundamentally different.
-{$antonius}: Different in terms of subjective and objective truth.
+{$antonius}: Different in terms of subjective and objective truths.
 -> How can truth be subjective?
     {$ionas}: Yeah it doesn't make much sense by definition.
     {$ionas}: What Antonius is talking about is whether there even is such a thing as truth.
-    {$antonius}: That's right, thanks.
+    {$antonius}: Haha, that's right, thanks.
     {$antonius}: I don't believe there is a single source of truth.
     {$antonius}: At least not in the real world as we perceive it.
     {$antonius}: We cannot be sure of anything in this world.
@@ -130,22 +161,29 @@ title: FundamentallyDifferentWorldviews
     {$ionas}: That one we agree on.
     {$ionas}: But I disagree with the notion of subjective truths.
     {$ionas}: There must be a definite truth to everything.
-    {$ionas}: Anything else doesn't make any sense.
+    {$ionas}: Anything else doesn't make sense.
     {$antonius}: This is exactly where our views differ.
-    {$antonius}: And the foundation of our different believes.
+    {$antonius}: And the foundation of our different beliefs.
     {$antonius}: What do you think about this Pai?
-    {$antonius}: Do you believe in a subjective or objective worldivew?
-    -> I think I need some more context before answering.
-        {$antonius}: Yeah that's reasonable.
-        {$antonius}: In that case, Ionas, why don't you define the terms here.
-        {$antonius}: You are better at this than I am.
-        {$ionas}: Okay sure.
-        <<jump SubjectiveAndObjectiveWorldview>>
--> Subjective truths? Wouldn't that be subjective believes then?
-    {$antonius}: Huh, yeah I think so.
--> Though what would be your life purpose in a subjective worldview?
+    {$antonius}: Do you believe in a subjective or objective worldview?
+    You: I don't know. I think I need more context.
+    {$antonius}: Yeah that's reasonable.
+    {$antonius}: In that case, Ionas, why don't you define the terms here.
+    {$antonius}: You're a lot better at this than me.
+    {$ionas}: Okay, sure.
+    <<jump SubjectiveAndObjectiveWorldview>>
+-> Subjective truths? Wouldn't that be subjective beliefs then?
+    {$antonius}: Huh, yeah I guess so.
+    {$antonius}: Though I don't think it matters much either way.
+    {$antonius}: My point is that I don't think there's necessarily even such a thing as 'truth'.
+    {$ionas}: That is where I absolutely disagree.
+    {$antonius}: Yeah, maybe you wanna explain this?
+    {$antonius}: You're a lot better with definitions and such than me.
+    {$ionas}: Okay, sure.
+    <<jump SubjectiveAndObjectiveWorldview>>
+-> Though what would be the purpose of life in a subjective worldview?
     {$ionas}: That's a good question. I have been wondering the same.
-    {$antonius}: Then let me give you my view on what I consider the purpose of life.
+    {$antonius}: Let me give you my view on what I consider to be the purpose of life.
     <<jump AntoniusLifePurpose>>
 
 ===
@@ -155,39 +193,40 @@ title: SubjectiveAndObjectiveWorldview
 {$ionas}: When I talk about an objective worldview, I mean the following.
 {$ionas}: Take a persons moral views.
 {$ionas}: Who gets to decide which morals are right or wrong?
-{$ionas}: To me, the only logical answer is god. The one who created us decides this.
-{$ionas}: So god is the objective truth, he defines what is true and what false.
+{$ionas}: To me, the only logical answer is god, the one who created us, decides this.
+{$ionas}: God is the objective truth, he defines what is true and what is false.
 {$ionas}: This applies to everything, not just morals.
 {$ionas}: What is happiness, the purpose of life, being lucky in life, everything.
-{$ionas}: God is truth, god is love. // I don't quite understand this god is love thing, I have seen that a lot of times now but don't quite get how it works exactly
-{$ionas}: Whether something is morally correct or not is something we don't get to decide.
+{$ionas}: God is truth, god is love.
+{$ionas}: Whether something is morally correct or not isn't something we get to decide.
 {$ionas}: It's something we never could decide, only god can.
 {$ionas}: We can only try our best to get close to this truth.
 {$ionas}: ... That's about what I mean with objective worldview.
 {$antonius}: It's really interesting, I have a completely different perspective.
-{$antonius}: For me, the logical conclusion what is morally right or wrong must be subjective.
+{$antonius}: For me, the logical conclusion what's morally right or wrong must be subjective.
 {$antonius}: Whether something is considered lucky or good, must be inherently subjective.
 {$ionas}: This however means, that if somebody thinks murder is okay, then he would be correct?
 {$antonius}: That's the thing, correct and incorrect, right and wrong, I think it doesn't make that much sense.
-{$antonius}: Like, okay. From his perspective, yes, he would think it's correct or okay.
-{$antonius}: But that doesn't mean that I agree with it.
-{$antonius}: It doesn't mean that just because he thinks it's okay, that I must acknowledge it.
+{$antonius}: Like, okay. From his perspective, yes, he could think it's correct or okay.
+{$antonius}: But that doesn't mean that I agree.
+{$antonius}: It doesn't mean I must acknowledge it just because he thinks murder is okay.
 {$antonius}: I too, have a set of rules and standards I think are correct or moral.
 {$ionas}: But then how do you know those are the correct or the right ones?
 {$ionas}: Why would you ever change your moral values if you always think they are subjectively correct?
+{$antonius}: Hm, let me explain it like this.
 {$antonius}: I think every human has an innate dream.
 {$antonius}: A goal they want to achieve, whatever that may be.
 {$antonius}: Your morals are the constrains you set yourself for achieving your dream.
-{$antonius}: Knowledge and experience can influence your believes.
+{$antonius}: Knowledge and experience can influence your beliefs.
 {$antonius}: And believe can change a man.
 {$ionas}: But that doesn't answer the question.
-{$ionas}: Even if your morals can change, how do you even know they are changing for the better?
+{$ionas}: Even if your morals can change, how do you even know they are changing for the 'better'?
 {$antonius}: I think you evaluate it based on how it affects your life.
 {$antonius}: Morals are a way to guide you through life, if they have a positive effect, you keep them.
 {$antonius}: If they don't, you throw them out.
 {$ionas}: How do you define positive effect?
 {$ionas}: If you are an assassian and your morals help you with murder, is that positive?
-{$antonius}: It's true, it might make life easier in the short term.
+{$antonius}: That's true, it might make life easier in the short term.
 {$antonius}: But I firmly believe that violence always sparks more violence.
 {$antonius}: It may take a while, but in the long term, violence is a net negative.
 {$antonius}: Conflict in general is.
@@ -195,16 +234,16 @@ title: SubjectiveAndObjectiveWorldview
 {$ionas}: Who is to say whether the outcome is positive or negative?
 {$antonius}: Right, I consider it negative if another person does something against my will.
 {$antonius}: Essentially acting without my consent.
-{$antonius}: It's about the difference between a sparring session and a street fight.
+{$antonius}: It's about the difference between a sparring session and a real fight.
 {$antonius}: The former requiring cooperation.
 {$ionas}: So you define cooperation as having consent?
-{$antonius}: Yes essentially.
+{$antonius}: Yeah essentially.
 {$antonius}: Working together under some shared agreement.
 {$antonius}: It may come with downsides in the short term, but it's a net positive in the long run.
 {$antonius}: With positive meaning the other party acting in your interest, whatever that may be.
 {$antonius}: And of course this is not guaranteed, but it's much more likely.
 {$antonius}: Your cooperative nature and good will can be exploited.
-{$antonius}: But I thinkg it's much more common to meet kindness.
+{$antonius}: But I thinkg it's much more common to be met with kindness.
 {$antonius}: Give and you shall receive, right?
 {$antonius}: I think it works in both ways, whether you give good or bad.
 {$antonius}: That is exactly why I admire your religion's dedication to forgiveness so much.
@@ -222,78 +261,79 @@ title: SubjectiveAndObjectiveWorldview
 {$antonius}: It's something you learn through experience.
 {$ionas}: Hm, I think I understand what you mean, even though I disagree.
 {$ionas}: Ultimately, it seems like we just see this differently on a fundamental level.
-{$antonius}: Yeah I think so too. So Pai, how you do see this?
--> I am not sure. I think I would agree more with Ionas.
-    {$antonius}: I thought so. Though you don't believe in a god right?
-    {$antonius}: Then who defined the objective truth, the morals and everything?
-    -> I don't know, but it just seems to be more... right.
-        {$antonius}: Hm, I suppose I get it.
-        {$antonius}: You don't believe in a god but perhaps in some other form of higher... power?
-        {$antonius}: Like some energy connecting everything, or something along those lines?
-        {$antonius}: But it's fascination.
-        {$antonius}: Three people meeting on some random path, all having their own perspective on the world.
-        {$antonius}: I don't think you will ever find a person that has exactly your world view.
-        {$antonius}: I don't even have the same world view as the me 2 years ago.
-        {$antonius}: However, I think this is a truly wonderful thing.
-        {$antonius}: There is always something you can learn, something you can take with you, from every single encounter.
-        {$antonius}: I also don't think that you guys are wrong in your views.
-        -> How so? Isn't that a major inconsistency in your world view?
-            {$antonius}: That's exactly it, I don't think it is.
-            {$antonius}: A subjective world view can also mean that you believe in objective truths.
-            {$antonius}: Because everything is relative, there is no right or wrong in the first place.
-            {$ionas}: But wouldn't that mean that the fact whether or not the world is subjective or objective must also be subjective?
-            {$ionas}: In a subjective world view.
-            {$antonius}: Yes, that is exactly the point.
-            {$antonius}: Both believes can be valid in a subjective world view.
-            {$antonius}: As there is no wrong in the same sense it exists in an objective world view.
-            {$antonius}: You might consider this pointless, but I find it liberating.
-            {$antonius}: Because another problem with an objective world view is that only a single religion can be correct.
-            {$antonius}: All others must be, by definition, wrong.
-            {$antonius}: Which implies that all people of the 'wrong' religions must be living not truly happy lifes.
-            {$antonius}: Only the people that have exactly your religion live a truly happy life.
-            {$antonius}: Even religions that split off from yours at some point are by definition 'wrong'.
-            {$antonius}: So that means that a huge amount of people are supposed to live in not 'true happiness'.
-            {$antonius}: That is in stark contrast with a subjective world view.
-            {$antonius}: Which doesn't care so much about right or wrong.
-            {$antonius}: If they allow you to live happy lives, then it's the right world view for you.
-            {$antonius}: Whichever religion you have, or if you are an atheist, to me everyone is correct in their own way.
-            {$ionas}: But didn't you say you condemn murder?
-            {$ionas}: What if somebody is happy when murdering?
-            {$ionas}: Would he be correct in your view?
-            {$antonius}: I truly believe that nobody actually enjoys hurting others.
-            {$antonius}: He may justify his actions in some twisted way, but I just don't believe he is actually happy.
-            {$ionas}: How do you define happy here?
-            {$antonius}: Hahaha, I should have seen that coming.
-            {$antonius}: That's a good question.
-            {$antonius}: I can tell you what thirst is, what it means to be hungry or tired and how to combat it.
-            {$antonius}: But how can you become happy?
-            {$antonius}: I think that the answer is going to be an individual one.
-            {$antonius}: Though it will always involve some kind of hard work.
-            {$antonius}: Somethig you can't achieve easily.
-            {$antonius}: You can't be happy before being unhappy.
-            <<target_npc_mentioned {$name} {$target_npc}>>
-            {$antonius}: Oh! I had a chat with Jotem about this the other day.
-            {$ionas}: With Jotem? Oh yeah I can see that.
-            {$antonius}: I think being happy means committing to your dream.
-            {$antonius}: But the old guy can probably give a more profound perspective on the matter.
-            {$antonius}: He always has some wisdom to share.
-            <<jump DoYouWantToJoinIonasAndAntonius>>
-        -> The point of you being different from your past self is interesting. Though do you think that's a good thing?
-            {$antonius}: Oh yes, I think it absolutely is.
-            {$ionas}: I agree.
-            {$ionas}: If you don't change over time, then it means you aren't learning and growing as a person.
-            {$antonius}: Yeah, it doesn't mean that you will change your whole world view and believes.
-            {$antonius}: Usually just adjusting your values based, again, on your experience.
-            {$antonius}: Wait, does this make sense in an objective world view?
-            {$antonius}: I mean I get that you only approximate the truth, the more you think the closer you will get.
-            {$antonius}: But then you will, by definition, never be able to truly know the answer.
-            {$ionas}: Yes, you cannot know gods plan.
-            {$ionas}: Though it's not a contradiction at all.
-            {$ionas}: I also don't see it as an inconvenience or a problem.
-            {$ionas}: It means that I will always have something to ponder on.
-            {$ionas}: The fact that I can always drill deeper on the question of what it means to live is in my opinion liberating.
-            {$antonius}: That... is a fair point.
-            <<jump DoYouWantToJoinIonasAndAntonius>>
+{$antonius}: Yeah I think so too. Pai, what do you think?
+You: I am not too sure. I think I agree a little more with Ionas.
+{$antonius}: I thought so. Though you don't believe in a god right?
+{$antonius}: Then who defined the objective truth, the morals and everything?
+You: I don't know, but it just seems to be more... right.
+{$antonius}: Hm, I suppose I get it.
+{$antonius}: You don't believe in a god but perhaps in some other form of higher... power?
+{$antonius}: Like some energy connecting everything, or something along those lines?
+{$antonius}: But it's fascination.
+{$antonius}: Three people meeting on some random path, all having their own perspective on the world.
+{$antonius}: I don't think you'll ever find a person that has exactly the same world view as you.
+{$antonius}: I don't even have the same world view as the me 2 years ago.
+{$antonius}: However, I think this is a truly wonderful thing.
+{$antonius}: There is always something you can learn, from every single encounter.
+{$antonius}: I also don't think that you guys are wrong in your views.
+-> How so? Isn't that a major inconsistency in your world view?
+    {$antonius}: That's exactly it, I don't think it is.
+    {$antonius}: A subjective world view can also mean that you believe in objective truths.
+    {$antonius}: Because everything is relative, there is no right or wrong in the first place.
+    {$ionas}: But wouldn't that mean the fact whether or not the world is subjective or objective must also be subjective?
+    {$ionas}: In a subjective world view.
+    {$antonius}: Yes, that is exactly the point.
+    {$antonius}: Both beliefs can be valid in a subjective world view.
+    {$antonius}: As there is no wrong in the same sense it exists in an objective world view.
+    {$antonius}: You might consider this pointless, but I find it liberating.
+    {$antonius}: The big problem with an objective world view is that only a single religion can be correct.
+    {$antonius}: All others must be, by definition, wrong.
+    {$antonius}: Which implies that all people of all the 'wrong' religions must not be truly happy.
+    {$antonius}: Only the people that share exactly your religion can live truly happy lifes.
+    {$antonius}: Even religions that split off from yours are by definition 'wrong'.
+    {$antonius}: Meaning that a lot of people are supposed to be living non 'true happy' lifes.
+    {$antonius}: That is in stark contrast with a subjective world view.
+    {$antonius}: Which doesn't care so much about right or wrong.
+    {$antonius}: If they allow you to live a happy life, then it's the right world view for you.
+    {$antonius}: Whichever religion you have, or if you are an atheist, to me everyone can be correct in their own way.
+    {$ionas}: But didn't you say you condemn murder?
+    {$ionas}: What if somebody is happy when murdering?
+    {$ionas}: Would he be correct in your view?
+    {$antonius}: I truly believe that nobody actually enjoys hurting others.
+    {$antonius}: He may justify his actions in some twisted way, but I just don't believe he's truly happy.
+    {$ionas}: How do you define happy here?
+    {$antonius}: Hahaha, I should have seen that one coming.
+    {$antonius}: That's a good question.
+    {$antonius}: I can tell you what thirst is, what it means to be hungry or how it feels to be tired.
+    {$antonius}: But happy? Truly happy?
+    {$antonius}: I think that the answer is going to be an individual one.
+    {$antonius}: Though it will always involve some kind of hard work.
+    {$antonius}: Somethig you can't achieve easily.
+    {$antonius}: You can't be happy before being unhappy.
+    <<target_npc_mentioned {$name} {$target_npc}>>
+    {$antonius}: Oh! I had a chat with Jotem about this the other day.
+    {$ionas}: With Jotem? Oh yeah I can see that.
+    {$antonius}: I think being happy means committing to your dream.
+    {$antonius}: But the old guy can probably give a more profound perspective on the matter.
+    {$antonius}: He always has some wisdom to share.
+    <<jump DoYouWantToJoinIonasAndAntonius>>
+-> The point of you being different from your past self is interesting. Though do you think that's a good thing?
+    {$antonius}: Oh yes, I think it absolutely is.
+    {$ionas}: I agree.
+    {$ionas}: If you don't change, then you aren't learning and growing as a person.
+    {$antonius}: Yeah, it doesn't mean that you will change your whole world view and beliefs.
+    {$antonius}: Usually just adjusting your values based, again, on your experience.
+    {$antonius}: Wait, does this make sense in an objective world view?
+    {$antonius}: I mean I get that you can only get closer to the objective truth, but never actually reach it.
+    {$antonius}: Essentially approximating it better and better.
+    {$antonius}: But then you will, by definition, never be able to truly know the answer.
+    {$ionas}: Yes, you cannot know gods plan.
+    {$ionas}: Though it's not a contradiction at all.
+    {$ionas}: I also don't see it as an inconvenience or a problem.
+    {$ionas}: It means that I will always have something to ponder about.
+    {$ionas}: The fact that I can always drill deeper on the question of what it means to live is in my opinion liberating.
+    {$antonius}: That... is a fair point.
+    <<jump DoYouWantToJoinIonasAndAntonius>>
 
 ===
 title: AntoniusLifePurpose
@@ -302,68 +342,72 @@ title: AntoniusLifePurpose
 {$antonius}: Your purpose in life is to commit to your dream.
 {$antonius}: And I believe that every person has an innate dream they want to follow.
 {$ionas}: But isn't that a contradiction?
-{$ionas}: Say your dream is to become the fastest sprinter in the entire world.
-{$ionas}: If you loose your legs through some accident, then you physically can't commit your dream anymore.
-{$ionas}: And if you can't commit to your dream, then you will not be able to fulfill your purpose in life by your definition.
-{$ionas}: You will also be forever unhappy by your definition.
-{$ionas}: I think you can't loose your purpose in life, otherwise it can't be your purpose.
+{$ionas}: Say your dream is to become the fastest human in the world.
+{$ionas}: If you loose your legs through some accident, then you physically cannot commit to your dream anymore.
+{$ionas}: And if you cannot commit to your dream, then you will not be able to fulfill your purpose in life, by definition.
+{$ionas}: You will also be forever unhappy.
+{$ionas}: I think you cannot loose your purpose in life, otherwise it cannot be your purpose.
 {$ionas}: So you purpose in life must be something that you can do regardless of your physical condition.
-{$ionas}: For me that is finding god, regardless of my physical conditions, as long as I can think, I can still pursue this.
-{$ionas}: And I think this must be this way.
+{$ionas}: For me, that is finding god. Regardless of my physical conditions, as long as I can think, I can still pursue this.
+{$ionas}: And I think this property must be true.
 {$ionas}: If you can loose your purpose in life, then it was never your purpose to begin with.
 {$antonius}: ...
 {$antonius}: Oh shit.
 {$antonius}: That is an extremely good point.
-{$antonius}: I will have to think about this one for a bit.
-{$antonius}: I mean this doesn't 'disprove' atheism.
+{$antonius}: I will have to think about this one for sure.
+{$antonius}: I mean, this doesn't 'disprove' atheism.
+{$antonius}: Nor the subjective worldview.
 {$antonius}: We already established that you simply can't prove or disprove anything in the real world.
 {$antonius}: But it does raise the question, is it impossible for aetheists to have a purpose in life?
 {$antonius}: Because I do believe there is one.
 {$antonius}: But can that even be, can there exist a purpose in life in a subjective world?
+{$antonius}: Man, every time I talk with you this happens.
 {$antonius}: ...
 {$antonius}: Oh, perhaps I got it backwards.
 {$antonius}: Your purpose is not to commit to your dream.
 {$antonius}: It's more broad, it's simply to commit yourself to life as a whole.
-{$antonius}: To not just live and be, but to actively experience and to seek meaning.
+{$antonius}: To not just live and be, but to actively experience and seek meaning.
 {$antonius}: You could also say the purpose of life is to live a happy life, which you do by living committed.
-{$antonius}: And this also means that when you have a dream that you should commit yourself to achieving it.
+{$antonius}: And this also means that you should commit yourself fully to your dream.
 {$antonius}: But it doesn't mean that your dream is your whole purpose.
-{$antonius}: It also doesn't mean you only have that one dream.
+{$antonius}: It also doesn't mean you only have one dream.
 {$antonius}: Though I wonder if that also means that you don't have an innate dream.
 {$antonius}: Because I believe you do.
 {$antonius}: But perhaps it's not quite that, maybe it's that every person has an innate drive to commit to life.
 {$antonius}: And a dream you want to achieve is just a very tangible expression of that.
-{$ionas}: So your purpose in life is to live life whole heartedly?
+{$ionas}: So your purpose in life is to live wholeheartedly?
 {$antonius}: That's another way of putting it.
 {$ionas}: That sounds more plausible.
 {$ionas}: Though what you did right there is quite... interesting.
-{$ionas}: You have found a logical error in your worldview and simply modified the definitions to resolve them.
+{$ionas}: You found a logical error in your worldview and simply modified the definitions to resolve them.
 {$ionas}: This is very different from religion.
-{$ionas}: When you read a passage in a scripture and there is a statement then this statement is considered true.
+{$ionas}: When you read a passage in a holy scripture and there is a statement then this statement is considered true.
 {$ionas}: Because you believe that the scriptures are true.
 {$ionas}: If you didn't, you would be a heritic.
 {$ionas}: The problem is that some statements can be very unintuitive, so you need to spend a lot of time understanding them.
 {$antonius}: I see, yeah that makes sense.
-{$antonius}: Though there is always some freedom of interpretation, some wiggle room.
+{$antonius}: Though there is always some freedom of interpretation.
 {$antonius}: No matter how precise a statement is defined, you will always need to interpret parts at some point.
-{$antonius}: Again stemming from the fact that there are no proofs only evidence.
+{$antonius}: Again stemming from the fact that there are no proofs, only evidence.
+{$antonius}: With the exception of formal languages, like those found in mathematics.
 {$antonius}: But yes, I just redifined part of my worldview.
 {$antonius}: However, I don't see anything about that as problematic.
 {$antonius}: I see it similar to how you learn about your environment as a kid.
 {$antonius}: You learn that things fall to the ground.
 {$antonius}: You also learn that different things will tend to fall at different speeds.
-{$antonius}: This leads you to create a certain framework in your mind to view the world.
-{$antonius}: If you were to find something that doesn't fall to the ground, you would have to update this framework.
+{$antonius}: This leads you to create a certain framework you view the world in.
+{$antonius}: If you were to find something that doesn't fall to the ground, you would have to update your framework.
 -> Hold on, you don't see a problem with just redifining the definitions?
-    {$ionas}: I do, but it's not that I myself do it.
-    {$antonius}: Yeah, and I personally don't see why that is a problem.
-    {$antonius}: I suppose you could argue that if you define the purpose of life, then change it, that this creates some issues.
+    {$antonius}: I personally don't see why that's problematic.
+    {$antonius}: I suppose you could argue that redefining the purpose of life creates some issues.
     {$antonius}: But you could similarly define the purpose of life to be to find the purpose of life.
     {$ionas}: What? That seems very paradox.
     {$antonius}: Yeah it probably is.
     {$antonius}: But my point is that you can define things to be consistent again, why would that be a problem?
-    {$antonius}: It's like you have a theory of how physics works, then you test your theory, and it fails at some point.
-    {$antonius}: Then it's back to the drawing board and you try a different theory, an improved but most certainly still incorrect theory.
+    {$antonius}: It's like you have a physics theory, or I guess it would be hypothesis at first.
+    {$antonius}: You apply your theory to the real world until it fails.
+    {$antonius}: Then it's back to the drawing board.
+    {$antonius}: You try a different theory, an improved but most certainly still incorrect theory.
     {$antonius}: Why is a 'theory of life' any different?
     {$ionas}: I think that the purpose of life by definition cannot change.
     {$ionas}: You cannot just revise it like you do with any other theory.
@@ -371,7 +415,21 @@ title: AntoniusLifePurpose
     {$antonius}: A theory is known to only be an assumption of how things work.
     {$ionas}: And I think that is exactly the problem.
     {$ionas}: You cannot have a theory of your purpose.
-    {$ionas}: 
+    {$ionas}: If the purpose of life is to find the purpose of life, than you would have already reached that goal.
+    {$ionas}: By definition, you have now found the purpose of life, which is to find it in the first place.
+    {$ionas}: Which also means you have achieved it, it's essentially a finished task.
+    {$ionas}: No matter what else you may add, by definition, you have reached your purpose in life.
+    {$antonius}: Hm, yeah I see, that doesn't really work.
+    {$ionas}: You essentially defined the purpose of life in a recursive manner.
+    {$ionas}: And I just don't think that works.
+    {$antonius}: Yes, I absolutely agree, you've changed my mind on this.
+    {$antonius}: Argh, man!
+    {$antonius}: That really sucks.
+    {$antonius}: All of your beliefs can be basically turned upside down by a few logical arguments.
+    {$antonius}: You don't have that problem, do you, Ionas?
+    {$ionas}: Hm, not really, no.
+    You: Huh, why is that?
+    <<jump IonasAndAntoniusCorrectWorldViews>>
 -> So you guys are very convinced that your world views are correct?
     <<jump IonasAndAntoniusCorrectWorldViews>>
 
@@ -380,12 +438,41 @@ title: IonasAndAntoniusCorrectWorldViews
 ---
 
 {$ionas}: I believe there is no argumentation that will ever change my mind.
-{$ionas}: This is because the contact with the super-natural is just so overhelmingly different.
-{$ionas}: It's something I have never felt anywhere else.
-{$ionas}: And so no matter what kind of argument you would tell me, this experience will outweight it.
--> How did you find to your believe and what was that super-natural encounter?
--> What about you Antonius? It seems like your world view is based on argumentation alone.
-    {$antonius}: Hm, yes, that's a good point.
+{$ionas}: That is because the contact with the super-natural is just so overwhelming.
+{$ionas}: It is something I have never felt anywhere else.
+{$ionas}: No matter what kind of logical argument you may have, this experience will outweight it.
+-> What was that super-natural encounter?
+    {$ionas}: It happened during a low in my life.
+    {$ionas}: I was desparate.
+    {$ionas}: I did not know what I could do.
+    {$ionas}: All that was left was to hope.
+    {$ionas}: To pray.
+    {$ionas}: And so I prayed, with all my heart.
+    {$ionas}: That is when I felt like I was in the presence of a being beyond all human comprehension.
+    {$ionas}: It felt like all the weight was lifted off of my shoulders.
+    {$ionas}: I was just happy.
+    {$ionas}: It felt totally natural to smile and share my happiness with others.
+    {$ionas}: I have never felt like that before.
+    {$ionas}: Ever since, I am trying to get that feeling back.
+    {$ionas}: To get back into contact with god.
+    {$ionas}: That is when I realized that god truly exists.
+    {$ionas}: I have been praying every day ever since.
+    {$antonius}: Hold on, you make it sound like you're only sometimes in contact with god?
+    {$antonius}: And that this state of happiness varies?
+    {$ionas}: Yes, sometimes I can feel god's love extremely strongly, other times it is barely noticeable.
+    {$ionas}: I try to pray with all my heart, but sometimes my mind just goes somewhere else.
+    {$ionas}: It most certainly varies.
+    {$ionas}: I would like to be more in his presence, to feel this happiness more.
+    {$ionas}: It is rather difficult to pray with all your heart.
+    {$antonius}: That makes sense. I would assume it's in your worst hours that one prays the strongest.
+    {$antonius}: Only when you have exhausted all other options, is praying the last remaining.
+    {$ionas}: ...
+    {$ionas}: Hm, I would have to think about that a little, but it does sound like it.
+    {$antonius}: Man, that's really interesting.
+    {$antonius}: Because for me it's very different.
+    <<jump IonasAndAntoniusWorldViewInconsistencies>>
+-> What about you, Antonius? It seems like your world view is based on argumentation alone.
+    {$antonius}: Yeah, that's a good point.
     <<jump IonasAndAntoniusWorldViewInconsistencies>>
 
 ===
@@ -398,58 +485,41 @@ title: IonasAndAntoniusWorldViewInconsistencies
 {$antonius}: 'Because I encountered the super-natural, I believe.'
 {$antonius}: The latter being arguably the stronger of the two.
 {$antonius}: This actually made me realize something rather... frustrating.
-{$antonius}: If your world view is based on argumentation and argumentation alone, then it only takes a single argument to change it completely.
-{$antonius}: And that feeling of your world view kinda crumbling a little or collapsing entirely is very unpleasant.
-{$antonius}: You would not really want to have that.
-{$antonius}: The problem is, and that is what I realized recently, that as an atheist, that is what will always be the case.
-{$antonius}: You will never find a point were you just 'finished' your world view.
-{$antonius}: Of course the more you think and reflect on your world view, the less likely it will be to collapse.
-{$antonius}: Because the most essential aspect is that your world view is consistent.
+{$antonius}: If your world view is based purely on argumentation, then a single argument can change it completely.
+{$antonius}: And your world view crumbling a little or collapsing entirely is very unpleasant.
+{$antonius}: Wouldn't really want to have that happen to you.
+{$antonius}: Recently I realized this problem will never be solvable for an atheist.
+{$antonius}: You'll never find a point at which you world view is just 'completed'.
+{$antonius}: Of course, the more you think and reflect about your world view, the less likely it'll collapse.
+{$antonius}: The most essential aspect is that your world view is consistent.
 {$antonius}: If you have logical errors in your world view, then it will collapse sooner or later.
 {$ionas}: I definitely agree.
-{$ionas}: I am not sure if it's the most important aspect, but it's certainly important to live without contradictions.
+{$ionas}: I am not sure if it is the most important aspect, but it certainly is important to live without contradictions.
 {$antonius}: Yeah, it opens you up to so much misery.
-{$antonius}: And the problem is that it will be more difficult to change the longer you clinch to that faulty world view.
-{$ionas}: Absolutely. It's also a lot easier to show that something is false then it is to prove it's correctness.
-{$ionas}: It only takes one logical error for you world view to be faulty in some way.
-{$antonius}: Which is precisely why I think you should talk with people that have different opinions to your own.
-{$antonius}: You don't even have to ask why they think you are wrong, they will tell you.
+{$antonius}: And the longer you hold on to your faulty world view the bigger the fall.
+{$ionas}: Absolutely. It is also a lot easier to show that something is false then it is to prove its correctness.
+{$ionas}: It only takes one logical error for your world view to be faulty.
+{$antonius}: Which is precisely why I think you should talk with people whose world views don't align with your own.
+{$antonius}: You don't even have to ask why they think you are wrong, they'll tell you.
 {$antonius}: And that is a good thing.
-{$antonius}: Because you learn the most from those kinds of conversations.
-{$antonius}: Though talking with people with similar world views as your own, particularly when you are stuck, can also be great.
+{$antonius}: Because you learn the most from those kind of conversations.
+{$antonius}: Though talking with people with similar world views, particularly when you are stuck, can also be great.
 {$antonius}: Man, conversations in general are awsome.
 {$antonius}: Why don't people do this more?
 {$ionas}: They really are fascinating.
 {$ionas}: Trying to understand your own thoughts is already such a weird concept, thinking about thinking.
-{$ionas}: But explaining to another person your thoughts and having him try to understand your own thoughts is something else.
+{$ionas}: But explaining to another person your thoughts and having them try to understand your own thoughts is something else.
 {$antonius}: Huh, that's an interesting way of putting it.
-{$antonius}: It's like you are syncing to one another.
-{$antonius}: Also how the more time you spend with somebody the more you understand how they think.
+{$antonius}: It's like you're syncing with one another.
+{$antonius}: The more time you spend with somebody the more you understand how they think.
 <<jump DoYouWantToJoinIonasAndAntonius>>
-
-// ===
-// title: IonasAndAntoniusHappinessWithoutGod
-// ---
-//
-// {$antonius}: Another thing that came my mind was the following.
-// {$antonius}: If true happiness is defined as being with god, then what about people that have never heard of his word?
-// {$antonius}: I know that those are considered 'ignorant', in the literal sense of 'not knowing something'.
-// {$antonius}: And that 'ignorance is bliss' is supposed to mean that they can still be happy.
-// {$antonius}: But how? This doesn't really make much sense to me.
-// {$antonius}: I am assuming I am misunderstanding something or that there is a different meaning that escapes me.
-// {$antonius}: But by definition, it should not be possible to live a truly happy life without searching for god.
-// {$antonius}: However, if you aren't even aware of his word and it is not your fault, then how is that any fair?
-// {$antonius}: Say you are born on a remote island with nobody knowing anything about god.
-// {$antonius}: If you don't have the technology to leave that island, you are essentially unable to even know that you are supposed to search for god.
-// {$antonius}: Even under the notion of free will this is an issue I think.
-// {$ionas}: 
 
 ===
 title: DoYouWantToJoinIonasAndAntonius
 ---
 
-{$antonius}: But man, I really love conversations like these.
-{$antonius}: It's unfortunately so rare to have those.
+{$antonius}: But man, I really love conversations like this one.
+{$antonius}: It's unfortunately so rare to have these.
 {$antonius}: Especially with the city dwellers, I don't know what's up with that.
 {$antonius}: They seem so distracted by all their materialism.
 {$antonius}: Sometimes I wonder if they are really in control of the tools they use, or if it's the other way around.
@@ -460,11 +530,12 @@ title: DoYouWantToJoinIonasAndAntonius
 {$ionas}: Always some kind of stimulation.
 {$ionas}: Never are they just with themselves, in completele solitude.
 {$ionas}: Living shallow lives and wondering why they are not happy.
-{$ionas}: I noticed that they can't even put into words what it is that they seem to miss.
-{$ionas}: You can't have any meaningful conversations with them.
+{$ionas}: I noticed that they cannot even put into words what it is that they seem to miss.
+{$ionas}: You cannot have any meaningful conversations with them.
 {$ionas}: It's like they lost something very important.
 {$ionas}: And I think it's the fact that they are never alone.
-{$antonius}: Yes, I think it's the lack of self reflection.
+{$antonius}: Huh, yeah.
+{$antonius}: I think it's the lack of self reflection.
 {$antonius}: How do you expect to try to understand another human if you don't event try to understand yourself?
 {$antonius}: And conversations where you don't try to understand one another are devoid of any depth.
 {$antonius}: But the fact that there aren't many opportunities to have conversations like these just makes them even more precious.
@@ -475,19 +546,20 @@ title: DoYouWantToJoinIonasAndAntonius
     {$antonius}: Yeah I know, but I really appreciate my interactions with you guys.
     {$antonius}: And Pai, you don't have anywhere to go right?
     {$antonius}: You looked extremely lost the moment I saw you.
-    {$ionas}: Oh yeah I thought the same.
+    {$ionas}: I thought the same.
     You: Is it that obvious...
-    {$antonius}: Yes!
-    {$ionas}: Hahaha, yeah.
+    {$antonius}: Yeah!
+    {$ionas}: Hahaha, yes.
     {$antonius}: So Anyways, Pai you didn't chat with Jotem yet right?
     <<if $talked_with_target_npc>>
         You: Actually, I did.
-        {$ionas}: Huh really?
+        {$ionas}: Huh, really?
         <<jump TalkedWithJotem>>
     <<endif>>
     {$antonius}: How about you talk with him and decide afterwards?
+    You: I can give it a try.
     {$antonius}: Sounds like a plan right?
-    {$antonius}: We will be waiting here for you!
+    {$antonius}: We'll be waiting here for you!
     <<stop_chat>>
     <<jump IonasAndAntoniusWaiting>>
 -> Yeah sure, why not.
@@ -496,16 +568,16 @@ title: DoYouWantToJoinIonasAndAntonius
     {$ionas}: Why would you agree so quickly?
     {$ionas}: I mean this came very much out of the blue for me.
     {$antonius}: Yeah I know.
-    {$antonius}: But I would like you to talk with Jote first, Pai.
+    {$antonius}: But I'd like you to talk with Jotem first, Pai.
     <<if $talked_with_target_npc>>
         You: Actually, I did.
         {$ionas}: Huh really?
         <<jump TalkedWithJotem>>
     <<endif>>
-    {$antonius}: I think it would be smarter to get his perspective first.
-    {$ionas}: Yeah I agree.
+    {$antonius}: I think it would be better to get his perspective first.
+    {$ionas}: I agree.
     {$antonius}: Sounds like a plan right?
-    {$antonius}: We will be waiting here for you!
+    {$antonius}: We'll be waiting here for you!
     <<stop_chat>>
     <<jump IonasAndAntoniusWaiting>>
 
@@ -526,16 +598,16 @@ title: IonasAndAntoniusWaiting
     <<stop_chat>>
     <<jump IonasAndAntoniusWaiting>>
 -> I can't find him.
-    {$antonius}: Hm, he is a veteran looking adventurer with a sword.
+    {$antonius}: Hm, he's an old adventurer with a sword and a beard.
     {$antonius}: Don't think you can mistake him for anybody else.
-    {$antonius}: If you walk on the path you are gonna run into him sooner or later.
+    {$antonius}: If you walk on the path you're gonna run into him sooner or later.
     <<stop_chat>>
     <<jump IonasAndAntoniusWaiting>>
 -> Yes
     <<if $talked_with_target_npc>>
         <<jump TalkedWithJotem>>
     <<else>>
-        {$antonius}: You sure? That sounded like a lie.
+        {$antonius}: You sure? That soudns like a lie.
         {$antonius}: No need to force yourself to talk to him.
         {$antonius}: But it might reveal some wisdom to you.
         <<stop_chat>>
@@ -548,7 +620,7 @@ title: TalkedWithJotem
 ---
 
 {$antonius}: Oh nice!
-{$antonius}: How did it go? I bet he had some profound wisdom for you.
+{$antonius}: How did it go? I bet he had some profound wisdom to share.
 You: Yes, it was really interesting to hear about his story.
 {$antonius}: I bet.
 {$antonius}: So then, did you decide if you wanna join us?
@@ -565,7 +637,7 @@ title: IonasAndAntoniusPaiWontJoin
 
 {$antonius}: I see.
 {$antonius}: Well I understand that it's quite sudden.
-{$antonius}: Though we will probably stay a little longer.
+{$antonius}: Though we will probably stay around a little longer.
 {$antonius}: So if you change your mind feel free to come back.
 <<stop_chat>>
 <<jump IonasAndAntoniusEndingNegative>>
@@ -579,7 +651,7 @@ title: IonasAndAntoniusEnding
     <<trigger_ending {$name}>>
 -> I appreciate the offer, but I won't join you two.
     {$antonius}: Really now?
-    {$antonius}: Okay... well just come back to me once you have decided.
+    {$antonius}: Okay... well, if you change your mind let us know.
     <<stop_chat>>
     <<jump IonasAndAntoniusEndingNegative>>
 
