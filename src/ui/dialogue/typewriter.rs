@@ -11,7 +11,6 @@ use crate::player::chat::PlayerStoppedChat;
 use crate::ui::main_menu::{ButtonAction, MainMenuButtonPressed};
 use crate::{GameAssets, GameState};
 
-use super::audio::PlayBlipEvent;
 use super::option_selection::OptionSelection;
 use super::spawn::{create_dialogue_text, DialogueContent};
 use super::DialogueViewSystemSet;
@@ -156,7 +155,6 @@ fn write_text(
     option_selection: Option<Res<OptionSelection>>,
     mut q_text: Query<&mut Text, With<DialogueContent>>,
     mut ev_write_dialogue_text: EventReader<WriteDialogueText>,
-    mut ev_play_blip: EventWriter<PlayBlipEvent>,
 ) {
     let mut text = match q_text.get_single_mut() {
         Ok(r) => r,
@@ -179,12 +177,6 @@ fn write_text(
     let added_text = typewriter.update_current_text();
     if added_text.is_empty() {
         return;
-    }
-
-    if &added_text != " " {
-        ev_play_blip.send(PlayBlipEvent::new(
-            &typewriter.character_name.clone().unwrap_or_default(),
-        ));
     }
 
     let rest = typewriter.graphemes_left.join("");
@@ -250,8 +242,8 @@ fn update_speed_multiplier(
 ) {
     for ev in ev_main_menu_button_pressed.read() {
         let speed_multiplier = match ev.0 {
-            ButtonAction::Normal => 1.5,
-            ButtonAction::Quick => 2.0,
+            ButtonAction::Normal => 2.5,
+            ButtonAction::Quick => 5.0,
             ButtonAction::Fast => 10.0,
             ButtonAction::Instant => 500.0,
             _ => continue,

@@ -59,7 +59,7 @@ https://indiesfx.itch.io/indiesfx-k002a/devlog/334792/nature-loops-released
 
 https://opengameart.org/content/crickets-ambient-noise-loopable
 
-### UI Sounds & Various Blip Sounds
+### UI Sounds
 
 https://ellr.itch.io/universal-ui-soundpack,
 Created and distributed by Nathan Gibson (https://nathangibson.myportfolio.com)

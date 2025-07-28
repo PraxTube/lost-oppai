@@ -101,12 +101,8 @@ pub struct GameAssets {
 
     #[asset(path = "ui/button.png")]
     pub button: Handle<Image>,
-    #[asset(path = "ui/box_button.png")]
-    pub box_button: Handle<Image>,
-    #[asset(path = "ui/tick.png")]
-    pub ui_tick: Handle<Image>,
-    #[asset(path = "ui/cross.png")]
-    pub ui_cross: Handle<Image>,
+    #[asset(path = "ui/discord.png")]
+    pub discord_button: Handle<Image>,
 
     #[asset(path = "ui/dialogue_edge.png")]
     pub dialogue_edge: Handle<Image>,
@@ -168,11 +164,6 @@ pub struct GameAssets {
     pub bird_sounds: Handle<AudioSource>,
     #[asset(path = "audio/crickets.ogg")]
     pub cricket_sounds: Handle<AudioSource>,
-
-    #[asset(path = "audio/blip.ogg")]
-    pub npc_blip_sound: Handle<AudioSource>,
-    #[asset(path = "audio/narrator_blip.ogg")]
-    pub narrator_blip_sound: Handle<AudioSource>,
 
     #[asset(path = "audio/ui/button_hover.ogg")]
     pub ui_button_hover_sound: Handle<AudioSource>,

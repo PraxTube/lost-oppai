@@ -1,6 +1,5 @@
 pub mod runner;
 
-mod audio;
 mod command;
 mod option_selection;
 mod spawn;
@@ -26,7 +25,6 @@ impl Plugin for DialoguePlugin {
             typewriter::DialogueTypewriterPlugin,
             runner::DialogueRunnerPlugin,
             start_hint::DialogueStartHintPlugin,
-            audio::DialogueAudioPlugin,
         ));
     }
 }
