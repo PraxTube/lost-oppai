@@ -116,9 +116,17 @@ You: Hi, where you two in the middle of a conversation?
     {$antonius}: 'Good times create weak man'.
     {$antonius}: 'And weak man create hard times.'
     {$antonius}: But I am wondering whether this is something like a natural constant, a law of nature, or if there is something else behind it.
-    {$ionas}: ...
-    {$ionas}: That's a lot to think about.
-    {$ionas}: TODO, what does Jonas respond here? TODO
+    {$ionas}: Ah, I think I understand what you mean.
+    {$ionas}: I believe that here on earth we will always have pain and suffering.
+    {$ionas}: I think you can make it a better place, but it will always entail unhappiness.
+    {$ionas}: I am not sure if that is what you were asking exactly, but in that regard I don't think you could break the cycle.
+    {$antonius}: Yeah, I figured that would be your stance.
+    {$antonius}: That kind of view makes me a bit sad.
+    {$antonius}: That's why I believe you can break the cycle, even if I am not sure exactly how.
+    {$antonius}: Thought it's kinda interesting.
+    {$antonius}: Every now and again we find a topic that we have completely different views on.
+    {$antonius}: Even if we agree on many other things.
+    <<jump FundamentallyDifferentWorldviews>>
 
 ===
 title: PaiDoesntBelieve
@@ -146,7 +154,7 @@ title: PaiDoesBelieve
 title: FundamentallyDifferentWorldviews
 ---
 
-{$antonius}: However we see the world fundamentally different.
+{$antonius}: However, we see the world fundamentally different.
 {$antonius}: Different in terms of subjective and objective truths.
 -> How can truth be subjective?
     {$ionas}: Yeah it doesn't make much sense by definition.
